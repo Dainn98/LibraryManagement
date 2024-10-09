@@ -5,8 +5,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import library.management.ui.main.Main;
 
+@SuppressWarnings("CallToPrintStackTrace")
 public class login extends Application {
 
   public static void main(String[] args) {
@@ -14,12 +14,17 @@ public class login extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws IOException {
-    FXMLLoader loader = new FXMLLoader(Main.class.getResource("/ui/LoginScreen/login.fxml"));
-    Scene scene = new Scene(loader.load());
-    primaryStage.setTitle("Library Management System");
-    primaryStage.setScene(scene);
-    primaryStage.show();
-
+  public void start(Stage primaryStage) {
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/LoginScreen/login.fxml"));
+      Scene scene = new Scene(loader.load());
+      primaryStage.setTitle("Library Management System");
+      primaryStage.setResizable(false);
+      
+      primaryStage.setScene(scene);
+      primaryStage.show();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

@@ -1,6 +1,7 @@
-module library.management.demo {
+module library.management{
     requires javafx.fxml;
     requires javafx.web;
+    requires transitive javafx.graphics;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
@@ -13,7 +14,6 @@ module library.management.demo {
     requires java.desktop;
     requires java.logging;
     requires javafx.controls;
-    requires javafx.graphics;
     requires javafx.swing;
     requires com.jfoenix;
 
