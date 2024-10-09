@@ -44,13 +44,6 @@
       <artifactId>jfoenix</artifactId>
       <version>9.0.10</version>
     </dependency>
-
-    <dependency>
-      <groupId>com.gluonhq</groupId>
-      <artifactId>glisten</artifactId>
-      <version>6.0.5</version> <!-- Check for the latest version -->
-    </dependency>
-
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-media</artifactId>
