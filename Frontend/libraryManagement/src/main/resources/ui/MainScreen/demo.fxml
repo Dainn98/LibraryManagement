@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="760.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.main.MainController">
+  <!-- Header phần trên cùng -->
+  <top>
+    <HBox alignment="CENTER" spacing="10">
+      <Label style="-fx-font-size: 24; -fx-padding: 10;" text="TAAD Library Management System" />
+      <HBox alignment="CENTER_RIGHT" spacing="10">
+        <MenuButton prefHeight="30" text="">
+          <graphic>
+            <ImageView fitHeight="30" fitWidth="30" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@user.png" /> <!-- Icon cho MenuButton -->
+              </image>
+            </ImageView>
+          </graphic>
+          <MenuItem onAction="#handleUserInfo" text="Thông tin người dùng" />
+          <MenuItem onAction="#handleSettings" text="Settings" />
+          <MenuItem onAction="#handleLogout" text="Logout" />
+        </MenuButton>
+      </HBox>
+    </HBox>
+  </top>
+
+  <!-- Phần trung tâm với các nút -->
+  <center>
+    <HBox alignment="CENTER" spacing="20" style="-fx-padding: 50;">
+      <Button prefHeight="100" prefWidth="150" text="Find Book" />
+      <Button prefHeight="100" prefWidth="150" text="Find Book Issue" />
+      <Button prefHeight="100" prefWidth="150" text="Find Student" />
+    </HBox>
+  </center>
+
+  <!-- Menu bên trái -->
+  <left>
+    <VBox spacing="10" style="-fx-padding: 20;">
+         <ImageView fitHeight="316.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@demo1.png" />
+            </image>
+         </ImageView>
+      <Button prefWidth="200.0" text="Home" />
+      <Button prefWidth="200" text="Students for Approval" />
+      <Button prefWidth="200" text="All Students Registered" />
+      <Button prefWidth="200" text="All Books in Library" />
+      <Button prefWidth="200" text="Add Books" />
+      <Button prefWidth="200" text="Issue / Return Books" />
+      <Button prefWidth="200" text="View all books currently issued" />
+      <Button prefWidth="200" text="Logout" />
+    </VBox>
+  </left>
+
+  <!-- Footer -->
+  <bottom>
+    <HBox alignment="CENTER" style="-fx-padding: 10;">
+      <Label text="© 2024 TAAD - Library Management System" />
+    </HBox>
+  </bottom>
+</BorderPane>
