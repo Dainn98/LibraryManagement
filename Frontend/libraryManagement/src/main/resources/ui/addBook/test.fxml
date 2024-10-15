@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.addBook.AddBookController">
+   <children>
+<VBox spacing="10.0" padding="10.0,10.0,10.0,10.0">
+  <children>
+    <Label text="Add Books" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+    <HBox spacing="10.0" alignment="CENTER_LEFT">
+      <Label text="Title Of Book" />
+      <TextField fx:id="titleField" promptText="Enter the title of the book here..." HBox.hgrow="ALWAYS" />
+    </HBox>
+
+    <HBox spacing="10.0" alignment="CENTER_LEFT">
+      <Label text="Author Name" />
+      <TextField fx:id="authorField" promptText="Enter the name of author for the book here..." HBox.hgrow="ALWAYS" />
+    </HBox>
+
+    <HBox spacing="10.0" alignment="CENTER_LEFT">
+      <Label text="Description of Book" />
+      <TextArea fx:id="descriptionField" promptText="Enter few lines about the book here" prefRowCount="5" HBox.hgrow="ALWAYS" />
+    </HBox>
+
+    <HBox spacing="10.0" alignment="CENTER_LEFT">
+      <Label text="Category" />
+      <ComboBox fx:id="categoryComboBox" promptText="Select category.." HBox.hgrow="ALWAYS">
+        <!-- Categories will be populated dynamically -->
+      </ComboBox>
+    </HBox>
+
+    <HBox spacing="10.0" alignment="CENTER_LEFT">
+      <Label text="Number of issues" />
+      <TextField fx:id="numberField" promptText="How many issues are there?" HBox.hgrow="ALWAYS" />
+    </HBox>
+
+    <HBox spacing="10.0" alignment="CENTER_RIGHT">
+      <Button text="Add Books" onAction="#handleAddBooks" />
+    </HBox>
+  </children>
+</VBox>   </children>
+</AnchorPane>

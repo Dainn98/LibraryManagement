@@ -1,16 +1,202 @@
 package library.management.ui.main;
 
 
+import static library.management.alert.AlertMaker.showAlertConfirmation;
+
+import java.io.IOException;
+
+import java.util.Optional;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import library.management.ui.AbstractUI;
+import library.management.ui.addBook.AddBookController;
+import library.management.ui.listLibraryCatalog.libraryCatalogController;
 
-public class MainController {
-  public void handleUserInfo(ActionEvent actionEvent) {
+@SuppressWarnings("CallToPrintStackTrace")
+public class MainController extends AbstractUI {
+@FXML
+  private AnchorPane LibraryCatalogAnchorPane;
+  @FXML
+  private VBox dashboardVBox;
+  @FXML
+  private VBox registerBookVBox;
+  @FXML
+  private Button dashboardButton;
+  @FXML
+  private Button pendingApprovalsButton;
+  @FXML
+  private Button registeredStudentsButton;
+  @FXML
+  private Button libraryCatalogButton;
+  @FXML
+  private Button registerNewBookButton;
+  @FXML
+  private Button manageBookLoansButton;
+  @FXML
+  private Button IssuedBooksButton;
+  @FXML
+  private Button signOutButton;
+
+  @Override
+  public void initialize() {
+
   }
 
-  public void handleSettings(ActionEvent actionEvent) {
+  /**
+   * Navigates the user to the dashboard.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  @FXML
+  private void navigateToDashboardButton(ActionEvent actionEvent) {
+    dashboardVBox.setVisible(true);
+    registerBookVBox.setVisible(false);
+    LibraryCatalogAnchorPane.setVisible(false);
   }
 
-  public void handleLogout(ActionEvent actionEvent) {
+  /**
+   * Displays a list of students awaiting approval.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  @FXML
+  private void handlePendingApprovalsButton(ActionEvent actionEvent) {
+
+  }
+
+  /**
+   * Shows all registered students in the system.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  @FXML
+  private void handleRegisteredStudentsButton(ActionEvent actionEvent) {
+  }
+
+  /**
+   * Displays all books currently available in the library.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  @FXML
+  private void handleLibraryCatalogButton(ActionEvent actionEvent) {
+    dashboardVBox.setVisible(false);
+    registerBookVBox.setVisible(false);
+    LibraryCatalogAnchorPane.setVisible(true);
+  }
+
+  /**
+   * Adds a new book to the library's collection.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  @FXML
+  private void handleRegisterNewBookButton(ActionEvent actionEvent) {
+    dashboardVBox.setVisible(false);
+    registerBookVBox.setVisible(true);
+    LibraryCatalogAnchorPane.setVisible(false);
+  }
+
+  /**
+   * Handles the process of issuing or returning books in the library.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  @FXML
+  private void handleManageBookLoansButton(ActionEvent actionEvent) {
+  }
+
+  /**
+   * Shows a list of books that are currently issued to users.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  @FXML
+  private void handleIssuedBooksButton(ActionEvent actionEvent) {
+  }
+
+  /**
+   * Handles the sign-out process for the user.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  @FXML
+  private void handleSignOutButton(ActionEvent actionEvent) {
+    Optional<ButtonType> result = showAlertConfirmation(
+        "Sign Out",
+        "Are you sure you want to sign out?");
+    if (result.isPresent() && result.get() == ButtonType.OK) {
+      try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/login/login.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+
+  }
+
+  /**
+   * Handles the process of adding books to the library.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  @FXML
+  private void handleAddBooks(ActionEvent actionEvent) {
+    AddBookController addBookController = new AddBookController();
+    addBookController.handleAddBooks(actionEvent);
+  }
+  /**
+   * Handles the process of viewing the library catalog.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  public void handleRefresh(ActionEvent actionEvent) {
+  }
+
+  /**
+   * Handles the process of editing a book in the library.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  public void handleBookEditOption(ActionEvent actionEvent) {
+  }
+
+  /**
+   * Handles the process of deleting a book from the library.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  public void handleBookDeleteOption(ActionEvent actionEvent) {
+  }
+
+  /**
+   * Handles the process of exporting the library catalog as a PDF.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  public void exportAsPDF(ActionEvent actionEvent) {
+  }
+
+  /**
+   * Handles the process of exporting the library catalog as an Excel file.
+   *
+   * @param actionEvent the event that triggered this action
+   */
+  public void closeStage(ActionEvent actionEvent) {
   }
 }
+
+
 

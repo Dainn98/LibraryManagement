@@ -12,11 +12,10 @@ module library.management{
     requires com.almasb.fxgl.all;
     requires de.jensd.fx.glyphs.fontawesome;
     requires java.desktop;
-    requires java.logging;
-    requires javafx.controls;
+  requires javafx.controls;
     requires javafx.swing;
     requires com.jfoenix;
-
+  requires java.sql;
 
   //Login
     opens library.management.ui.login to javafx.graphics, javafx.fxml;
