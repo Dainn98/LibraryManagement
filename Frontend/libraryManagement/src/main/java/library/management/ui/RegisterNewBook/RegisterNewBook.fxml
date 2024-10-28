@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<StackPane fx:id="rootPane" stylesheets="@../stylesheets/pastel-theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.addBook.AddBookController">
+<StackPane fx:id="rootPane" stylesheets="@../../../../../resources/ui/stylesheets/pastel-theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.RegisterNewBook.RegisterNewBookController">
    <children>
       <VBox prefHeight="569.0" prefWidth="802.0" spacing="10.0">
          <padding>
@@ -81,11 +81,8 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <ButtonBar prefHeight="40.0" prefWidth="200.0">
-                    <buttons>
-                      <Button mnemonicParsing="false" onAction="#handleAddBooks" text="Add Books" />
-                    </buttons>
-                  </ButtonBar>
+                  <ButtonBar prefHeight="40.0" prefWidth="200.0" />
+                <Button mnemonicParsing="false" onAction="#handleAddBooks" text="Add Books" />
                </children>
             </HBox>
          </children>

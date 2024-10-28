@@ -1,4 +1,4 @@
-package library.management.ui.register;
+package library.management.ui.Register;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

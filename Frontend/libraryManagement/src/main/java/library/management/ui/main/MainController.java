@@ -4,51 +4,55 @@ package library.management.ui.main;
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 
 import java.io.IOException;
-
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import library.management.ui.AbstractUI;
-import library.management.ui.addBook.AddBookController;
-import library.management.ui.listLibraryCatalog.libraryCatalogController;
+import library.management.ui.RegisterNewBook.RegisterNewBookController;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class MainController extends AbstractUI {
-@FXML
+
+  @FXML
+  private VBox IssuedBooksVBox;
+  @FXML
+  private VBox ManageBookLoansVBox;
+  @FXML
   private AnchorPane LibraryCatalogAnchorPane;
+  @FXML
+  private AnchorPane RegisteredStudentsAnchorPane;
   @FXML
   private VBox dashboardVBox;
   @FXML
   private VBox registerBookVBox;
   @FXML
-  private Button dashboardButton;
-  @FXML
-  private Button pendingApprovalsButton;
-  @FXML
-  private Button registeredStudentsButton;
-  @FXML
-  private Button libraryCatalogButton;
-  @FXML
-  private Button registerNewBookButton;
-  @FXML
-  private Button manageBookLoansButton;
-  @FXML
-  private Button IssuedBooksButton;
-  @FXML
-  private Button signOutButton;
+  private VBox pendingApprovalsVBox;
+//  @FXML
+//  private Button dashboardButton;
+//  @FXML
+//  private Button pendingApprovalsButton;
+//  @FXML
+//  private Button registeredStudentsButton;
+//  @FXML
+//  private Button libraryCatalogButton;
+//  @FXML
+//  private Button registerNewBookButton;
+//  @FXML
+//  private Button manageBookLoansButton;
+//  @FXML
+//  private Button IssuedBooksButton;
+//  @FXML
+//  private Button signOutButton;
 
   @Override
-  public void initialize() {
-
-  }
+  public void initialize() {}
 
   /**
    * Navigates the user to the dashboard.
@@ -60,6 +64,10 @@ public class MainController extends AbstractUI {
     dashboardVBox.setVisible(true);
     registerBookVBox.setVisible(false);
     LibraryCatalogAnchorPane.setVisible(false);
+    pendingApprovalsVBox.setVisible(false);
+    RegisteredStudentsAnchorPane.setVisible(false);
+    ManageBookLoansVBox.setVisible(false);
+    IssuedBooksVBox.setVisible(false);
   }
 
   /**
@@ -69,7 +77,13 @@ public class MainController extends AbstractUI {
    */
   @FXML
   private void handlePendingApprovalsButton(ActionEvent actionEvent) {
-
+    dashboardVBox.setVisible(false);
+    registerBookVBox.setVisible(false);
+    LibraryCatalogAnchorPane.setVisible(false);
+    pendingApprovalsVBox.setVisible(true);
+    RegisteredStudentsAnchorPane.setVisible(false);
+    ManageBookLoansVBox.setVisible(false);
+    IssuedBooksVBox.setVisible(false);
   }
 
   /**
@@ -79,6 +93,13 @@ public class MainController extends AbstractUI {
    */
   @FXML
   private void handleRegisteredStudentsButton(ActionEvent actionEvent) {
+    dashboardVBox.setVisible(false);
+    registerBookVBox.setVisible(false);
+    LibraryCatalogAnchorPane.setVisible(false);
+    pendingApprovalsVBox.setVisible(false);
+    RegisteredStudentsAnchorPane.setVisible(true);
+    ManageBookLoansVBox.setVisible(false);
+    IssuedBooksVBox.setVisible(false);
   }
 
   /**
@@ -91,6 +112,10 @@ public class MainController extends AbstractUI {
     dashboardVBox.setVisible(false);
     registerBookVBox.setVisible(false);
     LibraryCatalogAnchorPane.setVisible(true);
+    pendingApprovalsVBox.setVisible(false);
+    RegisteredStudentsAnchorPane.setVisible(false);
+    ManageBookLoansVBox.setVisible(false);
+    IssuedBooksVBox.setVisible(false);
   }
 
   /**
@@ -100,9 +125,14 @@ public class MainController extends AbstractUI {
    */
   @FXML
   private void handleRegisterNewBookButton(ActionEvent actionEvent) {
+    ManageBookLoansVBox.setVisible(false);
     dashboardVBox.setVisible(false);
     registerBookVBox.setVisible(true);
     LibraryCatalogAnchorPane.setVisible(false);
+    pendingApprovalsVBox.setVisible(false);
+    RegisteredStudentsAnchorPane.setVisible(false);
+    IssuedBooksVBox.setVisible(false);
+
   }
 
   /**
@@ -112,6 +142,13 @@ public class MainController extends AbstractUI {
    */
   @FXML
   private void handleManageBookLoansButton(ActionEvent actionEvent) {
+    dashboardVBox.setVisible(false);
+    registerBookVBox.setVisible(false);
+    LibraryCatalogAnchorPane.setVisible(false);
+    pendingApprovalsVBox.setVisible(false);
+    RegisteredStudentsAnchorPane.setVisible(false);
+    ManageBookLoansVBox.setVisible(true);
+    IssuedBooksVBox.setVisible(false);
   }
 
   /**
@@ -121,6 +158,13 @@ public class MainController extends AbstractUI {
    */
   @FXML
   private void handleIssuedBooksButton(ActionEvent actionEvent) {
+    dashboardVBox.setVisible(false);
+    registerBookVBox.setVisible(false);
+    LibraryCatalogAnchorPane.setVisible(false);
+    pendingApprovalsVBox.setVisible(false);
+    RegisteredStudentsAnchorPane.setVisible(false);
+    ManageBookLoansVBox.setVisible(false);
+    IssuedBooksVBox.setVisible(true);
   }
 
   /**
@@ -154,9 +198,13 @@ public class MainController extends AbstractUI {
    */
   @FXML
   private void handleAddBooks(ActionEvent actionEvent) {
-    AddBookController addBookController = new AddBookController();
-    addBookController.handleAddBooks(actionEvent);
+    RegisterNewBookController registerNewBookController = new RegisterNewBookController();
+    registerNewBookController.handleAddBooks(actionEvent);
+
+    //Database
+
   }
+
   /**
    * Handles the process of viewing the library catalog.
    *

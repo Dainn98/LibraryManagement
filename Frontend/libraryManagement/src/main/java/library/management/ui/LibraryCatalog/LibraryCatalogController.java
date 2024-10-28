@@ -1,4 +1,4 @@
-package library.management.ui.listLibraryCatalog;
+package library.management.ui.LibraryCatalog;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -18,9 +18,9 @@ import javafx.scene.layout.StackPane;
 import library.management.data.models.Documents.Document;
 import javafx.stage.Stage;
 import library.management.ui.database.DatabaseHandler;
-import library.management.ui.addBook.AddBookController;
+import library.management.ui.RegisterNewBook.RegisterNewBookController;
 
-public class libraryCatalogController implements Initializable {
+public class LibraryCatalogController implements Initializable {
 
   ObservableList<Document> list = FXCollections.observableArrayList();
 
@@ -97,7 +97,7 @@ private Stage getStage() {
           */
       }
     } catch (SQLException ex) {
-      Logger.getLogger(AddBookController.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(RegisterNewBookController.class.getName()).log(Level.SEVERE, null, ex);
     }
 
     tableView.setItems(list);

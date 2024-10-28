@@ -4,28 +4,22 @@
 */
 
 * {
-  -fx-primary : #FFFFFF; /* White */
-  -fx-secondary : #A8DADC; /* Pastel blue */
-  -fx-primarytext : #1D3557; /* Dark blue */
-  -fx-blue: #457B9D; /* Pastel blue */
+  -fx-primary : #002B5B; /* Navy blue */
+  -fx-secondary : #FFDD83; /* Pale yellow */
+  -fx-primarytext : #002B5B; /* Navy blue */
+  -fx-blue: #003554; /* Dark blue */
   -fx-red: #E63946; /* Pastel red */
-  -fx-color-1: #457B9D; /* Pastel blue */
+  -fx-color-1: #003554; /* Dark blue */
 }
 
 .root {
-  -fx-background-color: #F1FAEE; /* Very light pastel green */
-}
-.glyph-icon {
-  -fx-fill: -fx-primarytext;
+  -fx-background-color: #F3F3F3; /* Light gray */
 }
 
 .button {
-  -fx-text-fill: #1D3557; /* Dark blue */
+  -fx-text-fill: #002B5B; /* Navy blue */
   -fx-background-color: -fx-secondary;
   -fx-border-color: -fx-secondary;
-  -fx-border-radius: 20px;
-  -fx-background-radius: 20px;
-  -fx-font-size: 12pt;
 }
 
 .button:hover, .button:focused {
@@ -35,11 +29,12 @@
 }
 
 .text-field {
-  -fx-text-fill: #1D3557; /* Dark blue */
-  -fx-font-size: 12pt;
+  -fx-text-fill: #002B5B; /* Navy blue */
   -jfx-focus-color: -fx-secondary;
   -fx-text-fill: derive(-fx-secondary, 20%);
 }
+
+/* Các phần khác tương tự có thể được thay đổi */
 
 /*Login Screen Specific*/
 
@@ -193,55 +188,69 @@
 }
 
 /*TableView Default*/
-.table-view{
-  -fx-background-color: derive(-fx-primary, 10%);
+.table-view {
+  -fx-background-color: #f3f3f3; /* Light gray */
   -fx-font-size: 16px;
-  -fx-border-color: derive(-fx-secondary, -60%);
+  -fx-border-color: #cccccc; /* Light gray border */
 }
-.table-view:focused{
-  -fx-background-color: derive(-fx-primary, 20%);
+
+.table-view:focused {
+  -fx-background-color: #e6e6e6; /* Slightly darker light gray */
 }
+
 .table-row-cell {
   -fx-cell-size: 40px;
 }
-.table-view .column-header-background{
-  -fx-background-color: -fx-primary;
+
+.table-view .column-header-background {
+  -fx-background-color: #002b5b; /* Dark blue */
 }
-.table-view .column-header-background .label{
+
+.table-view .column-header-background .label {
   -fx-background-color: transparent;
-  -fx-text-fill: black;
+  -fx-text-fill: #ffffff; /* White */
 }
+
 .table-view .column-header {
   -fx-background-color: transparent;
 }
-.table-view .table-cell{
-  -fx-text-fill: black;
+
+.table-view .table-cell {
+  -fx-text-fill: #333333; /* Dark gray */
 }
-.table-row-cell:focused, .table-cell:focused{
-  -fx-text-fill: -fx-primary;
+
+.table-row-cell:focused, .table-cell:focused {
+  -fx-text-fill: #002b5b; /* Dark blue */
 }
-.table-row-cell{
-  -fx-background-color: -fx-primary;
+
+.table-row-cell {
+  -fx-background-color: #ffffff; /* White */
   -fx-border-color: transparent;
   -fx-table-cell-border-color: transparent;
 }
-.table-column{
+
+.table-column {
   -fx-alignment: CENTER;
 }
-.table-row-cell:even{
-  -fx-background-color: derive(-fx-primary, 10%);
+
+.table-row-cell:even {
+  -fx-background-color: #f3f3f3; /* Light gray */
 }
+
 .table-row-cell:selected {
-  -fx-background-color: -fx-secondary;
-  -fx-text-fill: -fx-primary;
+  -fx-background-color: #ffdd83; /* Pale yellow */
+  -fx-text-fill: #002b5b; /* Dark blue */
   -fx-background-insets: 0;
 }
-.table-row-cell:selected .table-cell{
-  -fx-text-fill: -fx-primary;
+
+.table-row-cell:selected .table-cell {
+  -fx-text-fill: #002b5b; /* Dark blue */
 }
-.placeholder .label{
-  -fx-text-fill: black;
+
+.placeholder .label {
+  -fx-text-fill: #333333; /* Dark gray */
 }
+
 .table-view > .virtual-flow > .scroll-bar:vertical,
 .table-view > .virtual-flow > .scroll-bar:vertical > .track,
 .table-view > .virtual-flow > .scroll-bar:vertical > .track-background,
@@ -250,23 +259,26 @@
 .table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
   -fx-background-color: transparent;
 }
+
 .table-view > .virtual-flow > .scroll-bar > .increment-button,
 .table-view > .virtual-flow > .scroll-bar > .decrement-button {
-  -fx-text-fill: black;
+  -fx-text-fill: #333333; /* Dark gray */
 }
+
 .scroll-bar:horizontal .thumb,
-.scroll-bar:vertical .thumb{
-  -fx-background-color: derive(-fx-primary, 60%);
+.scroll-bar:vertical .thumb {
+  -fx-background-color: #cccccc; /* Light gray */
   -fx-border-color: transparent;
   -fx-background-radius: 5em;
 }
-.table-view .filler{
-  -fx-fill: -fx-primary;
-  -fx-background-color: -fx-primary;
+
+.table-view .filler {
+  -fx-fill: #ffffff; /* White */
+  -fx-background-color: #ffffff; /* White */
 }
-.table-context
-{
-  -fx-base: -fx-primary;
+
+.table-context {
+  -fx-base: #ffffff; /* White */
 }
 
 

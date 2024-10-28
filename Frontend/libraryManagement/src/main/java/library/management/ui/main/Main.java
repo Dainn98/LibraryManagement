@@ -1,21 +1,22 @@
 package library.management.ui.main;
 
 import java.io.IOException;
-
+import java.util.Objects;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class Main extends Application {
 
-  private final static int screenWidth = 1080;
-  private final static int screenHeight = 600;
-  private final static String mainScreenSources = "/ui/main/mainScreen.fxml";
-  private final static String mainStyleSources = "/ui/stylesheets/dark-theme.css";
-  private final static String mainTitle = "Library Management System";
+  private static final int SCREEN_WIDTH = 1080;
+  private static final int SCREEN_HEIGHT = 600;
+  private static final String MAIN_SCREEN_SOURCES = "/ui/main/mainScreen.fxml";
+  private static final String MAIN_STYLE_SOURCES = "/ui/stylesheets/dark-theme.css";
+  private static final String MAIN_TITLE = "Library Management System";
 
   public static void main(String[] args) {
     launch(args);
@@ -24,17 +25,18 @@ public class Main extends Application {
   @Override
   public void start(Stage primaryStage) {
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource(mainScreenSources));
-      BorderPane root = loader.load();
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_SCREEN_SOURCES));
+      StackPane root = loader.load();
       Scene scene = new Scene(root);
-      scene.getStylesheets().add(getClass().getResource(mainStyleSources).toExternalForm());
+      scene.getStylesheets()
+          .add(Objects.requireNonNull(getClass().getResource(MAIN_STYLE_SOURCES)).toExternalForm());
       primaryStage.setScene(scene);
-      primaryStage.setTitle(mainTitle);
+      primaryStage.setTitle(MAIN_TITLE);
 
       primaryStage.setMaximized(true);
       primaryStage.setResizable(true);
-      primaryStage.setMinWidth(screenWidth);
-      primaryStage.setMinHeight(screenHeight);
+      primaryStage.setMinWidth(SCREEN_WIDTH);
+      primaryStage.setMinHeight(SCREEN_HEIGHT);
 
       primaryStage.show();
     } catch (IOException e) {

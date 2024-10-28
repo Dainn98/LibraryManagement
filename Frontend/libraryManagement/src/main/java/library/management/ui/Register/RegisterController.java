@@ -1,4 +1,4 @@
-package library.management.ui.register;
+package library.management.ui.Register;
 
 import static library.management.alert.AlertMaker.showAlertInformation;
 
