@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -34,22 +35,22 @@ public class MainController extends AbstractUI {
   private VBox registerBookVBox;
   @FXML
   private VBox pendingApprovalsVBox;
-//  @FXML
-//  private Button dashboardButton;
-//  @FXML
-//  private Button pendingApprovalsButton;
-//  @FXML
-//  private Button registeredStudentsButton;
-//  @FXML
-//  private Button libraryCatalogButton;
-//  @FXML
-//  private Button registerNewBookButton;
-//  @FXML
-//  private Button manageBookLoansButton;
-//  @FXML
-//  private Button IssuedBooksButton;
-//  @FXML
-//  private Button signOutButton;
+  @FXML
+  private Button dashboardButton;
+  @FXML
+  private Button pendingApprovalsButton;
+  @FXML
+  private Button registeredStudentsButton;
+  @FXML
+  private Button libraryCatalogButton;
+  @FXML
+  private Button registerNewBookButton;
+  @FXML
+  private Button manageBookLoansButton;
+  @FXML
+  private Button IssuedBooksButton;
+  @FXML
+  private Button signOutButton;
 
   @Override
   public void initialize() {}

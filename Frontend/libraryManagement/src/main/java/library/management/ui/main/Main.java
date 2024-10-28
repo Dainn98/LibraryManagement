@@ -5,7 +5,6 @@ import java.util.Objects;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -15,7 +14,7 @@ public class Main extends Application {
   private static final int SCREEN_WIDTH = 1080;
   private static final int SCREEN_HEIGHT = 600;
   private static final String MAIN_SCREEN_SOURCES = "/ui/main/mainScreen.fxml";
-  private static final String MAIN_STYLE_SOURCES = "/ui/stylesheets/dark-theme.css";
+  private static final String MAIN_STYLE_SOURCES = "/ui/stylesheets/pastel-theme.css";
   private static final String MAIN_TITLE = "Library Management System";
 
   public static void main(String[] args) {

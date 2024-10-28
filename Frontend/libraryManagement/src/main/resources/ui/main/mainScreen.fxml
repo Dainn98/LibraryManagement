@@ -50,7 +50,7 @@
             </HBox>
           </HBox>
         </top>
-      
+
                     <!-- Menu bên trái -->
         <left>
           <VBox spacing="10" style="-fx-padding: 20;">
@@ -67,7 +67,7 @@
             <Button fx:id="signOutButton" onAction="#handleSignOutButton" prefWidth="200" text="Sign Out" />
           </VBox>
         </left>
-      
+
                     <!-- Footer -->
         <bottom>
           <HBox alignment="CENTER" style="-fx-padding: 10;">
