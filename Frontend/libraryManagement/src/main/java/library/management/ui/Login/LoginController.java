@@ -1,4 +1,4 @@
-package library.management.ui.login;
+package library.management.ui.Login;
 
 import static library.management.alert.AlertMaker.showAlertInformation;
 
@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;

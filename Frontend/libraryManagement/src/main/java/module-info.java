@@ -18,11 +18,11 @@ module library.management{
   requires java.sql;
 
   //Login
-    opens library.management.ui.login to javafx.graphics, javafx.fxml;
-    exports library.management.ui.login to javafx.graphics, javafx.fxml;
+    opens library.management.ui.Login to javafx.graphics, javafx.fxml;
+    exports library.management.ui.Login to javafx.graphics, javafx.fxml;
     //REGISTER
-    opens library.management.ui.register to javafx.graphics, javafx.fxml;
-    exports library.management.ui.register to javafx.graphics, javafx.fxml;
+    opens library.management.ui.Register to javafx.graphics, javafx.fxml;
+    exports library.management.ui.Register to javafx.graphics, javafx.fxml;
     //main
     opens library.management.ui.main to javafx.graphics, javafx.fxml;
     exports library.management.ui.main to javafx.graphics, javafx.fxml;

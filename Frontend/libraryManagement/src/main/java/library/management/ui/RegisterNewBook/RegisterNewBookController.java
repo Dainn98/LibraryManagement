@@ -1,15 +1,11 @@
-package library.management.ui.addBook;
+package library.management.ui.RegisterNewBook;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 
-public class AddBookController {
+public class RegisterNewBookController {
 
   /**
    * handleAddBooks method is used to handle the event when the user clicks on the Add Books
@@ -25,5 +21,6 @@ public class AddBookController {
     alert.setContentText("Book has been added successfully!");
     alert.showAndWait();
   }
+
 }
 

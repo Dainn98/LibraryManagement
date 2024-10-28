@@ -16,6 +16,7 @@ public class User {
     private SimpleStringProperty mobile;
     private SimpleStringProperty address;
     private SimpleStringProperty identityCard;
+    //Member
     private ArrayList<Document> borrowDocuments;
 
     /**
