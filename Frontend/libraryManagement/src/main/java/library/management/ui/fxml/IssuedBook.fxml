@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+  xmlns:fx="http://javafx.com/fxml"
+  fx:controller="library.management.ui.controllers.IssuedBookController">
+  <Label text="Currently Issued Logs" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+  <TableView fx:id="logsTable" prefWidth="600">
+    <columns>
+      <TableColumn text="Log ID" prefWidth="80"/>
+      <TableColumn text="Book Issue ID" prefWidth="100"/>
+      <TableColumn text="Book Name" prefWidth="150"/>
+      <TableColumn text="Student ID" prefWidth="80"/>
+      <TableColumn text="Student Name" prefWidth="150"/>
+      <TableColumn text="Issued On" prefWidth="80"/>
+      <TableColumn text="Return Date" prefWidth="80"/>
+    </columns>
+  </TableView>
+
+</VBox>
