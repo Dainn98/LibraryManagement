@@ -1,6 +1,6 @@
 package library.management.ui.DAO;
 
-import library.management.ui.database.databaseConnection;
+import library.management.ui.database.DatabaseConnection;
 import library.management.ui.entity.Genre;
 
 import java.sql.Connection;
@@ -18,57 +18,61 @@ public class GenreDAO implements DAOInterface<Genre> {
         return new GenreDAO();
     }
 
+    // Thêm một thể loại vào cơ sở dữ liệu
     @Override
     public int add(Genre genre) {
-        Connection con = databaseConnection.getConnection();
         String query = "INSERT INTO genre (tag) VALUES (?)";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, genre.getTag()); // tag là tên thể loại
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
-            int rowsInserted = stmt.executeUpdate(); // Thực thi lệnh và lấy số dòng đã chèn
+            stmt.setString(1, genre.getTag());
+            int rowsInserted = stmt.executeUpdate();
             return rowsInserted;
         } catch (SQLException e) {
-            e.printStackTrace(); // Xử lý ngoại lệ SQL
+            e.printStackTrace();
         }
-        return 0; // Trả về 0 nếu thêm thất bại
+        return 0;
     }
 
+    // Xóa một thể loại khỏi cơ sở dữ liệu
     @Override
     public int delete(Genre genre) {
-        Connection con = databaseConnection.getConnection();
         String query = "DELETE FROM genre WHERE genreID = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, genre.getGenreID()); // STT là khóa chính
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
-            int rowsDeleted = stmt.executeUpdate(); // Thực thi lệnh và lấy số dòng đã xóa
+            stmt.setString(1, genre.getGenreID());
+            int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {
-            e.printStackTrace(); // Xử lý ngoại lệ SQL
+            e.printStackTrace();
         }
-        return 0; // Trả về 0 nếu xóa thất bại
+        return 0;
     }
 
+    // Cập nhật thông tin của một thể loại trong cơ sở dữ liệu
     @Override
     public int update(Genre genre) {
-        Connection con = databaseConnection.getConnection();
         String query = "UPDATE genre SET tag = ? WHERE genreID = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, genre.getTag()); // Cập nhật tag
-            stmt.setString(2, genre.getGenreID()); // Cập nhật genreID
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
-            int rowsUpdated = stmt.executeUpdate(); // Thực thi lệnh và lấy số dòng đã cập nhật
+            stmt.setString(1, genre.getTag());
+            stmt.setString(2, genre.getGenreID());
+            int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated;
         } catch (SQLException e) {
-            e.printStackTrace(); // Xử lý ngoại lệ SQL
+            e.printStackTrace();
         }
-        return 0; // Trả về 0 nếu cập nhật thất bại
+        return 0;
     }
 
+    // Lấy danh sách tất cả các thể loại
     public List<Genre> layTatCa() {
-        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM genre";
         List<Genre> list = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(query);
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -76,33 +80,33 @@ public class GenreDAO implements DAOInterface<Genre> {
                 genre.setSTT(rs.getInt("STT"));
                 genre.setTag(rs.getString("tag"));
                 genre.setGenreID(rs.getString("genreID"));
-
-                list.add(genre); // Thêm đối tượng vào danh sách
+                list.add(genre);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Xử lý ngoại lệ SQL
+            e.printStackTrace();
         }
-        return list; // Trả về danh sách các thể loại sách
+        return list;
     }
 
+    // Lấy thông tin thể loại theo STT
     public Genre layTheoId(int STT) {
-        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM genre WHERE STT = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setInt(1, STT);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                Genre genre = new Genre();
-                genre.setSTT(rs.getInt("STT"));
-                genre.setTag(rs.getString("tag"));
-                genre.setGenreID(rs.getString("genreID"));
-
-                return genre; // Trả về thể loại sách theo ID
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Genre genre = new Genre();
+                    genre.setSTT(rs.getInt("STT"));
+                    genre.setTag(rs.getString("tag"));
+                    genre.setGenreID(rs.getString("genreID"));
+                    return genre;
+                }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Xử lý ngoại lệ SQL
+            e.printStackTrace();
         }
-        return null; // Trả về null nếu không tìm thấy
+        return null;
     }
 }

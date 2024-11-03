@@ -1,6 +1,6 @@
 package library.management.ui.DAO;
 
-import library.management.ui.database.databaseConnection;
+import library.management.ui.database.DatabaseConnection;
 import library.management.ui.entity.LoanDetail;
 
 import java.sql.Connection;
@@ -18,13 +18,15 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
         return new LoanDetailDAO();
     }
 
+    // Thêm một chi tiết khoản vay vào cơ sở dữ liệu
     @Override
     public int add(LoanDetail loanDetail) {
-        Connection con = databaseConnection.getConnection();
-        String query = "INSERT INTO loandetail (loanId, bookId, quantity) VALUES (?, ?, ?)";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
+        String query = "INSERT INTO loandetail (loanId, documentID, quantity) VALUES (?, ?, ?)";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setString(1, loanDetail.getLoanId());
-            stmt.setString(2, loanDetail.getBookId());
+            stmt.setString(2, loanDetail.getDocumentID());
             stmt.setShort(3, loanDetail.getQuantity());
 
             int rowsInserted = stmt.executeUpdate();
@@ -35,13 +37,14 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
         return 0;
     }
 
+    // Xóa một chi tiết khoản vay khỏi cơ sở dữ liệu
     @Override
     public int delete(LoanDetail loanDetail) {
-        Connection con = databaseConnection.getConnection();
         String query = "DELETE FROM loandetail WHERE loanDetailID = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, loanDetail.getLoanDetailID());
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
+            stmt.setString(1, loanDetail.getLoanDetailID());
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {
@@ -50,13 +53,15 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
         return 0;
     }
 
+    // Cập nhật thông tin của một chi tiết khoản vay trong cơ sở dữ liệu
     @Override
     public int update(LoanDetail loanDetail) {
-        Connection con = databaseConnection.getConnection();
-        String query = "UPDATE loandetail SET loanId = ?, bookId = ?, quantity = ? WHERE loanDetailID = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
+        String query = "UPDATE loandetail SET loanId = ?, documentID = ?, quantity = ? WHERE loanDetailID = ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setString(1, loanDetail.getLoanId());
-            stmt.setString(2, loanDetail.getBookId());
+            stmt.setString(2, loanDetail.getDocumentID());
             stmt.setShort(3, loanDetail.getQuantity());
             stmt.setString(4, loanDetail.getLoanDetailID());
 
@@ -68,18 +73,19 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
         return 0;
     }
 
+    // Lấy danh sách tất cả các chi tiết khoản vay
     public List<LoanDetail> layTatCa() {
-        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM loandetail";
         List<LoanDetail> list = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(query);
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 LoanDetail loanDetail = new LoanDetail();
                 loanDetail.setSTT(rs.getInt("STT"));
                 loanDetail.setLoanId(rs.getString("loanId"));
-                loanDetail.setBookId(rs.getString("bookId"));
+                loanDetail.setDocumentID(rs.getString("documentID"));
                 loanDetail.setQuantity(rs.getShort("quantity"));
                 loanDetail.setLoanDetailID(rs.getString("loanDetailID"));
 
@@ -91,22 +97,24 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
         return list;
     }
 
+    // Lấy thông tin chi tiết khoản vay theo STT
     public LoanDetail layTheoId(int STT) {
-        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM loandetail WHERE STT = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setInt(1, STT);
-            ResultSet rs = stmt.executeQuery();
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    LoanDetail loanDetail = new LoanDetail();
+                    loanDetail.setSTT(rs.getInt("STT"));
+                    loanDetail.setLoanId(rs.getString("loanId"));
+                    loanDetail.setDocumentID(rs.getString("documentID"));
+                    loanDetail.setQuantity(rs.getShort("quantity"));
+                    loanDetail.setLoanDetailID(rs.getString("loanDetailID"));
 
-            if (rs.next()) {
-                LoanDetail loanDetail = new LoanDetail();
-                loanDetail.setSTT(rs.getInt("STT"));
-                loanDetail.setLoanId(rs.getString("loanId"));
-                loanDetail.setBookId(rs.getString("bookId"));
-                loanDetail.setQuantity(rs.getShort("quantity"));
-                loanDetail.setLoanDetailID(rs.getString("loanDetailID"));
-
-                return loanDetail;
+                    return loanDetail;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -3,22 +3,22 @@ package library.management.ui.entity;
 public class LoanDetail {
     private int STT;
     private String loanId;
-    private String bookId;
+    private String documentID;
     private short quantity;
     private String loanDetailID;
 
     // Constructors
     public LoanDetail() {}
 
-    public LoanDetail(String loanId, String bookId, short quantity, String loanDetailID) {
+    public LoanDetail(String loanId, String documentID, short quantity, String loanDetailID) {
         this.loanId = loanId;
-        this.bookId = bookId;
+        this.documentID = documentID;
         this.quantity = quantity;
         this.loanDetailID = loanDetailID;
     }
 
-    public LoanDetail(String loanId, String bookId, short quantity) {
-        this.bookId = bookId;
+    public LoanDetail(String loanId, String documentID, short quantity) {
+        this.documentID = documentID;
         this.loanId = loanId;
         this.quantity = quantity;
     }
@@ -44,12 +44,12 @@ public class LoanDetail {
         this.loanId = loanId;
     }
 
-    public String getBookId() {
-        return bookId;
+    public String getDocumentID() {
+        return documentID;
     }
 
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
     }
 
     public short getQuantity() {

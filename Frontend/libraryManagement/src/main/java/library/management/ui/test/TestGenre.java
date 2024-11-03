@@ -68,6 +68,8 @@ public class TestGenre {
     }
 
     public static void main(String[] args) {
+        addGenre();
+        updateGenre();
         deleteGenre();
     }
 }

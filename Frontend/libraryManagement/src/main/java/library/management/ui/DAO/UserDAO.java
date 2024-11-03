@@ -1,6 +1,6 @@
 package library.management.ui.DAO;
 
-import library.management.ui.database.databaseConnection;
+import library.management.ui.database.DatabaseConnection;
 import library.management.ui.entity.User;
 
 import java.sql.Connection;
@@ -18,11 +18,13 @@ public class UserDAO implements DAOInterface<User> {
         return new UserDAO();
     }
 
+    // Thêm một người dùng vào cơ sở dữ liệu
     @Override
     public int add(User user) {
-        Connection con = databaseConnection.getConnection();
         String query = "INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setString(1, user.getUserName());
             stmt.setString(2, user.getAddress());
             stmt.setString(3, user.getIdentityCard());
@@ -38,13 +40,14 @@ public class UserDAO implements DAOInterface<User> {
         return 0;
     }
 
+    // Xóa một người dùng khỏi cơ sở dữ liệu
     @Override
     public int delete(User user) {
-        Connection con = databaseConnection.getConnection();
         String query = "DELETE FROM user WHERE userId = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, user.getUserId());
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
+            stmt.setString(1, user.getUserId());
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {
@@ -53,11 +56,13 @@ public class UserDAO implements DAOInterface<User> {
         return 0;
     }
 
+    // Cập nhật thông tin của một người dùng trong cơ sở dữ liệu
     @Override
     public int update(User user) {
-        Connection con = databaseConnection.getConnection();
         String query = "UPDATE user SET userName = ?, address = ?, identityCard = ?, mobile = ?, email = ?, membershipLevel = ? WHERE userId = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setString(1, user.getUserName());
             stmt.setString(2, user.getAddress());
             stmt.setString(3, user.getIdentityCard());
@@ -74,11 +79,12 @@ public class UserDAO implements DAOInterface<User> {
         return 0;
     }
 
+    // Lấy danh sách tất cả người dùng
     public List<User> layTatCa() {
-        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM user";
         List<User> list = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(query);
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -91,7 +97,6 @@ public class UserDAO implements DAOInterface<User> {
                 user.setMobile(rs.getString("mobile"));
                 user.setEmail(rs.getString("email"));
                 user.setMembershipLevel(rs.getString("membershipLevel"));
-
                 list.add(user);
             }
         } catch (SQLException e) {
@@ -100,25 +105,26 @@ public class UserDAO implements DAOInterface<User> {
         return list;
     }
 
+    // Lấy thông tin người dùng theo STT
     public User layTheoId(int STT) {
-        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM user WHERE STT = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setInt(1, STT);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                User user = new User();
-                user.setSTT(rs.getInt("STT"));
-                user.setUserId(rs.getString("userId"));
-                user.setUserName(rs.getString("userName"));
-                user.setAddress(rs.getString("address"));
-                user.setIdentityCard(rs.getString("identityCard"));
-                user.setMobile(rs.getString("mobile"));
-                user.setEmail(rs.getString("email"));
-                user.setMembershipLevel(rs.getString("membershipLevel"));
-
-                return user;
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User();
+                    user.setSTT(rs.getInt("STT"));
+                    user.setUserId(rs.getString("userId"));
+                    user.setUserName(rs.getString("userName"));
+                    user.setAddress(rs.getString("address"));
+                    user.setIdentityCard(rs.getString("identityCard"));
+                    user.setMobile(rs.getString("mobile"));
+                    user.setEmail(rs.getString("email"));
+                    user.setMembershipLevel(rs.getString("membershipLevel"));
+                    return user;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

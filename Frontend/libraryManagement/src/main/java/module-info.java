@@ -16,9 +16,10 @@ module library.management{
     requires javafx.swing;
     requires com.jfoenix;
   requires com.google.gson;
-  requires java.sql;
+    requires com.zaxxer.hikari;
+    requires java.sql;
 
-  // Application
+    // Application
     opens library.management.ui.applications to javafx.graphics, javafx.fxml;
     exports library.management.ui.applications to javafx.graphics, javafx.fxml;
     //main

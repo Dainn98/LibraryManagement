@@ -1,6 +1,6 @@
 package library.management.ui.DAO;
 
-import library.management.ui.database.databaseConnection;
+import library.management.ui.database.DatabaseConnection;
 import library.management.ui.entity.Language;
 
 import java.sql.Connection;
@@ -18,57 +18,61 @@ public class LanguageDAO implements DAOInterface<Language> {
         return new LanguageDAO();
     }
 
+    // Thêm một ngôn ngữ vào cơ sở dữ liệu
     @Override
     public int add(Language language) {
-        Connection con = databaseConnection.getConnection();
         String query = "INSERT INTO language (lgName) VALUES (?)";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, language.getLgName()); // lgName là tên ngôn ngữ
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
-            int rowsInserted = stmt.executeUpdate(); // Thực thi lệnh và lấy số dòng đã chèn
+            stmt.setString(1, language.getLgName());
+            int rowsInserted = stmt.executeUpdate();
             return rowsInserted;
         } catch (SQLException e) {
-            e.printStackTrace(); // Xử lý ngoại lệ SQL
+            e.printStackTrace();
         }
-        return 0; // Trả về 0 nếu thêm thất bại
+        return 0;
     }
 
+    // Xóa một ngôn ngữ khỏi cơ sở dữ liệu
     @Override
     public int delete(Language language) {
-        Connection con = databaseConnection.getConnection();
         String query = "DELETE FROM language WHERE lgID = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, language.getLgID()); // lgID là mã ngôn ngữ để xác định bản ghi cần xóa
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
-            int rowsDeleted = stmt.executeUpdate(); // Thực thi lệnh và lấy số dòng đã xóa
+            stmt.setString(1, language.getLgID());
+            int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {
-            e.printStackTrace(); // Xử lý ngoại lệ SQL
+            e.printStackTrace();
         }
-        return 0; // Trả về 0 nếu xóa thất bại
+        return 0;
     }
 
+    // Cập nhật thông tin của một ngôn ngữ trong cơ sở dữ liệu
     @Override
     public int update(Language language) {
-        Connection con = databaseConnection.getConnection();
         String query = "UPDATE language SET lgName = ? WHERE lgID = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, language.getLgName()); // Cập nhật tên ngôn ngữ
-            stmt.setString(2, language.getLgID());   // Cập nhật mã ngôn ngữ
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
-            int rowsUpdated = stmt.executeUpdate(); // Thực thi lệnh và lấy số dòng đã cập nhật
+            stmt.setString(1, language.getLgName());
+            stmt.setString(2, language.getLgID());
+            int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated;
         } catch (SQLException e) {
-            e.printStackTrace(); // Xử lý ngoại lệ SQL
+            e.printStackTrace();
         }
-        return 0; // Trả về 0 nếu cập nhật thất bại
+        return 0;
     }
 
+    // Lấy danh sách tất cả các ngôn ngữ
     public List<Language> layTatCa() {
-        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM language";
         List<Language> list = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(query);
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -76,33 +80,34 @@ public class LanguageDAO implements DAOInterface<Language> {
                 language.setSTT(rs.getInt("STT"));
                 language.setLgName(rs.getString("lgName"));
                 language.setLgID(rs.getString("lgID"));
-
-                list.add(language); // Thêm đối tượng vào danh sách
+                list.add(language);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Xử lý ngoại lệ SQL
+            e.printStackTrace();
         }
-        return list; // Trả về danh sách các ngôn ngữ
+        return list;
     }
 
+    // Lấy thông tin ngôn ngữ theo STT
     public Language layTheoId(int STT) {
-        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM language WHERE STT = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setInt(1, STT);
-            ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                Language language = new Language();
-                language.setSTT(rs.getInt("STT"));
-                language.setLgName(rs.getString("lgName"));
-                language.setLgID(rs.getString("lgID"));
-
-                return language; // Trả về đối tượng Language theo STT
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Language language = new Language();
+                    language.setSTT(rs.getInt("STT"));
+                    language.setLgName(rs.getString("lgName"));
+                    language.setLgID(rs.getString("lgID"));
+                    return language;
+                }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Xử lý ngoại lệ SQL
+            e.printStackTrace();
         }
-        return null; // Trả về null nếu không tìm thấy
+        return null;
     }
 }

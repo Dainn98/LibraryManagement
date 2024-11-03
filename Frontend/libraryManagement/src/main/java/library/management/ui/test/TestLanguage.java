@@ -68,7 +68,7 @@ public class TestLanguage {
     }
 
     public static void main(String[] args) {
-        addLanguage();
-        updateLanguage();        // Kiểm tra thêm ngôn ngữ
+        deleteLanguage();
+
     }
 }

@@ -20,7 +20,7 @@ public class TestLoan {
 
     public static void deleteLoan() {
         Loan loan = new Loan();
-        loan.setLoanID("LOAN12");
+        loan.setLoanID("LOAN11");
 
         if (LoanDAO.getInstance().delete(loan) > 0) {
             System.out.println("Xóa khoản vay thành công!");
@@ -30,7 +30,7 @@ public class TestLoan {
     }
 
     public static void updateLoan() {
-        Loan loan = new Loan("USER2", (short)3, 1500.0, new Date(), new Date(), "LOAN13");
+        Loan loan = new Loan("USER2", (short)3, 1500.0, new Date(), new Date(), "LOAN11");
 
         if (LoanDAO.getInstance().update(loan) > 0) {
             System.out.println("Cập nhật khoản vay thành công!");
@@ -59,6 +59,8 @@ public class TestLoan {
     }
 
     public static void main(String[] args) {
-        updateLoan();           // Kiểm tra thêm khoản vay
+        addLoan();
+        updateLoan();
+        deleteLoan();
     }
 }

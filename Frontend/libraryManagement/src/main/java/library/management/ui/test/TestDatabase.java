@@ -1,14 +1,21 @@
 package library.management.ui.test;
 
-import library.management.ui.database.databaseConnection;
+import library.management.ui.database.DatabaseConnection;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class TestDatabase {
     public static void main(String[] args) {
-        Connection conn = databaseConnection.getConnection();
-        System.out.println(conn);
-        databaseConnection.close(conn);
-        System.out.println(conn);
+        // Lấy kết nối từ Connection Pool
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            if (conn != null) {
+                System.out.println("Kết nối thành công: " + conn);
+            } else {
+                System.out.println("Kết nối thất bại.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

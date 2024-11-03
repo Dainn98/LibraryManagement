@@ -1,6 +1,6 @@
 package library.management.ui.DAO;
 
-import library.management.ui.database.databaseConnection;
+import library.management.ui.database.DatabaseConnection;
 import library.management.ui.entity.Loan;
 
 import java.sql.*;
@@ -15,11 +15,13 @@ public class LoanDAO implements DAOInterface<Loan> {
         return new LoanDAO();
     }
 
+    // Thêm một khoản vay vào cơ sở dữ liệu
     @Override
     public int add(Loan loan) {
-        Connection con = databaseConnection.getConnection();
         String query = "INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setString(1, loan.getUserId());
             stmt.setShort(2, loan.getQuantityOfBorrow());
             stmt.setDouble(3, loan.getDeposit());
@@ -34,13 +36,14 @@ public class LoanDAO implements DAOInterface<Loan> {
         return 0;
     }
 
+    // Xóa một khoản vay khỏi cơ sở dữ liệu
     @Override
     public int delete(Loan loan) {
-        Connection con = databaseConnection.getConnection();
         String query = "DELETE FROM loans WHERE loanID = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, loan.getLoanID());
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
+            stmt.setString(1, loan.getLoanID());
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {
@@ -49,11 +52,13 @@ public class LoanDAO implements DAOInterface<Loan> {
         return 0;
     }
 
+    // Cập nhật thông tin của một khoản vay trong cơ sở dữ liệu
     @Override
     public int update(Loan loan) {
-        Connection con = databaseConnection.getConnection();
         String query = "UPDATE loans SET userId = ?, quantityOfBorrow = ?, deposit = ?, dateOfBorrow = ?, requiredReturnDate = ? WHERE loanID = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setString(1, loan.getUserId());
             stmt.setShort(2, loan.getQuantityOfBorrow());
             stmt.setDouble(3, loan.getDeposit());
@@ -69,11 +74,12 @@ public class LoanDAO implements DAOInterface<Loan> {
         return 0;
     }
 
+    // Lấy danh sách tất cả các khoản vay
     public List<Loan> layTatCa() {
-        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM loans";
         List<Loan> list = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(query);
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -94,24 +100,25 @@ public class LoanDAO implements DAOInterface<Loan> {
         return list;
     }
 
+    // Lấy thông tin khoản vay theo STT
     public Loan layTheoId(int STT) {
-        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM loans WHERE STT = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setInt(1, STT);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                Loan loan = new Loan();
-                loan.setSTT(rs.getInt("STT"));
-                loan.setUserId(rs.getString("userId"));
-                loan.setQuantityOfBorrow(rs.getShort("quantityOfBorrow"));
-                loan.setDeposit(rs.getDouble("deposit"));
-                loan.setDateOfBorrow(rs.getTimestamp("dateOfBorrow"));
-                loan.setRequiredReturnDate(rs.getTimestamp("requiredReturnDate"));
-                loan.setLoanID(rs.getString("loanID"));
-
-                return loan;
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Loan loan = new Loan();
+                    loan.setSTT(rs.getInt("STT"));
+                    loan.setUserId(rs.getString("userId"));
+                    loan.setQuantityOfBorrow(rs.getShort("quantityOfBorrow"));
+                    loan.setDeposit(rs.getDouble("deposit"));
+                    loan.setDateOfBorrow(rs.getTimestamp("dateOfBorrow"));
+                    loan.setRequiredReturnDate(rs.getTimestamp("requiredReturnDate"));
+                    loan.setLoanID(rs.getString("loanID"));
+                    return loan;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

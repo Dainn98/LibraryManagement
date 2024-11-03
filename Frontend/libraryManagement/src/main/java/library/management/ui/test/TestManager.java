@@ -15,7 +15,7 @@ public class TestManager {
     }
 
     public static void deleteManager() {
-        Manager manager = new Manager("MNG6");
+        Manager manager = new Manager("MNG5");
 
         if (ManagerDAO.getInstance().delete(manager) > 0) {
             System.out.println("Xóa người quản lý thành công!");
@@ -35,6 +35,8 @@ public class TestManager {
     }
 
     public static void main(String[] args) {
+        addManager();
+        updateManager();
         deleteManager();
     }
 }

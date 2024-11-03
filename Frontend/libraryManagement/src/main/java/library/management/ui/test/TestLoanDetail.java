@@ -8,7 +8,7 @@ import java.util.List;
 public class TestLoanDetail {
 
     public static void addLoanDetail() {
-        LoanDetail loanDetail = new LoanDetail("LOAN1", "BOOK1", (short)3);
+        LoanDetail loanDetail = new LoanDetail("LOAN1", "DOC1", (short)3);
 
         if (LoanDetailDAO.getInstance().add(loanDetail) > 0) {
             System.out.println("Thêm chi tiết khoản vay thành công!");
@@ -19,7 +19,7 @@ public class TestLoanDetail {
 
     public static void deleteLoanDetail() {
         LoanDetail loanDetail = new LoanDetail();
-        loanDetail.setLoanDetailID("DETAIL1");
+        loanDetail.setLoanDetailID("DETAIL11");
 
         if (LoanDetailDAO.getInstance().delete(loanDetail) > 0) {
             System.out.println("Xóa chi tiết khoản vay thành công!");
@@ -29,7 +29,7 @@ public class TestLoanDetail {
     }
 
     public static void updateLoanDetail() {
-        LoanDetail loanDetail = new LoanDetail("LOAN2", "BOOK2", (short)5, "DETAIL12");
+        LoanDetail loanDetail = new LoanDetail("LOAN2", "DOC2", (short)5, "DETAIL11");
 
         if (LoanDetailDAO.getInstance().update(loanDetail) > 0) {
             System.out.println("Cập nhật chi tiết khoản vay thành công!");
@@ -46,7 +46,7 @@ public class TestLoanDetail {
             for (LoanDetail loanDetail : loanDetails) {
                 System.out.println("STT: " + loanDetail.getSTT() +
                         ", LoanID: " + loanDetail.getLoanId() +
-                        ", BookID: " + loanDetail.getBookId() +
+                        ", BookID: " + loanDetail.getDocumentID() +
                         ", Quantity: " + loanDetail.getQuantity() +
                         ", LoanDetailID: " + loanDetail.getLoanDetailID());
             }
@@ -56,6 +56,8 @@ public class TestLoanDetail {
     }
 
     public static void main(String[] args) {
-        updateLoanDetail();       // Kiểm tra thêm chi tiết khoản vay
+        addLoanDetail();
+        updateLoanDetail();
+        deleteLoanDetail();
     }
 }
