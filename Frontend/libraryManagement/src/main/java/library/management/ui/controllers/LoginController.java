@@ -13,11 +13,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import library.management.ui.AbstractUI;
 import library.management.main;
+import library.management.ui.AbstractUI;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class LoginController extends AbstractUI {
+public class LoginController implements AbstractUI {
 
   private boolean isSoundOn = true;
   private final static String userAdmin = "admin";
@@ -40,7 +40,6 @@ public class LoginController extends AbstractUI {
   /**
    * <p>initialize method is used to initialize the Login screen.</p>
    */
-  @Override
   public void initialize() {
     soundButton.setOnAction(event -> toggleButton());
     addZoomEffects(loginButton);
@@ -50,8 +49,6 @@ public class LoginController extends AbstractUI {
 
   /**
    * <p>login method is used to handle the event when the user clicks on the Login button.</p>
-   *
-   * @param event - The event when the user clicks on the Login button.
    */
   @FXML
   private void login(ActionEvent event) {
@@ -77,8 +74,6 @@ public class LoginController extends AbstractUI {
   /**
    * <p>register method is used to handle the event when the user clicks on the Register
    * button.</p>
-   *
-   * @param event - The event when the user clicks on the Register button.
    */
   @FXML
   private void register(ActionEvent event) {

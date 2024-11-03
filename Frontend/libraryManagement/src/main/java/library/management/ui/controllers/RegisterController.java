@@ -14,7 +14,7 @@ import library.management.ui.AbstractUI;
 /**
  * Controller class for the registration UI.
  */
-public class RegisterController extends AbstractUI {
+public class RegisterController implements AbstractUI {
 
   @FXML
   private Label errorLabel;
@@ -38,7 +38,6 @@ public class RegisterController extends AbstractUI {
   /**
    * Initializes the controller class.
    */
-  @Override
   public void initialize() {
     addZoomEffects(registerButton);
   }

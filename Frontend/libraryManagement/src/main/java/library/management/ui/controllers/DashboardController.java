@@ -12,11 +12,6 @@ public class DashboardController extends MainController{
     this.dashboardVBox = dashboardVBox;
   }
 
-  public void initialize() {
-    // Initialization code for the dashboard
-  }
-
-
   public void show() {
     showSection(dashboardVBox);
     System.out.println("Dashboard shown");
