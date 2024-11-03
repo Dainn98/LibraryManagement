@@ -15,6 +15,7 @@ module library.management{
   requires javafx.controls;
     requires javafx.swing;
     requires com.jfoenix;
+  requires com.google.gson;
   requires java.sql;
 
   // Application

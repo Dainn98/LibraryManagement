@@ -4,10 +4,13 @@ package library.management.ui.controllers;
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,119 +27,186 @@ import javafx.stage.Stage;
 import library.management.ui.AbstractUI;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class MainController extends AbstractUI {
+public class MainController implements Initializable, AbstractUI {
 
   /**
    * Menu Button.
    */
-  public Button dashboardButton;
-  public Button pendingApprovalsButton;
-  public Button registeredStudentsButton;
-  public Button libraryCatalogButton;
-  public Button registerNewBookButton;
-  public Button manageBookLoansButton;
-  public Button IssuedBooksButton;
-  public Button signOutButton;
+  @FXML
+  protected Button dashboardButton;
+  @FXML
+  protected Button pendingApprovalsButton;
+  @FXML
+  protected Button registeredStudentsButton;
+  @FXML
+  protected Button libraryCatalogButton;
+  @FXML
+  protected Button registerNewBookButton;
+  @FXML
+  protected Button manageBookLoansButton;
+  @FXML
+  protected Button IssuedBooksButton;
+  @FXML
+  protected Button signOutButton;
   /**
    * Dashboard UI.
    */
-  public VBox dashboardVBox;
-  public Label totalBooksLabel;
-  public Label numberTotalBooksLabel;
-  public Label borrowedBooksLabel;
-  public Label numberBorrowedBooksLabel;
-  public Label overdueReturnsLabel;
-  public Label numberOverdueReturnsLabel;
-  public Label totalUsersLabel;
-  public Label numberTotalUsersLabel;
-  public Button findBookButton;
-  public Button findBookIssueButton;
-  public Button findStudentButton;
-  public TableView recentActivitiesTable;
-  public TableColumn userColumnDashboard;
-  public TableColumn bookColumnDashboard;
-  public TableColumn dueDateColumnDashboard;
+  @FXML
+  protected VBox dashboardVBox;
+  @FXML
+  protected Label totalBooksLabel;
+  @FXML
+  protected Label numberTotalBooksLabel;
+  @FXML
+  protected Label borrowedBooksLabel;
+  @FXML
+  protected Label numberBorrowedBooksLabel;
+  @FXML
+  protected Label overdueReturnsLabel;
+  @FXML
+  protected Label numberOverdueReturnsLabel;
+  @FXML
+  protected Label totalUsersLabel;
+  @FXML
+  protected Label numberTotalUsersLabel;
+  @FXML
+  protected Button findBookButton;
+  @FXML
+  protected Button findBookIssueButton;
+  @FXML
+  protected Button findStudentButton;
+  @FXML
+  protected TableView recentActivitiesTable;
+  @FXML
+  protected TableColumn userColumnDashboard;
+  @FXML
+  protected TableColumn bookColumnDashboard;
+  @FXML
+  protected TableColumn dueDateColumnDashboard;
   /**
    * Pending Approvals UI.
    */
-  public VBox pendingApprovalsVBox;
-  public ComboBox branchComboBoxPendingApprovals;
-  public ComboBox categoryComboBoxPendingApprovals;
-  public ComboBox yearComboBoxPendingApprovals;
-  public TableView tableViewPendingApprovals;
-  public TableColumn idColumnPendingApprovals;
-  public TableColumn usernameColumnPendingApprovals;
-  public TableColumn identityCardColumnPendingApprovals;
-  public TableColumn mobileColumnPendingApprovals;
-  public TableColumn categoryColumnPendingApprovals;
-  public TableColumn approveColumnPendingApprovals;
+  @FXML
+  protected VBox pendingApprovalsVBox;
+  @FXML
+  protected ComboBox branchComboBoxPendingApprovals;
+  @FXML
+  protected ComboBox categoryComboBoxPendingApprovals;
+  @FXML
+  protected ComboBox yearComboBoxPendingApprovals;
+  @FXML
+  protected TableView tableViewPendingApprovals;
+  @FXML
+  protected TableColumn idColumnPendingApprovals;
+  @FXML
+  protected TableColumn usernameColumnPendingApprovals;
+  @FXML
+  protected TableColumn identityCardColumnPendingApprovals;
+  @FXML
+  protected TableColumn mobileColumnPendingApprovals;
+  @FXML
+  protected TableColumn categoryColumnPendingApprovals;
+  @FXML
+  protected TableColumn approveColumnPendingApprovals;
 
   /**
    * Registered new book UI.
    */
-  public VBox registerBookVBox;
-  public TextField titleOfBookField;
-  public TextField authorNameField;
-  public TextArea descriptionField;
-  public ComboBox categoryComboBox;
-  public TextField numberOfIssueField;
   @FXML
-  private RegisterNewBookController registerNewBookController;
+  protected VBox registerBookVBox;
+  @FXML
+  protected TextField titleOfBookField;
+  @FXML
+  protected TextField authorNameField;
+  @FXML
+  protected TextArea descriptionField;
+  @FXML
+  protected ComboBox categoryComboBox;
+  @FXML
+  protected TextField numberOfIssueField;
 
   /**
    * Library Catalog UI.
    */
-  public AnchorPane libraryCatalogAnchorPane;
-  public TableView tableViewLibraryCatalog;
-  public TableColumn titleColumnLibraryCatalog;
-  public TableColumn bookIdColumnLibraryCatalog;
-  public TableColumn authorColumnLibraryCatalog;
-  public TableColumn publisherColumnLibraryCatalog;
-  public TableColumn availabilityColumnLibraryCatalog;
+  @FXML
+  protected AnchorPane libraryCatalogAnchorPane;
+  @FXML
+  protected TableView tableViewLibraryCatalog;
+  @FXML
+  protected TableColumn titleColumnLibraryCatalog;
+  @FXML
+  protected TableColumn bookIdColumnLibraryCatalog;
+  @FXML
+  protected TableColumn authorColumnLibraryCatalog;
+  @FXML
+  protected TableColumn publisherColumnLibraryCatalog;
+  @FXML
+  protected TableColumn availabilityColumnLibraryCatalog;
 
   /**
    * Registered Students UI.
    */
-  public AnchorPane registeredStudentsAnchorPane;
-  public ComboBox branchComboBoxRegisteredStudents;
-  public ComboBox categoryComboBoxRegisteredStudents;
-  public ComboBox yearComboBoxRegisteredStudents;
-  public TableView tableViewRegisteredStudents;
-  public TableColumn IdColumnRegisteredStudents;
-  public TableColumn usernameColumnRegisteredStudents;
-  public TableColumn identityCardColumnRegisteredStudents;
-  public TableColumn branchColumnRegisteredStudents;
-  public TableColumn catagoryColumnRegisteredStudents;
-  public TableColumn bookIssueColumnRegisteredStudents;
+  @FXML
+  protected AnchorPane registeredStudentsAnchorPane;
+  @FXML
+  protected ComboBox branchComboBoxRegisteredStudents;
+  @FXML
+  protected ComboBox categoryComboBoxRegisteredStudents;
+  @FXML
+  protected ComboBox yearComboBoxRegisteredStudents;
+  @FXML
+  protected TableView tableViewRegisteredStudents;
+  @FXML
+  protected TableColumn IdColumnRegisteredStudents;
+  @FXML
+  protected TableColumn usernameColumnRegisteredStudents;
+  @FXML
+  protected TableColumn identityCardColumnRegisteredStudents;
+  @FXML
+  protected TableColumn branchColumnRegisteredStudents;
+  @FXML
+  protected TableColumn catagoryColumnRegisteredStudents;
+  @FXML
+  protected TableColumn bookIssueColumnRegisteredStudents;
 
   /**
    * Manage Book Loans UI.
    */
-  public VBox manageBookLoansVBox;
-  public ComboBox studentIdComboBoxManageBookLoans;
-  public TextField bookIdTextFieldManageBookLoans;
-  public TextField returnBookIdTextFieldManageBookLoans;
+  @FXML
+  protected VBox manageBookLoansVBox;
+  @FXML
+  protected ComboBox studentIdComboBoxManageBookLoans;
+  @FXML
+  protected TextField bookIdTextFieldManageBookLoans;
+  @FXML
+  protected TextField returnBookIdTextFieldManageBookLoans;
 
   /**
    * Issued Books UI.
    */
-  public VBox issuedBooksVBox;
-  public TableView logsTableIssuedBooks;
-  public TableColumn logIdColumnIssuedBooks;
-  public TableColumn bookIssueIdColumnIssuedBooks;
-  public TableColumn bookNameColumnIssuedBooks;
-  public TableColumn studentIdColumnIssuedBooks;
-  public TableColumn studentNameColumnIssuedBooks;
-  public TableColumn IssuedOnColumnIssuedBooks;
-  public TableColumn returnDateColumnIssuedBooks;
-
-
+  @FXML
+  protected VBox issuedBooksVBox;
+  @FXML
+  protected TableView logsTableIssuedBooks;
+  @FXML
+  protected TableColumn logIdColumnIssuedBooks;
+  @FXML
+  protected TableColumn bookIssueIdColumnIssuedBooks;
+  @FXML
+  protected TableColumn bookNameColumnIssuedBooks;
+  @FXML
+  protected TableColumn studentIdColumnIssuedBooks;
+  @FXML
+  protected TableColumn studentNameColumnIssuedBooks;
+  @FXML
+  protected TableColumn IssuedOnColumnIssuedBooks;
+  @FXML
+  protected TableColumn returnDateColumnIssuedBooks;
 
   @Override
-  public void initialize() {
-    registerNewBookController = new RegisterNewBookController();
-  }
+  public void initialize(URL location, ResourceBundle resources) {}
 
+  @FXML
   protected void showSection(Object sectionToShow) {
     dashboardVBox.setVisible(sectionToShow == dashboardVBox);
     registerBookVBox.setVisible(sectionToShow == registerBookVBox);
@@ -229,14 +299,14 @@ public class MainController extends AbstractUI {
    */
   @FXML
   private void handleAddBooks(ActionEvent actionEvent) {
-    registerNewBookController.handleAddBooks(titleOfBookField);
     //Database
   }
 
   /**
    * Handles the process of viewing the library catalog.
    */
-  public void handleRefresh(ActionEvent actionEvent) {
+  @FXML
+  protected void handleRefresh(ActionEvent actionEvent) {
   }
 
   /**
@@ -244,50 +314,59 @@ public class MainController extends AbstractUI {
    *
    * @param actionEvent the event that triggered this action
    */
-  public void handleBookEditOption(ActionEvent actionEvent) {
+  @FXML
+  protected void handleBookEditOption(ActionEvent actionEvent) {
   }
 
   /**
    * Handles the process of deleting a book from the library.
    */
-  public void handleBookDeleteOption(ActionEvent actionEvent) {
+  @FXML
+  protected void handleBookDeleteOption(ActionEvent actionEvent) {
   }
 
   /**
    * Handles the process of exporting the library catalog as a PDF.
    */
-  public void exportAsPDF(ActionEvent actionEvent) {
+  @FXML
+  protected void exportAsPDF(ActionEvent actionEvent) {
   }
 
   /**
    * Handles the process of exporting the library catalog as an Excel file.
    */
-  public void closeStage(ActionEvent actionEvent) {
+  @FXML
+  protected void closeStage(ActionEvent actionEvent) {
   }
 
-  public void handleIssueBookButton(ActionEvent actionEvent) {
+  @FXML
+  protected void handleIssueBookButton(ActionEvent actionEvent) {
   }
 
-  public void handlerReturnBook(ActionEvent actionEvent) {
+  @FXML
+  protected void handlerReturnBook(ActionEvent actionEvent) {
   }
 
-  public TextField getTitleOfBookField() {
+  protected TextField getTitleOfBookField() {
     return titleOfBookField;
   }
 
-  public void setTitleOfBookField(TextField titleOfBookField) {
+  protected void setTitleOfBookField(TextField titleOfBookField) {
     this.titleOfBookField = titleOfBookField;
   }
 
-  public void handleFindBookButton(ActionEvent actionEvent) {
+  @FXML
+  protected void handleFindBookButton(ActionEvent actionEvent) {
     //To do in DashboardController
   }
 
-  public void handleFindBookIssueButton(ActionEvent actionEvent) {
+  @FXML
+  protected void handleFindBookIssueButton(ActionEvent actionEvent) {
     //To do in DashboardController
   }
 
-  public void handleFindStudentButton(ActionEvent actionEvent) {
+  @FXML
+  protected void handleFindStudentButton(ActionEvent actionEvent) {
     //To do in DashboardController
   }
 }

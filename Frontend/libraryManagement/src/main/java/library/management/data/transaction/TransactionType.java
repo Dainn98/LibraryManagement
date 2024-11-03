@@ -17,8 +17,6 @@ public enum TransactionType {
 
   /**
    * Constructor.
-   *
-   * @param code - The code of the transaction type.
    */
   TransactionType(int code) {
     this.code = code;
@@ -26,8 +24,6 @@ public enum TransactionType {
 
   /**
    * Gets the code of the transaction type.
-   *
-   * @return The code of the transaction type.
    */
   public int getCode() {
     return code;

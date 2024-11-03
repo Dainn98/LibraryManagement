@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+* {
+  -fx-box-sizing: border-box;
+  -fx-font-family: 'Montserrat', sans-serif;
+}
+.form-container {
+  -fx-background-color: white;
+  -fx-background-radius: 30;
+  -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+}
+
+.title-label-h1 {
+  -fx-text-fill: #000080;
+  -fx-font-size: 32px;
+  -fx-font-weight: bold;
+  -fx-line-height: 20px;
+  -fx-letter-spacing: 0.3px;
+  -fx-margin: 20px 0;
+}
+
+.title-label-h1_2 {
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 32px;
+  -fx-font-weight: bold;
+  -fx-line-height: 20px;
+  -fx-letter-spacing: 0.3px;
+  -fx-margin: 20px 0;
+}
+
+.title-label-h2 {
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-line-height: 20px;
+  -fx-letter-spacing: 0.3px;
+  -fx-margin: 20px 0;
+}
+
+
+.input-field {
+  -fx-pref-width: 300;
+  -fx-pref-height: 40;
+  -fx-background-radius: 5;
+  -fx-border-radius: 5;
+  -fx-border-color: #cccccc;
+  -fx-border-width: 1;
+  -fx-padding: 5;
+}
+
+
+.input-field:focused {
+  -fx-border-color: #000080;
+}
+
+.login-button {
+  -fx-background-color: #000080;
+  -fx-text-fill: white;
+  -fx-pref-width: 300;
+  -fx-pref-height: 40;
+  -fx-background-radius: 5;
+  -fx-cursor: hand;
+}
+
+.register-button {
+  -fx-background-color: #FF7F50;
+  -fx-text-fill: white;
+  -fx-pref-width: 300;
+  -fx-pref-height: 40;
+  -fx-background-radius: 5;
+  -fx-cursor: hand;
+}
+
+.switch-button {
+  -fx-background-color: transparent;
+  -fx-text-fill: rgb(255, 255, 255);
+  -fx-border-color: #ffffff;
+  -fx-border-radius: 5;
+  -fx-cursor: hand;
+}
+
+.button:hover {
+  -fx-opacity: 0.8;
+}
+
+.toggle {
+  -fx-background-color: #512da8;
+  -fx-height: 100%;
+  -fx-background: linear-gradient(to right, #5c6bc0, #512da8);
+  -fx-text-fill: #fff;
+  -fx-position: relative;
+  -fx-left: -100%;
+  -fx-width: 200%;
+  -fx-translate-x: 0;
+  -fx-transition: all 0.6s ease-in-out;
+}
+
+.toggle-container {
+  -fx-position: absolute;
+  -fx-top: 0;
+  -fx-left: 50%;
+  -fx-width: 50%;
+  -fx-height: 100%;
+  -fx-overflow: hidden;
+  -fx-transition: all 0.6s ease-in-out;
+  -fx-border-radius: 150px 0 0 100px;
+  -fx-z-index: 1000;
+}
+
+.container.active .toggle-container {
+  -fx-translate-x: -100%;
+  -fx-border-radius: 0 150px 100px 0;
+}
+
+.container.active .toggle {
+  -fx-translate-x: 50%;
+}
+
+.toggle-panel {
+  -fx-position: absolute;
+  -fx-width: 50%;
+  -fx-height: 100%;
+  -fx-display: flex;
+  -fx-alignment: center;
+  -fx-justify-content: center;
+  -fx-flex-direction: column;
+  -fx-padding: 0 30px;
+  -fx-text-alignment: center;
+  -fx-top: 0;
+  -fx-translate-x: 0;
+  -fx-transition: all 0.6s ease-in-out;
+}
+
+.toggle-left {
+  -fx-translate-x: -200%;
+
+}
+
+.container.active .toggle-left {
+  -fx-translate-x: 0;
+
+}
+
+.toggle-right {
+  -fx-right: 0;
+  -fx-translate-x: 0;
+}
+
+.container.active .toggle-right {
+  -fx-translate-x: 200%;
+}
+
+.container button.hidden{
+  -fx-background-color: transparent;
+  -fx-border-color: #fff;
+}
+
+.container input {
+  background-color: #eee;
+  border: none;
+  margin: 8px 0;
+  padding: 10px 15px;
+  font-size: 13px;
+  border-radius: 8px;
+  width: 100%;
+  outline: none;
+}
+
+.social-icons {
+  -fx-margin: 20px 0;
+}
+
+.social-icons .icon {
+  -fx-border-color: #ccc;
+  -fx-border-width: 1px;
+  -fx-border-radius: 20%;
+  -fx-display: inline-flex;
+  -fx-justify-content: center;
+  -fx-align-items: center;
+  -fx-margin: 0 3px;
+  -fx-pref-width: 40px;
+  -fx-pref-height: 40px;
+}
+.switch-button-link {
+  -fx-background-color: transparent;
+  -fx-text-fill: rgb(33, 65, 166);
+  -fx-border-color: #2141a6;
+  -fx-border-radius: 5;
+  -fx-cursor: hand;
+}
