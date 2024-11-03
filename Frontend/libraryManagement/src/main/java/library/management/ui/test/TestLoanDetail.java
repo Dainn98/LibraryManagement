@@ -1,7 +1,7 @@
-package library.management.test;
+package library.management.ui.test;
 
-import library.management.DAO.LoanDetailDAO;
-import library.management.entity.LoanDetail;
+import library.management.ui.DAO.LoanDetailDAO;
+import library.management.ui.entity.LoanDetail;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public class TestLoanDetail {
     public static void addLoanDetail() {
         LoanDetail loanDetail = new LoanDetail("LOAN1", "BOOK1", (short)3);
 
-        if (LoanDetailDAO.getInstance().them(loanDetail) > 0) {
+        if (LoanDetailDAO.getInstance().add(loanDetail) > 0) {
             System.out.println("Thêm chi tiết khoản vay thành công!");
         } else {
             System.out.println("Thêm chi tiết khoản vay thất bại!");
@@ -21,7 +21,7 @@ public class TestLoanDetail {
         LoanDetail loanDetail = new LoanDetail();
         loanDetail.setLoanDetailID("DETAIL1");
 
-        if (LoanDetailDAO.getInstance().xoa(loanDetail) > 0) {
+        if (LoanDetailDAO.getInstance().delete(loanDetail) > 0) {
             System.out.println("Xóa chi tiết khoản vay thành công!");
         } else {
             System.out.println("Xóa chi tiết khoản vay thất bại!");
@@ -31,7 +31,7 @@ public class TestLoanDetail {
     public static void updateLoanDetail() {
         LoanDetail loanDetail = new LoanDetail("LOAN2", "BOOK2", (short)5, "DETAIL12");
 
-        if (LoanDetailDAO.getInstance().capNhat(loanDetail) > 0) {
+        if (LoanDetailDAO.getInstance().update(loanDetail) > 0) {
             System.out.println("Cập nhật chi tiết khoản vay thành công!");
         } else {
             System.out.println("Cập nhật chi tiết khoản vay thất bại!");

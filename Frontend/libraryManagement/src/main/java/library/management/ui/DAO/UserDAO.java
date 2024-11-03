@@ -1,7 +1,7 @@
-package library.management.DAO;
+package library.management.ui.DAO;
 
-import library.management.database.KetNoiCSDL;
-import library.management.entity.User;
+import library.management.ui.database.databaseConnection;
+import library.management.ui.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,8 +19,8 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public int them(User user) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int add(User user) {
+        Connection con = databaseConnection.getConnection();
         String query = "INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, user.getUserName());
@@ -39,8 +39,8 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public int xoa(User user) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int delete(User user) {
+        Connection con = databaseConnection.getConnection();
         String query = "DELETE FROM user WHERE userId = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, user.getUserId());
@@ -54,8 +54,8 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public int capNhat(User user) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int update(User user) {
+        Connection con = databaseConnection.getConnection();
         String query = "UPDATE user SET userName = ?, address = ?, identityCard = ?, mobile = ?, email = ?, membershipLevel = ? WHERE userId = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, user.getUserName());
@@ -75,7 +75,7 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     public List<User> layTatCa() {
-        Connection con = KetNoiCSDL.getConnection();
+        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM user";
         List<User> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query);
@@ -101,7 +101,7 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     public User layTheoId(int STT) {
-        Connection con = KetNoiCSDL.getConnection();
+        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM user WHERE STT = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, STT);

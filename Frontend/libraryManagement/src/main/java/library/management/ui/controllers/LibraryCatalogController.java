@@ -17,7 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import library.management.data.models.Documents.Document;
 import javafx.stage.Stage;
-import library.management.ui.database.DatabaseHandler;
+//import library.management.ui.database.DatabaseHandler;
 
 public class LibraryCatalogController implements Initializable {
 
@@ -83,22 +83,22 @@ private Stage getStage() {
    * Dịu làm phần này nha, thiết kế lớp DatabaseHandler và sử dụng nó để truy vấn dữ liệu từ cơ sở dữ liệu.
    */
   private void loadData() {
-    list.clear();
-    DatabaseHandler handler = DatabaseHandler.getInstance();
-    String qu = "SELECT * FROM BOOK";
-    ResultSet rs = handler.execQuery(qu);
-    try {
-      while (rs.next()) {
-
-        /**
-         * Read the data from the result set and add it to the list.
-         * list.add(new Document(....);
-          */
-      }
-    } catch (SQLException ex) {
-      Logger.getLogger(RegisterNewBookController.class.getName()).log(Level.SEVERE, null, ex);
-    }
-
-    tableView.setItems(list);
+//    list.clear();
+////    DatabaseHandler handler = DatabaseHandler.getInstance();
+//    String qu = "SELECT * FROM BOOK";
+////    ResultSet rs = handler.execQuery(qu);
+//    try {
+//      while (rs.next()) {
+//
+//        /**
+//         * Read the data from the result set and add it to the list.
+//         * list.add(new Document(....);
+//          */
+//      }
+//    } catch (SQLException ex) {
+//      Logger.getLogger(RegisterNewBookController.class.getName()).log(Level.SEVERE, null, ex);
+//    }
+//
+//    tableView.setItems(list);
   }
 }

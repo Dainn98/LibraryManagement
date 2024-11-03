@@ -7,7 +7,7 @@ The Library Management Application is a comprehensive solution designed to manag
 - **User Registration and Authentication**: Secure user registration and login functionality.
 - **Book Management**: Add, update, delete, and search for books.
 - **User Management**: Manage user information, including adding, updating, and deleting users.
-- **Transaction Management**: Handle book issues, returns, and renewals.
+- **Transaction Management**: Handle document issues, returns, and renewals.
 - **Reporting and Analytics**: Generate reports and analyze library data.
 - **User-Friendly UI**: Intuitive and responsive interface built with JavaFX.
 

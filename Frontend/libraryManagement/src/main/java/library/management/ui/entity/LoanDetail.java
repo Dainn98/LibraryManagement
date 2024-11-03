@@ -1,4 +1,4 @@
-package library.management.entity;
+package library.management.ui.entity;
 
 public class LoanDetail {
     private int STT;

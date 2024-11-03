@@ -1,7 +1,7 @@
-package library.management.test;
+package library.management.ui.test;
 
-import library.management.DAO.LanguageDAO;
-import library.management.entity.Language;
+import library.management.ui.DAO.LanguageDAO;
+import library.management.ui.entity.Language;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class TestLanguage {
         language.setLgName(lgName);
 
         // Gọi phương thức thêm ngôn ngữ từ LanguageDAO
-        if (LanguageDAO.getInstance().them(language) > 0) {
+        if (LanguageDAO.getInstance().add(language) > 0) {
             System.out.println("Thêm ngôn ngữ thành công!");
         } else {
             System.out.println("Thêm ngôn ngữ thất bại!");
@@ -29,7 +29,7 @@ public class TestLanguage {
         Language language = new Language(lgID);
 
         // Gọi phương thức xóa ngôn ngữ từ LanguageDAO
-        if (LanguageDAO.getInstance().xoa(language) > 0) {
+        if (LanguageDAO.getInstance().delete(language) > 0) {
             System.out.println("Xóa ngôn ngữ thành công!");
         } else {
             System.out.println("Xóa ngôn ngữ thất bại!");
@@ -44,7 +44,7 @@ public class TestLanguage {
         Language language = new Language(lgID, lgName);
 
         // Gọi phương thức cập nhật ngôn ngữ từ LanguageDAO
-        if (LanguageDAO.getInstance().capNhat(language) > 0) {
+        if (LanguageDAO.getInstance().update(language) > 0) {
             System.out.println("Cập nhật ngôn ngữ thành công!");
         } else {
             System.out.println("Cập nhật ngôn ngữ thất bại!");

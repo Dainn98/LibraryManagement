@@ -1,4 +1,4 @@
-package library.management.entity;
+package library.management.ui.entity;
 
 public class Manager {
     private String managerName;

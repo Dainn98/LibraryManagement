@@ -170,7 +170,7 @@ public class MainController implements Initializable, AbstractUI {
   protected TableColumn bookIssueColumnRegisteredStudents;
 
   /**
-   * Manage Book Loans UI.
+   * Manage Document Loans UI.
    */
   @FXML
   protected VBox manageBookLoansVBox;

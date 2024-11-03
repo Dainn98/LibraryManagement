@@ -1,4 +1,4 @@
-package library.management.entity;
+package library.management.ui.entity;
 
 public class User {
     private int STT;

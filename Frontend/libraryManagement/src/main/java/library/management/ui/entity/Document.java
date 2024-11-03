@@ -1,8 +1,8 @@
-package library.management.entity;
+package library.management.ui.entity;
 
-public class Book {
+public class Document {
     private int STT;
-    private String bookId;
+    private String documentID;
     private String genrId;
     private String publisher;
     private String lgId;
@@ -13,12 +13,12 @@ public class Book {
     private String addDate;
     private double price;
 
-    public String getBookId() {
-        return bookId;
+    public String getDocumentID() {
+        return documentID;
     }
 
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
     }
 
     public String getGenrId() {
@@ -101,17 +101,17 @@ public class Book {
         this.STT = STT;
     }
 
-    public Book() {
+    public Document() {
         super();
     }
 
-    public Book(String bookId) {
+    public Document(String documentID) {
         super();
-        this.bookId = bookId;
+        this.documentID = documentID;
     }
 
-    public Book(String bookId, String genrId, String publisher, String lgId, String title, String author, int quantity, int availableCopies, String addDate, double price) {
-        this.bookId = bookId;
+    public Document(String documentID, String genrId, String publisher, String lgId, String title, String author, int quantity, int availableCopies, String addDate, double price) {
+        this.documentID = documentID;
         this.genrId = genrId;
         this.publisher = publisher;
         this.lgId = lgId;
@@ -123,7 +123,7 @@ public class Book {
         this.price = price;
     }
 
-    public Book(String genrId, String publisher, String lgId, String title, String author, int quantity, int availableCopies, String addDate, double price) {
+    public Document(String genrId, String publisher, String lgId, String title, String author, int quantity, int availableCopies, String addDate, double price) {
         super();
         this.genrId = genrId;
         this.publisher = publisher;

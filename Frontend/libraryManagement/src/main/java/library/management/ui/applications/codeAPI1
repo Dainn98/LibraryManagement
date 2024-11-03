@@ -45,8 +45,8 @@ public class GoogleBooksAPIExample {
 
             // Duyệt qua từng cuốn sách trong kết quả
             for (int i = 0; i < items.size(); i++) {
-                JsonObject book = items.get(i).getAsJsonObject();
-                JsonObject volumeInfo = book.getAsJsonObject("volumeInfo");
+                JsonObject document = items.get(i).getAsJsonObject();
+                JsonObject volumeInfo = document.getAsJsonObject("volumeInfo");
 
                 // Lấy thông tin tiêu đề
                 String title = volumeInfo.has("title") ? volumeInfo.get("title").getAsString() : "No title available";

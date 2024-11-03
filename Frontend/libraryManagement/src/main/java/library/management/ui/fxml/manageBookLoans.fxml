@@ -16,7 +16,7 @@
       <ComboBox fx:id="studentIdComboBox" promptText="Enter the student code here" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
       <Label text="Book ID" GridPane.rowIndex="1"/>
-      <TextField fx:id="bookIdTextField" promptText="Enter the book code here" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+      <TextField fx:id="bookIdTextField" promptText="Enter the document code here" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
       <Button text="Issue Book" GridPane.rowIndex="2" GridPane.columnIndex="1" style="-fx-background-color: #333; -fx-text-fill: white;"/>
     </GridPane>
@@ -26,7 +26,7 @@
     <Label text="Return a Book" style="-fx-font-weight: bold;"/>
     <GridPane hgap="10" vgap="10">
       <Label text="Book ID"/>
-      <TextField fx:id="returnBookIdTextField" promptText="Enter the book code here" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+      <TextField fx:id="returnBookIdTextField" promptText="Enter the document code here" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
       <Button text="Return Book" GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-background-color: #333; -fx-text-fill: white;"/>
     </GridPane>

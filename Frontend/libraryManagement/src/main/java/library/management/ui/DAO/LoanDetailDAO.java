@@ -1,7 +1,7 @@
-package library.management.DAO;
+package library.management.ui.DAO;
 
-import library.management.database.KetNoiCSDL;
-import library.management.entity.LoanDetail;
+import library.management.ui.database.databaseConnection;
+import library.management.ui.entity.LoanDetail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,8 +19,8 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
     }
 
     @Override
-    public int them(LoanDetail loanDetail) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int add(LoanDetail loanDetail) {
+        Connection con = databaseConnection.getConnection();
         String query = "INSERT INTO loandetail (loanId, bookId, quantity) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, loanDetail.getLoanId());
@@ -36,8 +36,8 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
     }
 
     @Override
-    public int xoa(LoanDetail loanDetail) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int delete(LoanDetail loanDetail) {
+        Connection con = databaseConnection.getConnection();
         String query = "DELETE FROM loandetail WHERE loanDetailID = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, loanDetail.getLoanDetailID());
@@ -51,8 +51,8 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
     }
 
     @Override
-    public int capNhat(LoanDetail loanDetail) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int update(LoanDetail loanDetail) {
+        Connection con = databaseConnection.getConnection();
         String query = "UPDATE loandetail SET loanId = ?, bookId = ?, quantity = ? WHERE loanDetailID = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, loanDetail.getLoanId());
@@ -69,7 +69,7 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
     }
 
     public List<LoanDetail> layTatCa() {
-        Connection con = KetNoiCSDL.getConnection();
+        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM loandetail";
         List<LoanDetail> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query);
@@ -92,7 +92,7 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
     }
 
     public LoanDetail layTheoId(int STT) {
-        Connection con = KetNoiCSDL.getConnection();
+        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM loandetail WHERE STT = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, STT);

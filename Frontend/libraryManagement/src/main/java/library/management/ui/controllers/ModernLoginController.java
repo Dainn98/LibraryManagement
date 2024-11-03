@@ -1,4 +1,4 @@
-package library.management.ui.applications;
+package library.management.ui.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import library.management.ui.controllers.GeneralController;
 
 public class ModernLoginController extends GeneralController implements Initializable {
 

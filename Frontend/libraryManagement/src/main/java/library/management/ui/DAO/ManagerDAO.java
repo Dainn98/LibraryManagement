@@ -1,7 +1,7 @@
-package library.management.DAO;
+package library.management.ui.DAO;
 
-import library.management.database.KetNoiCSDL;
-import library.management.entity.Manager;
+import library.management.ui.database.databaseConnection;
+import library.management.ui.entity.Manager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,8 +16,8 @@ public class ManagerDAO implements DAOInterface<Manager> {
     }
 
     @Override
-    public int them(Manager manager) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int add(Manager manager) {
+        Connection con = databaseConnection.getConnection();
         String query = "INSERT INTO manager (managerName, password, position, email) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, manager.getManagerName());
@@ -33,8 +33,8 @@ public class ManagerDAO implements DAOInterface<Manager> {
     }
 
     @Override
-    public int xoa(Manager manager) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int delete(Manager manager) {
+        Connection con = databaseConnection.getConnection();
         String query = "DELETE FROM manager WHERE managerID = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, manager.getManagerID());
@@ -48,8 +48,8 @@ public class ManagerDAO implements DAOInterface<Manager> {
     }
 
     @Override
-    public int capNhat(Manager manager) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int update(Manager manager) {
+        Connection con = databaseConnection.getConnection();
         String query = "UPDATE manager SET managerName = ?, password = ?, position = ?, email = ? WHERE managerID = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, manager.getManagerName());
@@ -67,7 +67,7 @@ public class ManagerDAO implements DAOInterface<Manager> {
     }
 
     public boolean checkManager(String managerName, String password) {
-        Connection con = KetNoiCSDL.getConnection();
+        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM manager WHERE managerName = ? AND password = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, managerName);

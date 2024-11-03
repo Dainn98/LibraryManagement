@@ -1,7 +1,7 @@
-package library.management.test;
+package library.management.ui.test;
 
-import library.management.DAO.UserDAO;
-import library.management.entity.User;
+import library.management.ui.DAO.UserDAO;
+import library.management.ui.entity.User;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public class TestUser {
     public static void addUser() {
         User user = new User("John Doe", "123 Main St", "1234567890", "0987654321", "johndoe@example.com", "Gold");
 
-        if (UserDAO.getInstance().them(user) > 0) {
+        if (UserDAO.getInstance().add(user) > 0) {
             System.out.println("Thêm người dùng thành công!");
         } else {
             System.out.println("Thêm người dùng thất bại!");
@@ -21,7 +21,7 @@ public class TestUser {
         User user = new User();
         user.setUserId("USER11");
 
-        if (UserDAO.getInstance().xoa(user) > 0) {
+        if (UserDAO.getInstance().delete(user) > 0) {
             System.out.println("Xóa người dùng thành công!");
         } else {
             System.out.println("Xóa người dùng thất bại!");
@@ -31,7 +31,7 @@ public class TestUser {
     public static void updateUser() {
         User user = new User("USER11", "thien", "456 Elm St", "987654321012", "0123456789", "janedoe@example.com", "Platinum");
 
-        if (UserDAO.getInstance().capNhat(user) > 0) {
+        if (UserDAO.getInstance().update(user) > 0) {
             System.out.println("Cập nhật người dùng thành công!");
         } else {
             System.out.println("Cập nhật người dùng thất bại!");

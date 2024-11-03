@@ -1,7 +1,7 @@
-package library.management.test;
+package library.management.ui.test;
 
-import library.management.DAO.LoanDAO;
-import library.management.entity.Loan;
+import library.management.ui.DAO.LoanDAO;
+import library.management.ui.entity.Loan;
 
 import java.util.Date;
 import java.util.List;
@@ -11,7 +11,7 @@ public class TestLoan {
     public static void addLoan() {
         Loan loan = new Loan("USER1", (short)2, 1000.0, new Date(), new Date());
 
-        if (LoanDAO.getInstance().them(loan) > 0) {
+        if (LoanDAO.getInstance().add(loan) > 0) {
             System.out.println("Thêm khoản vay thành công!");
         } else {
             System.out.println("Thêm khoản vay thất bại!");
@@ -22,7 +22,7 @@ public class TestLoan {
         Loan loan = new Loan();
         loan.setLoanID("LOAN12");
 
-        if (LoanDAO.getInstance().xoa(loan) > 0) {
+        if (LoanDAO.getInstance().delete(loan) > 0) {
             System.out.println("Xóa khoản vay thành công!");
         } else {
             System.out.println("Xóa khoản vay thất bại!");
@@ -32,7 +32,7 @@ public class TestLoan {
     public static void updateLoan() {
         Loan loan = new Loan("USER2", (short)3, 1500.0, new Date(), new Date(), "LOAN13");
 
-        if (LoanDAO.getInstance().capNhat(loan) > 0) {
+        if (LoanDAO.getInstance().update(loan) > 0) {
             System.out.println("Cập nhật khoản vay thành công!");
         } else {
             System.out.println("Cập nhật khoản vay thất bại!");

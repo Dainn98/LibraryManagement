@@ -1,6 +1,6 @@
-package library.management.entity;
+package library.management.ui.entity;
 
-public class GenreBook {
+public class Genre {
     private int STT;
     private String tag;
     private String genreID;
@@ -25,7 +25,7 @@ public class GenreBook {
         return tag;
     }
 
-    public GenreBook(String genreID) {
+    public Genre(String genreID) {
         this.genreID = genreID;
     }
 
@@ -33,10 +33,10 @@ public class GenreBook {
         this.tag = tag;
     }
 
-    public GenreBook() {
+    public Genre() {
     }
 
-    public GenreBook(String genreID, String tag) {
+    public Genre(String genreID, String tag) {
         this.genreID = genreID;
         this.tag = tag;
     }

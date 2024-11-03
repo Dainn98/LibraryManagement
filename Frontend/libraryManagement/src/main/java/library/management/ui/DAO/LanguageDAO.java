@@ -1,7 +1,7 @@
-package library.management.DAO;
+package library.management.ui.DAO;
 
-import library.management.database.KetNoiCSDL;
-import library.management.entity.Language;
+import library.management.ui.database.databaseConnection;
+import library.management.ui.entity.Language;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,8 +19,8 @@ public class LanguageDAO implements DAOInterface<Language> {
     }
 
     @Override
-    public int them(Language language) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int add(Language language) {
+        Connection con = databaseConnection.getConnection();
         String query = "INSERT INTO language (lgName) VALUES (?)";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, language.getLgName()); // lgName là tên ngôn ngữ
@@ -34,8 +34,8 @@ public class LanguageDAO implements DAOInterface<Language> {
     }
 
     @Override
-    public int xoa(Language language) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int delete(Language language) {
+        Connection con = databaseConnection.getConnection();
         String query = "DELETE FROM language WHERE lgID = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, language.getLgID()); // lgID là mã ngôn ngữ để xác định bản ghi cần xóa
@@ -49,8 +49,8 @@ public class LanguageDAO implements DAOInterface<Language> {
     }
 
     @Override
-    public int capNhat(Language language) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int update(Language language) {
+        Connection con = databaseConnection.getConnection();
         String query = "UPDATE language SET lgName = ? WHERE lgID = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, language.getLgName()); // Cập nhật tên ngôn ngữ
@@ -65,7 +65,7 @@ public class LanguageDAO implements DAOInterface<Language> {
     }
 
     public List<Language> layTatCa() {
-        Connection con = KetNoiCSDL.getConnection();
+        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM language";
         List<Language> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query);
@@ -86,7 +86,7 @@ public class LanguageDAO implements DAOInterface<Language> {
     }
 
     public Language layTheoId(int STT) {
-        Connection con = KetNoiCSDL.getConnection();
+        Connection con = databaseConnection.getConnection();
         String query = "SELECT * FROM language WHERE STT = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, STT);

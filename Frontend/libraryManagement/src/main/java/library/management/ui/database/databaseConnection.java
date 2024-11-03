@@ -1,11 +1,11 @@
-package library.management.database;
+package library.management.ui.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class KetNoiCSDL {
-    private KetNoiCSDL() {
+public class databaseConnection {
+    private databaseConnection() {
         // Đảm bảo lớp không thể bị khởi tạo từ bên ngoài
     }
 

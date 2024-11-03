@@ -15,6 +15,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.33</version> <!-- Hoặc phiên bản mới nhất -->
+    </dependency>
+    <dependency>
       <groupId>de.jensd</groupId>
       <artifactId>fontawesomefx-fontawesome</artifactId>
       <version>4.7.0-9.1.2</version>
@@ -114,7 +119,7 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-    <!--Google Book API-->
+    <!--Google Document API-->
     <dependency>
       <groupId>com.google.api-client</groupId>
       <artifactId>google-api-client</artifactId>

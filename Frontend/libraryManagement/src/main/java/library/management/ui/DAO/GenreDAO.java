@@ -1,7 +1,7 @@
-package library.management.DAO;
+package library.management.ui.DAO;
 
-import library.management.database.KetNoiCSDL;
-import library.management.entity.GenreBook;
+import library.management.ui.database.databaseConnection;
+import library.management.ui.entity.Genre;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,20 +10,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenreBookDAO implements DAOInterface<GenreBook> {
+public class GenreDAO implements DAOInterface<Genre> {
 
-    private GenreBookDAO() {}
+    private GenreDAO() {}
 
-    public static GenreBookDAO getInstance() {
-        return new GenreBookDAO();
+    public static GenreDAO getInstance() {
+        return new GenreDAO();
     }
 
     @Override
-    public int them(GenreBook genreBook) {
-        Connection con = KetNoiCSDL.getConnection();
-        String query = "INSERT INTO genrebook (tag) VALUES (?)";
+    public int add(Genre genre) {
+        Connection con = databaseConnection.getConnection();
+        String query = "INSERT INTO genre (tag) VALUES (?)";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, genreBook.getTag()); // tag là tên thể loại
+            stmt.setString(1, genre.getTag()); // tag là tên thể loại
 
             int rowsInserted = stmt.executeUpdate(); // Thực thi lệnh và lấy số dòng đã chèn
             return rowsInserted;
@@ -34,11 +34,11 @@ public class GenreBookDAO implements DAOInterface<GenreBook> {
     }
 
     @Override
-    public int xoa(GenreBook genreBook) {
-        Connection con = KetNoiCSDL.getConnection();
-        String query = "DELETE FROM genrebook WHERE genreID = ?";
+    public int delete(Genre genre) {
+        Connection con = databaseConnection.getConnection();
+        String query = "DELETE FROM genre WHERE genreID = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, genreBook.getGenreID()); // STT là khóa chính
+            stmt.setString(1, genre.getGenreID()); // STT là khóa chính
 
             int rowsDeleted = stmt.executeUpdate(); // Thực thi lệnh và lấy số dòng đã xóa
             return rowsDeleted;
@@ -49,12 +49,12 @@ public class GenreBookDAO implements DAOInterface<GenreBook> {
     }
 
     @Override
-    public int capNhat(GenreBook genreBook) {
-        Connection con = KetNoiCSDL.getConnection();
-        String query = "UPDATE genrebook SET tag = ? WHERE genreID = ?";
+    public int update(Genre genre) {
+        Connection con = databaseConnection.getConnection();
+        String query = "UPDATE genre SET tag = ? WHERE genreID = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, genreBook.getTag()); // Cập nhật tag
-            stmt.setString(2, genreBook.getGenreID()); // Cập nhật genreID
+            stmt.setString(1, genre.getTag()); // Cập nhật tag
+            stmt.setString(2, genre.getGenreID()); // Cập nhật genreID
 
             int rowsUpdated = stmt.executeUpdate(); // Thực thi lệnh và lấy số dòng đã cập nhật
             return rowsUpdated;
@@ -64,20 +64,20 @@ public class GenreBookDAO implements DAOInterface<GenreBook> {
         return 0; // Trả về 0 nếu cập nhật thất bại
     }
 
-    public List<GenreBook> layTatCa() {
-        Connection con = KetNoiCSDL.getConnection();
-        String query = "SELECT * FROM genrebook";
-        List<GenreBook> list = new ArrayList<>();
+    public List<Genre> layTatCa() {
+        Connection con = databaseConnection.getConnection();
+        String query = "SELECT * FROM genre";
+        List<Genre> list = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                GenreBook genreBook = new GenreBook();
-                genreBook.setSTT(rs.getInt("STT"));
-                genreBook.setTag(rs.getString("tag"));
-                genreBook.setGenreID(rs.getString("genreID"));
+                Genre genre = new Genre();
+                genre.setSTT(rs.getInt("STT"));
+                genre.setTag(rs.getString("tag"));
+                genre.setGenreID(rs.getString("genreID"));
 
-                list.add(genreBook); // Thêm đối tượng vào danh sách
+                list.add(genre); // Thêm đối tượng vào danh sách
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Xử lý ngoại lệ SQL
@@ -85,20 +85,20 @@ public class GenreBookDAO implements DAOInterface<GenreBook> {
         return list; // Trả về danh sách các thể loại sách
     }
 
-    public GenreBook layTheoId(int STT) {
-        Connection con = KetNoiCSDL.getConnection();
-        String query = "SELECT * FROM genrebook WHERE STT = ?";
+    public Genre layTheoId(int STT) {
+        Connection con = databaseConnection.getConnection();
+        String query = "SELECT * FROM genre WHERE STT = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, STT);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                GenreBook genreBook = new GenreBook();
-                genreBook.setSTT(rs.getInt("STT"));
-                genreBook.setTag(rs.getString("tag"));
-                genreBook.setGenreID(rs.getString("genreID"));
+                Genre genre = new Genre();
+                genre.setSTT(rs.getInt("STT"));
+                genre.setTag(rs.getString("tag"));
+                genre.setGenreID(rs.getString("genreID"));
 
-                return genreBook; // Trả về thể loại sách theo ID
+                return genre; // Trả về thể loại sách theo ID
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Xử lý ngoại lệ SQL

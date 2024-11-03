@@ -36,7 +36,7 @@
                         <Label text="Title Of Book" />
                      </buttons>
                   </ButtonBar>
-                  <TextField id="titleField" prefHeight="30.0" prefWidth="571.0" promptText="Enter the title of the book here..." HBox.hgrow="ALWAYS" />
+                  <TextField id="titleField" prefHeight="30.0" prefWidth="571.0" promptText="Enter the title of the document here..." HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
@@ -46,7 +46,7 @@
                         <Label text="Author Name" />
                      </buttons>
                   </ButtonBar>
-                  <TextField id="authorField" promptText="Enter the name of author for the book here..." HBox.hgrow="ALWAYS" />
+                  <TextField id="authorField" promptText="Enter the name of author for the document here..." HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
@@ -56,7 +56,7 @@
                         <Label text="Description of Book" />
                      </buttons>
                   </ButtonBar>
-                  <TextArea prefWidth="626.0" promptText="Enter few lines about the book here" HBox.hgrow="ALWAYS" />
+                  <TextArea prefWidth="626.0" promptText="Enter few lines about the document here" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">

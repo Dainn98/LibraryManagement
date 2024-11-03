@@ -209,7 +209,7 @@
                                     <Label text="Title Of Book" />
                                  </buttons>
                               </ButtonBar>
-                              <TextField id="titleField" fx:id="titleOfBookField" prefHeight="30.0" prefWidth="571.0" promptText="Enter the title of the book here..." HBox.hgrow="ALWAYS" />
+                              <TextField id="titleField" fx:id="titleOfBookField" prefHeight="30.0" prefWidth="571.0" promptText="Enter the title of the document here..." HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
@@ -219,7 +219,7 @@
                                     <Label text="Author Name" />
                                  </buttons>
                               </ButtonBar>
-                              <TextField id="authorField" fx:id="authorNameField" promptText="Enter the name of author for the book here..." HBox.hgrow="ALWAYS" />
+                              <TextField id="authorField" fx:id="authorNameField" promptText="Enter the name of author for the document here..." HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
@@ -229,7 +229,7 @@
                                     <Label text="Description of Book" />
                                  </buttons>
                               </ButtonBar>
-                              <TextArea fx:id="descriptionField" prefWidth="626.0" promptText="Enter few lines about the book here" HBox.hgrow="ALWAYS" />
+                              <TextArea fx:id="descriptionField" prefWidth="626.0" promptText="Enter few lines about the document here" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
@@ -382,7 +382,7 @@
                                     <Label prefWidth="100.0" text="Student ID" />
                                     <ComboBox fx:id="studentIdComboBoxManageBookLoans" prefHeight="26.0" prefWidth="362.0" promptText="Enter the student code here" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                                     <Label prefHeight="20.0" prefWidth="100.0" text="Book ID" GridPane.rowIndex="1" />
-                                    <TextField fx:id="bookIdTextFieldManageBookLoans" promptText="Enter the book code here" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="bookIdTextFieldManageBookLoans" promptText="Enter the document code here" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <Button onAction="#handleIssueBookButton" style="-fx-background-color: #333; -fx-text-fill: white;" text="Issue Book" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                  </children>
                                  <columnConstraints>
@@ -403,7 +403,7 @@
                               <GridPane hgap="10" vgap="10" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Label prefHeight="20.0" prefWidth="100.0" text="Book ID" />
-                                    <TextField fx:id="returnBookIdTextFieldManageBookLoans" prefHeight="26.0" prefWidth="311.0" promptText="Enter the book code here" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                    <TextField fx:id="returnBookIdTextFieldManageBookLoans" prefHeight="26.0" prefWidth="311.0" promptText="Enter the document code here" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                                     <Button onAction="#handlerReturnBook" style="-fx-background-color: #333; -fx-text-fill: white;" text="Return Book" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                  </children>
                                  <columnConstraints>

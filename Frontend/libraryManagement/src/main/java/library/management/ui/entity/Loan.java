@@ -1,4 +1,4 @@
-package library.management.entity;
+package library.management.ui.entity;
 
 import java.util.Date;
 

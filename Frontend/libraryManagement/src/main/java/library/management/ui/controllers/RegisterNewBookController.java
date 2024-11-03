@@ -10,9 +10,9 @@ public class RegisterNewBookController {
       TextField numberOfIssueField) {
 
     Alert alert = new Alert(AlertType.INFORMATION);
-    alert.setTitle("Book Added");
+    alert.setTitle("Document Added");
     alert.setHeaderText(null);
-    alert.setContentText("Book has been added successfully!");
+    alert.setContentText("Document has been added successfully!");
     String title = titleOfBookField.getText();
     String author = authorNameField.getText();
     String publisher = publisherNameField.getText();
