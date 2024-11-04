@@ -22,6 +22,3 @@ The Library Management Application is a comprehensive solution designed to manag
 - **Nguyễn Đức Anh** - Student ID: 23020007
 - **Đào Nắng Dịu** - Student ID: 23020022
 - **Phạm Đức Thiện** - Student ID: 23020160
-
-Make a change to the README.md file to trigger a new build.
-
