@@ -1,7 +1,7 @@
-package library.management.ui.DAO;
+package library.management.data.DAO;
 
-import library.management.ui.database.DatabaseConnection;
-import library.management.ui.entity.Language;
+import library.management.data.database.DatabaseConnection;
+import library.management.data.entity.Genre;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,22 +10,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LanguageDAO implements DAOInterface<Language> {
+public class GenreDAO implements DAOInterface<Genre> {
 
-    private LanguageDAO() {}
+    private GenreDAO() {}
 
-    public static LanguageDAO getInstance() {
-        return new LanguageDAO();
+    public static GenreDAO getInstance() {
+        return new GenreDAO();
     }
 
-    // Thêm một ngôn ngữ vào cơ sở dữ liệu
+    // Thêm một thể loại vào cơ sở dữ liệu
     @Override
-    public int add(Language language) {
-        String query = "INSERT INTO language (lgName) VALUES (?)";
+    public int add(Genre genre) {
+        String query = "INSERT INTO genre (tag) VALUES (?)";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, language.getLgName());
+            stmt.setString(1, genre.getTag());
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted;
         } catch (SQLException e) {
@@ -34,14 +34,14 @@ public class LanguageDAO implements DAOInterface<Language> {
         return 0;
     }
 
-    // Xóa một ngôn ngữ khỏi cơ sở dữ liệu
+    // Xóa một thể loại khỏi cơ sở dữ liệu
     @Override
-    public int delete(Language language) {
-        String query = "DELETE FROM language WHERE lgID = ?";
+    public int delete(Genre genre) {
+        String query = "DELETE FROM genre WHERE genreID = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, language.getLgID());
+            stmt.setString(1, genre.getGenreID());
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {
@@ -50,15 +50,15 @@ public class LanguageDAO implements DAOInterface<Language> {
         return 0;
     }
 
-    // Cập nhật thông tin của một ngôn ngữ trong cơ sở dữ liệu
+    // Cập nhật thông tin của một thể loại trong cơ sở dữ liệu
     @Override
-    public int update(Language language) {
-        String query = "UPDATE language SET lgName = ? WHERE lgID = ?";
+    public int update(Genre genre) {
+        String query = "UPDATE genre SET tag = ? WHERE genreID = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, language.getLgName());
-            stmt.setString(2, language.getLgID());
+            stmt.setString(1, genre.getTag());
+            stmt.setString(2, genre.getGenreID());
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated;
         } catch (SQLException e) {
@@ -67,20 +67,20 @@ public class LanguageDAO implements DAOInterface<Language> {
         return 0;
     }
 
-    // Lấy danh sách tất cả các ngôn ngữ
-    public List<Language> layTatCa() {
-        String query = "SELECT * FROM language";
-        List<Language> list = new ArrayList<>();
+    // Lấy danh sách tất cả các thể loại
+    public List<Genre> layTatCa() {
+        String query = "SELECT * FROM genre";
+        List<Genre> list = new ArrayList<>();
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Language language = new Language();
-                language.setSTT(rs.getInt("STT"));
-                language.setLgName(rs.getString("lgName"));
-                language.setLgID(rs.getString("lgID"));
-                list.add(language);
+                Genre genre = new Genre();
+                genre.setSTT(rs.getInt("STT"));
+                genre.setTag(rs.getString("tag"));
+                genre.setGenreID(rs.getString("genreID"));
+                list.add(genre);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,21 +88,20 @@ public class LanguageDAO implements DAOInterface<Language> {
         return list;
     }
 
-    // Lấy thông tin ngôn ngữ theo STT
-    public Language layTheoId(int STT) {
-        String query = "SELECT * FROM language WHERE STT = ?";
+    // Lấy thông tin thể loại theo STT
+    public Genre layTheoId(int STT) {
+        String query = "SELECT * FROM genre WHERE STT = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setInt(1, STT);
-
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    Language language = new Language();
-                    language.setSTT(rs.getInt("STT"));
-                    language.setLgName(rs.getString("lgName"));
-                    language.setLgID(rs.getString("lgID"));
-                    return language;
+                    Genre genre = new Genre();
+                    genre.setSTT(rs.getInt("STT"));
+                    genre.setTag(rs.getString("tag"));
+                    genre.setGenreID(rs.getString("genreID"));
+                    return genre;
                 }
             }
         } catch (SQLException e) {

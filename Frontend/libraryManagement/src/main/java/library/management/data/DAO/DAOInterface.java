@@ -1,4 +1,4 @@
-package library.management.ui.DAO;
+package library.management.data.DAO;
 
 public interface DAOInterface<Item> {
     int add(Item item);

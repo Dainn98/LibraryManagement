@@ -1,7 +1,7 @@
-package library.management.ui.test;
+package library.management.data.test;
 
-import library.management.ui.DAO.LanguageDAO;
-import library.management.ui.entity.Language;
+import library.management.data.DAO.LanguageDAO;
+import library.management.data.entity.Language;
 
 import java.util.List;
 

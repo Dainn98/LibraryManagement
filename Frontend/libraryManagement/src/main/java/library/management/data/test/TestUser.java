@@ -1,7 +1,7 @@
-package library.management.ui.test;
+package library.management.data.test;
 
-import library.management.ui.DAO.UserDAO;
-import library.management.ui.entity.User;
+import library.management.data.DAO.UserDAO;
+import library.management.data.entity.User;
 
 import java.util.List;
 

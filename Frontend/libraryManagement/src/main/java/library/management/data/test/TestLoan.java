@@ -1,7 +1,7 @@
-package library.management.ui.test;
+package library.management.data.test;
 
-import library.management.ui.DAO.LoanDAO;
-import library.management.ui.entity.Loan;
+import library.management.data.DAO.LoanDAO;
+import library.management.data.entity.Loan;
 
 import java.util.Date;
 import java.util.List;

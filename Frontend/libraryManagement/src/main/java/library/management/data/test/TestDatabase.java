@@ -1,6 +1,6 @@
-package library.management.ui.test;
+package library.management.data.test;
 
-import library.management.ui.database.DatabaseConnection;
+import library.management.data.database.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;

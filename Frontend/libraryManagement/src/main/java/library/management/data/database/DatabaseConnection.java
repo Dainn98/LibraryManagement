@@ -1,4 +1,4 @@
-package library.management.ui.database;
+package library.management.data.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

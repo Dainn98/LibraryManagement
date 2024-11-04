@@ -1,7 +1,7 @@
-package library.management.ui.test;
+package library.management.data.test;
 
-import library.management.ui.DAO.ManagerDAO;
-import library.management.ui.entity.Manager;
+import library.management.data.DAO.ManagerDAO;
+import library.management.data.entity.Manager;
 
 public class TestManager {
     public static void addManager() {

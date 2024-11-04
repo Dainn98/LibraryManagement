@@ -1,7 +1,7 @@
-package library.management.ui.test;
+package library.management.data.test;
 
-import library.management.ui.DAO.LoanDetailDAO;
-import library.management.ui.entity.LoanDetail;
+import library.management.data.DAO.LoanDetailDAO;
+import library.management.data.entity.LoanDetail;
 
 import java.util.List;
 

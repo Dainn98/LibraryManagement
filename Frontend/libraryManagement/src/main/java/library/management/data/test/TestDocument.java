@@ -1,7 +1,7 @@
-package library.management.ui.test;
+package library.management.data.test;
 
-import library.management.ui.DAO.DocumentDAO;
-import library.management.ui.entity.Document;
+import library.management.data.DAO.DocumentDAO;
+import library.management.data.entity.Document;
 
 public class TestDocument {
     public static void addDocument() {

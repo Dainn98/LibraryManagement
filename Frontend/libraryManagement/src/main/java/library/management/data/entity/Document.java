@@ -1,4 +1,4 @@
-package library.management.ui.entity;
+package library.management.data.entity;
 
 public class Document {
     private int STT;

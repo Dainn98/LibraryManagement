@@ -1,7 +1,7 @@
-package library.management.ui.DAO;
+package library.management.data.DAO;
 
-import library.management.ui.database.DatabaseConnection;
-import library.management.ui.entity.Document;
+import library.management.data.database.DatabaseConnection;
+import library.management.data.entity.Document;
 
 import java.sql.Connection;
 import java.sql.Date;

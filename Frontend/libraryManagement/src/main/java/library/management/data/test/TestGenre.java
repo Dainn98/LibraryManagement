@@ -1,7 +1,7 @@
-package library.management.ui.test;
+package library.management.data.test;
 
-import library.management.ui.DAO.GenreDAO;
-import library.management.ui.entity.Genre;
+import library.management.data.DAO.GenreDAO;
+import library.management.data.entity.Genre;
 
 import java.util.List;
 

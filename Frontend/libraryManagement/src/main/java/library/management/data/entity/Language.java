@@ -1,4 +1,4 @@
-package library.management.ui.entity;
+package library.management.data.entity;
 
 public class Language {
     private int STT;          // STT là khóa chính

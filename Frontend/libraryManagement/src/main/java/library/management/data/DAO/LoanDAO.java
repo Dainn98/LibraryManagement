@@ -1,7 +1,7 @@
-package library.management.ui.DAO;
+package library.management.data.DAO;
 
-import library.management.ui.database.DatabaseConnection;
-import library.management.ui.entity.Loan;
+import library.management.data.database.DatabaseConnection;
+import library.management.data.entity.Loan;
 
 import java.sql.*;
 import java.util.ArrayList;
