@@ -164,15 +164,33 @@ public class RegisterController implements AbstractUI {
    * Validates the password format.
    */
   private boolean isValidPassword(String password) {
-    // Regex to check password criteria
-    String passwordRegex = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-\\[\\]{};':\"\\\\|,.<>/?])(?=.{6,})$";
-    if (!password.matches(passwordRegex)) {
+    if (password.length() < 6) {
       showAlertInformation("Invalid Password",
-          "The password must contain a minimum of six characters and include at least one alphabetic character, one numeric digit, and one special character.");
+              "The password must be at least six characters long.");
       return false;
     }
+
+    if (!password.matches(".*[a-zA-Z].*")) {
+      showAlertInformation("Invalid Password",
+              "The password must contain at least one alphabetic character.");
+      return false;
+    }
+
+    if (!password.matches(".*[0-9].*")) {
+      showAlertInformation("Invalid Password",
+              "The password must contain at least one numeric digit.");
+      return false;
+    }
+
+    if (!password.matches(".*[!@#$%^&*()_+\\-\\[\\]{};':\"\\\\|,.<>/?].*")) {
+      showAlertInformation("Invalid Password",
+              "The password must contain at least one special character.");
+      return false;
+    }
+
     return true;
   }
+
 
   /**
    * Sets the error message.

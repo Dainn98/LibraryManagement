@@ -2,16 +2,16 @@ package library.management.data.entity;
 
 public class Manager {
     private String managerName;
+    private String identityCard;
     private String password;
-    private String position;
     private String email;
     private String managerID;
     private int STT;
 
-    public Manager(String managerName, String password, String position, String email, String managerID) {
+    public Manager(String managerName, String password, String identityCard, String email, String managerID) {
         this.managerName = managerName;
+        this.identityCard = identityCard;
         this.password = password;
-        this.position = position;
         this.email = email;
         this.managerID = managerID;
     }
@@ -21,10 +21,10 @@ public class Manager {
         this.managerID = managerID;
     }
 
-    public Manager(String managerName, String password, String position, String email) {
+    public Manager(String managerName, String password, String identityCard, String email) {
         this.password = password;
+        this.identityCard = identityCard;
         this.managerName = managerName;
-        this.position = position;
         this.email = email;
     }
 
@@ -43,14 +43,6 @@ public class Manager {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
     }
 
     public String getEmail() {
@@ -75,5 +67,13 @@ public class Manager {
 
     public void setSTT(int STT) {
         this.STT = STT;
+    }
+
+    public String getIdentityCard() {
+        return identityCard;
+    }
+
+    public void setIdentityCard(String identityCard) {
+        this.identityCard = identityCard;
     }
 }
