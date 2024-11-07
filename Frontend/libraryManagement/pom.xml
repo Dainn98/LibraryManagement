@@ -19,6 +19,35 @@
       <artifactId>fontawesomefx-fontawesome</artifactId>
       <version>4.7.0-9.1.2</version>
     </dependency>
+<!--    JFXTRAS CONTROLS-->
+    <dependency>
+      <groupId>org.jfxtras</groupId>
+      <artifactId>jfxtras-controls</artifactId>
+      <version>8.0-r6</version>
+    </dependency>
+<!--    SimpleMetroArcGauge-->
+    <dependency>
+      <groupId>org.jfxtras</groupId>
+      <artifactId>jfxtras-gauge-linear</artifactId>
+      <version>17-r1</version>
+    </dependency>
+<!--MATERIAL-DESIGNFONT-->
+    <dependency>
+      <groupId>de.jensd</groupId>
+      <artifactId>fontawesomefx-materialdesignfont</artifactId>
+      <version>2.0.26-9.1.2</version>
+    </dependency>
+<!--    IKONLI-JAVAFX-->
+    <dependency>
+      <groupId>org.kordamp.ikonli</groupId>
+      <artifactId>ikonli-octicons-pack</artifactId>
+      <version>12.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kordamp.ikonli</groupId>
+      <artifactId>ikonli-javafx</artifactId>
+      <version>12.3.1</version>
+    </dependency>
 
     <dependency>
       <groupId>org.openjfx</groupId>
@@ -115,11 +144,13 @@
       <scope>test</scope>
     </dependency>
     <!--Google Book API-->
+
     <dependency>
       <groupId>com.google.api-client</groupId>
       <artifactId>google-api-client</artifactId>
       <version>1.32.1</version>
     </dependency>
+
     <dependency>
       <groupId>com.google.api-client</groupId>
       <artifactId>google-api-client-jackson2</artifactId>

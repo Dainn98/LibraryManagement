@@ -21,6 +21,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -368,6 +371,72 @@ public class MainController implements Initializable, AbstractUI {
   @FXML
   protected void handleFindStudentButton(ActionEvent actionEvent) {
     //To do in DashboardController
+  }
+
+  public void loadUpdateBook(ActionEvent actionEvent) {
+  }
+
+  public void DeleteBook(ActionEvent actionEvent) {
+  }
+
+  public void selectRecordsType(ActionEvent actionEvent) {
+  }
+
+  public void importData(ActionEvent actionEvent) {
+  }
+
+  public void cancel(ActionEvent actionEvent) {
+  }
+
+  public void saveStudent(ActionEvent actionEvent) {
+  }
+
+  public void deleteStudent(ActionEvent actionEvent) {
+  }
+
+  public void updateStudent(ActionEvent actionEvent) {
+  }
+
+  public void requestMenu(ContextMenuEvent contextMenuEvent) {
+  }
+
+  public void fetchStudentWithKey(KeyEvent event) {
+  }
+
+  public void deleteStudentRecord(ActionEvent actionEvent) {
+  }
+
+  public void deleteselectedStudents(ActionEvent actionEvent) {
+  }
+
+  public void minimize(MouseEvent mouseEvent) {
+  }
+
+  public void fullscreen(MouseEvent mouseEvent) {
+  }
+
+  public void unfullscreen(MouseEvent mouseEvent) {
+  }
+
+  public void close(MouseEvent mouseEvent) {
+  }
+
+  public void searchBook(KeyEvent event) {
+  }
+
+  public void loadBookDataentry(ActionEvent actionEvent) {
+  }
+
+  public void searchStudentDeatails(KeyEvent event) {
+  }
+
+  public void fetchStudentFeesDetails(MouseEvent mouseEvent) {
+  }
+
+  public void handleIssueDocSwitch(ActionEvent actionEvent) {
+  }
+
+  public void handleReturnDocSwitch(ActionEvent actionEvent) {
   }
 }
 
