@@ -13,7 +13,7 @@ public class main extends Application {
 
   private static final int SCREEN_WIDTH = 1080;
   private static final int SCREEN_HEIGHT = 600;
-  private static final String MAIN_SCREEN_SOURCES = "/ui/fxml/mainScreen.fxml";
+  private static final String MAIN_SCREEN_SOURCES = "/ui/fxml/main.fxml";
   private static final String MAIN_STYLE_SOURCES = "/ui/css/pastel-theme.css";
   private static final String MAIN_TITLE = "Library Management System";
 
@@ -40,10 +40,11 @@ public class main extends Application {
       primaryStage.show();
     } catch (IOException e) {
       System.err.println("Failed to load FXML file.");
-      e.printStackTrace();
+      System.err.println(e.getMessage());
+
     } catch (Exception e) {
       System.err.println("An unexpected error occurred.");
-      e.printStackTrace();
+      System.err.println(e.getMessage());
     }
   }
 }
