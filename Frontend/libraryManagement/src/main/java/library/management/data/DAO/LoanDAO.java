@@ -125,4 +125,20 @@ public class LoanDAO implements DAOInterface<Loan> {
         }
         return null;
     }
+
+    public int getTotalUsersWhoBorrowedBooks() {
+        String query = "SELECT COUNT(DISTINCT userId) FROM loans";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }

@@ -1,7 +1,6 @@
 module library.management{
     requires javafx.fxml;
     requires javafx.web;
-    requires transitive javafx.graphics;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
@@ -12,7 +11,6 @@ module library.management{
     requires com.almasb.fxgl.all;
     requires de.jensd.fx.glyphs.fontawesome;
     requires java.desktop;
-  requires javafx.controls;
     requires javafx.swing;
     requires com.jfoenix;
   requires com.google.gson;
@@ -31,5 +29,6 @@ module library.management{
   opens library.management to javafx.fxml, javafx.graphics;
 //  exports library.management.ui to javafx.fxml, javafx.graphics;
 //  opens library.management.ui to javafx.fxml, javafx.graphics;
-
+    opens library.management.data.entity to javafx.base, javafx.fxml;
+    exports library.management.data.entity;
 }

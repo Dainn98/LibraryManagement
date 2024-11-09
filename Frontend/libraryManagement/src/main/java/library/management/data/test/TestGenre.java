@@ -51,22 +51,6 @@ public class TestGenre {
         }
     }
 
-    public static void getAllGenres() {
-        // Lấy danh sách tất cả thể loại sách từ GenreDAO
-        List<Genre> Genres = GenreDAO.getInstance().layTatCa();
-
-        if (Genres != null && !Genres.isEmpty()) {
-            System.out.println("Danh sách thể loại sách:");
-            for (Genre Genre : Genres) {
-                System.out.println("STT: " + Genre.getSTT() +
-                        ", Tag: " + Genre.getTag() +
-                        ", GenreID: " + Genre.getGenreID());
-            }
-        } else {
-            System.out.println("Không có thể loại sách nào trong cơ sở dữ liệu.");
-        }
-    }
-
     public static void main(String[] args) {
         addGenre();
         updateGenre();

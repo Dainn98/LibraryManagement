@@ -15,8 +15,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
-import library.management.data.models.Documents.Document;
 import javafx.stage.Stage;
+import library.management.data.entity.Document;
 //import library.management.data.database.DatabaseHandler;
 
 public class LibraryCatalogController implements Initializable {

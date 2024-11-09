@@ -131,4 +131,20 @@ public class UserDAO implements DAOInterface<User> {
         }
         return null;
     }
+
+    public int getTotalUsersCount() {
+        String query = "SELECT COUNT(*) FROM user";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }

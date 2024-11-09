@@ -46,4 +46,9 @@ public class Language {
     public void setLgName(String lgName) {
         this.lgName = lgName;
     }
+
+    @Override
+    public String toString() {
+        return lgName;
+    }
 }

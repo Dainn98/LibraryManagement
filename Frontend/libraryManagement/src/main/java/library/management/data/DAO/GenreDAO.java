@@ -67,46 +67,42 @@ public class GenreDAO implements DAOInterface<Genre> {
         return 0;
     }
 
-    // Lấy danh sách tất cả các thể loại
-    public List<Genre> layTatCa() {
-        String query = "SELECT * FROM genre";
-        List<Genre> list = new ArrayList<>();
+    public List<String> getAllTags() {
+        List<String> tags = new ArrayList<>();
+        String query = "SELECT tag FROM genre";
+
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Genre genre = new Genre();
-                genre.setSTT(rs.getInt("STT"));
-                genre.setTag(rs.getString("tag"));
-                genre.setGenreID(rs.getString("genreID"));
-                list.add(genre);
+                tags.add(rs.getString("tag"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return list;
+
+        return tags;
     }
 
-    // Lấy thông tin thể loại theo STT
-    public Genre layTheoId(int STT) {
-        String query = "SELECT * FROM genre WHERE STT = ?";
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
+    public List<Genre> getGenreList() {
+        List<Genre> genres = new ArrayList<>();
+        String query = "SELECT genreID, tag FROM genre";
 
-            stmt.setInt(1, STT);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    Genre genre = new Genre();
-                    genre.setSTT(rs.getInt("STT"));
-                    genre.setTag(rs.getString("tag"));
-                    genre.setGenreID(rs.getString("genreID"));
-                    return genre;
-                }
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                String genreID = rs.getString("genreID");
+                String tag = rs.getString("tag");
+                Genre genre = new Genre(genreID, tag);
+                genres.add(genre);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+
+        return genres;
     }
 }

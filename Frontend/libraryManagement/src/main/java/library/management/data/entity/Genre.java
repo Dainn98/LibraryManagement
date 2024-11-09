@@ -40,4 +40,9 @@ public class Genre {
         this.genreID = genreID;
         this.tag = tag;
     }
+
+    @Override
+    public String toString() {
+        return tag;
+    }
 }

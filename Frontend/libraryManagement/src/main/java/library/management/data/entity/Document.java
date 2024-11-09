@@ -8,10 +8,61 @@ public class Document {
     private String lgId;
     private String title;
     private String author;
+    private String isbn;
     private int quantity;
     private int availableCopies;
     private String addDate;
     private double price;
+    private String description;
+
+    public Document() {
+        super();
+    }
+
+    public Document(String documentID) {
+        super();
+        this.documentID = documentID;
+    }
+
+    public Document(String documentID, String genrId, String publisher, String lgId, String title,
+                    String author, String isbn, int quantity, int availableCopies, String addDate, double price, String description) {
+        this.documentID = documentID;
+        this.genrId = genrId;
+        this.publisher = publisher;
+        this.lgId = lgId;
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.quantity = quantity;
+        this.availableCopies = availableCopies;
+        this.addDate = addDate;
+        this.price = price;
+        this.description = description;
+    }
+
+    public Document(String genrId, String publisher, String lgId, String title,
+                    String author, String isbn, int quantity, int availableCopies, String addDate, double price, String description) {
+        super();
+        this.genrId = genrId;
+        this.publisher = publisher;
+        this.lgId = lgId;
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.quantity = quantity;
+        this.availableCopies = availableCopies;
+        this.addDate = addDate;
+        this.price = price;
+        this.description = description;
+    }
+
+    public int getSTT() {
+        return STT;
+    }
+
+    public void setSTT(int STT) {
+        this.STT = STT;
+    }
 
     public String getDocumentID() {
         return documentID;
@@ -61,6 +112,14 @@ public class Document {
         this.author = author;
     }
 
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -93,46 +152,11 @@ public class Document {
         this.price = price;
     }
 
-    public int getSTT() {
-        return STT;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSTT(int STT) {
-        this.STT = STT;
-    }
-
-    public Document() {
-        super();
-    }
-
-    public Document(String documentID) {
-        super();
-        this.documentID = documentID;
-    }
-
-    public Document(String documentID, String genrId, String publisher, String lgId, String title, String author, int quantity, int availableCopies, String addDate, double price) {
-        this.documentID = documentID;
-        this.genrId = genrId;
-        this.publisher = publisher;
-        this.lgId = lgId;
-        this.title = title;
-        this.author = author;
-        this.quantity = quantity;
-        this.availableCopies = availableCopies;
-        this.addDate = addDate;
-        this.price = price;
-    }
-
-    public Document(String genrId, String publisher, String lgId, String title, String author, int quantity, int availableCopies, String addDate, double price) {
-        super();
-        this.genrId = genrId;
-        this.publisher = publisher;
-        this.lgId = lgId;
-        this.title = title;
-        this.author = author;
-        this.quantity = quantity;
-        this.availableCopies = availableCopies;
-        this.addDate = addDate;
-        this.price = price;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

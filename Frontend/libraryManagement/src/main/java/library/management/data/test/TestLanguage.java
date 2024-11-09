@@ -51,22 +51,6 @@ public class TestLanguage {
         }
     }
 
-    public static void getAllLanguages() {
-        // Lấy danh sách tất cả ngôn ngữ từ LanguageDAO
-        List<Language> languages = LanguageDAO.getInstance().layTatCa();
-
-        if (languages != null && !languages.isEmpty()) {
-            System.out.println("Danh sách ngôn ngữ:");
-            for (Language language : languages) {
-                System.out.println("STT: " + language.getSTT() +
-                        ", lgName: " + language.getLgName() +
-                        ", lgID: " + language.getLgID());
-            }
-        } else {
-            System.out.println("Không có ngôn ngữ nào trong cơ sở dữ liệu.");
-        }
-    }
-
     public static void main(String[] args) {
         deleteLanguage();
 

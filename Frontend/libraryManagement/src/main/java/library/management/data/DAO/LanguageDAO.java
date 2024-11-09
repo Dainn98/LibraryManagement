@@ -67,47 +67,42 @@ public class LanguageDAO implements DAOInterface<Language> {
         return 0;
     }
 
-    // Lấy danh sách tất cả các ngôn ngữ
-    public List<Language> layTatCa() {
-        String query = "SELECT * FROM language";
-        List<Language> list = new ArrayList<>();
+    public List<String> getAllLanguages() {
+        List<String> languages = new ArrayList<>();
+        String query = "SELECT lgName FROM language";
+
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Language language = new Language();
-                language.setSTT(rs.getInt("STT"));
-                language.setLgName(rs.getString("lgName"));
-                language.setLgID(rs.getString("lgID"));
-                list.add(language);
+                languages.add(rs.getString("lgName"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return list;
+
+        return languages;
     }
 
-    // Lấy thông tin ngôn ngữ theo STT
-    public Language layTheoId(int STT) {
-        String query = "SELECT * FROM language WHERE STT = ?";
+    public List<Language> getLanguageList() {
+        List<Language> languageList = new ArrayList<>();
+        String query = "SELECT lgID, lgName FROM language";
+
         try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
 
-            stmt.setInt(1, STT);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    Language language = new Language();
-                    language.setSTT(rs.getInt("STT"));
-                    language.setLgName(rs.getString("lgName"));
-                    language.setLgID(rs.getString("lgID"));
-                    return language;
-                }
+            while (rs.next()) {
+                String lgID = rs.getString("lgID");
+                String lgName = rs.getString("lgName");
+                Language language = new Language(lgID, lgName);
+                languageList.add(language);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+
+        return languageList;
     }
 }
