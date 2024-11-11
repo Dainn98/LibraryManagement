@@ -83,7 +83,7 @@ private Stage getStage() {
    * Dịu làm phần này nha, thiết kế lớp DatabaseHandler và sử dụng nó để truy vấn dữ liệu từ cơ sở dữ liệu.
    */
   private void loadData() {
-//    list.clear();
+    list.clear();
 ////    DatabaseHandler handler = DatabaseHandler.getInstance();
 //    String qu = "SELECT * FROM BOOK";
 ////    ResultSet rs = handler.execQuery(qu);

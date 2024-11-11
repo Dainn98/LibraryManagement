@@ -1,4 +1,4 @@
-module library.management{
+module library.management {
     requires javafx.fxml;
     requires javafx.web;
 
@@ -13,20 +13,19 @@ module library.management{
     requires java.desktop;
     requires javafx.swing;
     requires com.jfoenix;
-  requires com.google.gson;
+    requires com.google.gson;
     requires com.zaxxer.hikari;
     requires java.sql;
-
     // Application
     opens library.management.ui.applications to javafx.graphics, javafx.fxml;
     exports library.management.ui.applications to javafx.graphics, javafx.fxml;
     //main
     opens library.management.ui to javafx.graphics, javafx.fxml;
     exports library.management.ui to javafx.graphics, javafx.fxml;
-  exports library.management.ui.controllers to javafx.fxml, javafx.graphics;
-  opens library.management.ui.controllers to javafx.fxml, javafx.graphics;
-  exports library.management to javafx.fxml, javafx.graphics;
-  opens library.management to javafx.fxml, javafx.graphics;
+    exports library.management.ui.controllers to javafx.fxml, javafx.graphics;
+    opens library.management.ui.controllers to javafx.fxml, javafx.graphics;
+    exports library.management to javafx.fxml, javafx.graphics;
+    opens library.management to javafx.fxml, javafx.graphics;
 //  exports library.management.ui to javafx.fxml, javafx.graphics;
 //  opens library.management.ui to javafx.fxml, javafx.graphics;
     opens library.management.data.entity to javafx.base, javafx.fxml;

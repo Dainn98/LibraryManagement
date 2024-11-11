@@ -513,7 +513,7 @@
 
                <BorderPane fx:id="studentsBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <top>
-                        <VBox BorderPane.alignment="CENTER">
+                        <VBox fx:id="findUserVBox" BorderPane.alignment="CENTER">
                            <children>
                               <VBox VBox.vgrow="ALWAYS">
                                  <children>
@@ -594,7 +594,7 @@
                         </TableView>
                      </center>
                      <right>
-                        <VBox prefHeight="528.0" prefWidth="352.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+                        <VBox fx:id="registerUserVBox" prefHeight="528.0" prefWidth="352.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                            <children>
                               <Label style="-fx-text-fill: #2b579a;" text="User information" VBox.vgrow="ALWAYS">
                                  <font>

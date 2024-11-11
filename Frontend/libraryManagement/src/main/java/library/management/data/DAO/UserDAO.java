@@ -80,7 +80,7 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     // Lấy danh sách tất cả người dùng
-    public List<User> layTatCa() {
+    public List<User> getAllUser() {
         String query = "SELECT * FROM user";
         List<User> list = new ArrayList<>();
         try (Connection con = DatabaseConnection.getConnection();

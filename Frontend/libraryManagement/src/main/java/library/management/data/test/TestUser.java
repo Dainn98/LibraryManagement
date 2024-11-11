@@ -39,7 +39,7 @@ public class TestUser {
     }
 
     public static void getAllUsers() {
-        List<User> users = UserDAO.getInstance().layTatCa();
+        List<User> users = UserDAO.getInstance().getAllUser();
 
         if (users != null && !users.isEmpty()) {
             System.out.println("Danh sách người dùng:");
@@ -59,8 +59,6 @@ public class TestUser {
     }
 
     public static void main(String[] args) {
-        addUser();
-        updateUser();
-        deleteUser();
+        getAllUsers();
     }
 }
