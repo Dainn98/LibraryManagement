@@ -299,6 +299,7 @@ public class MainController implements Initializable, AbstractUI {
    */
   @FXML
   private void handleAddBooks(ActionEvent actionEvent) {
+
     //Database
   }
 

@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
@@ -14,7 +15,7 @@ public class DatabaseConnection {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:mysql://localhost:3306/libdemo?useSSL=false&autoReconnect=true");
         config.setUsername("root");
-        config.setPassword("Pdthien432005~");
+        config.setPassword("20022005aB!");
 
         // Các cấu hình tối ưu cho HikariCP
         config.setMaximumPoolSize(10); // Số lượng kết nối tối đa trong bể
@@ -36,6 +37,23 @@ public class DatabaseConnection {
     public static void close() {
         if (dataSource != null && !dataSource.isClosed()) {
             dataSource.close();
+        }
+    }
+
+    // Phương thức để lưu thông tin sách vào cơ sở dữ liệu
+    public static void saveBook(String title, String authors, String description, String genre) {
+        String insertSQL = "INSERT INTO books (title, authors, description, genre) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
+            stmt.setString(1, title);
+            stmt.setString(2, authors);
+            stmt.setString(3, description);
+            stmt.setString(4, genre);
+            stmt.executeUpdate();
+            System.out.println("Book saved to database: " + title);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
