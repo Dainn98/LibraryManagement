@@ -14,13 +14,6 @@
     <junit.version>5.10.2</junit.version>  </properties>
 
   <dependencies>
-
-    <dependency>
-      <groupId>de.jensd</groupId>
-      <artifactId>fontawesomefx-materialdesignfont</artifactId>
-      <version>2.0.26-9.1.2</version>
-    </dependency>
-
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
@@ -39,17 +32,25 @@
       <version>8.0.33</version>
     </dependency>
 
+    <!--    &lt;!&ndash;    JFXTRAS CONTROLS&ndash;&gt;-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.jfxtras</groupId>-->
+    <!--      <artifactId>jfxtras-controls</artifactId>-->
+    <!--      <version>8.0-r6</version>-->
+    <!--    </dependency>-->
+    <!--    SimpleMetroArcGauge-->
+
     <dependency>
       <groupId>de.jensd</groupId>
       <artifactId>fontawesomefx-fontawesome</artifactId>
       <version>4.7.0-9.1.2</version>
     </dependency>
-    <!--    JFXTRAS CONTROLS-->
-    <dependency>
-      <groupId>org.jfxtras</groupId>
-      <artifactId>jfxtras-controls</artifactId>
-      <version>8.0-r6</version>
-    </dependency>
+<!--    &lt;!&ndash;    JFXTRAS CONTROLS&ndash;&gt;-->
+<!--    <dependency>-->
+<!--      <groupId>org.jfxtras</groupId>-->
+<!--      <artifactId>jfxtras-controls</artifactId>-->
+<!--      <version>8.0-r6</version>-->
+<!--    </dependency>-->
     <!--    SimpleMetroArcGauge-->
     <dependency>
       <groupId>org.jfxtras</groupId>
@@ -196,8 +197,22 @@
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>2.8.9</version>
+
+    </dependency>
+    <!--Charm-listen-->
+    <dependency>
+      <groupId>com.gluonhq</groupId>
+      <artifactId>charm-glisten</artifactId>
+      <version>6.0.6</version>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>gluon-releases</id>
+      <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
+    </repository>
+  </repositories>
 
   <build>
     <plugins>

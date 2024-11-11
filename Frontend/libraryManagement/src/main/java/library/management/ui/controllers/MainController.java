@@ -2,7 +2,6 @@ package library.management.ui.controllers;
 
 
 import static library.management.alert.AlertMaker.showAlertConfirmation;
-import static library.management.alert.AlertMaker.showAlertInformation;
 
 import java.io.IOException;
 import java.net.URL;
@@ -47,6 +46,8 @@ import library.management.data.entity.Genre;
 import library.management.data.entity.Language;
 import library.management.data.entity.User;
 import library.management.ui.AbstractUI;
+import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
+
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class MainController implements Initializable, AbstractUI {
@@ -94,6 +95,16 @@ public class MainController implements Initializable, AbstractUI {
     protected CategoryAxis xAxis;
     @FXML
     protected NumberAxis yAxis;
+    @FXML
+    protected SimpleMetroArcGauge allBooksGauge;
+    @FXML
+    protected SimpleMetroArcGauge remainingBooksGauge;
+    @FXML
+    protected SimpleMetroArcGauge issuedBooksGauge;
+    @FXML
+    protected SimpleMetroArcGauge allStudentsGauge;
+    @FXML
+    protected SimpleMetroArcGauge bookHoldersGauge;
 
     /**
      * Pending Approvals UI.
@@ -195,7 +206,7 @@ public class MainController implements Initializable, AbstractUI {
     @FXML
     protected TableView<User> userView;
     @FXML
-    protected TableColumn<User, Integer> checkUserView;
+    protected TableColumn checkUserView;
     @FXML
     protected TableColumn<User, String> userIDUserView;
     @FXML
@@ -219,13 +230,12 @@ public class MainController implements Initializable, AbstractUI {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loadBarchart();
+        loadDashBoardData();
         // students
         initUserViewCol();
     }
 
     public void initUserViewCol() {
-        checkUserView.setCellValueFactory(new PropertyValueFactory<>("STT"));
         userIDUserView.setCellValueFactory(new PropertyValueFactory<>("userId"));
         userNameUserView.setCellValueFactory(new PropertyValueFactory<>("userName"));
         userPhoneUserView.setCellValueFactory(new PropertyValueFactory<>("mobile"));
@@ -254,27 +264,42 @@ public class MainController implements Initializable, AbstractUI {
      */
     @FXML
     private void navigateToDashboardButton(ActionEvent actionEvent) {
+        loadDashBoardData();
         showSection(dashboardVBox);
     }
 
     /**
-     * init barchart data
+     * load dashboard data
      */
-    private void loadBarchart() {
+    private void loadDashBoardData() {
+        // load barchart
+        barchart.getData().clear();
         XYChart.Series<String, Number> documentInformation = new XYChart.Series<>();
         documentInformation.setName("Document information");
-        int quantity = DocumentDAO.getInstance().getTotalQuantity();
-        int remainingQuantity = DocumentDAO.getInstance().getTotalAvailableCopies();
-        documentInformation.getData().add(new XYChart.Data<>("All Documents", quantity));
-        documentInformation.getData().add(new XYChart.Data<>("Remaining Documents", remainingQuantity));
-        documentInformation.getData().add(new XYChart.Data<>("Issued Documents", quantity - remainingQuantity));
+        int bookQuantity = DocumentDAO.getInstance().getTotalQuantity();
+        int remainingBookQuantity = DocumentDAO.getInstance().getTotalAvailableCopies();
+        documentInformation.getData().add(new XYChart.Data<>("All Documents", bookQuantity));
+        documentInformation.getData().add(new XYChart.Data<>("Remaining Documents", remainingBookQuantity));
+        documentInformation.getData().add(new XYChart.Data<>("Issued Documents", bookQuantity - remainingBookQuantity));
         XYChart.Series<String, Number> studentInformation = new XYChart.Series<>();
         studentInformation.setName("Student information");
-        studentInformation.getData().add(new XYChart.Data<>("All Student", UserDAO.getInstance().getTotalUsersCount()));
-        studentInformation.getData().add(new XYChart.Data<>("Students holding documents", LoanDAO.getInstance().getTotalUsersWhoBorrowedBooks()));
-        barchart.getData().clear();
+        int totalStudent = UserDAO.getInstance().getTotalUsersCount();
+        int studentHoldingBook = LoanDAO.getInstance().getTotalUsersWhoBorrowedBooks();
+        studentInformation.getData().add(new XYChart.Data<>("All Student", totalStudent));
+        studentInformation.getData().add(new XYChart.Data<>("Students holding documents", studentHoldingBook));
         barchart.getData().add(documentInformation);
         barchart.getData().add(studentInformation);
+        // load gauge
+        allBooksGauge.setMaxValue(bookQuantity);
+        allBooksGauge.setValue(bookQuantity);
+        remainingBooksGauge.setMaxValue(bookQuantity);
+        remainingBooksGauge.setValue(remainingBookQuantity);
+        issuedBooksGauge.setMaxValue(bookQuantity);
+        issuedBooksGauge.setValue(bookQuantity - remainingBookQuantity);
+        allStudentsGauge.setMaxValue(totalStudent);
+        allStudentsGauge.setValue(totalStudent);
+        bookHoldersGauge.setMaxValue(totalStudent);
+        bookHoldersGauge.setValue(studentHoldingBook);
     }
 
     /**
