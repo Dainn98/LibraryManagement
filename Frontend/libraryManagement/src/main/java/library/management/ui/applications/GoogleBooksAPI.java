@@ -65,9 +65,11 @@ public class GoogleBooksAPI {
             String authors = getAuthors(volumeInfo);
             String description = getDescription(volumeInfo);
             String genre = getGenre(volumeInfo);
+            String thumbnail = getThumbnail(volumeInfo);
+            String language = getLanguage(volumeInfo);
 
             // Gọi phương thức saveBook từ DatabaseConnection để lưu vào database
-            DatabaseConnection.saveBook(title, authors, description, genre);
+            DatabaseConnection.saveBook(title, authors, description, genre, thumbnail, language);
         }
     }
 
@@ -89,6 +91,21 @@ public class GoogleBooksAPI {
         }
         return authors.toString();
     }
+
+    // phương thức lấy bìa sách
+    private static String getThumbnail(JsonObject volumeInfo) {
+        if (!volumeInfo.has("imageLinks")) {
+            return "No thumbnail available";
+        }
+        JsonObject imageLinks = volumeInfo.getAsJsonObject("imageLinks");
+        return imageLinks.has("thumbnail") ? imageLinks.get("thumbnail").getAsString() : "No thumbnail available";
+    }
+
+    // phương thư lấy ngôn ngữ của cuốn sách
+    private static String getLanguage(JsonObject volumeInfo) {
+        return volumeInfo.has("language") ? volumeInfo.get("language").getAsString() : "Unknown language";
+    }
+
 
     private static String getDescription(JsonObject volumeInfo) {
         return volumeInfo.has("description") ? volumeInfo.get("description").getAsString() : "No description available";

@@ -15,7 +15,7 @@ public class DatabaseConnection {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:mysql://localhost:3306/libdemo?useSSL=false&autoReconnect=true");
         config.setUsername("root");
-        config.setPassword("20022005aB!");
+        config.setPassword("");
 
         // Các cấu hình tối ưu cho HikariCP
         config.setMaximumPoolSize(10); // Số lượng kết nối tối đa trong bể
@@ -41,8 +41,8 @@ public class DatabaseConnection {
     }
 
     // Phương thức để lưu thông tin sách vào cơ sở dữ liệu
-    public static void saveBook(String title, String authors, String description, String genre) {
-        String insertSQL = "INSERT INTO books (title, authors, description, genre) VALUES (?, ?, ?, ?)";
+    public static void saveBook(String title, String authors, String description, String genre, String thumbnail, String language) {
+        String insertSQL = "INSERT INTO books (title, authors, description, genre, thumbnail, language) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
@@ -50,6 +50,8 @@ public class DatabaseConnection {
             stmt.setString(2, authors);
             stmt.setString(3, description);
             stmt.setString(4, genre);
+            stmt.setString(5, thumbnail); // Lưu đường dẫn ảnh bìa
+            stmt.setString(6, language); // Lưu ngôn ngữ của sách
             stmt.executeUpdate();
             System.out.println("Book saved to database: " + title);
         } catch (SQLException e) {
