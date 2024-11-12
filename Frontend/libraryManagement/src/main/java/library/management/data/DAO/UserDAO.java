@@ -21,16 +21,17 @@ public class UserDAO implements DAOInterface<User> {
     // Thêm một người dùng vào cơ sở dữ liệu
     @Override
     public int add(User user) {
-        String query = "INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setString(1, user.getUserName());
             stmt.setString(2, user.getAddress());
             stmt.setString(3, user.getIdentityCard());
-            stmt.setString(4, user.getMobile());
+            stmt.setString(4, user.getPhoneNumber());
             stmt.setString(5, user.getEmail());
-            stmt.setString(6, user.getMembershipLevel());
+            stmt.setString(6, user.getCountry());
+            stmt.setString(7, user.getState());
 
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted;
@@ -47,7 +48,7 @@ public class UserDAO implements DAOInterface<User> {
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, user.getUserId());
+            stmt.setInt(1, user.getIntUserId());
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {
@@ -59,17 +60,18 @@ public class UserDAO implements DAOInterface<User> {
     // Cập nhật thông tin của một người dùng trong cơ sở dữ liệu
     @Override
     public int update(User user) {
-        String query = "UPDATE user SET userName = ?, address = ?, identityCard = ?, mobile = ?, email = ?, membershipLevel = ? WHERE userId = ?";
+        String query = "UPDATE user SET userName = ?, address = ?, identityCard = ?, phoneNumber = ?, email = ?, country = ?, state = ? WHERE userId = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setString(1, user.getUserName());
             stmt.setString(2, user.getAddress());
             stmt.setString(3, user.getIdentityCard());
-            stmt.setString(4, user.getMobile());
+            stmt.setString(4, user.getPhoneNumber());
             stmt.setString(5, user.getEmail());
-            stmt.setString(6, user.getMembershipLevel());
-            stmt.setString(7, user.getUserId());
+            stmt.setString(6, user.getCountry());
+            stmt.setString(7, user.getState());
+            stmt.setInt(8, user.getIntUserId());
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated;
@@ -89,14 +91,14 @@ public class UserDAO implements DAOInterface<User> {
 
             while (rs.next()) {
                 User user = new User();
-                user.setSTT(rs.getInt("STT"));
-                user.setUserId(rs.getString("userId"));
+                user.setUserId(String.format("USER%s", rs.getInt("userId")));
                 user.setUserName(rs.getString("userName"));
                 user.setAddress(rs.getString("address"));
                 user.setIdentityCard(rs.getString("identityCard"));
-                user.setMobile(rs.getString("mobile"));
+                user.setPhoneNumber(rs.getString("phoneNumber"));
                 user.setEmail(rs.getString("email"));
-                user.setMembershipLevel(rs.getString("membershipLevel"));
+                user.setCountry(rs.getString("country"));
+                user.setState(rs.getString("state"));
                 list.add(user);
             }
         } catch (SQLException e) {
@@ -115,14 +117,14 @@ public class UserDAO implements DAOInterface<User> {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     User user = new User();
-                    user.setSTT(rs.getInt("STT"));
                     user.setUserId(rs.getString("userId"));
                     user.setUserName(rs.getString("userName"));
                     user.setAddress(rs.getString("address"));
                     user.setIdentityCard(rs.getString("identityCard"));
-                    user.setMobile(rs.getString("mobile"));
+                    user.setPhoneNumber(rs.getString("phoneNumber"));
                     user.setEmail(rs.getString("email"));
-                    user.setMembershipLevel(rs.getString("membershipLevel"));
+                    user.setCountry(rs.getString("country"));
+                    user.setState(rs.getString("state"));
                     return user;
                 }
             }
@@ -132,6 +134,7 @@ public class UserDAO implements DAOInterface<User> {
         return null;
     }
 
+    // Đếm tổng số người dùng
     public int getTotalUsersCount() {
         String query = "SELECT COUNT(*) FROM user";
         try (Connection con = DatabaseConnection.getConnection();
@@ -146,5 +149,4 @@ public class UserDAO implements DAOInterface<User> {
         }
         return 0;
     }
-
 }

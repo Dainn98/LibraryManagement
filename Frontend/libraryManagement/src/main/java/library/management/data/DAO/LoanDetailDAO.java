@@ -25,8 +25,8 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, loanDetail.getLoanId());
-            stmt.setString(2, loanDetail.getDocumentID());
+            stmt.setInt(1, loanDetail.getIntLoanId());
+            stmt.setInt(2, loanDetail.getIntDocumentID());
             stmt.setShort(3, loanDetail.getQuantity());
 
             int rowsInserted = stmt.executeUpdate();
@@ -44,7 +44,7 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, loanDetail.getLoanDetailID());
+            stmt.setInt(1, loanDetail.getIntLoanDetailID());
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {
@@ -53,17 +53,16 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
         return 0;
     }
 
-    // Cập nhật thông tin của một chi tiết khoản vay trong cơ sở dữ liệu
     @Override
     public int update(LoanDetail loanDetail) {
         String query = "UPDATE loandetail SET loanId = ?, documentID = ?, quantity = ? WHERE loanDetailID = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, loanDetail.getLoanId());
-            stmt.setString(2, loanDetail.getDocumentID());
+            stmt.setInt(1, loanDetail.getIntLoanId());
+            stmt.setInt(2, loanDetail.getIntDocumentID());
             stmt.setShort(3, loanDetail.getQuantity());
-            stmt.setString(4, loanDetail.getLoanDetailID());
+            stmt.setInt(4, loanDetail.getIntLoanDetailID());
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated;
@@ -71,54 +70,5 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
             e.printStackTrace();
         }
         return 0;
-    }
-
-    // Lấy danh sách tất cả các chi tiết khoản vay
-    public List<LoanDetail> layTatCa() {
-        String query = "SELECT * FROM loandetail";
-        List<LoanDetail> list = new ArrayList<>();
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                LoanDetail loanDetail = new LoanDetail();
-                loanDetail.setSTT(rs.getInt("STT"));
-                loanDetail.setLoanId(rs.getString("loanId"));
-                loanDetail.setDocumentID(rs.getString("documentID"));
-                loanDetail.setQuantity(rs.getShort("quantity"));
-                loanDetail.setLoanDetailID(rs.getString("loanDetailID"));
-
-                list.add(loanDetail);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    // Lấy thông tin chi tiết khoản vay theo STT
-    public LoanDetail layTheoId(int STT) {
-        String query = "SELECT * FROM loandetail WHERE STT = ?";
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setInt(1, STT);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    LoanDetail loanDetail = new LoanDetail();
-                    loanDetail.setSTT(rs.getInt("STT"));
-                    loanDetail.setLoanId(rs.getString("loanId"));
-                    loanDetail.setDocumentID(rs.getString("documentID"));
-                    loanDetail.setQuantity(rs.getShort("quantity"));
-                    loanDetail.setLoanDetailID(rs.getString("loanDetailID"));
-
-                    return loanDetail;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

@@ -3,28 +3,28 @@ package library.management.data.entity;
 import java.util.Date;
 
 public class Loan {
-    private int STT;
-    private String userId;
+    private int loanID;
+    private int userId;
     private short quantityOfBorrow;
     private double deposit;
     private Date dateOfBorrow;
     private Date requiredReturnDate;
-    private String loanID;
 
     // Constructors
-    public Loan() {}
+    public Loan() {
+    }
 
     public Loan(String userId, short quantityOfBorrow, double deposit, Date dateOfBorrow, Date requiredReturnDate, String loanID) {
-        this.userId = userId;
+        this.userId = Integer.parseInt(userId.substring(4));
         this.quantityOfBorrow = quantityOfBorrow;
         this.deposit = deposit;
         this.dateOfBorrow = dateOfBorrow;
         this.requiredReturnDate = requiredReturnDate;
-        this.loanID = loanID;
+        this.loanID = Integer.parseInt(loanID.substring(4));
     }
 
     public Loan(String userId, short quantityOfBorrow, double deposit, Date dateOfBorrow, Date requiredReturnDate) {
-        this.userId = userId;
+        this.userId = Integer.parseInt(userId.substring(4));
         this.quantityOfBorrow = quantityOfBorrow;
         this.deposit = deposit;
         this.dateOfBorrow = dateOfBorrow;
@@ -32,24 +32,19 @@ public class Loan {
     }
 
     public Loan(String loanID) {
-        this.loanID = loanID;
+        this.loanID = Integer.parseInt(loanID.substring(4));
     }
 
-    // Getters and Setters
-    public int getSTT() {
-        return STT;
+    public String getStringUserId() {
+        return String.format("USER%d", this.userId);
     }
 
-    public void setSTT(int STT) {
-        this.STT = STT;
-    }
-
-    public String getUserId() {
-        return userId;
+    public int getIntUserId() {
+        return this.userId;
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.userId = Integer.parseInt(userId.substring(4));
     }
 
     public short getQuantityOfBorrow() {
@@ -84,11 +79,15 @@ public class Loan {
         this.requiredReturnDate = requiredReturnDate;
     }
 
-    public String getLoanID() {
-        return loanID;
+    public String getStringLoanID() {
+        return String.format("LOAN%d", this.loanID);
+    }
+
+    public int getIntLoanID() {
+        return this.loanID;
     }
 
     public void setLoanID(String loanID) {
-        this.loanID = loanID;
+        this.loanID = Integer.parseInt(loanID.substring(4));
     }
 }

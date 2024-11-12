@@ -124,16 +124,6 @@
                      <VBox alignment="CENTER" spacing="20" styleClass="main-content">
                         <children>
                            <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;">
-                              <right>
-                                 <HBox alignment="TOP_RIGHT" prefHeight="37.0" prefWidth="127.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-                                    <children>
-                                       <Label fx:id="minimise" contentDisplay="GRAPHIC_ONLY" onMouseClicked="#minimize" />
-                                       <Label fx:id="fullscreen" contentDisplay="GRAPHIC_ONLY" layoutX="194.0" layoutY="10.0" onMouseClicked="#fullscreen" />
-                                       <Label fx:id="unfullscreen" contentDisplay="GRAPHIC_ONLY" layoutX="194.0" layoutY="10.0" onMouseClicked="#unfullscreen" />
-                                       <Label fx:id="close" contentDisplay="GRAPHIC_ONLY" layoutX="194.0" layoutY="10.0" onMouseClicked="#close" />
-                                    </children>
-                                 </HBox>
-                              </right>
                               <center>
                                  <Label text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
                                     <font>
@@ -160,18 +150,11 @@
                                  </VBox>
                               </bottom>
                            </BorderPane>
-                           <HBox alignment="CENTER" prefHeight="94.0" prefWidth="654.0" spacing="10.0" style="-fx-padding: 50;">
-                              <children>
-                                 <Button fx:id="findBookButton" onAction="#handleFindBookButton" prefHeight="100.0" prefWidth="175.0" text="Find Document" HBox.hgrow="ALWAYS" />
-                                 <Button fx:id="findBookIssueButton" onAction="#handleFindBookIssueButton" prefHeight="38.0" prefWidth="175.0" text="Find Document Issue" HBox.hgrow="ALWAYS" />
-                                 <Button fx:id="findStudentButton" onAction="#handleFindStudentButton" prefHeight="100" prefWidth="175.0" text="Find Student" HBox.hgrow="ALWAYS" />
-                              </children>
-                           </HBox>
                            <HBox prefHeight="151.0" prefWidth="1000.0">
                               <children>
                                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                     <children>
-                                       <SimpleMetroArcGauge fx:id="allBooksGauge" VBox.vgrow="ALWAYS" />
+                                       <SimpleMetroArcGauge fx:id="allDocsGauge" VBox.vgrow="ALWAYS" />
                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="All Documents">
                                           <font>
                                              <Font size="16.0" />
@@ -181,7 +164,7 @@
                                  </VBox>
                                  <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                     <children>
-                                       <SimpleMetroArcGauge fx:id="remainingBooksGauge" VBox.vgrow="ALWAYS" />
+                                       <SimpleMetroArcGauge fx:id="remainingDocsGauge" VBox.vgrow="ALWAYS" />
                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining Documents">
                                           <font>
                                              <Font size="16.0" />
@@ -191,7 +174,7 @@
                                  </VBox>
                                  <VBox alignment="CENTER" layoutX="810.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                     <children>
-                                       <SimpleMetroArcGauge fx:id="issuedBooksGauge" VBox.vgrow="ALWAYS" />
+                                       <SimpleMetroArcGauge fx:id="issuedDocsGauge" VBox.vgrow="ALWAYS" />
                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Issued Documents">
                                           <font>
                                              <Font size="16.0" />
@@ -201,7 +184,7 @@
                                  </VBox>
                                  <VBox alignment="CENTER" layoutX="810.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                     <children>
-                                       <SimpleMetroArcGauge fx:id="allStudentsGauge" VBox.vgrow="ALWAYS" />
+                                       <SimpleMetroArcGauge fx:id="allUsersGauge" VBox.vgrow="ALWAYS" />
                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="All Users">
                                           <font>
                                              <Font size="16.0" />
@@ -211,7 +194,7 @@
                                  </VBox>
                                  <VBox alignment="CENTER" layoutX="810.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                     <children>
-                                       <SimpleMetroArcGauge fx:id="bookHoldersGauge" VBox.vgrow="ALWAYS" />
+                                       <SimpleMetroArcGauge fx:id="docHoldersGauge" VBox.vgrow="ALWAYS" />
                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Users Holding Documents">
                                           <font>
                                              <Font size="16.0" />
@@ -222,22 +205,37 @@
                               </children>
                            </HBox>
                            <HBox alignment="CENTER" spacing="20" />
-                           <BarChart fx:id="barchart" alternativeColumnFillVisible="true" title="Documents and Users Information">
-                              <xAxis>
-                                 <CategoryAxis side="LEFT" fx:id="xAxis">
-                                    <tickLabelFont>
-                                       <Font size="13.0" />
-                                    </tickLabelFont>
-                                 </CategoryAxis>
-                              </xAxis>
-                              <yAxis>
-                                 <NumberAxis fx:id="yAxis" label="Number of Users and Documents" side="LEFT">
-                                    <tickLabelFont>
-                                       <Font size="13.0" />
-                                    </tickLabelFont>
-                                 </NumberAxis>
-                              </yAxis>
-                           </BarChart>
+                           <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+                              <children>
+                                 <BarChart fx:id="docBChart" alternativeColumnFillVisible="true" title="Documents Statistics" HBox.hgrow="ALWAYS">
+                                    <xAxis>
+                                       <CategoryAxis side="LEFT" fx:id="xAxis">
+                                          <tickLabelFont>
+                                             <Font size="13.0" />
+                                          </tickLabelFont>
+                                       </CategoryAxis>
+                                    </xAxis>
+                                    <yAxis>
+                                       <NumberAxis fx:id="yAxis" label="Number of  Documents" side="LEFT">
+                                          <tickLabelFont>
+                                             <Font size="13.0" />
+                                          </tickLabelFont>
+                                       </NumberAxis>
+                                    </yAxis>
+                                 </BarChart>
+                                 <BarChart fx:id="userBChart" title="User Statistics" HBox.hgrow="ALWAYS">
+                                    <xAxis>
+                                       <CategoryAxis side="BOTTOM" />
+                                    </xAxis>
+                                    <yAxis>
+                                       <NumberAxis label="Number of User" side="LEFT" />
+                                    </yAxis>
+                                 </BarChart>
+                              </children>
+                              <padding>
+                                 <Insets right="10.0" />
+                              </padding>
+                           </HBox>
                         </children>
                      </VBox>
                   </children>
@@ -245,7 +243,7 @@
 
                <BorderPane fx:id="docBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <top>
-                        <VBox BorderPane.alignment="CENTER">
+                        <VBox fx:id="searchDocVBox" BorderPane.alignment="CENTER">
                            <children>
                               <VBox prefHeight="64.0" prefWidth="754.0">
                                  <children>
@@ -356,7 +354,7 @@
                               <TableColumn fx:id="docNameDocView" prefWidth="141.11334228515625" text="Document Title" />
                               <TableColumn fx:id="docAuthorDocView" prefWidth="120.84616088867188" text="Document Author" />
                               <TableColumn fx:id="docPublisherDocView" prefWidth="122.32125854492188" text="Document Publisher" />
-                              <TableColumn fx:id="genreDocDocView" prefWidth="79.5841064453125" text="Doument Genre" />
+                              <TableColumn fx:id="genreDocDocView" prefWidth="79.5841064453125" text="Doument Category" />
                               <TableColumn fx:id="quantityDocView" prefWidth="62.04144287109375" text="Quantity" />
                               <TableColumn fx:id="remainingDocsDocView" prefWidth="134.53460693359375" text="Remaining Documents" />
                               <TableColumn fx:id="availabilityDocView" prefWidth="116.0" text="Availability" />
@@ -465,10 +463,10 @@
                               <children>
                                  <ButtonBar prefHeight="29.0" prefWidth="140.0">
                                     <buttons>
-                                       <Label text="Document genre" />
+                                       <Label text="Document category" />
                                     </buttons>
                                  </ButtonBar>
-                                 <JFXComboBox fx:id="genreComboBox" labelFloat="true" promptText="Select document genre" />
+                                 <JFXComboBox fx:id="genreComboBox" labelFloat="true" promptText="Select document category" />
                               </children>
                               <padding>
                                  <Insets top="10.0" />

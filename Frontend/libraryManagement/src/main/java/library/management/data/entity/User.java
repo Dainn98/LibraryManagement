@@ -1,44 +1,40 @@
 package library.management.data.entity;
 
 public class User {
-    private int STT;
+    private int userId;
     private String userName;
     private String address;
     private String identityCard;
-    private String mobile;
+    private String phoneNumber;
     private String email;
-    private String membershipLevel;
-    private String userId;
+    private String country;
+    private String state;
 
     // Constructors
-    public User() {}
+    public User() {
+    }
 
-    public User(String userId, String userName, String address, String identityCard, String mobile, String email, String membershipLevel) {
-        this.userId = userId;
+    public User(String userId, String userName, String address, String identityCard,
+                String phoneNumber, String email, String country, String state) {
+        this.userId = Integer.parseInt(userId.substring(4));
         this.userName = userName;
         this.address = address;
         this.identityCard = identityCard;
-        this.mobile = mobile;
+        this.phoneNumber = phoneNumber;
         this.email = email;
-        this.membershipLevel = membershipLevel;
+        this.country = country;
+        this.state = state;
     }
 
-    public User(String userName, String address, String identityCard, String mobile, String email, String membershipLevel) {
+    public User(String userName, String address, String identityCard, String phoneNumber,
+                String email, String country, String state) {
         this.address = address;
         this.identityCard = identityCard;
-        this.mobile = mobile;
+        this.phoneNumber = phoneNumber;
         this.email = email;
-        this.membershipLevel = membershipLevel;
         this.userName = userName;
-    }
-
-    // Getters and Setters
-    public int getSTT() {
-        return STT;
-    }
-
-    public void setSTT(int STT) {
-        this.STT = STT;
+        this.country = country;
+        this.state = state;
     }
 
     public String getUserName() {
@@ -65,12 +61,12 @@ public class User {
         this.identityCard = identityCard;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
@@ -81,19 +77,31 @@ public class User {
         this.email = email;
     }
 
-    public String getMembershipLevel() {
-        return membershipLevel;
+    public String getCountry() {
+        return country;
     }
 
-    public void setMembershipLevel(String membershipLevel) {
-        this.membershipLevel = membershipLevel;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public String getUserId() {
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public int getIntUserId() {
         return userId;
     }
 
+    public String getUserId() {
+        return String.format("USER%d", userId);
+    }
+
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.userId = Integer.parseInt(userId.substring(4));
     }
 }

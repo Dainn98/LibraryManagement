@@ -1,42 +1,22 @@
-drop database if exists libdemo;
+drop
+database if exists libdemo;
 
-create database libdemo;
-use libdemo;
+create
+database libdemo;
+use
+libdemo;
 
 -- Tạo bảng manager với cột STT là khóa chính và AUTO_INCREMENT
-CREATE TABLE manager (
-                         STT INT AUTO_INCREMENT PRIMARY KEY,
-                         managerName VARCHAR(100) unique,
-                         identityCard varchar(20) unique,
-                         password CHAR(12),
-                         email VARCHAR(100),
-                         managerID VARCHAR(50) UNIQUE
+CREATE TABLE manager
+(
+    managerID    INT AUTO_INCREMENT PRIMARY KEY,
+    managerName  VARCHAR(100) unique,
+    identityCard varchar(20) unique,
+    password     CHAR(12),
+    email        VARCHAR(100)
 );
 
 ALTER TABLE manager AUTO_INCREMENT = 1;
-
--- Tạo Trigger để tự động cập nhật giá trị cho managerID dựa trên STT
-DELIMITER //
-
-CREATE TRIGGER before_insert_manager
-    BEFORE INSERT ON manager
-    FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-
-    -- Lấy giá trị AUTO_INCREMENT kế tiếp
-    SET next_id = (SELECT AUTO_INCREMENT
-                   FROM information_schema.TABLES
-                   WHERE TABLE_SCHEMA = DATABASE()
-                   AND TABLE_NAME = 'manager');
-
-    -- Gán giá trị managerID
-    SET NEW.managerID = CONCAT('MNG', next_id);
-END;
-//
-DELIMITER ;
-
-
 
 INSERT INTO manager (managerName, password)
 VALUES ('Tuan Anh', '123');
@@ -47,74 +27,79 @@ VALUES ('Duc Anh', '123');
 INSERT INTO manager (managerName, password)
 VALUES ('Nang Diu', '123');
 
-select * from manager;
+select *
+from manager;
 
--- Tạo bảng genre với STT là khóa chính và AUTO_INCREMENT
-CREATE TABLE genre (
-                       STT INT AUTO_INCREMENT PRIMARY KEY,
-                       tag VARCHAR(50),
-                       genreID VARCHAR(50) UNIQUE
+-- Tạo bảng category với STT là khóa chính và AUTO_INCREMENT
+CREATE TABLE category
+(
+    categoryID INT AUTO_INCREMENT PRIMARY KEY,
+    tag        VARCHAR(50) unique
 );
 
--- Tạo Trigger để tự động cập nhật giá trị cho genreID dựa trên STT
-DELIMITER //
-CREATE TRIGGER before_insert_genre
-    BEFORE INSERT ON genre
-    FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
+INSERT INTO category (tag)
+VALUES ('Fantasy');
+INSERT INTO category (tag)
+VALUES ('Science Fiction');
+INSERT INTO category (tag)
+VALUES ('Mystery');
+INSERT INTO category (tag)
+VALUES ('Romance');
+INSERT INTO category (tag)
+VALUES ('Horror');
+INSERT INTO category (tag)
+VALUES ('Thriller');
+INSERT INTO category (tag)
+VALUES ('Historical Fiction');
+INSERT INTO category (tag)
+VALUES ('Biography');
+INSERT INTO category (tag)
+VALUES ('Self-help');
+INSERT INTO category (tag)
+VALUES ('Poetry');
+INSERT INTO category (tag)
+VALUES ('Adventure');
+INSERT INTO category (tag)
+VALUES ('Drama');
+INSERT INTO category (tag)
+VALUES ('Graphic Novel');
+INSERT INTO category (tag)
+VALUES ('Children\'s Literature');
+INSERT INTO category (tag) VALUES ('Young Adult');
+INSERT INTO category (tag) VALUES ('Dystopian');
+INSERT INTO category (tag) VALUES ('Fairy Tale');
+INSERT INTO category (tag) VALUES ('Memoir');
+INSERT INTO category (tag) VALUES ('Cooking');
+INSERT INTO category (tag) VALUES ('Health & Wellness');
+INSERT INTO category (tag) VALUES ('Psychology');
+INSERT INTO category (tag) VALUES ('Religion');
+INSERT INTO category (tag) VALUES ('Spirituality');
+INSERT INTO category (tag) VALUES ('Travel');
+INSERT INTO category (tag) VALUES ('True Crime');
+INSERT INTO category (tag) VALUES ('Anthology');
+INSERT INTO category (tag) VALUES ('Essay');
+INSERT INTO category (tag) VALUES ('Humor');
+INSERT INTO category (tag) VALUES ('Philosophy');
+INSERT INTO category (tag) VALUES ('Politics');
+INSERT INTO category (tag) VALUES ('Science');
+INSERT INTO category (tag) VALUES ('Sociology');
+INSERT INTO category (tag) VALUES ('Art');
+INSERT INTO category (tag) VALUES ('Photography');
+INSERT INTO category (tag) VALUES ('Music');
+INSERT INTO category (tag) VALUES ('Business');
+INSERT INTO category (tag) VALUES ('Economics');
+INSERT INTO category (tag) VALUES ('Education');
+INSERT INTO category (tag) VALUES ('Technology');
+INSERT INTO category (tag) VALUES ('Law');
+INSERT INTO category (tag) VALUES ('Environmental Studies');
 
-    -- Lấy giá trị AUTO_INCREMENT kế tiếp từ bảng information_schema
-    SET next_id = (SELECT AUTO_INCREMENT 
-                   FROM information_schema.TABLES 
-                   WHERE TABLE_SCHEMA = DATABASE() 
-                   AND TABLE_NAME = 'genre');
-    
-    -- Gán giá trị genreID với tiền tố 'GEN' và giá trị của next_id
-    SET NEW.genreID = CONCAT('GEN', next_id);
-END;
-//
-DELIMITER ;
 
-INSERT INTO genre (tag) VALUES ('Fantasy');
-INSERT INTO genre (tag) VALUES ('Science Fiction');
-INSERT INTO genre (tag) VALUES ('Mystery');
-INSERT INTO genre (tag) VALUES ('Romance');
-INSERT INTO genre (tag) VALUES ('Horror');
-INSERT INTO genre (tag) VALUES ('Thriller');
-INSERT INTO genre (tag) VALUES ('Historical Fiction');
-INSERT INTO genre (tag) VALUES ('Biography');
-INSERT INTO genre (tag) VALUES ('Self-help');
-INSERT INTO genre (tag) VALUES ('Poetry');
-
-select * from genre;
+select * from category;
 
 CREATE TABLE language (
-                          STT SMALLINT AUTO_INCREMENT PRIMARY KEY,
-                          lgName VARCHAR(50),
-                          lgID VARCHAR(50) UNIQUE
+    lgID SMALLINT AUTO_INCREMENT PRIMARY KEY,
+    lgName VARCHAR(50)
 );
-
-DELIMITER //
-CREATE TRIGGER before_insert_language
-    BEFORE INSERT ON language
-    FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-
-    -- Lấy giá trị AUTO_INCREMENT kế tiếp từ bảng information_schema
-    SET next_id = (SELECT AUTO_INCREMENT 
-                   FROM information_schema.TABLES 
-                   WHERE TABLE_SCHEMA = DATABASE() 
-                   AND TABLE_NAME = 'language');
-    
-    -- Gán giá trị lgID với tiền tố 'LANG' và giá trị của next_id
-    SET NEW.lgID = CONCAT('LANG', next_id);
-END;
-//
-DELIMITER ;
-
-
 
 INSERT INTO language (lgName) VALUES ('English');
 INSERT INTO language (lgName) VALUES ('Spanish');
@@ -130,261 +115,211 @@ INSERT INTO language (lgName) VALUES ('Korean');
 select * from language;
 
 CREATE TABLE user (
-                      STT INT AUTO_INCREMENT PRIMARY KEY,
-                      userName VARCHAR(100),
-                      address VARCHAR(100),
-                      identityCard CHAR(12),
-                      mobile CHAR(10),
-                      email VARCHAR(100),
-                      membershipLevel VARCHAR(50),
-                      userId VARCHAR(50) UNIQUE
+    userId INT AUTO_INCREMENT PRIMARY KEY,
+    userName VARCHAR(100),
+    address VARCHAR(100),
+    identityCard CHAR(12),
+    phoneNumber CHAR(10),
+    email VARCHAR(100),
+    country varchar(50),
+    state varchar(50)
 );
 
-DELIMITER //
-CREATE TRIGGER before_insert_user
-    BEFORE INSERT ON user
-    FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
 
-    -- Lấy giá trị AUTO_INCREMENT kế tiếp từ bảng information_schema
-    SET next_id = (SELECT AUTO_INCREMENT 
-                   FROM information_schema.TABLES 
-                   WHERE TABLE_SCHEMA = DATABASE() 
-                   AND TABLE_NAME = 'user');
-    
-    -- Gán giá trị userId với tiền tố 'USER' và giá trị của next_id
-    SET NEW.userId = CONCAT('USER', next_id);
-END;
-//
-DELIMITER ;
+INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
+VALUES ('Nguyen Van A', '123 Street', '012345678901', '0987654321', 'a@example.com', 'Vietnam', 'Hanoi');
 
+INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
+VALUES ('Tran Thi B', '456 Avenue', '012345678902', '0987654322', 'b@example.com', 'Vietnam', 'Ho Chi Minh City');
 
-INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel)
-VALUES ('Nguyen Van A', '123 Street', '012345678901', '0987654321', 'a@example.com', 'Gold');
+INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
+VALUES ('Le Van C', '789 Road', '012345678903', '0987654323', 'c@example.com', 'Vietnam', 'Da Nang');
 
-INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel)
-VALUES ('Tran Thi B', '456 Avenue', '012345678902', '0987654322', 'b@example.com', 'Silver');
+INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
+VALUES ('Pham Thi D', '101 Street', '012345678904', '0987654324', 'd@example.com', 'Vietnam', 'Hai Phong');
 
-INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel)
-VALUES ('Le Van C', '789 Road', '012345678903', '0987654323', 'c@example.com', 'Bronze');
+INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
+VALUES ('Hoang Van E', '202 Avenue', '012345678905', '0987654325', 'e@example.com', 'Vietnam', 'Can Tho');
 
-INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel)
-VALUES ('Pham Thi D', '101 Street', '012345678904', '0987654324', 'd@example.com', 'Gold');
+INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
+VALUES ('Do Thi F', '303 Road', '012345678906', '0987654326', 'f@example.com', 'Vietnam', 'Hue');
 
-INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel)
-VALUES ('Hoang Van E', '202 Avenue', '012345678905', '0987654325', 'e@example.com', 'Silver');
+INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
+VALUES ('Nguyen Van G', '404 Street', '012345678907', '0987654327', 'g@example.com', 'Vietnam', 'Nha Trang');
 
-INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel)
-VALUES ('Do Thi F', '303 Road', '012345678906', '0987654326', 'f@example.com', 'Bronze');
+INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
+VALUES ('Tran Thi H', '505 Avenue', '012345678908', '0987654328', 'h@example.com', 'Vietnam', 'Vung Tau');
 
-INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel)
-VALUES ('Nguyen Van G', '404 Street', '012345678907', '0987654327', 'g@example.com', 'Gold');
+INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
+VALUES ('Le Van I', '606 Road', '012345678909', '0987654329', 'i@example.com', 'Vietnam', 'Bac Ninh');
 
-INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel)
-VALUES ('Tran Thi H', '505 Avenue', '012345678908', '0987654328', 'h@example.com', 'Silver');
+INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
+VALUES ('Pham Thi J', '707 Street', '012345678910', '0987654330', 'j@example.com', 'Vietnam', 'Quang Ninh');
 
-INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel)
-VALUES ('Le Van I', '606 Road', '012345678909', '0987654329', 'i@example.com', 'Bronze');
-
-INSERT INTO user (userName, address, identityCard, mobile, email, membershipLevel)
-VALUES ('Pham Thi J', '707 Street', '012345678910', '0987654330', 'j@example.com', 'Gold');
 
 select * from user;
 
 CREATE TABLE document (
-                          STT INT AUTO_INCREMENT PRIMARY KEY,
-                          genrId VARCHAR(50),
-                          publisher VARCHAR(100),
-                          lgID VARCHAR(50),
-                          title VARCHAR(100),
-                          author VARCHAR(100),
-                          quantity INT,
-                          availableCopies INT,
-                          addDate DATETIME,
-                          price DECIMAL(10,2),
-                          documentId VARCHAR(50) UNIQUE,
-                          FOREIGN KEY (genrId) REFERENCES genre(genreID),
-                          FOREIGN KEY (lgId) REFERENCES language(lgID)
+    documentId INT AUTO_INCREMENT PRIMARY KEY,
+    categoryID int,
+    publisher VARCHAR(100),
+    lgID smallint,
+    title VARCHAR(100),
+    author VARCHAR(100),
+    isbn VARCHAR(13) UNIQUE NOT NULL,
+    description TEXT,
+    url text,
+    image text,
+    quantity INT,
+    availableCopies INT,
+    addDate DATETIME,
+    price DECIMAL(10,2),
+	FOREIGN KEY (categoryId) REFERENCES category(categoryID),
+    FOREIGN KEY (lgId) REFERENCES language(lgID)
 );
 
-DELIMITER //
-CREATE TRIGGER before_insert_document
-    BEFORE INSERT ON document
-    FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('1', 'Oxford University Press', '1', 'Advanced Mathematics', 'John Doe', '9783161484100', 'A comprehensive guide to advanced mathematics.', 'https://example.com/book1', 'https://example.com/image1.jpg', 25, 25, NOW(), 30.50);
 
-    -- Lấy giá trị AUTO_INCREMENT kế tiếp từ bảng information_schema
-    SET next_id = (SELECT AUTO_INCREMENT 
-                   FROM information_schema.TABLES 
-                   WHERE TABLE_SCHEMA = DATABASE() 
-                   AND TABLE_NAME = 'document');
-    
-    -- Gán giá trị documentId với tiền tố 'DOC' và giá trị của next_id
-    SET NEW.documentId = CONCAT('DOC', next_id);
-END;
-//
-DELIMITER ;
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('2', 'Penguin Random House', '2', 'The Great Adventure', 'Emily Blunt', '9780143127796', 'An epic adventure across unknown lands.', 'https://example.com/book2', 'https://example.com/image2.jpg', 15, 15, NOW(), 20.99);
 
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('3', 'Macmillan', '3', 'Mystery of the Lost Island', 'Arthur Conan', '9780316769488', 'A thrilling mystery set on a deserted island.', 'https://example.com/book3', 'https://example.com/image3.jpg', 35, 35, NOW(), 18.75);
 
-INSERT INTO document (genrId, publisher, lgId, title, author, quantity, availableCopies, addDate, price)
-VALUES ('GEN1', 'Penguin Books', 'LANG1', 'document Title 1', 'Author 1', 50, 50, NOW(), 19.99);
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('4', 'HarperCollins', '4', 'Romantic Encounters', 'Alice Parker', '9780062315007', 'A tale of love and romance.', 'https://example.com/book4', 'https://example.com/image4.jpg', 40, 40, NOW(), 22.50);
 
-INSERT INTO document (genrId, publisher, lgId, title, author, quantity, availableCopies, addDate, price)
-VALUES ('GEN2', 'HarperCollins', 'LANG2', 'document Title 2', 'Author 2', 45, 45, NOW(), 18.99);
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('5', 'Simon & Schuster', '5', 'Horror Nights', 'Stephen King', '9781501142970', 'Spine-chilling horror stories.', 'https://example.com/book5', 'https://example.com/image5.jpg', 50, 50, NOW(), 27.99);
 
-INSERT INTO document (genrId, publisher, lgId, title, author, quantity, availableCopies, addDate, price)
-VALUES ('GEN3', 'Simon & Schuster', 'LANG3', 'document Title 3', 'Author 3', 40, 40, NOW(), 20.99);
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('6', 'Bloomsbury', '6', 'Historical Tales', 'William Stone', '9781408855713', 'Stories from the past brought to life.', 'https://example.com/book6', 'https://example.com/image6.jpg', 20, 20, NOW(), 15.60);
 
-INSERT INTO document (genrId, publisher, lgId, title, author, quantity, availableCopies, addDate, price)
-VALUES ('GEN1', 'Random House', 'LANG2', 'document Title 4', 'Author 4', 60, 60, NOW(), 21.99);
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('7', 'Scholastic', '7', 'Science and You', 'Dr. Susan Reed', '9780545010221', 'An introduction to the wonders of science.', 'https://example.com/book7', 'https://example.com/image7.jpg', 30, 30, NOW(), 12.80);
 
-INSERT INTO document (genrId, publisher, lgId, title, author, quantity, availableCopies, addDate, price)
-VALUES ('GEN2', 'Penguin Books', 'LANG5', 'document Title 5', 'Author 5', 55, 55, NOW(), 22.99);
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('8', 'Wiley', '8', 'Biography of Albert Einstein', 'Richard Roe', '9781118454465', 'The life story of the great physicist.', 'https://example.com/book8', 'https://example.com/image8.jpg', 10, 10, NOW(), 35.00);
 
-INSERT INTO document (genrId, publisher, lgId, title, author, quantity, availableCopies, addDate, price)
-VALUES ('GEN3', 'HarperCollins', 'LANG7', 'document Title 6', 'Author 6', 65, 65, NOW(), 17.99);
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('9', 'Cambridge University Press', '9', 'Self-Improvement 101', 'Emma Stone', '9780521671018', 'A guide to self-improvement techniques.', 'https://example.com/book9', 'https://example.com/image9.jpg', 60, 60, NOW(), 18.90);
 
-INSERT INTO document (genrId, publisher, lgId, title, author, quantity, availableCopies, addDate, price)
-VALUES ('GEN1', 'Simon & Schuster', 'LANG4', 'document Title 7', 'Author 7', 70, 70, NOW(), 16.99);
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('10', 'Hachette Livre', '10', 'Poems of the Century', 'Robert Frost', '9780316017337', 'A collection of timeless poems.', 'https://example.com/book10', 'https://example.com/image10.jpg', 25, 25, NOW(), 24.75);
 
-INSERT INTO document (genrId, publisher, lgId, title, author, quantity, availableCopies, addDate, price)
-VALUES ('GEN2', 'Random House', 'LANG1', 'document Title 8', 'Author 8', 80, 80, NOW(), 15.99);
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('1', 'Pearson', '1', 'Basic English Grammar', 'Martha Collins', '9780134661138', 'An essential guide to English grammar.', 'https://example.com/book11', 'https://example.com/image11.jpg', 70, 70, NOW(), 12.40);
 
-INSERT INTO document (genrId, publisher, lgId, title, author, quantity, availableCopies, addDate, price)
-VALUES ('GEN3', 'Penguin Books', 'LANG5', 'document Title 9', 'Author 9', 90, 90, NOW(), 23.99);
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('2', 'HarperCollins', '2', 'Journey to the West', 'Li Bai', '9780062061249', 'A journey through mythical lands.', 'https://example.com/book12', 'https://example.com/image12.jpg', 55, 55, NOW(), 21.95);
 
-INSERT INTO document (genrId, publisher, lgId, title, author, quantity, availableCopies, addDate, price)
-VALUES ('GEN1', 'HarperCollins', 'LANG10', 'document Title 10', 'Author 10', 100, 100, NOW(), 24.99);
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('3', 'Penguin Random House', '3', 'Detective Stories', 'Arthur Doyle', '9780241978897', 'Classic detective tales.', 'https://example.com/book13', 'https://example.com/image13.jpg', 35, 35, NOW(), 19.50);
+
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('4', 'Simon & Schuster', '4', 'Romantic Poetry', 'Elizabeth Browning', '9781982107331', 'A collection of romantic poems.', 'https://example.com/book14', 'https://example.com/image14.jpg', 45, 45, NOW(), 14.99);
+
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('5', 'Houghton Mifflin', '5', 'Haunted Houses', 'John Carpenter', '9780395915246', 'Stories of haunted houses.', 'https://example.com/book15', 'https://example.com/image15.jpg', 50, 50, NOW(), 26.80);
+
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('7', 'Scholastic', '7', 'Physics for Beginners', 'Isaac Newton', '9780439878128', 'An introductory book on physics.', 'https://example.com/book16', 'https://example.com/image16.jpg', 40, 40, NOW(), 29.99);
+
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('8', 'Penguin Random House', '8', 'Autobiography of a Yogi', 'Paramahansa Yogananda', '9780876120835', 'The life story of a spiritual teacher.', 'https://example.com/book17', 'https://example.com/image17.jpg', 15, 15, NOW(), 38.50);
+
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('9', 'Cambridge University Press', '9', 'Effective Communication', 'John Maxwell', '9781400204607', 'Tips and strategies for effective communication.', 'https://example.com/book18', 'https://example.com/image18.jpg', 60, 60, NOW(), 20.00);
+
+INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
+VALUES ('10', 'Oxford University Press', '10', 'Collected Poems', 'Sylvia Plath', '9780062445247', 'A collection of poems by Sylvia Plath.', 'https://example.com/book19', 'https://example.com/image19.jpg', 35, 35, NOW(), 23.95);
 
 select * from document;
 
 CREATE TABLE loans (
-                       STT INT AUTO_INCREMENT PRIMARY KEY,
-                       userId VARCHAR(50),
-                       quantityOfBorrow SMALLINT,
-                       deposit DECIMAL(10, 2),
-                       dateOfBorrow DATETIME,
-                       requiredReturnDate DATETIME,
-                       loanID varchar(50) unique,
+    loanID INT AUTO_INCREMENT PRIMARY KEY,
+    userId int,
+    quantityOfBorrow SMALLINT,
+    deposit DECIMAL(10, 2),
+    dateOfBorrow DATETIME,
+    requiredReturnDate DATETIME,
     -- Khóa ngoại tham chiếu đến userId trong bảng user
-                       FOREIGN KEY (userId) REFERENCES user(userId)
+    FOREIGN KEY (userId) REFERENCES user(userId)
 );
 
-DELIMITER //
-
-CREATE TRIGGER before_insert_loans
-    BEFORE INSERT ON loans
-    FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-
-    -- Lấy giá trị AUTO_INCREMENT kế tiếp từ bảng information_schema
-    SET next_id = (SELECT AUTO_INCREMENT 
-                   FROM information_schema.TABLES 
-                   WHERE TABLE_SCHEMA = DATABASE() 
-                   AND TABLE_NAME = 'loans');
-    
-    -- Gán giá trị loanID với tiền tố 'LOAN' và giá trị của next_id
-    SET NEW.loanID = CONCAT('LOAN', next_id);
-END;
-//
-DELIMITER ;
+INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+VALUES ('1', 3, 100.00, '2024-11-02 10:00:00', '2024-12-02 10:00:00');
 
 INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('USER1', 3, 100.00, '2024-11-02 10:00:00', '2024-12-02 10:00:00');
+VALUES ('2', 2, 50.00, '2024-11-03 11:00:00', '2024-12-03 11:00:00');
 
 INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('USER2', 2, 50.00, '2024-11-03 11:00:00', '2024-12-03 11:00:00');
+VALUES ('3', 5, 150.00, '2024-11-04 12:00:00', '2024-12-04 12:00:00');
 
 INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('USER3', 5, 150.00, '2024-11-04 12:00:00', '2024-12-04 12:00:00');
+VALUES ('4', 1, 30.00, '2024-11-05 13:00:00', '2024-12-05 13:00:00');
 
 INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('USER4', 1, 30.00, '2024-11-05 13:00:00', '2024-12-05 13:00:00');
+VALUES ('5', 4, 120.00, '2024-11-06 14:00:00', '2024-12-06 14:00:00');
 
 INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('USER5', 4, 120.00, '2024-11-06 14:00:00', '2024-12-06 14:00:00');
+VALUES ('6', 2, 60.00, '2024-11-07 15:00:00', '2024-12-07 15:00:00');
 
 INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('USER6', 2, 60.00, '2024-11-07 15:00:00', '2024-12-07 15:00:00');
+VALUES ('7', 3, 90.00, '2024-11-08 16:00:00', '2024-12-08 16:00:00');
 
 INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('USER7', 3, 90.00, '2024-11-08 16:00:00', '2024-12-08 16:00:00');
+VALUES ('8', 1, 40.00, '2024-11-09 17:00:00', '2024-12-09 17:00:00');
 
 INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('USER8', 1, 40.00, '2024-11-09 17:00:00', '2024-12-09 17:00:00');
+VALUES ('9', 6, 200.00, '2024-11-10 18:00:00', '2024-12-10 18:00:00');
 
 INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('USER9', 6, 200.00, '2024-11-10 18:00:00', '2024-12-10 18:00:00');
-
-INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('USER10', 2, 70.00, '2024-11-11 19:00:00', '2024-12-11 19:00:00');
+VALUES ('10', 2, 70.00, '2024-11-11 19:00:00', '2024-12-11 19:00:00');
 
 select * from loans;
 
 CREATE TABLE loandetail (
-                            STT INT AUTO_INCREMENT PRIMARY KEY,
-                            loanId VARCHAR(50),
-                            documentId VARCHAR(50),
-                            quantity SMALLINT,
-                            loanDetailID VARCHAR(50) UNIQUE,
+    loanDetailID INT AUTO_INCREMENT PRIMARY KEY,
+    loanId int,
+    documentId int,
+    quantity SMALLINT,
     -- Khóa ngoại tham chiếu đến loanId trong bảng loans
-                            FOREIGN KEY (loanId) REFERENCES loans(loanId),
+    FOREIGN KEY (loanId) REFERENCES loans(loanId),
     -- Khóa ngoại tham chiếu đến documentId trong bảng document
-                            FOREIGN KEY (documentId) REFERENCES document(documentId)
+    FOREIGN KEY (documentId) REFERENCES document(documentId)
 );
 
-DELIMITER //
-
-CREATE TRIGGER before_insert_loandetail
-    BEFORE INSERT ON loandetail
-    FOR EACH ROW
-BEGIN
-    DECLARE next_id INT;
-
-    -- Lấy giá trị AUTO_INCREMENT kế tiếp từ bảng information_schema
-    SET next_id = (SELECT AUTO_INCREMENT 
-                   FROM information_schema.TABLES 
-                   WHERE TABLE_SCHEMA = DATABASE() 
-                   AND TABLE_NAME = 'loandetail');
-    
-    -- Gán giá trị loanDetailID với tiền tố 'DETAIL' và giá trị của next_id
-    SET NEW.loanDetailID = CONCAT('DETAIL', next_id);
-END;
-//
-DELIMITER ;
-
 
 INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('LOAN1', 'DOC1', 1);
+VALUES ('1', '1', 1);
 
 INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('LOAN2', 'DOC2', 2);
+VALUES ('2', '2', 2);
 
 INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('LOAN3', 'DOC3', 1);
+VALUES ('3', '3', 1);
 
 INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('LOAN4', 'DOC4', 1);
+VALUES ('4', '4', 1);
 
 INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('LOAN5', 'DOC5', 3);
+VALUES ('5', '5', 3);
 
 INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('LOAN3', 'DOC6', 1);
+VALUES ('3', '6', 1);
 
 INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('LOAN7', 'DOC7', 2);
+VALUES ('7', '7', 2);
 
 INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('LOAN8', 'DOC8', 1);
+VALUES ('8', '8', 1);
 
 INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('LOAN8', 'DOC9', 1);
+VALUES ('8', '9', 1);
 
 INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('LOAN9', 'DOC10', 2);
+VALUES ('9', '10', 2);
 
 select * from loandetail;

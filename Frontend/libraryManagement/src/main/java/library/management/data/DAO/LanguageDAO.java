@@ -34,14 +34,13 @@ public class LanguageDAO implements DAOInterface<Language> {
         return 0;
     }
 
-    // Xóa một ngôn ngữ khỏi cơ sở dữ liệu
     @Override
     public int delete(Language language) {
         String query = "DELETE FROM language WHERE lgID = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, language.getLgID());
+            stmt.setInt(1, language.getIntLgID());
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {
@@ -50,7 +49,6 @@ public class LanguageDAO implements DAOInterface<Language> {
         return 0;
     }
 
-    // Cập nhật thông tin của một ngôn ngữ trong cơ sở dữ liệu
     @Override
     public int update(Language language) {
         String query = "UPDATE language SET lgName = ? WHERE lgID = ?";
@@ -58,7 +56,7 @@ public class LanguageDAO implements DAOInterface<Language> {
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setString(1, language.getLgName());
-            stmt.setString(2, language.getLgID());
+            stmt.setInt(2, language.getIntLgID());
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated;
         } catch (SQLException e) {
@@ -96,7 +94,7 @@ public class LanguageDAO implements DAOInterface<Language> {
             while (rs.next()) {
                 String lgID = rs.getString("lgID");
                 String lgName = rs.getString("lgName");
-                Language language = new Language(lgID, lgName);
+                Language language = new Language(String.format("LANG%s", lgID), lgName);
                 languageList.add(language);
             }
         } catch (SQLException e) {

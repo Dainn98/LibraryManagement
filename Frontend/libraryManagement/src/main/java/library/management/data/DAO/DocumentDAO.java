@@ -4,6 +4,8 @@ import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.Document;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,21 +19,23 @@ public class DocumentDAO implements DAOInterface<Document> {
 
     @Override
     public int add(Document document) {
-        String query = "INSERT INTO document (genrId, publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO document (categoryID, publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description, url, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, document.getGenrId());
+            stmt.setInt(1, document.getIntCategoryID());
             stmt.setString(2, document.getPublisher());
-            stmt.setString(3, document.getLgId());
+            stmt.setInt(3, document.getIntLgID());
             stmt.setString(4, document.getTitle());
             stmt.setString(5, document.getAuthor());
             stmt.setString(6, document.getIsbn());
             stmt.setInt(7, document.getQuantity());
             stmt.setInt(8, document.getAvailableCopies());
-            stmt.setDate(9, Date.valueOf(document.getAddDate()));
+            stmt.setTimestamp(9, Timestamp.valueOf(document.getAddDate())); // Chuyển đổi LocalDateTime sang Timestamp
             stmt.setBigDecimal(10, java.math.BigDecimal.valueOf(document.getPrice()));
             stmt.setString(11, document.getDescription());
+            stmt.setString(12, document.getUrl());
+            stmt.setString(13, document.getImage());
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -46,7 +50,7 @@ public class DocumentDAO implements DAOInterface<Document> {
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, document.getDocumentID());
+            stmt.setInt(1, document.getIntDocumentID());
             return stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,22 +60,24 @@ public class DocumentDAO implements DAOInterface<Document> {
 
     @Override
     public int update(Document document) {
-        String query = "UPDATE document SET genrId = ?, publisher = ?, lgID = ?, title = ?, author = ?, isbn = ?, quantity = ?, availableCopies = ?, addDate = ?, price = ?, description = ? WHERE documentId = ?";
+        String query = "UPDATE document SET categoryID = ?, publisher = ?, lgID = ?, title = ?, author = ?, isbn = ?, quantity = ?, availableCopies = ?, addDate = ?, price = ?, description = ?, url = ?, image = ? WHERE documentId = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, document.getGenrId());
+            stmt.setInt(1, document.getIntCategoryID());
             stmt.setString(2, document.getPublisher());
-            stmt.setString(3, document.getLgId());
+            stmt.setInt(3, document.getIntLgID());
             stmt.setString(4, document.getTitle());
             stmt.setString(5, document.getAuthor());
             stmt.setString(6, document.getIsbn());
             stmt.setInt(7, document.getQuantity());
             stmt.setInt(8, document.getAvailableCopies());
-            stmt.setDate(9, Date.valueOf(document.getAddDate()));
+            stmt.setTimestamp(9, Timestamp.valueOf(document.getAddDate())); // Chuyển đổi LocalDateTime sang Timestamp
             stmt.setBigDecimal(10, java.math.BigDecimal.valueOf(document.getPrice()));
             stmt.setString(11, document.getDescription());
-            stmt.setString(12, document.getDocumentID());
+            stmt.setString(12, document.getUrl());
+            stmt.setString(13, document.getImage());
+            stmt.setInt(14, document.getIntDocumentID());
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -90,18 +96,20 @@ public class DocumentDAO implements DAOInterface<Document> {
 
             while (rs.next()) {
                 Document document = new Document();
-                document.setDocumentID(rs.getString("documentId"));
-                document.setGenrId(rs.getString("genrId"));
+                document.setDocumentID(String.format("DOC%d", rs.getInt("documentId")));
+                document.setCategoryID(String.format("CAT%d", rs.getInt("categoryID")));
                 document.setPublisher(rs.getString("publisher"));
-                document.setLgId(rs.getString("lgID"));
+                document.setLgID(String.format("LANG%d", rs.getInt("lgID")));
                 document.setTitle(rs.getString("title"));
                 document.setAuthor(rs.getString("author"));
                 document.setIsbn(rs.getString("isbn"));
                 document.setQuantity(rs.getInt("quantity"));
                 document.setAvailableCopies(rs.getInt("availableCopies"));
-                document.setAddDate(rs.getDate("addDate").toString());
+                document.setAddDate(rs.getTimestamp("addDate").toLocalDateTime().toString());
                 document.setPrice(rs.getBigDecimal("price").doubleValue());
                 document.setDescription(rs.getString("description"));
+                document.setUrl(rs.getString("url"));
+                document.setImage(rs.getString("image"));
 
                 bookList.add(document);
             }
@@ -141,6 +149,4 @@ public class DocumentDAO implements DAOInterface<Document> {
         }
         return 0;
     }
-
-
 }

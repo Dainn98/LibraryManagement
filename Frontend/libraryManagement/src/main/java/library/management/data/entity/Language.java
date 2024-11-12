@@ -1,44 +1,33 @@
 package library.management.data.entity;
 
 public class Language {
-    private int STT;          // STT là khóa chính
-    private String lgName;    // Tên ngôn ngữ
-    private String lgID;      // ID ngôn ngữ
+    private int lgID;
+    private String lgName;
 
-    // Constructor không tham số
     public Language() {
     }
 
-    // Constructor với tham số lgID và lgName
     public Language(String lgID, String lgName) {
-        this.lgID = lgID;
+        this.lgID = Integer.parseInt(lgID.substring(4));
         this.lgName = lgName;
     }
 
-    // Constructor với tham số lgID
     public Language(String lgID) {
-        this.lgID = lgID;
+        this.lgID = Integer.parseInt(lgID.substring(4));
     }
 
-    // Getter và Setter cho lgID
-    public String getLgID() {
+    public String getStringLgID() {
+        return String.format("LANG%d", lgID);
+    }
+
+    public int getIntLgID() {
         return lgID;
     }
 
     public void setLgID(String lgID) {
-        this.lgID = lgID;
+        this.lgID = Integer.parseInt(lgID.substring(4));
     }
 
-    // Getter và Setter cho STT
-    public int getSTT() {
-        return STT;
-    }
-
-    public void setSTT(int STT) {
-        this.STT = STT;
-    }
-
-    // Getter và Setter cho lgName
     public String getLgName() {
         return lgName;
     }

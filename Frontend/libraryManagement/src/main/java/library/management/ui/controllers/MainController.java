@@ -26,7 +26,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -41,8 +40,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import library.management.data.DAO.*;
+import library.management.data.entity.Category;
 import library.management.data.entity.Document;
-import library.management.data.entity.Genre;
 import library.management.data.entity.Language;
 import library.management.data.entity.User;
 import library.management.ui.AbstractUI;
@@ -76,35 +75,21 @@ public class MainController implements Initializable, AbstractUI {
     @FXML
     protected VBox dashboardVBox;
     @FXML
-    protected Label minimise;
-    @FXML
-    protected Label fullscreen;
-    @FXML
-    protected Label unfullscreen;
-    @FXML
-    protected Label close;
-    @FXML
-    protected Button findBookButton;
-    @FXML
-    protected Button findBookIssueButton;
-    @FXML
-    protected Button findStudentButton;
-    @FXML
-    protected BarChart<String, Number> barchart;
+    protected BarChart<String, Number> docBChart;
     @FXML
     protected CategoryAxis xAxis;
     @FXML
     protected NumberAxis yAxis;
     @FXML
-    protected SimpleMetroArcGauge allBooksGauge;
+    protected SimpleMetroArcGauge allDocsGauge;
     @FXML
-    protected SimpleMetroArcGauge remainingBooksGauge;
+    protected SimpleMetroArcGauge remainingDocsGauge;
     @FXML
-    protected SimpleMetroArcGauge issuedBooksGauge;
+    protected SimpleMetroArcGauge issuedDocsGauge;
     @FXML
-    protected SimpleMetroArcGauge allStudentsGauge;
+    protected SimpleMetroArcGauge allUsersGauge;
     @FXML
-    protected SimpleMetroArcGauge bookHoldersGauge;
+    protected SimpleMetroArcGauge docHoldersGauge;
 
     /**
      * Pending Approvals UI.
@@ -152,7 +137,7 @@ public class MainController implements Initializable, AbstractUI {
     @FXML
     protected TextArea descriptionField;
     @FXML
-    protected JFXComboBox<Genre> genreComboBox;
+    protected JFXComboBox<Category> categoryComboBox;
     @FXML
     protected JFXComboBox<Language> languageComboBox;
     @FXML
@@ -220,13 +205,17 @@ public class MainController implements Initializable, AbstractUI {
      * Manage Book Loans UI.
      */
     @FXML
-    protected VBox docManagementVBox;
+    protected BorderPane docBPane;
+    @FXML
+    protected HBox controlBoxDocView;
+    @FXML
+    protected VBox searchDocVBox;
 
     /**
      * Issued Books UI.
      */
     @FXML
-    protected VBox issuedBooksVBox;
+    protected VBox allIssuedDocVBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -238,7 +227,7 @@ public class MainController implements Initializable, AbstractUI {
     public void initUserViewCol() {
         userIDUserView.setCellValueFactory(new PropertyValueFactory<>("userId"));
         userNameUserView.setCellValueFactory(new PropertyValueFactory<>("userName"));
-        userPhoneUserView.setCellValueFactory(new PropertyValueFactory<>("mobile"));
+        userPhoneUserView.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         userEmailUserView.setCellValueFactory(new PropertyValueFactory<>("email"));
     }
 
@@ -250,13 +239,13 @@ public class MainController implements Initializable, AbstractUI {
 
     @FXML
     protected void showSection(Object sectionToShow) {
+        docBPane.setVisible(sectionToShow == docBPane);
         studentsBPane.setVisible(sectionToShow == studentsBPane);
         dashboardVBox.setVisible(sectionToShow == dashboardVBox);
         registerDocVBox.setVisible(sectionToShow == registerDocVBox);
         libraryCatalogAPane.setVisible(sectionToShow == libraryCatalogAPane);
         pendingApprovalsVBox.setVisible(sectionToShow == pendingApprovalsVBox);
-        issuedBooksVBox.setVisible(sectionToShow == issuedBooksVBox);
-        docManagementVBox.setVisible(sectionToShow == docManagementVBox);
+        allIssuedDocVBox.setVisible(sectionToShow == allIssuedDocVBox);
     }
 
     /**
@@ -272,8 +261,8 @@ public class MainController implements Initializable, AbstractUI {
      * load dashboard data
      */
     private void loadDashBoardData() {
-        // load barchart
-        barchart.getData().clear();
+        // load docBChart
+        docBChart.getData().clear();
         XYChart.Series<String, Number> documentInformation = new XYChart.Series<>();
         documentInformation.setName("Document information");
         int bookQuantity = DocumentDAO.getInstance().getTotalQuantity();
@@ -287,19 +276,19 @@ public class MainController implements Initializable, AbstractUI {
         int studentHoldingBook = LoanDAO.getInstance().getTotalUsersWhoBorrowedBooks();
         studentInformation.getData().add(new XYChart.Data<>("All Student", totalStudent));
         studentInformation.getData().add(new XYChart.Data<>("Students holding documents", studentHoldingBook));
-        barchart.getData().add(documentInformation);
-        barchart.getData().add(studentInformation);
+        docBChart.getData().add(documentInformation);
+//        docBChart.getData().add(studentInformation);
         // load gauge
-        allBooksGauge.setMaxValue(bookQuantity);
-        allBooksGauge.setValue(bookQuantity);
-        remainingBooksGauge.setMaxValue(bookQuantity);
-        remainingBooksGauge.setValue(remainingBookQuantity);
-        issuedBooksGauge.setMaxValue(bookQuantity);
-        issuedBooksGauge.setValue(bookQuantity - remainingBookQuantity);
-        allStudentsGauge.setMaxValue(totalStudent);
-        allStudentsGauge.setValue(totalStudent);
-        bookHoldersGauge.setMaxValue(totalStudent);
-        bookHoldersGauge.setValue(studentHoldingBook);
+        allDocsGauge.setMaxValue(bookQuantity);
+        allDocsGauge.setValue(bookQuantity);
+        remainingDocsGauge.setMaxValue(bookQuantity);
+        remainingDocsGauge.setValue(remainingBookQuantity);
+        issuedDocsGauge.setMaxValue(bookQuantity);
+        issuedDocsGauge.setValue(bookQuantity - remainingBookQuantity);
+        allUsersGauge.setMaxValue(totalStudent);
+        allUsersGauge.setValue(totalStudent);
+        docHoldersGauge.setMaxValue(totalStudent);
+        docHoldersGauge.setValue(studentHoldingBook);
     }
 
     /**
@@ -332,10 +321,10 @@ public class MainController implements Initializable, AbstractUI {
      */
     @FXML
     private void handleRegisterNewBookButton(ActionEvent actionEvent) {
-        Task<Void> loadgenreComboBox = new Task<Void>() {
+        Task<Void> loadCategoryComboBox = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                genreComboBox.getItems().addAll(GenreDAO.getInstance().getGenreList());
+                categoryComboBox.getItems().addAll(CategoryDAO.getInstance().getCategoryList());
                 return null;
             }
         };
@@ -347,7 +336,7 @@ public class MainController implements Initializable, AbstractUI {
                 return null;
             }
         };
-        new Thread(loadgenreComboBox).start();
+        new Thread(loadCategoryComboBox).start();
         new Thread(loadLanguageComboBox).start();
         showSection(registerDocVBox);
     }
@@ -357,7 +346,7 @@ public class MainController implements Initializable, AbstractUI {
      */
     @FXML
     private void handleManageBookLoansButton(ActionEvent actionEvent) {
-        showSection(docManagementVBox);
+        showSection(docBPane);
     }
 
     /**
@@ -365,7 +354,7 @@ public class MainController implements Initializable, AbstractUI {
      */
     @FXML
     private void handleIssuedBooksButton(ActionEvent actionEvent) {
-        showSection(issuedBooksVBox);
+        showSection(allIssuedDocVBox);
     }
 
     /**
@@ -543,7 +532,7 @@ public class MainController implements Initializable, AbstractUI {
         docPublisherField.clear();
         docPriceField.clear();
         descriptionField.clear();
-        genreComboBox.getSelectionModel().clearSelection();
+        categoryComboBox.getSelectionModel().clearSelection();
         languageComboBox.getSelectionModel().clearSelection();
         numberOfIssueField.clear();
     }
@@ -556,12 +545,13 @@ public class MainController implements Initializable, AbstractUI {
             String publisher = docPublisherField.getText();
             String description = descriptionField.getText();
             double price = Double.parseDouble(docPriceField.getText());
-            String genre = genreComboBox.getSelectionModel().getSelectedItem().getGenreID();
-            String language = languageComboBox.getSelectionModel().getSelectedItem().getLgID();
+            String category = categoryComboBox.getSelectionModel().getSelectedItem().getStringCategoryID();
+            String language = languageComboBox.getSelectionModel().getSelectedItem().getStringLgID();
             int numberOfIssues = Integer.parseInt(numberOfIssueField.getText());
             String addDate = java.time.LocalDate.now().toString();
 
-            Document document = new Document(genre, publisher, language, title, author, isbn, numberOfIssues, numberOfIssues, addDate, price, description);
+            Document document = new Document(category, publisher, language, title, author, isbn, numberOfIssues,
+                                            numberOfIssues, addDate, price, description, "", "");
             // todo: xử lí them cac truong hop nhap sai gia tri, them sach da co, hien thi thong bao, ...
             if (DocumentDAO.getInstance().add(document) > 0) {
                 System.out.println("Document registered successfully!");

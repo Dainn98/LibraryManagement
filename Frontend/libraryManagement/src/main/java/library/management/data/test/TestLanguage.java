@@ -8,13 +8,11 @@ import java.util.List;
 public class TestLanguage {
 
     public static void addLanguage() {
-        String lgName = "thien"; // Thêm ngôn ngữ
+        String lgName = "thien";
 
-        // Tạo đối tượng Language với các tham số
         Language language = new Language();
         language.setLgName(lgName);
 
-        // Gọi phương thức thêm ngôn ngữ từ LanguageDAO
         if (LanguageDAO.getInstance().add(language) > 0) {
             System.out.println("Thêm ngôn ngữ thành công!");
         } else {
@@ -23,12 +21,10 @@ public class TestLanguage {
     }
 
     public static void deleteLanguage() {
-        String lgID = "LANG11"; // ID của ngôn ngữ cần xóa
+        String lgID = "LANG11";
 
-        // Tạo đối tượng Language với lgID cần xóa
         Language language = new Language(lgID);
 
-        // Gọi phương thức xóa ngôn ngữ từ LanguageDAO
         if (LanguageDAO.getInstance().delete(language) > 0) {
             System.out.println("Xóa ngôn ngữ thành công!");
         } else {
@@ -37,13 +33,11 @@ public class TestLanguage {
     }
 
     public static void updateLanguage() {
-        String lgID = "LANG11"; // ID của ngôn ngữ cần cập nhật
-        String lgName = "thien2"; // Tên ngôn ngữ mới
+        String lgID = "LANG11";
+        String lgName = "thien2";
 
-        // Tạo đối tượng Language với thông tin cập nhật
         Language language = new Language(lgID, lgName);
 
-        // Gọi phương thức cập nhật ngôn ngữ từ LanguageDAO
         if (LanguageDAO.getInstance().update(language) > 0) {
             System.out.println("Cập nhật ngôn ngữ thành công!");
         } else {
@@ -52,6 +46,8 @@ public class TestLanguage {
     }
 
     public static void main(String[] args) {
+//        addLanguage();
+//        updateLanguage();
         deleteLanguage();
 
     }

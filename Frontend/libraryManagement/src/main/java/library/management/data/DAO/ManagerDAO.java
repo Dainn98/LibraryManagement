@@ -38,7 +38,7 @@ public class ManagerDAO implements DAOInterface<Manager> {
         String query = "DELETE FROM manager WHERE managerID = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, manager.getManagerID());
+            stmt.setInt(1, manager.getIntManagerID());
 
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
@@ -57,7 +57,7 @@ public class ManagerDAO implements DAOInterface<Manager> {
             stmt.setString(2, manager.getPassword());
             stmt.setString(3, manager.getIdentityCard());
             stmt.setString(4, manager.getEmail());
-            stmt.setString(5, manager.getManagerID());
+            stmt.setInt(5, manager.getIntManagerID());
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated;

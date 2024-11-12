@@ -8,7 +8,7 @@ import java.util.List;
 public class TestUser {
 
     public static void addUser() {
-        User user = new User("John Doe", "123 Main St", "1234567890", "0987654321", "johndoe@example.com", "Gold");
+        User user = new User("John Doe", "123 Main St", "1234567890", "0987654321", "johndoe@example.com", "USA", "California");
 
         if (UserDAO.getInstance().add(user) > 0) {
             System.out.println("Thêm người dùng thành công!");
@@ -29,7 +29,7 @@ public class TestUser {
     }
 
     public static void updateUser() {
-        User user = new User("USER11", "thien", "456 Elm St", "987654321012", "0123456789", "janedoe@example.com", "Platinum");
+        User user = new User("USER11", "Jane Doe", "456 Elm St", "987654321012", "0123456789", "janedoe@example.com", "USA", "New York");
 
         if (UserDAO.getInstance().update(user) > 0) {
             System.out.println("Cập nhật người dùng thành công!");
@@ -44,13 +44,13 @@ public class TestUser {
         if (users != null && !users.isEmpty()) {
             System.out.println("Danh sách người dùng:");
             for (User user : users) {
-                System.out.println("STT: " + user.getSTT() +
-                        ", userName: " + user.getUserName() +
+                System.out.println("userName: " + user.getUserName() +
                         ", address: " + user.getAddress() +
                         ", identityCard: " + user.getIdentityCard() +
-                        ", mobile: " + user.getMobile() +
+                        ", phoneNumber: " + user.getPhoneNumber() +
                         ", email: " + user.getEmail() +
-                        ", membershipLevel: " + user.getMembershipLevel() +
+                        ", country: " + user.getCountry() +
+                        ", state: " + user.getState() +
                         ", userId: " + user.getUserId());
             }
         } else {
@@ -59,6 +59,9 @@ public class TestUser {
     }
 
     public static void main(String[] args) {
+//        addUser();
+//        updateUser();
+//        deleteUser();
         getAllUsers();
     }
 }

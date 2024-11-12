@@ -38,26 +38,9 @@ public class TestLoanDetail {
         }
     }
 
-    public static void getAllLoanDetails() {
-        List<LoanDetail> loanDetails = LoanDetailDAO.getInstance().layTatCa();
-
-        if (loanDetails != null && !loanDetails.isEmpty()) {
-            System.out.println("Danh sách chi tiết khoản vay:");
-            for (LoanDetail loanDetail : loanDetails) {
-                System.out.println("STT: " + loanDetail.getSTT() +
-                        ", LoanID: " + loanDetail.getLoanId() +
-                        ", BookID: " + loanDetail.getDocumentID() +
-                        ", Quantity: " + loanDetail.getQuantity() +
-                        ", LoanDetailID: " + loanDetail.getLoanDetailID());
-            }
-        } else {
-            System.out.println("Không có chi tiết khoản vay nào trong cơ sở dữ liệu.");
-        }
-    }
-
     public static void main(String[] args) {
-        addLoanDetail();
-        updateLoanDetail();
+//        addLoanDetail();
+//        updateLoanDetail();
         deleteLoanDetail();
     }
 }

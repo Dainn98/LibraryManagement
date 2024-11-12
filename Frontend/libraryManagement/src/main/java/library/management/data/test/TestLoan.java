@@ -45,13 +45,13 @@ public class TestLoan {
         if (loans != null && !loans.isEmpty()) {
             System.out.println("Danh sách khoản vay:");
             for (Loan loan : loans) {
-                System.out.println("STT: " + loan.getSTT() +
-                        ", UserID: " + loan.getUserId() +
+                System.out.println("STT: " + loan.getIntLoanID() +
+                        ", UserID: " + loan.getIntUserId() +
                         ", Quantity of Borrow: " + loan.getQuantityOfBorrow() +
                         ", Deposit: " + loan.getDeposit() +
                         ", Date of Borrow: " + loan.getDateOfBorrow() +
                         ", Required Return Date: " + loan.getRequiredReturnDate() +
-                        ", LoanID: " + loan.getLoanID());
+                        ", LoanID: " + loan.getStringLoanID());
             }
         } else {
             System.out.println("Không có khoản vay nào trong cơ sở dữ liệu.");
@@ -59,8 +59,9 @@ public class TestLoan {
     }
 
     public static void main(String[] args) {
-        addLoan();
-        updateLoan();
-        deleteLoan();
+//        addLoan();
+//        updateLoan();
+//        deleteLoan();
+        getAllLoans();
     }
 }
