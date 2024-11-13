@@ -1,19 +1,15 @@
-drop
-database if exists libdemo;
+drop database if exists libdemo;
 
-create
-database libdemo;
-use
-libdemo;
+create database libdemo;
+use libdemo;
 
 -- Tạo bảng manager với cột STT là khóa chính và AUTO_INCREMENT
-CREATE TABLE manager
-(
-    managerID    INT AUTO_INCREMENT PRIMARY KEY,
-    managerName  VARCHAR(100) unique,
-    identityCard varchar(20) unique,
-    password     CHAR(12),
-    email        VARCHAR(100)
+CREATE TABLE manager (
+                         managerID INT AUTO_INCREMENT PRIMARY KEY,
+                         managerName VARCHAR(100) unique,
+                         identityCard varchar(20) unique,
+                         password CHAR(12),
+                         email VARCHAR(100)
 );
 
 ALTER TABLE manager AUTO_INCREMENT = 1;
@@ -27,44 +23,28 @@ VALUES ('Duc Anh', '123');
 INSERT INTO manager (managerName, password)
 VALUES ('Nang Diu', '123');
 
-select *
-from manager;
+select * from manager;
 
 -- Tạo bảng category với STT là khóa chính và AUTO_INCREMENT
-CREATE TABLE category
-(
-    categoryID INT AUTO_INCREMENT PRIMARY KEY,
-    tag        VARCHAR(50) unique
+CREATE TABLE category (
+                          categoryID INT AUTO_INCREMENT PRIMARY KEY,
+                          tag VARCHAR(50) unique
 );
 
-INSERT INTO category (tag)
-VALUES ('Fantasy');
-INSERT INTO category (tag)
-VALUES ('Science Fiction');
-INSERT INTO category (tag)
-VALUES ('Mystery');
-INSERT INTO category (tag)
-VALUES ('Romance');
-INSERT INTO category (tag)
-VALUES ('Horror');
-INSERT INTO category (tag)
-VALUES ('Thriller');
-INSERT INTO category (tag)
-VALUES ('Historical Fiction');
-INSERT INTO category (tag)
-VALUES ('Biography');
-INSERT INTO category (tag)
-VALUES ('Self-help');
-INSERT INTO category (tag)
-VALUES ('Poetry');
-INSERT INTO category (tag)
-VALUES ('Adventure');
-INSERT INTO category (tag)
-VALUES ('Drama');
-INSERT INTO category (tag)
-VALUES ('Graphic Novel');
-INSERT INTO category (tag)
-VALUES ('Children\'s Literature');
+INSERT INTO category (tag) VALUES ('Fantasy');
+INSERT INTO category (tag) VALUES ('Science Fiction');
+INSERT INTO category (tag) VALUES ('Mystery');
+INSERT INTO category (tag) VALUES ('Romance');
+INSERT INTO category (tag) VALUES ('Horror');
+INSERT INTO category (tag) VALUES ('Thriller');
+INSERT INTO category (tag) VALUES ('Historical Fiction');
+INSERT INTO category (tag) VALUES ('Biography');
+INSERT INTO category (tag) VALUES ('Self-help');
+INSERT INTO category (tag) VALUES ('Poetry');
+INSERT INTO category (tag) VALUES ('Adventure');
+INSERT INTO category (tag) VALUES ('Drama');
+INSERT INTO category (tag) VALUES ('Graphic Novel');
+INSERT INTO category (tag) VALUES ('Children\'s Literature');
 INSERT INTO category (tag) VALUES ('Young Adult');
 INSERT INTO category (tag) VALUES ('Dystopian');
 INSERT INTO category (tag) VALUES ('Fairy Tale');
@@ -245,7 +225,7 @@ CREATE TABLE loans (
     dateOfBorrow DATETIME,
     requiredReturnDate DATETIME,
     -- Khóa ngoại tham chiếu đến userId trong bảng user
-    FOREIGN KEY (userId) REFERENCES user(userId)
+    FOREIGN KEY (userId) REFERENCES user(userId) ON DELETE SET NULL
 );
 
 INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)

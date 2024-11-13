@@ -32,25 +32,24 @@
       <version>8.0.33</version>
     </dependency>
 
-    <!--    &lt;!&ndash;    JFXTRAS CONTROLS&ndash;&gt;-->
-    <!--    <dependency>-->
-    <!--      <groupId>org.jfxtras</groupId>-->
-    <!--      <artifactId>jfxtras-controls</artifactId>-->
-    <!--      <version>8.0-r6</version>-->
-    <!--    </dependency>-->
-    <!--    SimpleMetroArcGauge-->
-
     <dependency>
       <groupId>de.jensd</groupId>
       <artifactId>fontawesomefx-fontawesome</artifactId>
       <version>4.7.0-9.1.2</version>
     </dependency>
-<!--    &lt;!&ndash;    JFXTRAS CONTROLS&ndash;&gt;-->
-<!--    <dependency>-->
-<!--      <groupId>org.jfxtras</groupId>-->
-<!--      <artifactId>jfxtras-controls</artifactId>-->
-<!--      <version>8.0-r6</version>-->
-<!--    </dependency>-->
+    <!--    JFXTRAS CONTROLS-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.jfxtras</groupId>-->
+    <!--      <artifactId>jfxtras-controls</artifactId>-->
+    <!--      <version>8.0-r6</version>-->
+    <!--    </dependency>-->
+
+    <!--    CONTROLSFX-->
+    <dependency>
+      <groupId>org.controlsfx</groupId>
+      <artifactId>controlsfx</artifactId>
+      <version>11.2.1</version>
+    </dependency>
     <!--    SimpleMetroArcGauge-->
     <dependency>
       <groupId>org.jfxtras</groupId>

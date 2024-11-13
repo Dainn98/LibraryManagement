@@ -1,85 +1,45 @@
 package library.management.ui.controllers;
 
 
-import static library.management.alert.AlertMaker.showAlertConfirmation;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
+import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
+import com.jfoenix.controls.JFXListView;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import library.management.data.DAO.*;
-import library.management.data.entity.Category;
-import library.management.data.entity.Document;
-import library.management.data.entity.Language;
-import library.management.data.entity.User;
-import library.management.ui.AbstractUI;
 import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
-
+import library.management.data.entity.User;
+import library.management.properties;
+import library.management.ui.AbstractUI;
+import org.controlsfx.control.CheckComboBox;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class MainController implements Initializable, AbstractUI {
-    /**
-     * Menu Button.
-     */
-    @FXML
-    protected Button dashboardButton;
-    @FXML
-    protected Button documentsButton;
-    @FXML
-    protected Button studentsButton;
-    @FXML
-    protected Button libraryCatalogButton;
-    @FXML
-    protected Button pendingApprovalsButton;
-    @FXML
-    protected Button manageDocumentLoanButton;
-    @FXML
-    protected Button allIssuedDocumentButton;
-    @FXML
-    protected Button signOutButton;
-    /**
-     * Dashboard UI.
-     */
+public class MainController implements Initializable, AbstractUI, properties {
+    // Dashboard Window
     @FXML
     protected VBox dashboardVBox;
-    @FXML
-    protected BarChart<String, Number> docBChart;
-    @FXML
-    protected CategoryAxis xAxis;
-    @FXML
-    protected NumberAxis yAxis;
     @FXML
     protected SimpleMetroArcGauge allDocsGauge;
     @FXML
@@ -90,38 +50,56 @@ public class MainController implements Initializable, AbstractUI {
     protected SimpleMetroArcGauge allUsersGauge;
     @FXML
     protected SimpleMetroArcGauge docHoldersGauge;
+    @FXML
+    protected BarChart<String, Number> docBChart;
+    @FXML
+    protected BarChart<String, Number> userBChart;
 
-    /**
-     * Pending Approvals UI.
-     */
+    // Document Window
     @FXML
-    protected VBox pendingApprovalsVBox;
+    protected BorderPane docBPane;
     @FXML
-    protected ComboBox branchComboBoxPendingApprovals;
+    protected Label allUsers;
     @FXML
-    protected ComboBox categoryComboBoxPendingApprovals;
+    protected Label remainDocs;
     @FXML
-    protected ComboBox yearComboBoxPendingApprovals;
+    protected TextField searchDocTField;
     @FXML
-    protected TableView tableViewPendingApprovals;
+    protected JFXButton addDocButton;
     @FXML
-    protected TableColumn idColumnPendingApprovals;
+    protected JFXButton importDataButton;
     @FXML
-    protected TableColumn usernameColumnPendingApprovals;
+    protected TableView<?> docView;
     @FXML
-    protected TableColumn identityCardColumnPendingApprovals;
+    protected TableColumn<?, ?> checkDocView;
     @FXML
-    protected TableColumn mobileColumnPendingApprovals;
+    protected TableColumn<?, ?> docIDDocView;
     @FXML
-    protected TableColumn categoryColumnPendingApprovals;
+    protected TableColumn<?, ?> docISBNDocView;
     @FXML
-    protected TableColumn approveColumnPendingApprovals;
+    protected TableColumn<?, ?> docNameDocView;
+    @FXML
+    protected TableColumn<?, ?> docAuthorDocView;
+    @FXML
+    protected TableColumn<?, ?> docPublisherDocView;
+    @FXML
+    protected TableColumn<?, ?> genreDocDocView;
+    @FXML
+    protected TableColumn<?, ?> quantityDocView;
+    @FXML
+    protected TableColumn<?, ?> remainingDocsDocView;
+    @FXML
+    protected TableColumn<?, ?> availabilityDocView;
+    @FXML
+    protected HBox controlBoxDocView;
+    @FXML
+    protected CheckBox checkAllDocs;
+    @FXML
+    protected Hyperlink deleteDocs;
 
-    /**
-     * Registered new book UI.
-     */
+    // Register Document
     @FXML
-    protected VBox registerDocVBox;
+    protected BorderPane registerDocumentBPane;
     @FXML
     protected JFXButton backToDocs;
     @FXML
@@ -137,45 +115,41 @@ public class MainController implements Initializable, AbstractUI {
     @FXML
     protected TextArea descriptionField;
     @FXML
-    protected JFXComboBox<Category> categoryComboBox;
-    @FXML
-    protected JFXComboBox<Language> languageComboBox;
-    @FXML
     protected TextField numberOfIssueField;
     @FXML
-    protected JFXButton cancelButton;
+    protected JFXButton cancelRegisterDocButton;
     @FXML
-    protected Button submitButton;
+    protected Button submitDocButton;
+    @FXML
+    protected JFXComboBox<?> docCategory;
+    @FXML
+    protected JFXComboBox<?> docLanguage;
 
-    /**
-     * Library Catalog UI.
-     */
+    // User
     @FXML
-    protected AnchorPane libraryCatalogAPane;
+    protected BorderPane usersBPane;
     @FXML
-    protected TableView tableViewLibraryCatalog;
+    protected TextField searchUserField;
     @FXML
-    protected TableColumn titleColumnLibraryCatalog;
+    protected JFXComboBox<String> userFilterComboBox;
     @FXML
-    protected TableColumn bookIdColumnLibraryCatalog;
+    protected JFXButton importDataUserButton;
     @FXML
-    protected TableColumn authorColumnLibraryCatalog;
+    protected TableView<User> userView;
     @FXML
-    protected TableColumn publisherColumnLibraryCatalog;
+    protected TableColumn<User, Boolean> checkUserView;
     @FXML
-    protected TableColumn availabilityColumnLibraryCatalog;
-
-    /**
-     * Registered Students UI.
-     */
+    protected TableColumn<User, String> userIDUserView;
     @FXML
-    protected BorderPane studentsBPane;
+    protected TableColumn<User, String> userNameUserView;
     @FXML
-    protected HBox controlUserView;
+    protected TableColumn<User, String> userPhoneUserView;
     @FXML
-    protected VBox registerUserVBox;
+    protected TableColumn<User, String> userEmailUserView;
     @FXML
-    protected VBox findUserVBox;
+    protected ContextMenu selectUserContext;
+    @FXML
+    protected MenuItem selectMenu;
     @FXML
     protected TextField userIDField;
     @FXML
@@ -185,273 +159,161 @@ public class MainController implements Initializable, AbstractUI {
     @FXML
     protected TextField userPhoneField;
     @FXML
-    protected JFXButton cancel;
+    protected JFXButton cancelUserButton;
     @FXML
-    protected JFXButton save;
+    protected JFXButton saveUserButton;
     @FXML
-    protected TableView<User> userView;
+    protected JFXButton deleteUser;
     @FXML
-    protected TableColumn checkUserView;
+    protected JFXButton updateUser;
     @FXML
-    protected TableColumn<User, String> userIDUserView;
+    protected HBox controlUserView;
     @FXML
-    protected TableColumn<User, String> userNameUserView;
-    @FXML
-    protected TableColumn<User, String> userPhoneUserView;
-    @FXML
-    protected TableColumn<User, String> userEmailUserView;
+    protected CheckBox checkAllUsersView;
 
-    /**
-     * Manage Book Loans UI.
-     */
+    // Pending Approvals
     @FXML
-    protected BorderPane docBPane;
+    protected BorderPane pendingApprovalsBPane;
     @FXML
-    protected HBox controlBoxDocView;
+    protected CheckComboBox<?> checkUsername;
     @FXML
-    protected VBox searchDocVBox;
+    protected CheckComboBox<?> checkCountry;
+    @FXML
+    protected CheckComboBox<?> checkState;
+    @FXML
+    protected CheckComboBox<?> checkYear;
+    @FXML
+    protected TableView<?> approvalsTView;
+    @FXML
+    protected TableColumn<?, ?> idApprovals;
+    @FXML
+    protected TableColumn<?, ?> usernameApprovals;
+    @FXML
+    protected TableColumn<?, ?> phoneNumberApprovals;
+    @FXML
+    protected TableColumn<?, ?> emailApprovals;
+    @FXML
+    protected TableColumn<?, ?> countryApprovals;
+    @FXML
+    protected TableColumn<?, ?> stateApprovals;
+    @FXML
+    protected TableColumn<?, ?> yearApprovals;
+    @FXML
+    protected TableColumn<?, ?> approveApprovals;
 
-    /**
-     * Issued Books UI.
-     */
+    // Document Management
     @FXML
-    protected VBox allIssuedDocVBox;
+    protected BorderPane docManagementBPane;
+    @FXML
+    protected JFXButton issueDocSwitchButton;
+    @FXML
+    protected JFXButton returnDocSwitchButton;
+    @FXML
+    protected BorderPane returnDocBPane;
+    @FXML
+    protected JFXListView<?> listInfo;
+    @FXML
+    protected AutoCompleteTextField lateFeeField;
+    @FXML
+    protected JFXButton submitButton;
+    @FXML
+    protected JFXButton renewButton;
+    @FXML
+    protected JFXButton submitIssueDocButton;
+    @FXML
+    protected JFXButton cancelIssueDocButton;
+
+    // All Issued Doc
+    @FXML
+    protected BorderPane allIssuedDocBPane;
+    @FXML
+    protected TextField issuedDocField;
+    @FXML
+    protected JFXComboBox<?> issueTypeIssuedDoc;
+    @FXML
+    protected TableView<?> IDView;
+    @FXML
+    protected TableColumn<?, ?> issuedIDIDView;
+    @FXML
+    protected TableColumn<?, ?> docIDIDView;
+    @FXML
+    protected TableColumn<?, ?> docTitleIDView;
+    @FXML
+    protected TableColumn<?, ?> userIDIDView;
+    @FXML
+    protected TableColumn<?, ?> userNameIDView;
+    @FXML
+    protected TableColumn<?, ?> dueDateIDView;
+    @FXML
+    protected TableColumn<?, ?> issuedDateAndTimeIDView;
+    @FXML
+    protected TableColumn<?, ?> daysIDView;
+    @FXML
+    protected TableColumn<?, ?> feeIDView;
+    // CATALOG
+    @FXML
+    protected BorderPane catalogBPane;
+
+    private final DashboardController dashboardController = new DashboardController(this);
+    private final UserController userController = new UserController(this);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loadDashBoardData();
-        // students
-        initUserViewCol();
+        dashboardController.loadDashBoardData();
+        userController.initUsersView();
     }
 
-    public void initUserViewCol() {
-        userIDUserView.setCellValueFactory(new PropertyValueFactory<>("userId"));
-        userNameUserView.setCellValueFactory(new PropertyValueFactory<>("userName"));
-        userPhoneUserView.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        userEmailUserView.setCellValueFactory(new PropertyValueFactory<>("email"));
-    }
-
-    public void loadUserViewData() {
-        ObservableList<User> list = FXCollections.observableArrayList();
-        list.addAll(UserDAO.getInstance().getAllUser());
-        userView.setItems(list);
-    }
-
+    // MENU CONTROLLER
     @FXML
     protected void showSection(Object sectionToShow) {
-        docBPane.setVisible(sectionToShow == docBPane);
-        studentsBPane.setVisible(sectionToShow == studentsBPane);
         dashboardVBox.setVisible(sectionToShow == dashboardVBox);
-        registerDocVBox.setVisible(sectionToShow == registerDocVBox);
-        libraryCatalogAPane.setVisible(sectionToShow == libraryCatalogAPane);
-        pendingApprovalsVBox.setVisible(sectionToShow == pendingApprovalsVBox);
-        allIssuedDocVBox.setVisible(sectionToShow == allIssuedDocVBox);
+        docBPane.setVisible(sectionToShow == docBPane);
+        usersBPane.setVisible(sectionToShow == usersBPane);
+        catalogBPane.setVisible(sectionToShow == catalogBPane);
+        pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
+        allIssuedDocBPane.setVisible(sectionToShow == allIssuedDocBPane);
+
     }
 
-    /**
-     * Navigates the user to the dashboard.
-     */
     @FXML
-    private void navigateToDashboardButton(ActionEvent actionEvent) {
-        loadDashBoardData();
+    protected void handleDashboardButton(ActionEvent actionEvent) {
+        dashboardController.loadDashBoardData();
         showSection(dashboardVBox);
     }
 
-    /**
-     * load dashboard data
-     */
-    private void loadDashBoardData() {
-        // load docBChart
-        docBChart.getData().clear();
-        XYChart.Series<String, Number> documentInformation = new XYChart.Series<>();
-        documentInformation.setName("Document information");
-        int bookQuantity = DocumentDAO.getInstance().getTotalQuantity();
-        int remainingBookQuantity = DocumentDAO.getInstance().getTotalAvailableCopies();
-        documentInformation.getData().add(new XYChart.Data<>("All Documents", bookQuantity));
-        documentInformation.getData().add(new XYChart.Data<>("Remaining Documents", remainingBookQuantity));
-        documentInformation.getData().add(new XYChart.Data<>("Issued Documents", bookQuantity - remainingBookQuantity));
-        XYChart.Series<String, Number> studentInformation = new XYChart.Series<>();
-        studentInformation.setName("Student information");
-        int totalStudent = UserDAO.getInstance().getTotalUsersCount();
-        int studentHoldingBook = LoanDAO.getInstance().getTotalUsersWhoBorrowedBooks();
-        studentInformation.getData().add(new XYChart.Data<>("All Student", totalStudent));
-        studentInformation.getData().add(new XYChart.Data<>("Students holding documents", studentHoldingBook));
-        docBChart.getData().add(documentInformation);
-//        docBChart.getData().add(studentInformation);
-        // load gauge
-        allDocsGauge.setMaxValue(bookQuantity);
-        allDocsGauge.setValue(bookQuantity);
-        remainingDocsGauge.setMaxValue(bookQuantity);
-        remainingDocsGauge.setValue(remainingBookQuantity);
-        issuedDocsGauge.setMaxValue(bookQuantity);
-        issuedDocsGauge.setValue(bookQuantity - remainingBookQuantity);
-        allUsersGauge.setMaxValue(totalStudent);
-        allUsersGauge.setValue(totalStudent);
-        docHoldersGauge.setMaxValue(totalStudent);
-        docHoldersGauge.setValue(studentHoldingBook);
-    }
-
-    /**
-     * Displays a list of students awaiting approval.
-     */
-    @FXML
-    private void handlePendingApprovalsButton(ActionEvent actionEvent) {
-        showSection(pendingApprovalsVBox);
-    }
-
-    /**
-     * Shows all registered students in the system.
-     */
-    @FXML
-    private void handleRegisteredStudentsButton(ActionEvent actionEvent) {
-        loadUserViewData();
-        showSection(studentsBPane);
-    }
-
-    /**
-     * Displays all books currently available in the library.
-     */
-    @FXML
-    private void handleLibraryCatalogButton(ActionEvent actionEvent) {
-        showSection(libraryCatalogAPane);
-    }
-
-    /**
-     * Adds a new book to the library's collection.
-     */
-    @FXML
-    private void handleRegisterNewBookButton(ActionEvent actionEvent) {
-        Task<Void> loadCategoryComboBox = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                categoryComboBox.getItems().addAll(CategoryDAO.getInstance().getCategoryList());
-                return null;
-            }
-        };
-
-        Task<Void> loadLanguageComboBox = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                languageComboBox.getItems().addAll(LanguageDAO.getInstance().getLanguageList());
-                return null;
-            }
-        };
-        new Thread(loadCategoryComboBox).start();
-        new Thread(loadLanguageComboBox).start();
-        showSection(registerDocVBox);
-    }
-
-    /**
-     * Handles the process of issuing or returning books in the library.
-     */
-    @FXML
-    private void handleManageBookLoansButton(ActionEvent actionEvent) {
+    public void handleDocButton(ActionEvent actionEvent) {
         showSection(docBPane);
     }
 
-    /**
-     * Shows a list of books that are currently issued to users.
-     */
-    @FXML
-    private void handleIssuedBooksButton(ActionEvent actionEvent) {
-        showSection(allIssuedDocVBox);
+    public void handleUsersButton(ActionEvent actionEvent) {
+        userController.loadUserViewData();
+        showSection(usersBPane);
     }
 
-    /**
-     * Handles the sign-out process for the user.
-     */
-    @FXML
-    private void handleSignOutButton(ActionEvent actionEvent) {
-        Optional<ButtonType> result = showAlertConfirmation(
-                "Sign Out",
-                "Are you sure you want to sign out?");
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/fxml/login.fxml"));
-                Parent root = loader.load();
-                Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    public void handleLibraryCatalogButton(ActionEvent actionEvent) {
+        showSection(catalogBPane);
     }
 
-    /**
-     * Handles the process of adding books to the library.
-     */
-    @FXML
-    private void handleAddBooks(ActionEvent actionEvent) {
-        //Database
+    public void handlePendingApprovalsButton(ActionEvent actionEvent) {
+        showSection(pendingApprovalsBPane);
     }
 
-    /**
-     * Handles the process of viewing the library catalog.
-     */
-    @FXML
-    protected void handleRefresh(ActionEvent actionEvent) {
+    public void handleIssuedDocButton(ActionEvent actionEvent) {
+        showSection(allIssuedDocBPane);
     }
 
-    /**
-     * Handles the process of editing a book in the library.
-     *
-     * @param actionEvent the event that triggered this action
-     */
-    @FXML
-    protected void handleBookEditOption(ActionEvent actionEvent) {
+    // DOCUMENT CONTROLLER
+
+    public void handleSearchDocTField(ActionEvent actionEvent) {
     }
 
-    /**
-     * Handles the process of deleting a book from the library.
-     */
-    @FXML
-    protected void handleBookDeleteOption(ActionEvent actionEvent) {
+    public void handleAdvancedSearch(ActionEvent actionEvent) {
     }
 
-    /**
-     * Handles the process of exporting the library catalog as a PDF.
-     */
-    @FXML
-    protected void exportAsPDF(ActionEvent actionEvent) {
+    public void handleAddDocButton(ActionEvent actionEvent) {
     }
 
-    /**
-     * Handles the process of exporting the library catalog as an Excel file.
-     */
-    @FXML
-    protected void closeStage(ActionEvent actionEvent) {
-    }
-
-    @FXML
-    protected void handleIssueBookButton(ActionEvent actionEvent) {
-    }
-
-    @FXML
-    protected void handlerReturnBook(ActionEvent actionEvent) {
-    }
-
-    protected TextField getTitleOfBookField() {
-        return docTitleField;
-    }
-
-    protected void setTitleOfBookField(TextField titleOfBookField) {
-        this.docTitleField = titleOfBookField;
-    }
-
-    @FXML
-    protected void handleFindBookButton(ActionEvent actionEvent) {
-        //To do in DashboardController
-    }
-
-    @FXML
-    protected void handleFindBookIssueButton(ActionEvent actionEvent) {
-        //To do in DashboardController
-    }
-
-    @FXML
-    protected void handleFindStudentButton(ActionEvent actionEvent) {
-        //To do in DashboardController
+    public void handleImportDataButton(ActionEvent actionEvent) {
     }
 
     public void loadUpdateBook(ActionEvent actionEvent) {
@@ -460,109 +322,84 @@ public class MainController implements Initializable, AbstractUI {
     public void DeleteBook(ActionEvent actionEvent) {
     }
 
-    public void selectRecordsType(ActionEvent actionEvent) {
+    public void handleDeleteDocHyperlink(ActionEvent actionEvent) {
+    }
+
+    public void handleBackToDocs(ActionEvent actionEvent) {
+    }
+
+    public void handleCancelRegisterDoc(ActionEvent actionEvent) {
+    }
+
+    public void handleSubmitDoc(ActionEvent actionEvent) {
+    }
+
+    //  USER CONTROLLER
+    public void searchUserDetails(KeyEvent event) {
+        userController.searchUserDetails();
     }
 
     public void importData(ActionEvent actionEvent) {
     }
 
-    @FXML
-    public void cancel(ActionEvent actionEvent) {
-        userIDField.clear();
-        userNameField.clear();
-        userEmailField.clear();
-        userPhoneField.clear();
+    public void deleteUserRecord(ActionEvent actionEvent) {
+        userController.deleteUserRecord();
     }
 
-    public void saveStudent(ActionEvent actionEvent) {
+    public void handleCancelUserButton(ActionEvent actionEvent) {
+        userController.handleCancelUserButton();
     }
 
-    public void deleteStudent(ActionEvent actionEvent) {
+    public void handleSaveUserButton(ActionEvent actionEvent) {
+        userController.handleSaveUserButton();
     }
 
-    public void updateStudent(ActionEvent actionEvent) {
+    public void handleUpdateUser(ActionEvent actionEvent) {
     }
 
-    public void requestMenu(ContextMenuEvent contextMenuEvent) {
+    public void checkAllUsers(ActionEvent actionEvent) {
+        userController.checkAllUsers();
     }
 
-    public void fetchStudentWithKey(KeyEvent event) {
-    }
-
-    public void deleteStudentRecord(ActionEvent actionEvent) {
-    }
-
-    public void deleteselectedStudents(ActionEvent actionEvent) {
-    }
-
-    public void minimize(MouseEvent mouseEvent) {
-    }
-
-    public void fullscreen(MouseEvent mouseEvent) {
-    }
-
-    public void unfullscreen(MouseEvent mouseEvent) {
-    }
-
-    public void close(MouseEvent mouseEvent) {
-    }
-
-    public void searchBook(KeyEvent event) {
-    }
-
-    public void loadBookDataentry(ActionEvent actionEvent) {
-    }
-
-    public void searchStudentDeatails(KeyEvent event) {
-    }
-
-    public void fetchStudentFeesDetails(MouseEvent mouseEvent) {
-    }
-
+    //DOCUMENT MANAGEMENT
     public void handleIssueDocSwitch(ActionEvent actionEvent) {
     }
 
     public void handleReturnDocSwitch(ActionEvent actionEvent) {
     }
 
-    public void handleCancel(ActionEvent actionEvent) {
-        docISBNField.clear();
-        docTitleField.clear();
-        docAuthorField.clear();
-        docPublisherField.clear();
-        docPriceField.clear();
-        descriptionField.clear();
-        categoryComboBox.getSelectionModel().clearSelection();
-        languageComboBox.getSelectionModel().clearSelection();
-        numberOfIssueField.clear();
+    public void handleBackToDoc(ActionEvent actionEvent) {
     }
 
-    public void handleSubmit(ActionEvent actionEvent) {
-        try {
-            String isbn = docISBNField.getText();
-            String title = docTitleField.getText();
-            String author = docAuthorField.getText();
-            String publisher = docPublisherField.getText();
-            String description = descriptionField.getText();
-            double price = Double.parseDouble(docPriceField.getText());
-            String category = categoryComboBox.getSelectionModel().getSelectedItem().getStringCategoryID();
-            String language = languageComboBox.getSelectionModel().getSelectedItem().getStringLgID();
-            int numberOfIssues = Integer.parseInt(numberOfIssueField.getText());
-            String addDate = java.time.LocalDate.now().toString();
+    public void handleRenewDoc(ActionEvent actionEvent) {
+    }
 
-            Document document = new Document(category, publisher, language, title, author, isbn, numberOfIssues,
-                                            numberOfIssues, addDate, price, description, "", "");
-            // todo: xử lí them cac truong hop nhap sai gia tri, them sach da co, hien thi thong bao, ...
-            if (DocumentDAO.getInstance().add(document) > 0) {
-                System.out.println("Document registered successfully!");
-                handleCancel(actionEvent);
-            } else {
-                System.out.println("Failed to register document.");
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter valid numerical values for price and number of issues.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void handleSubmitIssueDoc(ActionEvent actionEvent) {
+    }
+
+    //ANOTHER
+    public void searchBook(KeyEvent event) {
+    }
+
+    public void requestMenu(ContextMenuEvent contextMenuEvent) {
+    }
+
+    public void fetchUserWithKey(KeyEvent event) {
+    }
+
+    public void fetchUserFeesDetails(MouseEvent mouseEvent) {
+        userController.fetchUserDetails();
+    }
+    //  SIGN OUT CONTROLLER
+
+    /**
+     * Handles the sign-out process for the user.
+     */
+    @FXML
+    protected void handleSignOutButton(ActionEvent actionEvent) {
+        signOutController.handleSignOut(actionEvent);
     }
 }
+
+
+

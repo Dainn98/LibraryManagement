@@ -59,9 +59,9 @@ public class TestUser {
     }
 
     public static void main(String[] args) {
-//        addUser();
-//        updateUser();
-//        deleteUser();
-        getAllUsers();
+        addUser();
+        updateUser();
+        deleteUser();
+//        getAllUsers();
     }
 }

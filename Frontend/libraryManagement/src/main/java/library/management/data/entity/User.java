@@ -14,6 +14,17 @@ public class User {
     public User() {
     }
 
+    public User(User user) {
+        this.userId = user.userId;
+        this.userName = user.userName;
+        this.address = user.address;
+        this.identityCard = user.identityCard;
+        this.phoneNumber = user.phoneNumber;
+        this.email = user.email;
+        this.country = user.country;
+        this.state = user.state;
+    }
+
     public User(String userId, String userName, String address, String identityCard,
                 String phoneNumber, String email, String country, String state) {
         this.userId = Integer.parseInt(userId.substring(4));

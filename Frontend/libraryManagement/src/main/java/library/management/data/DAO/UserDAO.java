@@ -107,33 +107,6 @@ public class UserDAO implements DAOInterface<User> {
         return list;
     }
 
-    // Lấy thông tin người dùng theo STT
-    public User layTheoId(int STT) {
-        String query = "SELECT * FROM user WHERE STT = ?";
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setInt(1, STT);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    User user = new User();
-                    user.setUserId(rs.getString("userId"));
-                    user.setUserName(rs.getString("userName"));
-                    user.setAddress(rs.getString("address"));
-                    user.setIdentityCard(rs.getString("identityCard"));
-                    user.setPhoneNumber(rs.getString("phoneNumber"));
-                    user.setEmail(rs.getString("email"));
-                    user.setCountry(rs.getString("country"));
-                    user.setState(rs.getString("state"));
-                    return user;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     // Đếm tổng số người dùng
     public int getTotalUsersCount() {
         String query = "SELECT COUNT(*) FROM user";
@@ -149,4 +122,157 @@ public class UserDAO implements DAOInterface<User> {
         }
         return 0;
     }
+
+    // return all users that have keyword in name, email, phone number, id.
+    public List<User> searchAllByKeyword(String keyword) {
+        String query = "SELECT * FROM user WHERE userName LIKE ? OR email LIKE ? OR phoneNumber LIKE ? OR userId LIKE ?";
+        List<User> list = new ArrayList<>();
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            String searchPattern = "%" + keyword + "%";
+
+            // Đặt giá trị cho tất cả các cột cần tìm kiếm
+            stmt.setString(1, searchPattern); // Tìm trong userName
+            stmt.setString(2, searchPattern); // Tìm trong email
+            stmt.setString(3, searchPattern); // Tìm trong phoneNumber
+            stmt.setString(4, searchPattern); // Tìm trong identityCard
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User();
+                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
+                    user.setUserName(rs.getString("userName"));
+                    user.setAddress(rs.getString("address"));
+                    user.setIdentityCard(rs.getString("identityCard"));
+                    user.setPhoneNumber(rs.getString("phoneNumber"));
+                    user.setEmail(rs.getString("email"));
+                    user.setCountry(rs.getString("country"));
+                    user.setState(rs.getString("state"));
+                    list.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<User> searchByName(String name) {
+        String query = "SELECT * FROM user WHERE userName LIKE ?";
+        List<User> list = new ArrayList<>();
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + name + "%"); // Tìm kiếm với chuỗi giống với name
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User();
+                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
+                    user.setUserName(rs.getString("userName"));
+                    user.setAddress(rs.getString("address"));
+                    user.setIdentityCard(rs.getString("identityCard"));
+                    user.setPhoneNumber(rs.getString("phoneNumber"));
+                    user.setEmail(rs.getString("email"));
+                    user.setCountry(rs.getString("country"));
+                    user.setState(rs.getString("state"));
+                    list.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<User> searchById(String userId) {
+        String query = "SELECT * FROM user WHERE userId LIKE ?";
+        List<User> list = new ArrayList<>();
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + userId + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User();
+                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
+                    user.setUserName(rs.getString("userName"));
+                    user.setAddress(rs.getString("address"));
+                    user.setIdentityCard(rs.getString("identityCard"));
+                    user.setPhoneNumber(rs.getString("phoneNumber"));
+                    user.setEmail(rs.getString("email"));
+                    user.setCountry(rs.getString("country"));
+                    user.setState(rs.getString("state"));
+                    list.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<User> searchByPhoneNumber(String phoneNumber) {
+        String query = "SELECT * FROM user WHERE phoneNumber LIKE ?";
+        List<User> list = new ArrayList<>();
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + phoneNumber + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User();
+                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
+                    user.setUserName(rs.getString("userName"));
+                    user.setAddress(rs.getString("address"));
+                    user.setIdentityCard(rs.getString("identityCard"));
+                    user.setPhoneNumber(rs.getString("phoneNumber"));
+                    user.setEmail(rs.getString("email"));
+                    user.setCountry(rs.getString("country"));
+                    user.setState(rs.getString("state"));
+                    list.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<User> searchByEmail(String email) {
+        String query = "SELECT * FROM user WHERE email LIKE ?";
+        List<User> list = new ArrayList<>();
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + email + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User();
+                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
+                    user.setUserName(rs.getString("userName"));
+                    user.setAddress(rs.getString("address"));
+                    user.setIdentityCard(rs.getString("identityCard"));
+                    user.setPhoneNumber(rs.getString("phoneNumber"));
+                    user.setEmail(rs.getString("email"));
+                    user.setCountry(rs.getString("country"));
+                    user.setState(rs.getString("state"));
+                    list.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }

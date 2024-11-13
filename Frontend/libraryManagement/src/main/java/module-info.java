@@ -16,8 +16,9 @@ module library.management {
     requires com.google.gson;
     requires com.zaxxer.hikari;
     requires java.sql;
-    requires javafx.controls;
     requires jfxtras.gauge.linear;
+    requires com.gluonhq.charm.glisten;
+    requires jdk.compiler;
     // Application
     opens library.management.ui.applications to javafx.graphics, javafx.fxml;
     exports library.management.ui.applications to javafx.graphics, javafx.fxml;
