@@ -111,11 +111,19 @@ public class GoogleBooksAPI {
         return volumeInfo.has("description") ? volumeInfo.get("description").getAsString() : "No description available";
     }
 
+    // lấy đc nhiều thể loại
     private static String getGenre(JsonObject volumeInfo) {
         if (!volumeInfo.has("categories")) {
             return "No genre available";
         }
         JsonArray categories = volumeInfo.getAsJsonArray("categories");
-        return categories.get(0).getAsString();
+        StringBuilder genres = new StringBuilder();
+        for (int i = 0; i < categories.size(); i++) {
+            genres.append(categories.get(i).getAsString());
+            if (i < categories.size() - 1) {
+                genres.append(", "); // Ngăn cách thể loại bằng dấu phẩy
+            }
+        }
+        return genres.toString();
     }
 }
