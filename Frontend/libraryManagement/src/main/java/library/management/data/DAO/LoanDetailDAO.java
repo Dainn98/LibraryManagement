@@ -12,13 +12,13 @@ import java.util.List;
 
 public class LoanDetailDAO implements DAOInterface<LoanDetail> {
 
-    private LoanDetailDAO() {}
+    private LoanDetailDAO() {
+    }
 
     public static LoanDetailDAO getInstance() {
         return new LoanDetailDAO();
     }
 
-    // Thêm một chi tiết khoản vay vào cơ sở dữ liệu
     @Override
     public int add(LoanDetail loanDetail) {
         String query = "INSERT INTO loandetail (loanId, documentID, quantity) VALUES (?, ?, ?)";
@@ -37,7 +37,6 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
         return 0;
     }
 
-    // Xóa một chi tiết khoản vay khỏi cơ sở dữ liệu
     @Override
     public int delete(LoanDetail loanDetail) {
         String query = "DELETE FROM loandetail WHERE loanDetailID = ?";

@@ -9,7 +9,8 @@ import java.util.List;
 
 public class LoanDAO implements DAOInterface<Loan> {
 
-    private LoanDAO() {}
+    private LoanDAO() {
+    }
 
     public static LoanDAO getInstance() {
         return new LoanDAO();
@@ -69,30 +70,6 @@ public class LoanDAO implements DAOInterface<Loan> {
             e.printStackTrace();
         }
         return 0;
-    }
-
-    public List<Loan> layTatCa() {
-        String query = "SELECT * FROM loans";
-        List<Loan> list = new ArrayList<>();
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                Loan loan = new Loan();
-                loan.setUserId(String.format("USER%s", rs.getString("userId")));
-                loan.setQuantityOfBorrow(rs.getShort("quantityOfBorrow"));
-                loan.setDeposit(rs.getDouble("deposit"));
-                loan.setDateOfBorrow(rs.getTimestamp("dateOfBorrow"));
-                loan.setRequiredReturnDate(rs.getTimestamp("requiredReturnDate"));
-                loan.setLoanID(String.format("LOAN%s", rs.getString("loanId")));
-
-                list.add(loan);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
     }
 
     public int getTotalUsersWhoBorrowedBooks() {

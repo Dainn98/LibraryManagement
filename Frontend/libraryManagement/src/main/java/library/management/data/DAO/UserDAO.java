@@ -12,13 +12,13 @@ import java.util.List;
 
 public class UserDAO implements DAOInterface<User> {
 
-    private UserDAO() {}
+    private UserDAO() {
+    }
 
     public static UserDAO getInstance() {
         return new UserDAO();
     }
 
-    // Thêm một người dùng vào cơ sở dữ liệu
     @Override
     public int add(User user) {
         String query = "INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -41,7 +41,6 @@ public class UserDAO implements DAOInterface<User> {
         return 0;
     }
 
-    // Xóa một người dùng khỏi cơ sở dữ liệu
     @Override
     public int delete(User user) {
         String query = "DELETE FROM user WHERE userId = ?";
@@ -57,7 +56,6 @@ public class UserDAO implements DAOInterface<User> {
         return 0;
     }
 
-    // Cập nhật thông tin của một người dùng trong cơ sở dữ liệu
     @Override
     public int update(User user) {
         String query = "UPDATE user SET userName = ?, address = ?, identityCard = ?, phoneNumber = ?, email = ?, country = ?, state = ? WHERE userId = ?";
@@ -81,7 +79,6 @@ public class UserDAO implements DAOInterface<User> {
         return 0;
     }
 
-    // Lấy danh sách tất cả người dùng
     public List<User> getAllUser() {
         String query = "SELECT * FROM user";
         List<User> list = new ArrayList<>();
@@ -107,7 +104,6 @@ public class UserDAO implements DAOInterface<User> {
         return list;
     }
 
-    // Đếm tổng số người dùng
     public int getTotalUsersCount() {
         String query = "SELECT COUNT(*) FROM user";
         try (Connection con = DatabaseConnection.getConnection();
@@ -133,11 +129,10 @@ public class UserDAO implements DAOInterface<User> {
 
             String searchPattern = "%" + keyword + "%";
 
-            // Đặt giá trị cho tất cả các cột cần tìm kiếm
-            stmt.setString(1, searchPattern); // Tìm trong userName
-            stmt.setString(2, searchPattern); // Tìm trong email
-            stmt.setString(3, searchPattern); // Tìm trong phoneNumber
-            stmt.setString(4, searchPattern); // Tìm trong identityCard
+            stmt.setString(1, searchPattern);
+            stmt.setString(2, searchPattern);
+            stmt.setString(3, searchPattern);
+            stmt.setString(4, searchPattern);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -166,7 +161,7 @@ public class UserDAO implements DAOInterface<User> {
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, "%" + name + "%"); // Tìm kiếm với chuỗi giống với name
+            stmt.setString(1, "%" + name + "%");
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {

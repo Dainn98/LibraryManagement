@@ -10,7 +10,6 @@ public class User {
     private String country;
     private String state;
 
-    // Constructors
     public User() {
     }
 

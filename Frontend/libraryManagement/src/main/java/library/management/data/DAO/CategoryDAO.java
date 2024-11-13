@@ -12,13 +12,13 @@ import java.util.List;
 
 public class CategoryDAO implements DAOInterface<Category> {
 
-    private CategoryDAO() {}
+    private CategoryDAO() {
+    }
 
     public static CategoryDAO getInstance() {
         return new CategoryDAO();
     }
 
-    // Thêm một thể loại vào cơ sở dữ liệu
     @Override
     public int add(Category category) {
         String query = "INSERT INTO category (tag) VALUES (?)";
@@ -34,7 +34,6 @@ public class CategoryDAO implements DAOInterface<Category> {
         return 0;
     }
 
-    // Xóa một thể loại khỏi cơ sở dữ liệu
     @Override
     public int delete(Category category) {
         String query = "DELETE FROM category WHERE categoryID = ?";
@@ -50,7 +49,6 @@ public class CategoryDAO implements DAOInterface<Category> {
         return 0;
     }
 
-    // Cập nhật thông tin của một thể loại trong cơ sở dữ liệu
     @Override
     public int update(Category category) {
         String query = "UPDATE category SET tag = ? WHERE categoryID = ?";

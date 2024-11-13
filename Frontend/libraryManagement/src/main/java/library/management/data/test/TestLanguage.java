@@ -46,8 +46,8 @@ public class TestLanguage {
     }
 
     public static void main(String[] args) {
-//        addLanguage();
-//        updateLanguage();
+        addLanguage();
+        updateLanguage();
         deleteLanguage();
 
     }

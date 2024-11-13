@@ -11,7 +11,8 @@ import java.util.List;
 
 public class DocumentDAO implements DAOInterface<Document> {
 
-    private DocumentDAO() {}
+    private DocumentDAO() {
+    }
 
     public static DocumentDAO getInstance() {
         return new DocumentDAO();

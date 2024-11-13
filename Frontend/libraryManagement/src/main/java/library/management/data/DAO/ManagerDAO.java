@@ -9,7 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ManagerDAO implements DAOInterface<Manager> {
-    private ManagerDAO() {}
+    private ManagerDAO() {
+    }
 
     public static ManagerDAO getInstance() {
         return new ManagerDAO();

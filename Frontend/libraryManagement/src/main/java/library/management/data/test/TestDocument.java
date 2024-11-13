@@ -87,9 +87,6 @@ public class TestDocument {
     }
 
     public static void main(String[] args) {
-//        addDocument();
-//        updateDocument();
-//        deleteDocument();
         getAllDocuments();
     }
 }

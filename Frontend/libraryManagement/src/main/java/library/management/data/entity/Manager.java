@@ -15,7 +15,6 @@ public class Manager {
         this.managerID = Integer.parseInt(managerID.substring(3));
     }
 
-    // Constructor không có managerID, cho các trường hợp thêm mới
     public Manager(String managerID) {
         this.managerID = Integer.parseInt(managerID.substring(3));
     }
@@ -27,7 +26,6 @@ public class Manager {
         this.email = email;
     }
 
-    // Getters và Setters
     public String getManagerName() {
         return managerName;
     }

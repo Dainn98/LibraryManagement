@@ -119,7 +119,7 @@
 
 
                   <!--              DASHBOARD-->
-                  <VBox id="dashboardVBox" fx:id="dashboardVBox" prefHeight="652.0" prefWidth="620.0" visible="false">
+                  <VBox id="dashboardVBox" fx:id="dashboardVBox" prefHeight="652.0" prefWidth="620.0">
                      <children>
                         <VBox alignment="CENTER" spacing="20" styleClass="main-content">
                            <children>
@@ -587,7 +587,7 @@
                   </BorderPane>
 
                   <!--               User-->
-                  <BorderPane fx:id="usersBPane" prefHeight="200.0" prefWidth="200.0">
+                  <BorderPane fx:id="usersBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <top>
                         <VBox BorderPane.alignment="CENTER">
                            <children>

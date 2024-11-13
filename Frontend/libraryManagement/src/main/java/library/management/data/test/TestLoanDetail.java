@@ -39,8 +39,8 @@ public class TestLoanDetail {
     }
 
     public static void main(String[] args) {
-//        addLoanDetail();
-//        updateLoanDetail();
+        addLoanDetail();
+        updateLoanDetail();
         deleteLoanDetail();
     }
 }

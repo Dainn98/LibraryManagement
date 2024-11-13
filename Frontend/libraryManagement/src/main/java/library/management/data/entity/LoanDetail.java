@@ -7,7 +7,8 @@ public class LoanDetail {
     private short quantity;
 
     // Constructors
-    public LoanDetail() {}
+    public LoanDetail() {
+    }
 
     public LoanDetail(String loanId, String documentID, short quantity, String loanDetailID) {
         this.loanId = parseId(loanId, "LOAN");

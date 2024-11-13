@@ -62,6 +62,6 @@ public class TestUser {
         addUser();
         updateUser();
         deleteUser();
-//        getAllUsers();
+        getAllUsers();
     }
 }
