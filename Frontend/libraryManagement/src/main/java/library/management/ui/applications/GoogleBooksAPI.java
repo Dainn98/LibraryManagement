@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -64,12 +66,12 @@ public class GoogleBooksAPI {
             String title = getTitle(volumeInfo);
             String authors = getAuthors(volumeInfo);
             String description = getDescription(volumeInfo);
-            String genre = getGenre(volumeInfo);
+            List<String> genre = getGenre(volumeInfo);
             String thumbnail = getThumbnail(volumeInfo);
             String language = getLanguage(volumeInfo);
 
             // Gọi phương thức saveBook từ DatabaseConnection để lưu vào database
-            DatabaseConnection.saveBook(title, authors, description, genre, thumbnail, language);
+            DatabaseConnection.saveBook(title, authors, description, String.valueOf(genre), thumbnail, language);
         }
     }
 
@@ -112,18 +114,17 @@ public class GoogleBooksAPI {
     }
 
     // lấy đc nhiều thể loại
-    private static String getGenre(JsonObject volumeInfo) {
+    private static List<String> getGenre(JsonObject volumeInfo) {
+        List<String> genres = new ArrayList<>();
         if (!volumeInfo.has("categories")) {
-            return "No genre available";
+            genres.add("No genre available");
+            return genres;
         }
         JsonArray categories = volumeInfo.getAsJsonArray("categories");
-        StringBuilder genres = new StringBuilder();
         for (int i = 0; i < categories.size(); i++) {
-            genres.append(categories.get(i).getAsString());
-            if (i < categories.size() - 1) {
-                genres.append(", "); // Ngăn cách thể loại bằng dấu phẩy
-            }
+            genres.add(categories.get(i).getAsString());
         }
-        return genres.toString();
+        return genres;
     }
+
 }
