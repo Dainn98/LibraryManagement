@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.gluonhq.charm.glisten.control.AutoCompleteTextField?>
+
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
@@ -25,6 +26,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
+
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -32,6 +34,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -117,13 +120,13 @@
             <StackPane BorderPane.alignment="CENTER">
                <children>
 
-
                   <!--              DASHBOARD-->
                   <VBox id="dashboardVBox" fx:id="dashboardVBox" prefHeight="652.0" prefWidth="620.0">
                      <children>
                         <VBox alignment="CENTER" spacing="20" styleClass="main-content">
                            <children>
                               <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;">
+
                                  <center>
                                     <Label text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
                                        <font>
@@ -156,11 +159,13 @@
                                     <HBox HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
+
                               <HBox prefHeight="151.0" prefWidth="1000.0">
                                  <children>
                                     <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <SimpleMetroArcGauge fx:id="allDocsGauge" VBox.vgrow="ALWAYS" />
+
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="All Documents">
                                              <font>
                                                 <Font size="16.0" />
@@ -171,6 +176,7 @@
                                     <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <SimpleMetroArcGauge fx:id="remainingDocsGauge" VBox.vgrow="ALWAYS" />
+
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining Documents">
                                              <font>
                                                 <Font size="16.0" />
@@ -181,6 +187,7 @@
                                     <VBox alignment="CENTER" layoutX="810.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <SimpleMetroArcGauge fx:id="issuedDocsGauge" VBox.vgrow="ALWAYS" />
+
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Issued Documents">
                                              <font>
                                                 <Font size="16.0" />
@@ -191,6 +198,7 @@
                                     <VBox alignment="CENTER" layoutX="810.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <SimpleMetroArcGauge fx:id="allUsersGauge" VBox.vgrow="ALWAYS" />
+
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="All Users">
                                              <font>
                                                 <Font size="16.0" />
@@ -250,6 +258,7 @@
                      </StackPane.margin>
                      <!--DOCUMENT-->
                   </VBox>
+
                   <BorderPane fx:id="docBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <top>
                         <VBox BorderPane.alignment="CENTER">
@@ -259,6 +268,7 @@
                                     <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                        <children>
                                           <Label prefHeight="58.0" style="-fx-text-fill: #2b579a;" text="Documents" HBox.hgrow="ALWAYS">
+
                                              <font>
                                                 <Font name="Segoe UI Semilight" size="46.0" />
                                              </font>
@@ -267,6 +277,7 @@
                                              </padding>
                                           </Label>
                                           <Region prefHeight="58.0" prefWidth="200.0" />
+
                                           <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <VBox prefHeight="200.0" prefWidth="267.0" HBox.hgrow="ALWAYS">
@@ -274,11 +285,13 @@
                                                       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                                          <children>
                                                             <Label fx:id="label1" text="All Documents" textFill="#2b579a" HBox.hgrow="ALWAYS">
+
                                                                <font>
                                                                   <Font name="System Bold" size="15.0" />
                                                                </font>
                                                             </Label>
                                                             <Label fx:id="allUsers" layoutX="10.0" layoutY="23.0" text="0" textFill="#2b579a" HBox.hgrow="ALWAYS">
+
                                                                <font>
                                                                   <Font name="System Bold" size="15.0" />
                                                                </font>
@@ -290,6 +303,7 @@
                                                                </padding>
                                                             </Label>
                                                             <Label fx:id="label2" layoutX="92.0" layoutY="23.0" text="Remaining Documents" textFill="#2b579a" HBox.hgrow="ALWAYS">
+
                                                                <font>
                                                                   <Font name="System Bold" size="15.0" />
                                                                </font>
@@ -298,6 +312,7 @@
                                                                </HBox.margin>
                                                             </Label>
                                                             <Label fx:id="remainDocs" layoutX="174.0" layoutY="23.0" text="0" textFill="#2b579a" HBox.hgrow="ALWAYS">
+
                                                                <font>
                                                                   <Font name="System Bold" size="15.0" />
                                                                </font>
@@ -370,6 +385,7 @@
                                                                         <Insets right="20.0" />
                                                                      </HBox.margin>
                                                                   </MenuButton>
+
                                                                </children>
                                                                <HBox.margin>
                                                                   <Insets left="10.0" right="20.0" />
@@ -399,6 +415,7 @@
                               <TableColumn fx:id="docIDDocView" minWidth="-1.0" prefWidth="90.0" text="Document ID" />
                               <TableColumn fx:id="docISBNDocView" minWidth="-Infinity" prefWidth="95.0" text="Document ISBN" />
                               <TableColumn fx:id="docNameDocView" prefWidth="120.0" text="Document Title" />
+
                               <TableColumn fx:id="docAuthorDocView" prefWidth="120.84616088867188" text="Document Author" />
                               <TableColumn fx:id="docPublisherDocView" prefWidth="122.32125854492188" text="Document Publisher" />
                               <TableColumn fx:id="genreDocDocView" prefWidth="79.5841064453125" text="Doument Genre" />
@@ -424,6 +441,7 @@
                            <children>
                               <CheckBox fx:id="checkAllDocs" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Check all" />
                               <Hyperlink fx:id="deleteDocs" onAction="#handleDeleteDocHyperlink" text="Delete" />
+
                            </children>
                            <BorderPane.margin>
                               <Insets left="30.0" />
@@ -607,6 +625,7 @@
                                           <HBox alignment="CENTER_LEFT" prefHeight="81.0" prefWidth="697.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <TextField fx:id="searchUserField" accessibleText="field" maxHeight="26.0" onKeyReleased="#searchUserDetails" prefHeight="25.0" prefWidth="230.0" promptText="Search for User" style="-fx-background-radius: 0;" HBox.hgrow="ALWAYS">
+
                                                    <font>
                                                       <Font name="Segoe UI Semilight" size="12.0" />
                                                    </font>
@@ -618,6 +637,7 @@
                                                 <HBox alignment="CENTER_RIGHT" prefHeight="69.0" prefWidth="259.0" HBox.hgrow="ALWAYS">
                                                    <children>
                                                       <JFXButton fx:id="importDataUserButton" onAction="#importData" style="-fx-background-radius: 30;" text="Import Data">
+
                                                          <graphic>
                                                             <MaterialDesignIconView fill="WHITE" glyphName="EXIT_TO_APP" rotate="90.0" size="17" />
                                                          </graphic>
@@ -650,6 +670,7 @@
                      </top>
                      <center>
                         <TableView fx:id="userView" editable="true" onContextMenuRequested="#requestMenu" onKeyReleased="#fetchUserWithKey" onMouseClicked="#fetchUserFeesDetails" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+
                            <columns>
                               <TableColumn fx:id="checkUserView" maxWidth="900.0" minWidth="-Infinity" prefWidth="33.4842529296875" />
                               <TableColumn fx:id="userIDUserView" prefWidth="152.17880249023438" text="User ID" />
@@ -661,6 +682,7 @@
                               <ContextMenu fx:id="selectUserContext">
                                  <items>
                                     <MenuItem fx:id="selectMenu" mnemonicParsing="false" onAction="#deleteUserRecord" text="Delete record" />
+
                                  </items>
                               </ContextMenu>
                            </contextMenu>
@@ -718,6 +740,7 @@
                                  </VBox.margin>
                                  <children>
                                     <JFXButton fx:id="cancelUserButton" layoutX="10.0" layoutY="10.0" onAction="#handleCancelUserButton" prefHeight="25.0" prefWidth="151.0" style="-fx-background-radius: 30;" text="Cancel">
+
                                        <HBox.margin>
                                           <Insets right="4.0" />
                                        </HBox.margin>
@@ -726,6 +749,7 @@
                                        </font>
                                     </JFXButton>
                                     <JFXButton fx:id="saveUserButton" onAction="#handleSaveUserButton" prefHeight="25.0" prefWidth="151.0" style="-fx-background-radius: 30;" text="Save">
+
                                        <HBox.margin>
                                           <Insets left="3.0" />
                                        </HBox.margin>
@@ -743,11 +767,13 @@
                               <HBox alignment="CENTER" layoutX="10.0" layoutY="284.0" prefHeight="50.0" prefWidth="352.0" spacing="10.0">
                                  <children>
                                     <JFXButton fx:id="deleteUser" layoutX="10.0" layoutY="10.0" onAction="#deleteUserRecord" prefHeight="25.0" prefWidth="151.0" style="-fx-background-radius: 0;" text="Archieve" visible="false">
+
                                        <HBox.margin>
                                           <Insets right="4.0" />
                                        </HBox.margin>
                                     </JFXButton>
                                     <JFXButton fx:id="updateUser" onAction="#handleUpdateUser" prefHeight="25.0" prefWidth="151.0" style="-fx-background-radius: 0;" text="Update" visible="false">
+
                                        <HBox.margin>
                                           <Insets left="3.0" />
                                        </HBox.margin>
@@ -761,11 +787,13 @@
                         <HBox fx:id="controlUserView" prefHeight="32.0" prefWidth="1000.0" spacing="5.0" BorderPane.alignment="CENTER">
                            <children>
                               <CheckBox fx:id="checkAllUsersView" mnemonicParsing="false" onAction="#checkAllUsers" text="Check all">
+
                                  <HBox.margin>
                                     <Insets top="5.0" />
                                  </HBox.margin>
                               </CheckBox>
                               <Hyperlink onAction="#deleteUserRecord" text="Delete" textFill="#2b579a">
+
                                  <graphic>
                                     <FontAwesomeIconView fill="#e9594d" glyphName="TRASH" size="15" />
                                  </graphic>
@@ -874,6 +902,7 @@
                                           <HBox>
                                              <children>
                                                 <Label style="-fx-text-fill: #2b579a; -fx-font-size: 32;" text="Document Management">
+
                                                    <font>
                                                       <Font name="Segoe UI Semilight" size="46.0" />
                                                    </font>
@@ -933,6 +962,7 @@
                                                          </padding>
                                                       </Label>
                                                    </children>
+
                                                 </HBox>
                                              </children>
                                           </VBox>
@@ -1292,6 +1322,5 @@
             </StackPane>
          </center>
       </BorderPane>
-
    </children>
 </StackPane>

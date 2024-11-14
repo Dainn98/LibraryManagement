@@ -1,6 +1,7 @@
 package library.management.data.DAO;
 
 import library.management.data.database.DatabaseConnection;
+
 import library.management.data.entity.LoanDetail;
 
 import java.sql.Connection;
@@ -15,6 +16,7 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
     private LoanDetailDAO() {
     }
 
+
     public static LoanDetailDAO getInstance() {
         return new LoanDetailDAO();
     }
@@ -27,6 +29,7 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
 
             stmt.setInt(1, loanDetail.getIntLoanId());
             stmt.setInt(2, loanDetail.getIntDocumentID());
+
             stmt.setShort(3, loanDetail.getQuantity());
 
             int rowsInserted = stmt.executeUpdate();
@@ -44,6 +47,7 @@ public class LoanDetailDAO implements DAOInterface<LoanDetail> {
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setInt(1, loanDetail.getIntLoanDetailID());
+
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {

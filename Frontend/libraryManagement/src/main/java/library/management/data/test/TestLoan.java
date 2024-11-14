@@ -12,6 +12,7 @@ public class TestLoan {
         Loan loan = new Loan("USER1", (short) 2, 1000.0, new Date(), new Date());
 
         if (LoanDAO.getInstance().add(loan) > 0) {
+
             System.out.println("Thêm khoản vay thành công!");
         } else {
             System.out.println("Thêm khoản vay thất bại!");
@@ -23,6 +24,7 @@ public class TestLoan {
         loan.setLoanID("LOAN11");
 
         if (LoanDAO.getInstance().delete(loan) > 0) {
+
             System.out.println("Xóa khoản vay thành công!");
         } else {
             System.out.println("Xóa khoản vay thất bại!");

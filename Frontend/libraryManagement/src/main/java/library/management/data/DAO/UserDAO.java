@@ -1,6 +1,7 @@
 package library.management.data.DAO;
 
 import library.management.data.database.DatabaseConnection;
+
 import library.management.data.entity.User;
 
 import java.sql.Connection;
@@ -33,6 +34,7 @@ public class UserDAO implements DAOInterface<User> {
             stmt.setString(6, user.getCountry());
             stmt.setString(7, user.getState());
 
+
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted;
         } catch (SQLException e) {
@@ -48,6 +50,7 @@ public class UserDAO implements DAOInterface<User> {
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setInt(1, user.getIntUserId());
+
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {
@@ -71,6 +74,7 @@ public class UserDAO implements DAOInterface<User> {
             stmt.setString(7, user.getState());
             stmt.setInt(8, user.getIntUserId());
 
+
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated;
         } catch (SQLException e) {
@@ -84,6 +88,7 @@ public class UserDAO implements DAOInterface<User> {
         List<User> list = new ArrayList<>();
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
+
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -96,6 +101,7 @@ public class UserDAO implements DAOInterface<User> {
                 user.setEmail(rs.getString("email"));
                 user.setCountry(rs.getString("country"));
                 user.setState(rs.getString("state"));
+
                 list.add(user);
             }
         } catch (SQLException e) {
@@ -263,11 +269,11 @@ public class UserDAO implements DAOInterface<User> {
                     user.setState(rs.getString("state"));
                     list.add(user);
                 }
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
-
 }
