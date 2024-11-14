@@ -65,9 +65,9 @@
                   <padding>
                     <Insets left="20.0" />
                   </padding>
-                           <VBox.margin>
-                              <Insets left="30.0" right="30.0" />
-                           </VBox.margin>
+                  <VBox.margin>
+                    <Insets left="30.0" right="30.0" />
+                  </VBox.margin>
                 </HBox>
                 <Label text="or use your email password" />
                 <TextField fx:id="loginUsername" promptText="Email" styleClass="input-field" />
@@ -116,9 +116,9 @@
                   <padding>
                     <Insets left="20.0" />
                   </padding>
-                           <VBox.margin>
-                              <Insets left="30.0" right="30.0" />
-                           </VBox.margin>
+                  <VBox.margin>
+                    <Insets left="30.0" right="30.0" />
+                  </VBox.margin>
                 </HBox>
                 <Label text="or use your email for registeration" />
                 <TextField fx:id="registerUsername" promptText="Enter username" styleClass="input-field" />
@@ -135,19 +135,19 @@
           </children>
         </Pane>
 
-            <Pane fx:id="logRegSprites" accessibleRole="INCREMENT_BUTTON" layoutX="390.0" prefHeight="500.0" prefWidth="390.0" style="-fx-background-color: linear-gradient(to right, #5c6bc0, #512da8);" styleClass="form-container" />
+        <Pane fx:id="logRegSprites" accessibleRole="INCREMENT_BUTTON" layoutX="390.0" prefHeight="500.0" prefWidth="390.0" style="-fx-background-color: linear-gradient(to right, #5c6bc0, #512da8);" styleClass="form-container" />
 
-              <Pane fx:id="registerNavigation" cache="true" cacheHint="SCALE" layoutX="390.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="390.0">
+        <Pane fx:id="registerNavigation" cache="true" cacheHint="SCALE" layoutX="390.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="390.0">
           <children>
             <Label alignment="CENTER" layoutY="135.0" prefHeight="29.0" prefWidth="390.0" styleClass="title-label-h1_2" text="Hello, Friend!" textFill="#f7f4f4" />
             <Label alignment="CENTER" layoutY="205.0" prefWidth="390.0" styleClass="title-label-h2" text="Register with your personal details to" />
             <Button fx:id="showRegisterButton" layoutX="127.0" layoutY="269.0" onAction="#showRegisterForm" prefHeight="40.0" prefWidth="140.0" text="SIGN UP">
-                     <styleClass>
-                        <String fx:value="hidden" />
-                        <String fx:value="switch-button" />
-                     </styleClass>
+              <styleClass>
+                <String fx:value="hidden" />
+                <String fx:value="switch-button" />
+              </styleClass>
             </Button>
-                  <Label alignment="CENTER" layoutY="230.0" prefWidth="390.0" styleClass="title-label-h2" text="all of site features" />
+            <Label alignment="CENTER" layoutY="230.0" prefWidth="390.0" styleClass="title-label-h2" text="all of site features" />
           </children>
           <opaqueInsets>
             <Insets />
@@ -158,7 +158,7 @@
             <Label alignment="CENTER" layoutY="135.0" prefWidth="390.0" styleClass="title-label-h1_2" text="Welcome Back!" />
             <Label alignment="CENTER" layoutY="205.0" prefWidth="390.0" styleClass="title-label-h2" text="Enter your personal details to" />
             <Button fx:id="showLoginButton" layoutX="125.0" layoutY="269.0" onAction="#showLoginForm" prefHeight="40.0" prefWidth="140.0" styleClass="switch-button" text="SIGN IN" />
-                  <Label alignment="CENTER" layoutY="230.0" prefWidth="390.0" styleClass="title-label-h2" text="all of site features" />
+            <Label alignment="CENTER" layoutY="230.0" prefWidth="390.0" styleClass="title-label-h2" text="all of site features" />
           </children>
         </Pane>
       </children>

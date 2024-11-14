@@ -9,16 +9,14 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class main extends Application {
-
-  private static final int SCREEN_WIDTH = 1080;
-  private static final int SCREEN_HEIGHT = 600;
-  private static final String MAIN_SCREEN_SOURCES = "/ui/fxml/main.fxml";
-  private static final String MAIN_STYLE_SOURCES = "/ui/css/pastel-theme.css";
-  private static final String MAIN_TITLE = "Library Management System";
+public class main extends Application implements properties {
 
   public static void main(String[] args) {
-    launch(args);
+    try {
+      launch(args);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
@@ -27,8 +25,8 @@ public class main extends Application {
       FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_SCREEN_SOURCES));
       StackPane root = loader.load();
       Scene scene = new Scene(root);
-      scene.getStylesheets()
-          .add(Objects.requireNonNull(getClass().getResource(MAIN_STYLE_SOURCES)).toExternalForm());
+//      scene.getStylesheets()
+//          .add(Objects.requireNonNull(getClass().getResource(MAIN_STYLE_SOURCES)).toExternalForm());
       primaryStage.setScene(scene);
       primaryStage.setTitle(MAIN_TITLE);
 
@@ -39,12 +37,14 @@ public class main extends Application {
 
       primaryStage.show();
     } catch (IOException e) {
-      System.err.println("Failed to load FXML file.");
-      System.err.println(e.getMessage());
+//      System.err.println("Failed to load FXML file.");
+      System.out.println(e.getMessage());
+      e.printStackTrace();
 
     } catch (Exception e) {
-      System.err.println("An unexpected error occurred.");
-      System.err.println(e.getMessage());
+//      System.err.println("An unexpected error occurred.");
+      System.out.println(e.getMessage());
+      e.printStackTrace();
     }
   }
 }

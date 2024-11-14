@@ -1,6 +1,8 @@
 package library.management.data.DAO;
 
-import library.management.data.database.KetNoiCSDL;
+
+import library.management.data.database.DatabaseConnection;
+
 import library.management.data.entity.Loan;
 
 import java.sql.*;
@@ -9,18 +11,24 @@ import java.util.List;
 
 public class LoanDAO implements DAOInterface<Loan> {
 
-    private LoanDAO() {}
+
+    private LoanDAO() {
+    }
+
 
     public static LoanDAO getInstance() {
         return new LoanDAO();
     }
 
     @Override
-    public int them(Loan loan) {
-        Connection con = KetNoiCSDL.getConnection();
+
+    public int add(Loan loan) {
         String query = "INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, loan.getUserId());
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, loan.getIntUserId());
+
             stmt.setShort(2, loan.getQuantityOfBorrow());
             stmt.setDouble(3, loan.getDeposit());
             stmt.setTimestamp(4, new Timestamp(loan.getDateOfBorrow().getTime()));
@@ -35,11 +43,12 @@ public class LoanDAO implements DAOInterface<Loan> {
     }
 
     @Override
-    public int xoa(Loan loan) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int delete(Loan loan) {
         String query = "DELETE FROM loans WHERE loanID = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, loan.getLoanID());
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, loan.getIntLoanID());
 
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
@@ -50,16 +59,19 @@ public class LoanDAO implements DAOInterface<Loan> {
     }
 
     @Override
-    public int capNhat(Loan loan) {
-        Connection con = KetNoiCSDL.getConnection();
+    public int update(Loan loan) {
         String query = "UPDATE loans SET userId = ?, quantityOfBorrow = ?, deposit = ?, dateOfBorrow = ?, requiredReturnDate = ? WHERE loanID = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, loan.getUserId());
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, loan.getIntUserId());
+
             stmt.setShort(2, loan.getQuantityOfBorrow());
             stmt.setDouble(3, loan.getDeposit());
             stmt.setTimestamp(4, new Timestamp(loan.getDateOfBorrow().getTime()));
             stmt.setTimestamp(5, new Timestamp(loan.getRequiredReturnDate().getTime()));
-            stmt.setString(6, loan.getLoanID());
+            stmt.setInt(6, loan.getIntLoanID());
+
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated;
@@ -69,53 +81,19 @@ public class LoanDAO implements DAOInterface<Loan> {
         return 0;
     }
 
-    public List<Loan> layTatCa() {
-        Connection con = KetNoiCSDL.getConnection();
-        String query = "SELECT * FROM loans";
-        List<Loan> list = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(query);
+
+    public int getTotalUsersWhoBorrowedBooks() {
+        String query = "SELECT COUNT(DISTINCT userId) FROM loans";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
-            while (rs.next()) {
-                Loan loan = new Loan();
-                loan.setSTT(rs.getInt("STT"));
-                loan.setUserId(rs.getString("userId"));
-                loan.setQuantityOfBorrow(rs.getShort("quantityOfBorrow"));
-                loan.setDeposit(rs.getDouble("deposit"));
-                loan.setDateOfBorrow(rs.getTimestamp("dateOfBorrow"));
-                loan.setRequiredReturnDate(rs.getTimestamp("requiredReturnDate"));
-                loan.setLoanID(rs.getString("loanID"));
-
-                list.add(loan);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    public Loan layTheoId(int STT) {
-        Connection con = KetNoiCSDL.getConnection();
-        String query = "SELECT * FROM loans WHERE STT = ?";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setInt(1, STT);
-            ResultSet rs = stmt.executeQuery();
-
             if (rs.next()) {
-                Loan loan = new Loan();
-                loan.setSTT(rs.getInt("STT"));
-                loan.setUserId(rs.getString("userId"));
-                loan.setQuantityOfBorrow(rs.getShort("quantityOfBorrow"));
-                loan.setDeposit(rs.getDouble("deposit"));
-                loan.setDateOfBorrow(rs.getTimestamp("dateOfBorrow"));
-                loan.setRequiredReturnDate(rs.getTimestamp("requiredReturnDate"));
-                loan.setLoanID(rs.getString("loanID"));
-
-                return loan;
+                return rs.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return 0;
     }
 }

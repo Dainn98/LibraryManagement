@@ -4,6 +4,7 @@
 The Library Management System (LMS) is a comprehensive application designed to efficiently manage library resources. It provides a user-friendly interface for both library staff and users, facilitating seamless operations such as book management, user management, and transaction handling.
 
 ## Features
+
 - **User Registration and Authentication**: Secure registration and login functionality for users.
 - **Book Management**: Add, update, delete, and search for books in the library catalog.
 - **User Management**: Manage user information, including adding, updating, and deleting user profiles.

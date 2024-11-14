@@ -1,55 +1,56 @@
 package library.management.data.entity;
 
 public class LoanDetail {
-    private int STT;
-    private String loanId;
-    private String bookId;
+    private int loanDetailID;
+    private int loanId;
+    private int documentID;
     private short quantity;
-    private String loanDetailID;
 
     // Constructors
-    public LoanDetail() {}
-
-    public LoanDetail(String loanId, String bookId, short quantity, String loanDetailID) {
-        this.loanId = loanId;
-        this.bookId = bookId;
-        this.quantity = quantity;
-        this.loanDetailID = loanDetailID;
+    public LoanDetail() {
     }
 
-    public LoanDetail(String loanId, String bookId, short quantity) {
-        this.bookId = bookId;
-        this.loanId = loanId;
+    public LoanDetail(String loanId, String documentID, short quantity, String loanDetailID) {
+        this.loanId = parseId(loanId, "LOAN");
+        this.documentID = parseId(documentID, "DOC");
+        this.quantity = quantity;
+        this.loanDetailID = Integer.parseInt(loanDetailID.substring(6));
+    }
+
+    public LoanDetail(String loanId, String documentID, short quantity) {
+        this.documentID = parseId(documentID, "DOC");
+        this.loanId = parseId(loanId, "LOAN");
+
         this.quantity = quantity;
     }
 
     public LoanDetail(String loanDetailID) {
-        this.loanDetailID = loanDetailID;
+        this.loanDetailID = parseId(loanDetailID, "DETAIL");
     }
 
-    // Getters and Setters
-    public int getSTT() {
-        return STT;
+    public String getStringLoanId() {
+        return String.format("LOAN%d", loanId);
     }
 
-    public void setSTT(int STT) {
-        this.STT = STT;
-    }
-
-    public String getLoanId() {
+    public int getIntLoanId() {
         return loanId;
     }
 
     public void setLoanId(String loanId) {
-        this.loanId = loanId;
+        this.loanId = parseId(loanId, "LOAN");
     }
 
-    public String getBookId() {
-        return bookId;
+    public String getStringDocumentID() {
+        return String.format("DOC%d", documentID);
     }
 
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
+    public int getIntDocumentID() {
+        return documentID;
+    }
+
+    public void setDocumentID(String documentID) {
+        this.documentID = parseId(documentID, "DOC");
+
     }
 
     public short getQuantity() {
@@ -60,11 +61,24 @@ public class LoanDetail {
         this.quantity = quantity;
     }
 
-    public String getLoanDetailID() {
+    public String getStringLoanDetailID() {
+        return String.format("DETAIL%d", loanDetailID);
+    }
+
+    public int getIntLoanDetailID() {
         return loanDetailID;
     }
 
+    private int parseId(String input, String prefix) {
+        if (input != null && input.startsWith(prefix)) {
+            return Integer.parseInt(input.substring(prefix.length()));
+        } else {
+            throw new IllegalArgumentException("Invalid format for ID with prefix " + prefix);
+        }
+    }
+
     public void setLoanDetailID(String loanDetailID) {
-        this.loanDetailID = loanDetailID;
+        this.loanDetailID = parseId(loanDetailID, "DETAIL");
+
     }
 }

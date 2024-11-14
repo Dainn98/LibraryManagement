@@ -2,33 +2,31 @@ package library.management.data.entity;
 
 public class Manager {
     private String managerName;
+    private String identityCard;
     private String password;
-    private String position;
     private String email;
-    private String managerID;
-    private int STT;
+    private int managerID;
 
-    public Manager(String managerName, String password, String position, String email, String managerID) {
+    public Manager(String managerName, String password, String identityCard, String email, String managerID) {
         this.managerName = managerName;
+        this.identityCard = identityCard;
         this.password = password;
-        this.position = position;
         this.email = email;
-        this.managerID = managerID;
+        this.managerID = Integer.parseInt(managerID.substring(3));
     }
 
-    // Constructor không có STT, cho các trường hợp thêm mới
     public Manager(String managerID) {
-        this.managerID = managerID;
+        this.managerID = Integer.parseInt(managerID.substring(3));
     }
 
-    public Manager(String managerName, String password, String position, String email) {
+    public Manager(String managerName, String password, String identityCard, String email) {
         this.password = password;
+        this.identityCard = identityCard;
         this.managerName = managerName;
-        this.position = position;
         this.email = email;
     }
 
-    // Getters và Setters
+
     public String getManagerName() {
         return managerName;
     }
@@ -45,13 +43,6 @@ public class Manager {
         this.password = password;
     }
 
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
 
     public String getEmail() {
         return email;
@@ -62,18 +53,23 @@ public class Manager {
     }
 
     public String getManagerID() {
+        return String.format("MNG%d", managerID);
+    }
+
+    public int getIntManagerID() {
+
         return managerID;
     }
 
     public void setManagerID(String managerID) {
-        this.managerID = managerID;
+        this.managerID = Integer.parseInt(managerID.substring(3));
     }
 
-    public int getSTT() {
-        return STT;
+    public String getIdentityCard() {
+        return identityCard;
     }
 
-    public void setSTT(int STT) {
-        this.STT = STT;
+    public void setIdentityCard(String identityCard) {
+        this.identityCard = identityCard;
     }
 }

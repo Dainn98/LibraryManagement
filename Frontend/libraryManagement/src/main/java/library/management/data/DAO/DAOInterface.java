@@ -1,9 +1,10 @@
 package library.management.data.DAO;
 
 public interface DAOInterface<Item> {
-    int them(Item item);
+  
+    int add(Item item);
 
-    int xoa(Item item);
+    int delete(Item item);
 
-    int capNhat(Item item);
+    int update(Item item);
 }
