@@ -1,7 +1,7 @@
 package library.management.data.DAO;
 
 import library.management.data.database.DatabaseConnection;
-import library.management.data.entity.Language;
+import library.management.data.entity.Category;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,22 +10,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LanguageDAO implements DAOInterface<Language> {
+public class CategoryDAO implements DAOInterface<Category> {
 
-    private LanguageDAO() {
+    private CategoryDAO() {
     }
 
-    public static LanguageDAO getInstance() {
-        return new LanguageDAO();
+    public static CategoryDAO getInstance() {
+        return new CategoryDAO();
     }
 
     @Override
-    public int add(Language language) {
-        String query = "INSERT INTO language (lgName) VALUES (?)";
+    public int add(Category category) {
+        String query = "INSERT INTO category (tag) VALUES (?)";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, language.getLgName());
+            stmt.setString(1, category.getTag());
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted;
         } catch (SQLException e) {
@@ -35,12 +35,12 @@ public class LanguageDAO implements DAOInterface<Language> {
     }
 
     @Override
-    public int delete(Language language) {
-        String query = "DELETE FROM language WHERE lgID = ?";
+    public int delete(Category category) {
+        String query = "DELETE FROM category WHERE categoryID = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setInt(1, language.getIntLgID());
+            stmt.setInt(1, category.getIntCategoryID());
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {
@@ -50,13 +50,13 @@ public class LanguageDAO implements DAOInterface<Language> {
     }
 
     @Override
-    public int update(Language language) {
-        String query = "UPDATE language SET lgName = ? WHERE lgID = ?";
+    public int update(Category category) {
+        String query = "UPDATE category SET tag = ? WHERE categoryID = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, language.getLgName());
-            stmt.setInt(2, language.getIntLgID());
+            stmt.setString(1, category.getTag());
+            stmt.setInt(2, category.getIntCategoryID());
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated;
         } catch (SQLException e) {
@@ -65,42 +65,42 @@ public class LanguageDAO implements DAOInterface<Language> {
         return 0;
     }
 
-    public List<String> getAllLanguages() {
-        List<String> languages = new ArrayList<>();
-        String query = "SELECT lgName FROM language";
+    public List<String> getAllTags() {
+        List<String> tags = new ArrayList<>();
+        String query = "SELECT tag FROM category";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                languages.add(rs.getString("lgName"));
+                tags.add(rs.getString("tag"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return languages;
+        return tags;
     }
 
-    public List<Language> getLanguageList() {
-        List<Language> languageList = new ArrayList<>();
-        String query = "SELECT lgID, lgName FROM language";
+    public List<Category> getCategoryList() {
+        List<Category> categories = new ArrayList<>();
+        String query = "SELECT categoryID, tag FROM category";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                String lgID = rs.getString("lgID");
-                String lgName = rs.getString("lgName");
-                Language language = new Language(String.format("LANG%s", lgID), lgName);
-                languageList.add(language);
+                String categoryID = rs.getString("categoryID");
+                String tag = rs.getString("tag");
+                Category category = new Category(categoryID, tag);
+                categories.add(category);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return languageList;
+        return categories;
     }
 }

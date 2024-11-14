@@ -1,32 +1,101 @@
 package library.management.data.entity;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Document {
-    private int STT;
-    private String documentID;
-    private String genrId;
+    private int documentID;
+    private int categoryID;
     private String publisher;
-    private String lgId;
+    private int lgID;
     private String title;
     private String author;
+    private String isbn;
     private int quantity;
     private int availableCopies;
-    private String addDate;
+    private LocalDateTime addDate;
     private double price;
+    private String description;
+    private String url;
+    private String image;
 
-    public String getDocumentID() {
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+    public Document() {
+        super();
+    }
+
+    public Document(String documentID) {
+        super();
+        this.documentID = parseId(documentID, "DOC");
+    }
+
+    public Document(String documentID, String categoryID, String publisher, String lgId, String title,
+                    String author, String isbn, int quantity, int availableCopies, String addDate, double price, String description, String url, String image) {
+        this.documentID = parseId(documentID, "DOC");
+        this.categoryID = parseId(categoryID, "CAT");
+        this.publisher = publisher;
+        this.lgID = parseId(lgId, "LANG");
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.quantity = quantity;
+        this.availableCopies = availableCopies;
+        this.addDate = LocalDateTime.parse(addDate, DATE_FORMATTER);
+        this.price = price;
+        this.description = description;
+        this.url = url;
+        this.image = image;
+    }
+
+    public Document(String categoryID, String publisher, String lgID, String title,
+                    String author, String isbn, int quantity, int availableCopies, String addDate, double price, String description, String url, String image) {
+        super();
+        this.categoryID = parseId(categoryID, "CAT");
+        this.publisher = publisher;
+        this.lgID = parseId(lgID, "LANG");
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.quantity = quantity;
+        this.availableCopies = availableCopies;
+        this.addDate = LocalDateTime.parse(addDate, DATE_FORMATTER);
+        this.price = price;
+        this.description = description;
+        this.url = url;
+        this.image = image;
+    }
+
+    private int parseId(String input, String prefix) {
+        if (input != null && input.startsWith(prefix)) {
+            return Integer.parseInt(input.substring(prefix.length()));
+        } else {
+            throw new IllegalArgumentException("Invalid format for ID with prefix " + prefix);
+        }
+    }
+
+    public String getStringDocumentID() {
+        return String.format("DOC%d", documentID);
+    }
+
+    public int getIntDocumentID() {
         return documentID;
     }
 
     public void setDocumentID(String documentID) {
-        this.documentID = documentID;
+        this.documentID = parseId(documentID, "DOC");
     }
 
-    public String getGenrId() {
-        return genrId;
+    public String getStringCategoryID() {
+        return String.format("CAT%d", categoryID);
     }
 
-    public void setGenrId(String genrId) {
-        this.genrId = genrId;
+    public int getIntCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(String categoryID) {
+        this.categoryID = parseId(categoryID, "CAT");
     }
 
     public String getPublisher() {
@@ -37,12 +106,16 @@ public class Document {
         this.publisher = publisher;
     }
 
-    public String getLgId() {
-        return lgId;
+    public String getStringLgID() {
+        return String.format("LANG%d", lgID);
     }
 
-    public void setLgId(String lgId) {
-        this.lgId = lgId;
+    public int getIntLgID() {
+        return lgID;
+    }
+
+    public void setLgID(String lgID) {
+        this.lgID = parseId(lgID, "LANG");
     }
 
     public String getTitle() {
@@ -61,6 +134,14 @@ public class Document {
         this.author = author;
     }
 
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -77,12 +158,12 @@ public class Document {
         this.availableCopies = availableCopies;
     }
 
-    public String getAddDate() {
+    public LocalDateTime getAddDate() {
         return addDate;
     }
 
     public void setAddDate(String addDate) {
-        this.addDate = addDate;
+        this.addDate = LocalDateTime.parse(addDate, DATE_FORMATTER);
     }
 
     public double getPrice() {
@@ -93,46 +174,27 @@ public class Document {
         this.price = price;
     }
 
-    public int getSTT() {
-        return STT;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSTT(int STT) {
-        this.STT = STT;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Document() {
-        super();
+    public String getImage() {
+        return image;
     }
 
-    public Document(String documentID) {
-        super();
-        this.documentID = documentID;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public Document(String documentID, String genrId, String publisher, String lgId, String title, String author, int quantity, int availableCopies, String addDate, double price) {
-        this.documentID = documentID;
-        this.genrId = genrId;
-        this.publisher = publisher;
-        this.lgId = lgId;
-        this.title = title;
-        this.author = author;
-        this.quantity = quantity;
-        this.availableCopies = availableCopies;
-        this.addDate = addDate;
-        this.price = price;
+    public String getUrl() {
+        return url;
     }
 
-    public Document(String genrId, String publisher, String lgId, String title, String author, int quantity, int availableCopies, String addDate, double price) {
-        super();
-        this.genrId = genrId;
-        this.publisher = publisher;
-        this.lgId = lgId;
-        this.title = title;
-        this.author = author;
-        this.quantity = quantity;
-        this.availableCopies = availableCopies;
-        this.addDate = addDate;
-        this.price = price;
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

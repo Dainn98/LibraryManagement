@@ -5,20 +5,18 @@ public class Manager {
     private String identityCard;
     private String password;
     private String email;
-    private String managerID;
-    private int STT;
+    private int managerID;
 
     public Manager(String managerName, String password, String identityCard, String email, String managerID) {
         this.managerName = managerName;
         this.identityCard = identityCard;
         this.password = password;
         this.email = email;
-        this.managerID = managerID;
+        this.managerID = Integer.parseInt(managerID.substring(3));
     }
 
-    // Constructor không có STT, cho các trường hợp thêm mới
     public Manager(String managerID) {
-        this.managerID = managerID;
+        this.managerID = Integer.parseInt(managerID.substring(3));
     }
 
     public Manager(String managerName, String password, String identityCard, String email) {
@@ -28,7 +26,6 @@ public class Manager {
         this.email = email;
     }
 
-    // Getters và Setters
     public String getManagerName() {
         return managerName;
     }
@@ -54,19 +51,15 @@ public class Manager {
     }
 
     public String getManagerID() {
+        return String.format("MNG%d", managerID);
+    }
+
+    public int getIntManagerID() {
         return managerID;
     }
 
     public void setManagerID(String managerID) {
-        this.managerID = managerID;
-    }
-
-    public int getSTT() {
-        return STT;
-    }
-
-    public void setSTT(int STT) {
-        this.STT = STT;
+        this.managerID = Integer.parseInt(managerID.substring(3));
     }
 
     public String getIdentityCard() {

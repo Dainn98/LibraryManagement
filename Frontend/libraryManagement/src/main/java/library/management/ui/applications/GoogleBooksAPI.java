@@ -12,6 +12,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import library.management.data.database.DatabaseConnection;
+import library.management.data.DAO.DocumentDAO;
+import library.management.data.entity.Document;
 
 public class GoogleBooksAPI {
     private static final String API_KEY = "AIzaSyA-ISmMzbKBzb24boY2XF6ZzmvQbWpZSt4";
@@ -63,15 +65,27 @@ public class GoogleBooksAPI {
             JsonObject book = books.get(i).getAsJsonObject();
             JsonObject volumeInfo = book.getAsJsonObject("volumeInfo");
 
+            List<String> categoryID = getGenre(volumeInfo);
+            String publisher = volumeInfo.has("publisher") ? volumeInfo.get("publisher").getAsString() : "Unknown Publisher";
+            String lgID = "LANG4";
+            String isbn = getISBN(volumeInfo);
+            int quantity = 12;
+            int availableCopies = 12;
+            String addDate = "2024-10-20 00:00:00"; // Định dạng ngày tháng đầy đủ
+            double price = 12.0;
             String title = getTitle(volumeInfo);
-            String authors = getAuthors(volumeInfo);
+            String author = getAuthors(volumeInfo);
             String description = getDescription(volumeInfo);
-            List<String> genre = getGenre(volumeInfo);
-            String thumbnail = getThumbnail(volumeInfo);
-            String language = getLanguage(volumeInfo);
+            String url = getInfoLink(volumeInfo);
+            String image = getImageLink(volumeInfo);
 
-            // Gọi phương thức saveBook từ DatabaseConnection để lưu vào database
-            DatabaseConnection.saveBook(title, authors, description, String.valueOf(genre), thumbnail, language);
+            Document document = new Document(String.valueOf(categoryID), publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description, url, image);
+
+            if (DocumentDAO.getInstance().add(document) > 0) {
+                System.out.println("Thêm sách thành công!");
+            } else {
+                System.out.println("Thêm sách thất bại!");
+            }
         }
     }
 
@@ -95,7 +109,7 @@ public class GoogleBooksAPI {
     }
 
     // phương thức lấy bìa sách
-    private static String getThumbnail(JsonObject volumeInfo) {
+    private static String getImageLink(JsonObject volumeInfo) {
         if (!volumeInfo.has("imageLinks")) {
             return "No thumbnail available";
         }
@@ -127,4 +141,19 @@ public class GoogleBooksAPI {
         return genres;
     }
 
+    private static String getInfoLink(JsonObject volumeInfo) {
+        return volumeInfo.has("infoLink") ? volumeInfo.get("infoLink").getAsString() : "No URL available";
+    }
+    private static String getISBN(JsonObject volumeInfo) {
+        if (volumeInfo.has("industryIdentifiers")) {
+            JsonArray identifiers = volumeInfo.getAsJsonArray("industryIdentifiers");
+            for (int i = 0; i < identifiers.size(); i++) {
+                JsonObject identifier = identifiers.get(i).getAsJsonObject();
+                if (identifier.get("type").getAsString().equals("ISBN_13")) {
+                    return identifier.get("identifier").getAsString();
+                }
+            }
+        }
+        return "No ISBN available";
+    }
 }
