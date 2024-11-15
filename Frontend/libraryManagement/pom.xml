@@ -15,36 +15,60 @@
 
   <dependencies>
     <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.4.12</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>5.0.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.33</version>
+    </dependency>
+
+    <dependency>
       <groupId>de.jensd</groupId>
       <artifactId>fontawesomefx-fontawesome</artifactId>
       <version>4.7.0-9.1.2</version>
     </dependency>
-<!--    JFXTRAS CONTROLS-->
-<!--    <dependency>-->
-<!--      <groupId>org.jfxtras</groupId>-->
-<!--      <artifactId>jfxtras-controls</artifactId>-->
-<!--      <version>8.0-r6</version>-->
-<!--    </dependency>-->
 
-<!--    CONTROLSFX-->
+    <!--    JFXTRAS CONTROLS-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.jfxtras</groupId>-->
+    <!--      <artifactId>jfxtras-controls</artifactId>-->
+    <!--      <version>8.0-r6</version>-->
+    <!--    </dependency>-->
+
+    <!--    CONTROLSFX-->
     <dependency>
       <groupId>org.controlsfx</groupId>
       <artifactId>controlsfx</artifactId>
       <version>11.2.1</version>
     </dependency>
-<!--    SimpleMetroArcGauge-->
+    <!--    SimpleMetroArcGauge-->
+
     <dependency>
       <groupId>org.jfxtras</groupId>
       <artifactId>jfxtras-gauge-linear</artifactId>
       <version>17-r1</version>
     </dependency>
-<!--MATERIAL-DESIGNFONT-->
+
+    <!--MATERIAL-DESIGNFONT-->
+
     <dependency>
       <groupId>de.jensd</groupId>
       <artifactId>fontawesomefx-materialdesignfont</artifactId>
       <version>2.0.26-9.1.2</version>
     </dependency>
-<!--    IKONLI-JAVAFX-->
+
+    <!--    IKONLI-JAVAFX-->
+
     <dependency>
       <groupId>org.kordamp.ikonli</groupId>
       <artifactId>ikonli-octicons-pack</artifactId>
@@ -186,9 +210,8 @@
       <artifactId>charm-glisten</artifactId>
       <version>6.0.6</version>
     </dependency>
-
   </dependencies>
-<!--//GLUON-->
+
   <repositories>
     <repository>
       <id>gluon-releases</id>
