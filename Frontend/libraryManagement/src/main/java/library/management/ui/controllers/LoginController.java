@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import library.management.main;
+import library.management.mainApp;
 import library.management.ui.AbstractUI;
 
 @SuppressWarnings("CallToPrintStackTrace")
@@ -62,7 +62,7 @@ public class LoginController implements AbstractUI {
       loginStage.close();
 
       // Launch the Main application
-      main mainApp = new main();
+      mainApp mainApp = new mainApp();
       Stage mainStage = new Stage();
       mainApp.start(mainStage);
 

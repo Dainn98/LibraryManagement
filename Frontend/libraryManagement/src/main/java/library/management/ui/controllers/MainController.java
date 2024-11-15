@@ -1,22 +1,22 @@
 package library.management.ui.controllers;
 
 
-import static library.management.alert.AlertMaker.showAlertConfirmation;
-
-import java.io.IOException;
+import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXListView;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -24,419 +24,336 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
+import library.management.properties;
 import library.management.ui.AbstractUI;
+import org.controlsfx.control.CheckComboBox;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class MainController implements Initializable, AbstractUI {
+public class MainController implements Initializable, AbstractUI, properties {
 
-  /**
-   * Menu Button.
-   */
-  @FXML
-  protected Button dashboardButton;
-  @FXML
-  protected Button pendingApprovalsButton;
-  @FXML
-  protected Button registeredStudentsButton;
-  @FXML
-  protected Button libraryCatalogButton;
-  @FXML
-  protected Button registerNewBookButton;
-  @FXML
-  protected Button manageBookLoansButton;
-  @FXML
-  protected Button IssuedBooksButton;
-  @FXML
-  protected Button signOutButton;
-  /**
-   * Dashboard UI.
-   */
+  // Dashboard Window
   @FXML
   protected VBox dashboardVBox;
   @FXML
-  protected Label totalBooksLabel;
+  protected SimpleMetroArcGauge allDocsGauge;
   @FXML
-  protected Label numberTotalBooksLabel;
+  protected SimpleMetroArcGauge remainingDocsGauge;
   @FXML
-  protected Label borrowedBooksLabel;
+  protected SimpleMetroArcGauge issuedDocsGauge;
   @FXML
-  protected Label numberBorrowedBooksLabel;
+  protected SimpleMetroArcGauge allUsersGauge;
   @FXML
-  protected Label overdueReturnsLabel;
+  protected SimpleMetroArcGauge docHoldersGauge;
   @FXML
-  protected Label numberOverdueReturnsLabel;
+  protected BarChart<?, ?> docBChart;
   @FXML
-  protected Label totalUsersLabel;
-  @FXML
-  protected Label numberTotalUsersLabel;
-  @FXML
-  protected Button findBookButton;
-  @FXML
-  protected Button findBookIssueButton;
-  @FXML
-  protected Button findStudentButton;
-  @FXML
-  protected TableView recentActivitiesTable;
-  @FXML
-  protected TableColumn userColumnDashboard;
-  @FXML
-  protected TableColumn bookColumnDashboard;
-  @FXML
-  protected TableColumn dueDateColumnDashboard;
-  /**
-   * Pending Approvals UI.
-   */
-  @FXML
-  protected VBox pendingApprovalsVBox;
-  @FXML
-  protected ComboBox branchComboBoxPendingApprovals;
-  @FXML
-  protected ComboBox categoryComboBoxPendingApprovals;
-  @FXML
-  protected ComboBox yearComboBoxPendingApprovals;
-  @FXML
-  protected TableView tableViewPendingApprovals;
-  @FXML
-  protected TableColumn idColumnPendingApprovals;
-  @FXML
-  protected TableColumn usernameColumnPendingApprovals;
-  @FXML
-  protected TableColumn identityCardColumnPendingApprovals;
-  @FXML
-  protected TableColumn mobileColumnPendingApprovals;
-  @FXML
-  protected TableColumn categoryColumnPendingApprovals;
-  @FXML
-  protected TableColumn approveColumnPendingApprovals;
+  protected BarChart<?, ?> userBChart;
 
-  /**
-   * Registered new book UI.
-   */
+  // Document Window
   @FXML
-  protected VBox registerBookVBox;
+  protected BorderPane docBPane;
   @FXML
-  protected TextField titleOfBookField;
+  protected Label allUsers;
   @FXML
-  protected TextField authorNameField;
+  protected Label remainDocs;
+  @FXML
+  protected TextField searchDocTField;
+  @FXML
+  protected JFXButton addDocButton;
+  @FXML
+  protected JFXButton importDataButton;
+  @FXML
+  protected TableView<?> docView;
+  @FXML
+  protected TableColumn<?, ?> checkDocView;
+  @FXML
+  protected TableColumn<?, ?> docIDDocView;
+  @FXML
+  protected TableColumn<?, ?> docISBNDocView;
+  @FXML
+  protected TableColumn<?, ?> docNameDocView;
+  @FXML
+  protected TableColumn<?, ?> docAuthorDocView;
+  @FXML
+  protected TableColumn<?, ?> docPublisherDocView;
+  @FXML
+  protected TableColumn<?, ?> genreDocDocView;
+  @FXML
+  protected TableColumn<?, ?> quantityDocView;
+  @FXML
+  protected TableColumn<?, ?> remainingDocsDocView;
+  @FXML
+  protected TableColumn<?, ?> availabilityDocView;
+  @FXML
+  protected HBox controlBoxDocView;
+  @FXML
+  protected CheckBox checkAllDocs;
+  @FXML
+  protected Hyperlink deleteDocs;
+
+  // Register Document
+  @FXML
+  protected BorderPane registerDocumentBPane;
+  @FXML
+  protected JFXButton backToDocs;
+  @FXML
+  protected TextField docISBNField;
+  @FXML
+  protected TextField docTitleField;
+  @FXML
+  protected TextField docAuthorField;
+  @FXML
+  protected TextField docPublisherField;
+  @FXML
+  protected TextField docPriceField;
   @FXML
   protected TextArea descriptionField;
   @FXML
-  protected ComboBox categoryComboBox;
-  @FXML
   protected TextField numberOfIssueField;
+  @FXML
+  protected JFXButton cancelRegisterDocButton;
+  @FXML
+  protected Button submitDocButton;
+  @FXML
+  protected JFXComboBox<?> docCategory;
+  @FXML
+  protected JFXComboBox<?> docLanguage;
 
-  /**
-   * Library Catalog UI.
-   */
+  // User
   @FXML
-  protected AnchorPane libraryCatalogAnchorPane;
+  protected BorderPane usersBPane;
   @FXML
-  protected TableView tableViewLibraryCatalog;
+  protected TextField searchUserField;
   @FXML
-  protected TableColumn titleColumnLibraryCatalog;
+  protected JFXButton importDataUserButton;
   @FXML
-  protected TableColumn bookIdColumnLibraryCatalog;
+  protected TableView<?> userView;
   @FXML
-  protected TableColumn authorColumnLibraryCatalog;
+  protected TableColumn<?, ?> checkUserView;
   @FXML
-  protected TableColumn publisherColumnLibraryCatalog;
+  protected TableColumn<?, ?> userIDUserView;
   @FXML
-  protected TableColumn availabilityColumnLibraryCatalog;
+  protected TableColumn<?, ?> userNameUserView;
+  @FXML
+  protected TableColumn<?, ?> userPhoneUserView;
+  @FXML
+  protected TableColumn<?, ?> userEmailUserView;
+  @FXML
+  protected ContextMenu selectUserContext;
+  @FXML
+  protected MenuItem selectMenu;
+  @FXML
+  protected TextField userIDField;
+  @FXML
+  protected TextField userNameField;
+  @FXML
+  protected TextField userEmailField;
+  @FXML
+  protected TextField userPhoneField;
+  @FXML
+  protected JFXButton cancelUserButton;
+  @FXML
+  protected JFXButton saveUserButton;
+  @FXML
+  protected JFXButton deleteUser;
+  @FXML
+  protected JFXButton updateUser;
+  @FXML
+  protected HBox controlUserView;
+  @FXML
+  protected CheckBox checkAllUsersView;
 
-  /**
-   * Registered Students UI.
-   */
+  // Pending Approvals
   @FXML
-  protected AnchorPane registeredStudentsAnchorPane;
+  protected BorderPane pendingApprovalsBPane;
   @FXML
-  protected ComboBox branchComboBoxRegisteredStudents;
+  protected CheckComboBox<?> checkUsername;
   @FXML
-  protected ComboBox categoryComboBoxRegisteredStudents;
+  protected CheckComboBox<?> checkCountry;
   @FXML
-  protected ComboBox yearComboBoxRegisteredStudents;
+  protected CheckComboBox<?> checkState;
   @FXML
-  protected TableView tableViewRegisteredStudents;
+  protected CheckComboBox<?> checkYear;
   @FXML
-  protected TableColumn IdColumnRegisteredStudents;
+  protected TableView<?> approvalsTView;
   @FXML
-  protected TableColumn usernameColumnRegisteredStudents;
+  protected TableColumn<?, ?> idApprovals;
   @FXML
-  protected TableColumn identityCardColumnRegisteredStudents;
+  protected TableColumn<?, ?> usernameApprovals;
   @FXML
-  protected TableColumn branchColumnRegisteredStudents;
+  protected TableColumn<?, ?> phoneNumberApprovals;
   @FXML
-  protected TableColumn catagoryColumnRegisteredStudents;
+  protected TableColumn<?, ?> emailApprovals;
   @FXML
-  protected TableColumn bookIssueColumnRegisteredStudents;
+  protected TableColumn<?, ?> countryApprovals;
+  @FXML
+  protected TableColumn<?, ?> stateApprovals;
+  @FXML
+  protected TableColumn<?, ?> yearApprovals;
+  @FXML
+  protected TableColumn<?, ?> approveApprovals;
 
-  /**
-   * Manage Book Loans UI.
-   */
+  // Document Management
   @FXML
-  protected VBox manageBookLoansVBox;
+  protected BorderPane docManagementBPane;
   @FXML
-  protected ComboBox studentIdComboBoxManageBookLoans;
+  protected JFXButton issueDocSwitchButton;
   @FXML
-  protected TextField bookIdTextFieldManageBookLoans;
+  protected JFXButton returnDocSwitchButton;
   @FXML
-  protected TextField returnBookIdTextFieldManageBookLoans;
+  protected BorderPane returnDocBPane;
+  @FXML
+  protected JFXListView<?> listInfo;
+  @FXML
+  protected AutoCompleteTextField lateFeeField;
+  @FXML
+  protected JFXButton submitButton;
+  @FXML
+  protected JFXButton renewButton;
+  @FXML
+  protected JFXButton submitIssueDocButton;
+  @FXML
+  protected JFXButton cancelIssueDocButton;
 
-  /**
-   * Issued Books UI.
-   */
+  // All Issued Doc
   @FXML
-  protected VBox issuedBooksVBox;
+  protected BorderPane allIssuedDocBPane;
   @FXML
-  protected TableView logsTableIssuedBooks;
+  protected TextField issuedDocField;
   @FXML
-  protected TableColumn logIdColumnIssuedBooks;
+  protected JFXComboBox<?> issueTypeIssuedDoc;
   @FXML
-  protected TableColumn bookIssueIdColumnIssuedBooks;
+  protected TableView<?> IDView;
   @FXML
-  protected TableColumn bookNameColumnIssuedBooks;
+  protected TableColumn<?, ?> issuedIDIDView;
   @FXML
-  protected TableColumn studentIdColumnIssuedBooks;
+  protected TableColumn<?, ?> docIDIDView;
   @FXML
-  protected TableColumn studentNameColumnIssuedBooks;
+  protected TableColumn<?, ?> docTitleIDView;
   @FXML
-  protected TableColumn IssuedOnColumnIssuedBooks;
+  protected TableColumn<?, ?> userIDIDView;
   @FXML
-  protected TableColumn returnDateColumnIssuedBooks;
+  protected TableColumn<?, ?> userNameIDView;
+  @FXML
+  protected TableColumn<?, ?> dueDateIDView;
+  @FXML
+  protected TableColumn<?, ?> issuedDateAndTimeIDView;
+  @FXML
+  protected TableColumn<?, ?> daysIDView;
+  @FXML
+  protected TableColumn<?, ?> feeIDView;
+  // CATALOG
+  @FXML
+  protected BorderPane catalogBPane;
 
   @Override
-  public void initialize(URL location, ResourceBundle resources) {}
+  public void initialize(URL location, ResourceBundle resources) {
 
+  }
+
+  // MENU CONTROLLER
   @FXML
   protected void showSection(Object sectionToShow) {
     dashboardVBox.setVisible(sectionToShow == dashboardVBox);
-    registerBookVBox.setVisible(sectionToShow == registerBookVBox);
-    libraryCatalogAnchorPane.setVisible(sectionToShow == libraryCatalogAnchorPane);
-    pendingApprovalsVBox.setVisible(sectionToShow == pendingApprovalsVBox);
-    registeredStudentsAnchorPane.setVisible(sectionToShow == registeredStudentsAnchorPane);
-    manageBookLoansVBox.setVisible(sectionToShow == manageBookLoansVBox);
-    issuedBooksVBox.setVisible(sectionToShow == issuedBooksVBox);
+    docBPane.setVisible(sectionToShow == docBPane);
+    usersBPane.setVisible(sectionToShow == usersBPane);
+    catalogBPane.setVisible(sectionToShow == catalogBPane);
+    pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
+    allIssuedDocBPane.setVisible(sectionToShow == allIssuedDocBPane);
+
   }
 
-  /**
-   * Navigates the user to the dashboard.
-   */
   @FXML
-  private void navigateToDashboardButton(ActionEvent actionEvent) {
+  protected void handleDashboardButton(ActionEvent actionEvent) {
     showSection(dashboardVBox);
   }
 
-  /**
-   * Displays a list of students awaiting approval.
-   */
-  @FXML
-  private void handlePendingApprovalsButton(ActionEvent actionEvent) {
-    showSection(pendingApprovalsVBox);
+  public void handleDocButton(ActionEvent actionEvent) {
+    showSection(docBPane);
   }
 
-  /**
-   * Shows all registered students in the system.
-   */
-  @FXML
-  private void handleRegisteredStudentsButton(ActionEvent actionEvent) {
-    showSection(registeredStudentsAnchorPane);
+  public void handleUsersButton(ActionEvent actionEvent) {
+    showSection(usersBPane);
   }
 
-  /**
-   * Displays all books currently available in the library.
-   */
-  @FXML
-  private void handleLibraryCatalogButton(ActionEvent actionEvent) {
-    showSection(libraryCatalogAnchorPane);
+  public void handleLibraryCatalogButton(ActionEvent actionEvent) {
+    showSection(catalogBPane);
   }
 
-  /**
-   * Adds a new book to the library's collection.
-   */
-  @FXML
-  private void handleRegisterNewBookButton(ActionEvent actionEvent) {
-    showSection(registerBookVBox);
+  public void handlePendingApprovalsButton(ActionEvent actionEvent) {
+    showSection(pendingApprovalsBPane);
   }
 
-  /**
-   * Handles the process of issuing or returning books in the library.
-   */
-  @FXML
-  private void handleManageBookLoansButton(ActionEvent actionEvent) {
-    showSection(manageBookLoansVBox);
+  public void handleIssuedDocButton(ActionEvent actionEvent) {
+    showSection(allIssuedDocBPane);
   }
 
-  /**
-   * Shows a list of books that are currently issued to users.
-   */
-  @FXML
-  private void handleIssuedBooksButton(ActionEvent actionEvent) {
-    showSection(issuedBooksVBox);
-  }
+  // DOCUMENT CONTROLLER
+
+  public void handleSearchDocTField(ActionEvent actionEvent) {}
+
+  public void handleAdvancedSearch(ActionEvent actionEvent) {}
+
+  public void handleAddDocButton(ActionEvent actionEvent) {}
+
+  public void handleImportDataButton(ActionEvent actionEvent) {}
+
+  public void loadUpdateBook(ActionEvent actionEvent) {}
+
+  public void DeleteBook(ActionEvent actionEvent) {}
+
+  public void handleDeleteDocHyperlink(ActionEvent actionEvent) {}
+
+  public void handleBackToDocs(ActionEvent actionEvent) {}
+
+  public void handleCancelRegisterDoc(ActionEvent actionEvent) {}
+
+  public void handleSubmitDoc(ActionEvent actionEvent) {}
+
+  //  USER CONTROLLER
+  public void searchUserDetails(KeyEvent event) {}
+
+  public void importData(ActionEvent actionEvent) {}
+
+  public void deleteUserRecord(ActionEvent actionEvent) {}
+
+  public void handleCancelUserButton(ActionEvent actionEvent) {}
+
+  public void handleSaveUserButton(ActionEvent actionEvent) {}
+
+  public void handleUpdateUser(ActionEvent actionEvent) {}
+
+  //DOCUMENT MANAGEMENT
+  public void handleIssueDocSwitch(ActionEvent actionEvent) {}
+
+  public void handleReturnDocSwitch(ActionEvent actionEvent) {}
+
+  public void handleBackToDoc(ActionEvent actionEvent) {}
+
+  public void handleRenewDoc(ActionEvent actionEvent) {}
+
+  public void handleSubmitIssueDoc(ActionEvent actionEvent) {}
+
+  //ANOTHER
+  public void searchBook(KeyEvent event) {}
+
+  public void requestMenu(ContextMenuEvent contextMenuEvent) {}
+
+  public void fetchUserWithKey(KeyEvent event) {}
+
+  public void fetchUserFeesDetails(MouseEvent mouseEvent) {}
+  //  SIGN OUT CONTROLLER
 
   /**
    * Handles the sign-out process for the user.
    */
   @FXML
-  private void handleSignOutButton(ActionEvent actionEvent) {
-    Optional<ButtonType> result = showAlertConfirmation(
-        "Sign Out",
-        "Are you sure you want to sign out?");
-    if (result.isPresent() && result.get() == ButtonType.OK) {
-      try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/fxml/login.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-  }
-
-  /**
-   * Handles the process of adding books to the library.
-   */
-  @FXML
-  private void handleAddBooks(ActionEvent actionEvent) {
-    //Database
-  }
-
-  /**
-   * Handles the process of viewing the library catalog.
-   */
-  @FXML
-  protected void handleRefresh(ActionEvent actionEvent) {
-  }
-
-  /**
-   * Handles the process of editing a book in the library.
-   *
-   * @param actionEvent the event that triggered this action
-   */
-  @FXML
-  protected void handleBookEditOption(ActionEvent actionEvent) {
-  }
-
-  /**
-   * Handles the process of deleting a book from the library.
-   */
-  @FXML
-  protected void handleBookDeleteOption(ActionEvent actionEvent) {
-  }
-
-  /**
-   * Handles the process of exporting the library catalog as a PDF.
-   */
-  @FXML
-  protected void exportAsPDF(ActionEvent actionEvent) {
-  }
-
-  /**
-   * Handles the process of exporting the library catalog as an Excel file.
-   */
-  @FXML
-  protected void closeStage(ActionEvent actionEvent) {
-  }
-
-  @FXML
-  protected void handleIssueBookButton(ActionEvent actionEvent) {
-  }
-
-  @FXML
-  protected void handlerReturnBook(ActionEvent actionEvent) {
-  }
-
-  protected TextField getTitleOfBookField() {
-    return titleOfBookField;
-  }
-
-  protected void setTitleOfBookField(TextField titleOfBookField) {
-    this.titleOfBookField = titleOfBookField;
-  }
-
-  @FXML
-  protected void handleFindBookButton(ActionEvent actionEvent) {
-    //To do in DashboardController
-  }
-
-  @FXML
-  protected void handleFindBookIssueButton(ActionEvent actionEvent) {
-    //To do in DashboardController
-  }
-
-  @FXML
-  protected void handleFindStudentButton(ActionEvent actionEvent) {
-    //To do in DashboardController
-  }
-
-  public void loadUpdateBook(ActionEvent actionEvent) {
-  }
-
-  public void DeleteBook(ActionEvent actionEvent) {
-  }
-
-  public void selectRecordsType(ActionEvent actionEvent) {
-  }
-
-  public void importData(ActionEvent actionEvent) {
-  }
-
-  public void cancel(ActionEvent actionEvent) {
-  }
-
-  public void saveStudent(ActionEvent actionEvent) {
-  }
-
-  public void deleteStudent(ActionEvent actionEvent) {
-  }
-
-  public void updateStudent(ActionEvent actionEvent) {
-  }
-
-  public void requestMenu(ContextMenuEvent contextMenuEvent) {
-  }
-
-  public void fetchStudentWithKey(KeyEvent event) {
-  }
-
-  public void deleteStudentRecord(ActionEvent actionEvent) {
-  }
-
-  public void deleteselectedStudents(ActionEvent actionEvent) {
-  }
-
-  public void minimize(MouseEvent mouseEvent) {
-  }
-
-  public void fullscreen(MouseEvent mouseEvent) {
-  }
-
-  public void unfullscreen(MouseEvent mouseEvent) {
-  }
-
-  public void close(MouseEvent mouseEvent) {
-  }
-
-  public void searchBook(KeyEvent event) {
-  }
-
-  public void loadBookDataentry(ActionEvent actionEvent) {
-  }
-
-  public void searchStudentDeatails(KeyEvent event) {
-  }
-
-  public void fetchStudentFeesDetails(MouseEvent mouseEvent) {
-  }
-
-  public void handleIssueDocSwitch(ActionEvent actionEvent) {
-  }
-
-  public void handleReturnDocSwitch(ActionEvent actionEvent) {
+  protected void handleSignOutButton(ActionEvent actionEvent) {
+    signOutController.handleSignOut(actionEvent);
   }
 }
 
