@@ -13,14 +13,16 @@ import library.management.data.DAO.DocumentDAO;
 import library.management.data.entity.Document;
 
 public class GoogleBooksAPI {
-    private static final String API_KEY = "AIzaSyA-ISmMzbKBzb24boY2XF6ZzmvQbWpZSt4";
+    private static final String API_KEY = "AIzaSyCdrDSBU0hpgH0ZhEqK4fDaJ_IXvGs6fko";
 
     public static void main(String[] args) {
-        String query = "Harry Potter";
+        String query = "Harry Potter and the Cursed Child";
         try {
             JsonArray books = fetchBooks(query);
             if (books != null) {
-                saveBooksToDatabase(books);
+                for (int i = 0; i < books.size(); i++) {
+                    System.out.println(getImageLink(books.get(i).getAsJsonObject()));
+                }
             } else {
                 System.out.println("No books found.");
             }
@@ -76,7 +78,7 @@ public class GoogleBooksAPI {
             String url = getInfoLink(volumeInfo);
             String image = getImageLink(volumeInfo);
 
-            Document document = new Document(categoryID, publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description, url, image);
+            Document document = new Document(categoryID, publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description, url, image, true);
 
             if (DocumentDAO.getInstance().add(document) > 0) {
                 System.out.println("Thêm sách thành công!");

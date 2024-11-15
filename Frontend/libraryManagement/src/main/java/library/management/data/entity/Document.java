@@ -1,5 +1,7 @@
 package library.management.data.entity;
 
+import library.management.data.DAO.CategoryDAO;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,6 +20,7 @@ public class Document {
     private String description;
     private String url;
     private String image;
+    private boolean availability;
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
@@ -31,7 +34,7 @@ public class Document {
     }
 
     public Document(String documentID, String categoryID, String publisher, String lgId, String title,
-                    String author, String isbn, int quantity, int availableCopies, String addDate, double price, String description, String url, String image) {
+                    String author, String isbn, int quantity, int availableCopies, String addDate, double price, String description, String url, String image, boolean availability) {
         this.documentID = parseId(documentID, "DOC");
         this.categoryID = parseId(categoryID, "CAT");
         this.publisher = publisher;
@@ -46,10 +49,11 @@ public class Document {
         this.description = description;
         this.url = url;
         this.image = image;
+        this.availability = availability;
     }
 
     public Document(String categoryID, String publisher, String lgID, String title,
-                    String author, String isbn, int quantity, int availableCopies, String addDate, double price, String description, String url, String image) {
+                    String author, String isbn, int quantity, int availableCopies, String addDate, double price, String description, String url, String image, boolean availability) {
         super();
         this.categoryID = parseId(categoryID, "CAT");
         this.publisher = publisher;
@@ -64,6 +68,7 @@ public class Document {
         this.description = description;
         this.url = url;
         this.image = image;
+        this.availability = availability;
     }
 
     private int parseId(String input, String prefix) {
@@ -74,7 +79,7 @@ public class Document {
         }
     }
 
-    public String getStringDocumentID() {
+    public String getDocumentID() {
         return String.format("DOC%d", documentID);
     }
 
@@ -196,5 +201,17 @@ public class Document {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getCategory() {
+        return CategoryDAO.getInstance().getTagByID(getIntCategoryID());
+    }
+
+    public boolean isAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
     }
 }

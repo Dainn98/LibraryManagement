@@ -103,4 +103,27 @@ public class CategoryDAO implements DAOInterface<Category> {
 
         return categories;
     }
+
+    public String getTagByID(int categoryID) {
+        String tag = null;
+        String query = "SELECT tag FROM category WHERE categoryID = ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, categoryID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    tag = rs.getString("tag");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tag;
+    }
+
+
+
 }

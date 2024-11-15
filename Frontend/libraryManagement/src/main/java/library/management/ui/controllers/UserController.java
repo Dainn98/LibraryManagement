@@ -69,7 +69,7 @@ public class UserController {
         }
     }
 
-    public void initializeCheckBox() {
+    private void initializeCheckBox() {
         checkBoxStatusList.clear();
         for (int i = 0; i < list.size(); i++) {
             checkBoxStatusList.add(new SimpleBooleanProperty(false));
@@ -119,6 +119,7 @@ public class UserController {
                 }
             }
             loadUserViewData();
+            handleCancelUserButton();
         }
     }
 

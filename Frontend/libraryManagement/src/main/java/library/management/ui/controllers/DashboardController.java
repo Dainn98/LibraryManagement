@@ -18,11 +18,11 @@ public class DashboardController {
         controller.userBChart.getData().clear();
         XYChart.Series<String, Number> documentInformation = new XYChart.Series<>();
         documentInformation.setName("Document information");
-        int bookQuantity = DocumentDAO.getInstance().getTotalQuantity();
-        int remainingBookQuantity = DocumentDAO.getInstance().getTotalAvailableCopies();
-        documentInformation.getData().add(new XYChart.Data<>("All Documents", bookQuantity));
-        documentInformation.getData().add(new XYChart.Data<>("Remaining Documents", remainingBookQuantity));
-        documentInformation.getData().add(new XYChart.Data<>("Issued Documents", bookQuantity - remainingBookQuantity));
+        int docQuantity = DocumentDAO.getInstance().getTotalQuantity();
+        int remainingDocQuantity = DocumentDAO.getInstance().getTotalAvailableCopies();
+        documentInformation.getData().add(new XYChart.Data<>("All Documents", docQuantity));
+        documentInformation.getData().add(new XYChart.Data<>("Remaining Documents", remainingDocQuantity));
+        documentInformation.getData().add(new XYChart.Data<>("Issued Documents", docQuantity - remainingDocQuantity));
         controller.docBChart.getData().add(documentInformation);
         XYChart.Series<String, Number> studentInformation = new XYChart.Series<>();
         studentInformation.setName("Student information");
@@ -32,12 +32,12 @@ public class DashboardController {
         studentInformation.getData().add(new XYChart.Data<>("Students holding documents", studentHoldingBook));
         controller.userBChart.getData().add(studentInformation);
         // load gauge
-        controller.allDocsGauge.setMaxValue(bookQuantity);
-        controller.allDocsGauge.setValue(bookQuantity);
-        controller.remainingDocsGauge.setMaxValue(bookQuantity);
-        controller.remainingDocsGauge.setValue(remainingBookQuantity);
-        controller.issuedDocsGauge.setMaxValue(bookQuantity);
-        controller.issuedDocsGauge.setValue(bookQuantity - remainingBookQuantity);
+        controller.allDocsGauge.setMaxValue(docQuantity);
+        controller.allDocsGauge.setValue(docQuantity);
+        controller.remainingDocsGauge.setMaxValue(docQuantity);
+        controller.remainingDocsGauge.setValue(remainingDocQuantity);
+        controller.issuedDocsGauge.setMaxValue(docQuantity);
+        controller.issuedDocsGauge.setValue(docQuantity - remainingDocQuantity);
         controller.allUsersGauge.setMaxValue(totalStudent);
         controller.allUsersGauge.setValue(totalStudent);
         controller.docHoldersGauge.setMaxValue(totalStudent);

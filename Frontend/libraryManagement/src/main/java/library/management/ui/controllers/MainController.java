@@ -30,6 +30,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
+import library.management.data.entity.Document;
 import library.management.data.entity.User;
 import library.management.properties;
 import library.management.ui.AbstractUI;
@@ -59,7 +60,7 @@ public class MainController implements Initializable, AbstractUI, properties {
     @FXML
     protected BorderPane docBPane;
     @FXML
-    protected Label allUsers;
+    protected Label allDocs;
     @FXML
     protected Label remainDocs;
     @FXML
@@ -69,31 +70,31 @@ public class MainController implements Initializable, AbstractUI, properties {
     @FXML
     protected JFXButton importDataButton;
     @FXML
-    protected TableView<?> docView;
+    protected TableView<Document> docView;
     @FXML
-    protected TableColumn<?, ?> checkDocView;
+    protected TableColumn<Document, Boolean> checkDocView;
     @FXML
-    protected TableColumn<?, ?> docIDDocView;
+    protected TableColumn<Document, String> docIDDocView;
     @FXML
-    protected TableColumn<?, ?> docISBNDocView;
+    protected TableColumn<Document, String> docISBNDocView;
     @FXML
-    protected TableColumn<?, ?> docNameDocView;
+    protected TableColumn<Document, String> docNameDocView;
     @FXML
-    protected TableColumn<?, ?> docAuthorDocView;
+    protected TableColumn<Document, String> docAuthorDocView;
     @FXML
-    protected TableColumn<?, ?> docPublisherDocView;
+    protected TableColumn<Document, String> docPublisherDocView;
     @FXML
-    protected TableColumn<?, ?> genreDocDocView;
+    protected TableColumn<Document, String> categoryDocView;
     @FXML
-    protected TableColumn<?, ?> quantityDocView;
+    protected TableColumn<Document, Integer> quantityDocView;
     @FXML
-    protected TableColumn<?, ?> remainingDocsDocView;
+    protected TableColumn<Document, Integer> remainingDocsDocView;
     @FXML
-    protected TableColumn<?, ?> availabilityDocView;
+    protected TableColumn<Document, Boolean> availabilityDocView;
     @FXML
     protected HBox controlBoxDocView;
     @FXML
-    protected CheckBox checkAllDocs;
+    protected CheckBox checkAllDocsView;
     @FXML
     protected Hyperlink deleteDocs;
 
@@ -256,11 +257,13 @@ public class MainController implements Initializable, AbstractUI, properties {
 
     private final DashboardController dashboardController = new DashboardController(this);
     private final UserController userController = new UserController(this);
+    private final DocumentController documentController = new DocumentController(this);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dashboardController.loadDashBoardData();
         userController.initUsersView();
+        documentController.initDocumentView();
     }
 
     // MENU CONTROLLER
@@ -276,12 +279,13 @@ public class MainController implements Initializable, AbstractUI, properties {
     }
 
     @FXML
-    protected void handleDashboardButton(ActionEvent actionEvent) {
+    private void handleDashboardButton(ActionEvent actionEvent) {
         dashboardController.loadDashBoardData();
         showSection(dashboardVBox);
     }
 
     public void handleDocButton(ActionEvent actionEvent) {
+        documentController.loadDocumentData();
         showSection(docBPane);
     }
 
@@ -304,7 +308,13 @@ public class MainController implements Initializable, AbstractUI, properties {
 
     // DOCUMENT CONTROLLER
 
-    public void handleSearchDocTField(ActionEvent actionEvent) {
+    @FXML
+    public void handleSearchDocTField(KeyEvent actionEvent) {
+        documentController.handleSearchDocTField();
+    }
+
+    public void checkAllDocs(ActionEvent actionEvent) {
+        documentController.checkAllDocs();
     }
 
     public void handleAdvancedSearch(ActionEvent actionEvent) {
@@ -323,12 +333,10 @@ public class MainController implements Initializable, AbstractUI, properties {
     }
 
     public void handleDeleteDocHyperlink(ActionEvent actionEvent) {
+        documentController.handleDeleteDocHyperlink();
     }
 
     public void handleBackToDocs(ActionEvent actionEvent) {
-    }
-
-    public void handleCancelRegisterDoc(ActionEvent actionEvent) {
     }
 
     public void handleSubmitDoc(ActionEvent actionEvent) {
@@ -378,9 +386,6 @@ public class MainController implements Initializable, AbstractUI, properties {
     }
 
     //ANOTHER
-    public void searchBook(KeyEvent event) {
-    }
-
     public void requestMenu(ContextMenuEvent contextMenuEvent) {
     }
 
@@ -398,6 +403,9 @@ public class MainController implements Initializable, AbstractUI, properties {
     @FXML
     protected void handleSignOutButton(ActionEvent actionEvent) {
         signOutController.handleSignOut(actionEvent);
+    }
+
+    public void handleCancelRegisterDoc(ActionEvent actionEvent) {
     }
 }
 
