@@ -48,11 +48,18 @@
 
 /*TablPane styling*/
 .tab {
-  -fx-background-color: -fx-primary;
+  -fx-background-color: #A8DADC;
+  -fx-background-radius: 10;
+}
+.tab:hover{
+  -fx-background-color: #FFFFFF;
+  -fx-scale-x: 1.025; /* Scale the tab horizontally */
+  -fx-scale-y: 1.025; /* Scale the tab vertically */
+  -fx-effect: dropShadow(three-pass-box, rgb(33, 65, 166), 10, 0, 0, 10);
 }
 
 .tab-header-background {
-  -fx-background-color: -fx-primary;
+  -fx-background-color: linear-gradient(to bottom, #1D3557, #457B9D); /* Dark blue */
 }
 
 .tab-label {
@@ -377,4 +384,15 @@
 .rounded-text-field {
   -fx-background-radius: 10px; /* Adjust the radius as needed */
   -fx-border-radius: 10px; /* Ensure the border follows the same radius */
+}
+.image-view {
+  -fx-clip: true; /* Ensure the image stays within its bounds */
+  -fx-transition: all 0.3s ease; /* Smooth transition */
+}
+
+.image-view:hover {
+  -fx-opacity: 0.4; /* Adjust the opacity as needed */
+  -fx-scale-x: 1.025; /* Scale the image horizontally */
+  -fx-scale-y: 1.025; /* Scale the image vertically */
+  /*-fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.7), 10, 1, 0, 0);*/
 }
