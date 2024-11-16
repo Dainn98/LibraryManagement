@@ -21,7 +21,7 @@ import library.management.main;
 
 import static library.management.alert.AlertMaker.showAlertInformation;
 
-public class ModernLoginController extends GeneralController implements Initializable {
+public class ModernLoginController implements Initializable,GeneralController {
 
     private static final int WIDTH = 780;
     private static final double rightTrans = (double) WIDTH / 2;

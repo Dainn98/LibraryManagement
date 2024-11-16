@@ -16,31 +16,32 @@ public class DashboardController {
         // load docBChart
         controller.docBChart.getData().clear();
         controller.userBChart.getData().clear();
-        XYChart.Series<String, Number> documentInformation = new XYChart.Series<>();
-        documentInformation.setName("Document information");
-        int bookQuantity = DocumentDAO.getInstance().getTotalQuantity();
-        int remainingBookQuantity = DocumentDAO.getInstance().getTotalAvailableCopies();
-        documentInformation.getData().add(new XYChart.Data<>("All Documents", bookQuantity));
-        documentInformation.getData().add(new XYChart.Data<>("Remaining Documents", remainingBookQuantity));
-        documentInformation.getData().add(new XYChart.Data<>("Issued Documents", bookQuantity - remainingBookQuantity));
-        controller.docBChart.getData().add(documentInformation);
-        XYChart.Series<String, Number> studentInformation = new XYChart.Series<>();
-        studentInformation.setName("Student information");
-        int totalStudent = UserDAO.getInstance().getTotalUsersCount();
-        int studentHoldingBook = LoanDAO.getInstance().getTotalUsersWhoBorrowedBooks();
-        studentInformation.getData().add(new XYChart.Data<>("All Student", totalStudent));
-        studentInformation.getData().add(new XYChart.Data<>("Students holding documents", studentHoldingBook));
-        controller.userBChart.getData().add(studentInformation);
+        XYChart.Series<String, Number> docInfo = new XYChart.Series<>();
+        docInfo.setName("Document information");
+        int docQuantity = DocumentDAO.getInstance().getTotalQuantity();
+        int remainingDocQuantity = DocumentDAO.getInstance().getTotalAvailableCopies();
+        docInfo.getData().add(new XYChart.Data<>("All Documents", docQuantity));
+        docInfo.getData().add(new XYChart.Data<>("Remaining Documents", remainingDocQuantity));
+        docInfo.getData().add(new XYChart.Data<>("Issued Documents", docQuantity - remainingDocQuantity));
+        controller.docBChart.getData().add(docInfo);
+        
+        XYChart.Series<String, Number> userInfo = new XYChart.Series<>();
+        userInfo.setName("User information");
+        int totalUser = UserDAO.getInstance().getTotalUsersCount();
+        int userHoldingDocs = LoanDAO.getInstance().getTotalUsersWhoBorrowedBooks();
+        userInfo.getData().add(new XYChart.Data<>("All Users", totalUser));
+        userInfo.getData().add(new XYChart.Data<>("Users holding documents", userHoldingDocs));
+        controller.userBChart.getData().add(userInfo);
         // load gauge
-        controller.allDocsGauge.setMaxValue(bookQuantity);
-        controller.allDocsGauge.setValue(bookQuantity);
-        controller.remainingDocsGauge.setMaxValue(bookQuantity);
-        controller.remainingDocsGauge.setValue(remainingBookQuantity);
-        controller.issuedDocsGauge.setMaxValue(bookQuantity);
-        controller.issuedDocsGauge.setValue(bookQuantity - remainingBookQuantity);
-        controller.allUsersGauge.setMaxValue(totalStudent);
-        controller.allUsersGauge.setValue(totalStudent);
-        controller.docHoldersGauge.setMaxValue(totalStudent);
-        controller.docHoldersGauge.setValue(studentHoldingBook);
+        controller.allDocsGauge.setMaxValue(docQuantity);
+        controller.allDocsGauge.setValue(docQuantity);
+        controller.remainingDocsGauge.setMaxValue(docQuantity);
+        controller.remainingDocsGauge.setValue(remainingDocQuantity);
+        controller.issuedDocsGauge.setMaxValue(docQuantity);
+        controller.issuedDocsGauge.setValue(docQuantity - remainingDocQuantity);
+        controller.allUsersGauge.setMaxValue(totalUser);
+        controller.allUsersGauge.setValue(totalUser);
+        controller.docHoldersGauge.setMaxValue(totalUser);
+        controller.docHoldersGauge.setValue(userHoldingDocs);
     }
 }

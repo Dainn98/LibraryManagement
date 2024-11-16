@@ -7,12 +7,14 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
@@ -23,22 +25,30 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
+import library.management.data.entity.Document;
 import library.management.data.entity.User;
 import library.management.properties;
-import library.management.ui.AbstractUI;
 import org.controlsfx.control.CheckComboBox;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class MainController implements Initializable, AbstractUI, properties {
-    // Dashboard Window
+public class MainController implements Initializable, properties,GeneralController {
+
+
+
+  // Dashboard Window
+    @FXML
+    protected ImageView pic;
     @FXML
     protected VBox dashboardVBox;
     @FXML
@@ -254,16 +264,26 @@ public class MainController implements Initializable, AbstractUI, properties {
     // CATALOG
     @FXML
     protected BorderPane catalogBPane;
+    @FXML
+    protected GridPane apiViewGPane;
+    @FXML
+    protected GridPane localViewGPane;
 
+    private List<Document> documentList;
+    public List<Document> getDocumentList(){return documentList;}
     private final DashboardController dashboardController = new DashboardController(this);
     private final UserController userController = new UserController(this);
+    private final CatalogController catalogController = new CatalogController(this);
+    private final AvatarController avatarController = new AvatarController(this);
 
-    @Override
+  @Override
     public void initialize(URL location, ResourceBundle resources) {
         dashboardController.loadDashBoardData();
         userController.initUsersView();
-    }
+        catalogController.loadCatalogData(apiViewGPane,localViewGPane);
+        avatarController.initAvatar();
 
+  }
     // MENU CONTROLLER
     @FXML
     protected void showSection(Object sectionToShow) {
@@ -303,7 +323,19 @@ public class MainController implements Initializable, AbstractUI, properties {
         showSection(allIssuedDocBPane);
     }
 
-    // DOCUMENT CONTROLLER
+  public void handlePicEnter(MouseEvent mouseEvent) {
+    VBox vBox = new VBox();
+    rotate3D(pic,vBox,Duration.millis(1000));
+  }
+
+  public void handlePicExit(MouseEvent mouseEvent) {
+    VBox vBox = new VBox();
+    rotate3DBack(pic,vBox,Duration.millis(1000));
+  }
+
+
+
+  // DOCUMENT CONTROLLER
 
     public void handleSearchDocTField(ActionEvent actionEvent) {
     }
@@ -400,6 +432,8 @@ public class MainController implements Initializable, AbstractUI, properties {
     protected void handleSignOutButton(ActionEvent actionEvent) {
         signOutController.handleSignOut(actionEvent);
     }
+
+
 }
 
 
