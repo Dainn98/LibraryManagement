@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -27,6 +28,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
@@ -176,31 +178,36 @@ public class MainController implements Initializable, AbstractUI, properties {
     @FXML
     protected BorderPane pendingApprovalsBPane;
     @FXML
-    protected CheckComboBox<?> checkUsername;
+    protected AutoCompleteTextField<String> checkUsername;
     @FXML
-    protected CheckComboBox<?> checkCountry;
+    protected CheckComboBox<String> checkCountry;
     @FXML
-    protected CheckComboBox<?> checkState;
+    protected CheckComboBox<String> checkState;
     @FXML
-    protected CheckComboBox<?> checkYear;
+    protected CheckComboBox<String> checkYear;
     @FXML
-    protected TableView<?> approvalsTView;
+    protected TableView<User> approvalsTView;
     @FXML
-    protected TableColumn<?, ?> idApprovals;
+    protected TableColumn<User, Boolean> checkBoxApproval;
     @FXML
-    protected TableColumn<?, ?> usernameApprovals;
+    protected TableColumn<User, String> idApprovals;
     @FXML
-    protected TableColumn<?, ?> phoneNumberApprovals;
+    protected TableColumn<User, String> usernameApprovals;
     @FXML
-    protected TableColumn<?, ?> emailApprovals;
+    protected TableColumn<User, String> phoneNumberApprovals;
     @FXML
-    protected TableColumn<?, ?> countryApprovals;
+    protected TableColumn<User, String> emailApprovals;
     @FXML
-    protected TableColumn<?, ?> stateApprovals;
+    protected TableColumn<User, String> countryApprovals;
     @FXML
-    protected TableColumn<?, ?> yearApprovals;
+    protected TableColumn<User, String> stateApprovals;
     @FXML
-    protected TableColumn<?, ?> approveApprovals;
+    protected TableColumn<User, String> yearApprovals;
+    @FXML
+    protected TableColumn<User, Void> approveApprovals;
+    @FXML
+    protected CheckBox checkAllApprovals;
+
 
     // Document Management
     @FXML
@@ -254,16 +261,29 @@ public class MainController implements Initializable, AbstractUI, properties {
     // CATALOG
     @FXML
     protected BorderPane catalogBPane;
+    @FXML
+    protected GridPane apiViewGPane;
+    @FXML
+    protected GridPane localViewGPane;
+    private List<Document> documentList;
+    public List<Document> getDocumentList(){return documentList;}
+
+
 
     private final DashboardController dashboardController = new DashboardController(this);
     private final UserController userController = new UserController(this);
     private final DocumentController documentController = new DocumentController(this);
+    private final CatalogController catalogController = new CatalogController(this);
+    private final PendingApprovalsController pendingApprovalsController = new PendingApprovalsController(this);
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dashboardController.loadDashBoardData();
         userController.initUsersView();
         documentController.initDocumentView();
+        catalogController.loadCatalogData(apiViewGPane,localViewGPane);
+        pendingApprovalsController.initApprovalsView();
     }
 
     // MENU CONTROLLER
@@ -299,6 +319,7 @@ public class MainController implements Initializable, AbstractUI, properties {
     }
 
     public void handlePendingApprovalsButton(ActionEvent actionEvent) {
+        pendingApprovalsController.loadApprovalsData();
         showSection(pendingApprovalsBPane);
     }
 
@@ -383,6 +404,23 @@ public class MainController implements Initializable, AbstractUI, properties {
     }
 
     public void handleSubmitIssueDoc(ActionEvent actionEvent) {
+    }
+
+    // PENDING APPROVAL
+    public void disapprovePending(ActionEvent actionEvent) {
+        pendingApprovalsController.disapprovePending();
+    }
+
+    public void checkAllPending(ActionEvent actionEvent) {
+        pendingApprovalsController.checkAllPending();
+    }
+
+    public void approvePendingUsers(ActionEvent actionEvent) {
+        pendingApprovalsController.approvePendingUsers();
+    }
+
+    public void handleSearchPendingUser(KeyEvent keyEvent) {
+        pendingApprovalsController.handleSearchPendingUser();
     }
 
     //ANOTHER

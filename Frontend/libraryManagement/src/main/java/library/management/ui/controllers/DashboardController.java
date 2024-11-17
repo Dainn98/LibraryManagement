@@ -26,7 +26,8 @@ public class DashboardController {
         controller.docBChart.getData().add(documentInformation);
         XYChart.Series<String, Number> studentInformation = new XYChart.Series<>();
         studentInformation.setName("Student information");
-        int totalStudent = UserDAO.getInstance().getTotalUsersCount();
+        int totalStudent = UserDAO.getInstance().getAllUserCount();
+        int approvedStudent = UserDAO.getInstance().getTotalApprovedUsersCount();
         int studentHoldingBook = LoanDAO.getInstance().getTotalUsersWhoBorrowedBooks();
         studentInformation.getData().add(new XYChart.Data<>("All Student", totalStudent));
         studentInformation.getData().add(new XYChart.Data<>("Students holding documents", studentHoldingBook));
@@ -39,7 +40,7 @@ public class DashboardController {
         controller.issuedDocsGauge.setMaxValue(docQuantity);
         controller.issuedDocsGauge.setValue(docQuantity - remainingDocQuantity);
         controller.allUsersGauge.setMaxValue(totalStudent);
-        controller.allUsersGauge.setValue(totalStudent);
+        controller.allUsersGauge.setValue(approvedStudent);
         controller.docHoldersGauge.setMaxValue(totalStudent);
         controller.docHoldersGauge.setValue(studentHoldingBook);
     }

@@ -40,7 +40,7 @@ public class UserController {
 
     public void loadUserViewData() {
         list.clear();
-        list.addAll(UserDAO.getInstance().getAllUser());
+        list.addAll(UserDAO.getInstance().getAllApprovedUser());
         controller.userView.setItems(list);
         initializeCheckBox();
     }
@@ -78,10 +78,16 @@ public class UserController {
             checkBoxStatus.addListener((observable, oldValue, newValue) -> {
                 if (!newValue) {
                     controller.checkAllUsersView.setSelected(false);
+                } else {
+                    boolean allSelected = checkBoxStatusList.stream().allMatch(BooleanProperty::get);
+                    if (allSelected) {
+                        controller.checkAllUsersView.setSelected(true);
+                    }
                 }
             });
         }
     }
+
 
     public void searchUserDetails() {
         String filterCriteria = controller.userFilterComboBox.getValue();
@@ -89,19 +95,19 @@ public class UserController {
         list.clear();
         switch (filterCriteria) {
             case "ID":
-                list.addAll(UserDAO.getInstance().searchById(searchText));
+                list.addAll(UserDAO.getInstance().searchApprovedUserById(searchText));
                 break;
             case "Name":
-                list.addAll(UserDAO.getInstance().searchByName(searchText));
+                list.addAll(UserDAO.getInstance().searchApprovedUserByName(searchText));
                 break;
             case "Phone Number":
-                list.addAll(UserDAO.getInstance().searchByPhoneNumber(searchText));
+                list.addAll(UserDAO.getInstance().searchApprovedUserByPhoneNumber(searchText));
                 break;
             case "Email":
-                list.addAll(UserDAO.getInstance().searchByEmail(searchText));
+                list.addAll(UserDAO.getInstance().searchApprovedUserByEmail(searchText));
                 break;
             default:
-                list.addAll(UserDAO.getInstance().searchAllByKeyword(searchText));
+                list.addAll(UserDAO.getInstance().searchAllApprovedUserByKeyword(searchText));
         }
         controller.userView.setItems(list);
         initializeCheckBox();

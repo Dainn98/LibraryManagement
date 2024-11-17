@@ -6,8 +6,6 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.chart.BarChart?>
@@ -26,6 +24,8 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
@@ -33,8 +33,10 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.SVGPath?>
@@ -250,7 +252,7 @@
                      </StackPane.margin>
                      <!--DOCUMENT-->
                   </VBox>
-                  <BorderPane fx:id="docBPane" prefHeight="200.0" prefWidth="200.0">
+                  <BorderPane fx:id="docBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <top>
                         <VBox BorderPane.alignment="CENTER">
                            <children>
@@ -782,7 +784,7 @@
                   </BorderPane>
 
                   <!--              PENDING APPROVALS-->
-                  <BorderPane fx:id="pendingApprovalsBPane" visible="false">
+                  <BorderPane fx:id="pendingApprovalsBPane" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
                      <center>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
@@ -792,24 +794,8 @@
                                     <Label text="Filter Approvals:" />
                                     <ButtonBar>
                                        <buttons>
-                                          <CheckComboBox fx:id="checkUsername" title="Username">
-                                             <!--                                             Sample-->
-                                             <items>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:value="User1" />
-                                                </FXCollections>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:value="User2" />
-                                                </FXCollections>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:value="User3" />
-                                                </FXCollections>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                   <String fx:value="User4" />
-                                                </FXCollections>
-                                             </items>
-                                          </CheckComboBox>
-                                          <CheckComboBox fx:id="checkCountry" title="Country" />
+                                          <AutoCompleteTextField fx:id="checkUsername" onKeyReleased="#handleSearchPendingUser" promptText="Username" />
+                                          <CheckComboBox fx:id="checkCountry" style="-fx-background-color: WHITE;" title="Country" />
                                           <CheckComboBox fx:id="checkState" title="State" />
                                           <CheckComboBox fx:id="checkYear" title="Year" />
                                        </buttons>
@@ -818,6 +804,7 @@
                               </HBox>
                               <TableView fx:id="approvalsTView" editable="true" prefHeight="620.0" prefWidth="620.0">
                                  <columns>
+                                    <TableColumn fx:id="checkBoxApproval" minWidth="-Infinity" prefWidth="30.0" />
                                     <TableColumn fx:id="idApprovals" prefWidth="75.0" text="ID" />
                                     <TableColumn fx:id="usernameApprovals" prefWidth="100.0" text="Username" />
                                     <TableColumn fx:id="phoneNumberApprovals" prefWidth="100.0" text="Phone Number" />
@@ -863,6 +850,37 @@
                            </bottom>
                         </BorderPane>
                      </top>
+                     <bottom>
+                        <HBox fx:id="controllApproval" prefHeight="32.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <CheckBox fx:id="checkAllApprovals" mnemonicParsing="false" onAction="#checkAllPending" text="Check all">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <Hyperlink onAction="#disapprovePending" text="Delete" textFill="#2b579a">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#e9594d" glyphName="TRASH" size="15" />
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets left="20.0" top="2.0" />
+                                 </HBox.margin>
+                              </Hyperlink>
+                              <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#approvePendingUsers" prefWidth="120.0" text="Approve">
+                                       <HBox.margin>
+                                          <Insets right="20.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <BorderPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </BorderPane.margin>
+                        </HBox>
+                     </bottom>
                   </BorderPane>
                   <!--               DOCUMENT MANAGEMENT-->
                   <BorderPane fx:id="docManagementBPane" visible="false">
@@ -1262,29 +1280,56 @@
                                           <Insets left="10.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <HBox prefHeight="3.0" prefWidth="957.0" style="-fx-background-color: #efefef;" />
                                  </children>
                               </VBox>
                            </bottom>
                         </BorderPane>
                      </top>
                      <center>
-                        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                        <VBox BorderPane.alignment="CENTER">
                            <children>
-                              <HBox>
+                              <VBox spacing="5.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <HBox HBox.hgrow="ALWAYS" />
-                                    <VBox HBox.hgrow="ALWAYS">
+                                    <HBox>
                                        <children>
-                                          <AutoCompleteTextField cache="true" depthTest="ENABLE" floatText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30; -fx-border-radius: 30;" VBox.vgrow="ALWAYS" />
+                                          <HBox HBox.hgrow="ALWAYS" />
+                                          <AutoCompleteTextField fx:id="catalogSearchField" cache="true" depthTest="ENABLE" floatText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30; -fx-border-radius: 30;" HBox.hgrow="ALWAYS" />
+                                          <HBox HBox.hgrow="ALWAYS" />
                                        </children>
-                                    </VBox>
-                                    <HBox HBox.hgrow="ALWAYS" />
-                                 </children>
-                              </HBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS" />
+                                    </HBox>
+                                    <TabPane cache="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                                       <tabs>
+                                          <Tab fx:id="databaseTab" text="Database">
+                                             <content>
+                                                <ScrollPane vbarPolicy="ALWAYS">
+                                                   <content>
+                                                      <GridPane fx:id="localViewGPane" hgap="10.0" vgap="10.0">
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                      </GridPane>
+                                                   </content>
+                                                </ScrollPane>
+                                             </content>
+                                          </Tab>
+                                          <Tab fx:id="onlineTab" text="Online">
+                                             <content>
+                                                <ScrollPane vbarPolicy="ALWAYS">
+                                                   <content>
+                                                      <GridPane fx:id="apiViewGPane">
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
+                                                      </GridPane>
+                                                   </content>
+                                                </ScrollPane>
+                                             </content>
+                                          </Tab>
+                                       </tabs>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </TabPane>
                                  </children>
                               </VBox>
                            </children>

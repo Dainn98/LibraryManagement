@@ -11,7 +11,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import library.management.data.DAO.DocumentDAO;
-import library.management.data.DAO.UserDAO;
 import library.management.data.entity.Document;
 
 import java.util.Optional;
@@ -100,7 +99,6 @@ public class DocumentController {
         for (int i = 0; i < list.size(); i++) {
             this.checkBoxStatusList.add(new SimpleBooleanProperty(false));
         }
-        controller.docView.refresh();
         for (BooleanProperty checkBoxStatus : checkBoxStatusList) {
             checkBoxStatus.addListener((observable, oldValue, newValue) -> {
                 if (!newValue) {

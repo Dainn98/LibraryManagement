@@ -13,10 +13,10 @@ import library.management.data.DAO.DocumentDAO;
 import library.management.data.entity.Document;
 
 public class GoogleBooksAPI {
-    private static final String API_KEY = "AIzaSyCdrDSBU0hpgH0ZhEqK4fDaJ_IXvGs6fko";
+    private static final String API_KEY = "AIzaSyDw67-cnEd_AzpPTg9lkfrIZDzIXIl4ius";
 
     public static void main(String[] args) {
-        String query = "Harry Potter and the Cursed Child";
+        String query = "Harry potter";
         try {
             JsonArray books = fetchBooks(query);
             if (books != null) {
@@ -35,6 +35,7 @@ public class GoogleBooksAPI {
     public static JsonArray fetchBooks(String query) throws Exception {
         String urlString = "https://www.googleapis.com/books/v1/volumes?q="
                 + query.replace(" ", "+") + "&key=" + API_KEY;
+        System.out.println("Request URL: " + urlString);
         URL url = new URL(urlString);
 
         // Mở kết nối và lấy phản hồi JSON
@@ -124,11 +125,16 @@ public class GoogleBooksAPI {
     }
 
     private static String getImageLink(JsonObject volumeInfo) {
-        if (volumeInfo.has("imageLinks")) {
-            JsonObject imageLinks = volumeInfo.getAsJsonObject("imageLinks");
-            return imageLinks.has("thumbnail") ? imageLinks.get("thumbnail").getAsString() : "No image available";
+        if (!volumeInfo.has("imageLinks")) {
+            return "No thumbnail available";
         }
-        return "No image available";
+        JsonObject imageLinks = volumeInfo.getAsJsonObject("imageLinks");
+        if (imageLinks.has("thumbnail")) {
+            return imageLinks.get("thumbnail").getAsString();
+        } else if (imageLinks.has("smallThumbnail")) {
+            return imageLinks.get("smallThumbnail").getAsString();
+        }
+        return "No thumbnail available";
     }
 
     private static String getISBN(JsonObject volumeInfo) {

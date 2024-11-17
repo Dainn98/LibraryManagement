@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="docCatalogView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="330.0" prefWidth="180.0" styleClass="image-view" stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.DocContainerController">
+   <children>
+      <ImageView fx:id="docCatalogImage" fitHeight="240.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../sprites/mainScreen.png" />
+         </image>
+      </ImageView>
+      <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Hyperlink fx:id="docTitleCatalog" prefHeight="24.0" prefWidth="168.0" text="Hyperlink" textAlignment="CENTER" />
+            <Label fx:id="authorCatalog" text="Label" VBox.vgrow="ALWAYS">
+               <padding>
+                  <Insets left="5.0" />
+               </padding></Label>
+         </children>
+         <padding>
+            <Insets top="5.0" />
+         </padding>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</VBox>
