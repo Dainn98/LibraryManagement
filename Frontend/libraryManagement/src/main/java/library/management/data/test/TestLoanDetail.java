@@ -11,6 +11,7 @@ public class TestLoanDetail {
         LoanDetail loanDetail = new LoanDetail("LOAN1", "DOC1", (short)3);
 
         if (LoanDetailDAO.getInstance().add(loanDetail) > 0) {
+
             System.out.println("Thêm chi tiết khoản vay thành công!");
         } else {
             System.out.println("Thêm chi tiết khoản vay thất bại!");
@@ -32,6 +33,7 @@ public class TestLoanDetail {
         LoanDetail loanDetail = new LoanDetail("LOAN2", "DOC2", (short)5, "DETAIL11");
 
         if (LoanDetailDAO.getInstance().update(loanDetail) > 0) {
+
             System.out.println("Cập nhật chi tiết khoản vay thành công!");
         } else {
             System.out.println("Cập nhật chi tiết khoản vay thất bại!");

@@ -20,6 +20,7 @@ public class LoanDetail {
     public LoanDetail(String loanId, String documentID, short quantity) {
         this.documentID = parseId(documentID, "DOC");
         this.loanId = parseId(loanId, "LOAN");
+
         this.quantity = quantity;
     }
 
@@ -49,6 +50,7 @@ public class LoanDetail {
 
     public void setDocumentID(String documentID) {
         this.documentID = parseId(documentID, "DOC");
+
     }
 
     public short getQuantity() {
@@ -77,5 +79,6 @@ public class LoanDetail {
 
     public void setLoanDetailID(String loanDetailID) {
         this.loanDetailID = parseId(loanDetailID, "DETAIL");
+
     }
 }

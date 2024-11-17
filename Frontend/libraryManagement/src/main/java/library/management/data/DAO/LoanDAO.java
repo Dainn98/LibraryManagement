@@ -1,6 +1,8 @@
 package library.management.data.DAO;
 
+
 import library.management.data.database.DatabaseConnection;
+
 import library.management.data.entity.Loan;
 
 import java.sql.*;
@@ -9,20 +11,24 @@ import java.util.List;
 
 public class LoanDAO implements DAOInterface<Loan> {
 
+
     private LoanDAO() {
     }
+
 
     public static LoanDAO getInstance() {
         return new LoanDAO();
     }
 
     @Override
+
     public int add(Loan loan) {
         String query = "INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate) VALUES (?, ?, ?, ?, ?)";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setInt(1, loan.getIntUserId());
+
             stmt.setShort(2, loan.getQuantityOfBorrow());
             stmt.setDouble(3, loan.getDeposit());
             stmt.setTimestamp(4, new Timestamp(loan.getDateOfBorrow().getTime()));
@@ -43,6 +49,7 @@ public class LoanDAO implements DAOInterface<Loan> {
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setInt(1, loan.getIntLoanID());
+
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted;
         } catch (SQLException e) {
@@ -58,11 +65,13 @@ public class LoanDAO implements DAOInterface<Loan> {
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setInt(1, loan.getIntUserId());
+
             stmt.setShort(2, loan.getQuantityOfBorrow());
             stmt.setDouble(3, loan.getDeposit());
             stmt.setTimestamp(4, new Timestamp(loan.getDateOfBorrow().getTime()));
             stmt.setTimestamp(5, new Timestamp(loan.getRequiredReturnDate().getTime()));
             stmt.setInt(6, loan.getIntLoanID());
+
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated;
@@ -71,6 +80,7 @@ public class LoanDAO implements DAOInterface<Loan> {
         }
         return 0;
     }
+
 
     public int getTotalUsersWhoBorrowedBooks() {
         String query = "SELECT COUNT(DISTINCT userId) FROM loans";
@@ -86,5 +96,4 @@ public class LoanDAO implements DAOInterface<Loan> {
         }
         return 0;
     }
-
 }

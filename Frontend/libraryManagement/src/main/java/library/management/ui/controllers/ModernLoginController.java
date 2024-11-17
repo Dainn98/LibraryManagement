@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -22,7 +21,7 @@ import library.management.main;
 
 import static library.management.alert.AlertMaker.showAlertInformation;
 
-public class ModernLoginController extends GeneralController implements Initializable {
+public class ModernLoginController implements Initializable,GeneralController {
 
     private static final int WIDTH = 780;
     private static final double rightTrans = (double) WIDTH / 2;

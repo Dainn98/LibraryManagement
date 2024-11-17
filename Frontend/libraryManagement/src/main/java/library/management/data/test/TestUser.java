@@ -11,6 +11,7 @@ public class TestUser {
         User user = new User("John Doe", "123 Main St", "1234567890", "0987654321", "johndoe@example.com", "USA", "California");
 
         if (UserDAO.getInstance().add(user) > 0) {
+
             System.out.println("Thêm người dùng thành công!");
         } else {
             System.out.println("Thêm người dùng thất bại!");
@@ -22,6 +23,7 @@ public class TestUser {
         user.setUserId("USER11");
 
         if (UserDAO.getInstance().delete(user) > 0) {
+
             System.out.println("Xóa người dùng thành công!");
         } else {
             System.out.println("Xóa người dùng thất bại!");
@@ -32,6 +34,7 @@ public class TestUser {
         User user = new User("USER11", "Jane Doe", "456 Elm St", "987654321012", "0123456789", "janedoe@example.com", "USA", "New York");
 
         if (UserDAO.getInstance().update(user) > 0) {
+
             System.out.println("Cập nhật người dùng thành công!");
         } else {
             System.out.println("Cập nhật người dùng thất bại!");
@@ -40,6 +43,7 @@ public class TestUser {
 
     public static void getAllUsers() {
         List<User> users = UserDAO.getInstance().getAllUser();
+
 
         if (users != null && !users.isEmpty()) {
             System.out.println("Danh sách người dùng:");
@@ -51,6 +55,7 @@ public class TestUser {
                         ", email: " + user.getEmail() +
                         ", country: " + user.getCountry() +
                         ", state: " + user.getState() +
+
                         ", userId: " + user.getUserId());
             }
         } else {
@@ -63,5 +68,6 @@ public class TestUser {
         updateUser();
         deleteUser();
         getAllUsers();
+
     }
 }

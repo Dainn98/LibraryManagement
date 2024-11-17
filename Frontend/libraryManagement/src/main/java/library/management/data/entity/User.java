@@ -45,6 +45,7 @@ public class User {
         this.userName = userName;
         this.country = country;
         this.state = state;
+
     }
 
     public String getUserName() {

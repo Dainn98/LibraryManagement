@@ -14,6 +14,7 @@ public class TestLanguage {
         language.setLgName(lgName);
 
         if (LanguageDAO.getInstance().add(language) > 0) {
+
             System.out.println("Thêm ngôn ngữ thành công!");
         } else {
             System.out.println("Thêm ngôn ngữ thất bại!");
@@ -26,6 +27,7 @@ public class TestLanguage {
         Language language = new Language(lgID);
 
         if (LanguageDAO.getInstance().delete(language) > 0) {
+
             System.out.println("Xóa ngôn ngữ thành công!");
         } else {
             System.out.println("Xóa ngôn ngữ thất bại!");
@@ -39,6 +41,7 @@ public class TestLanguage {
         Language language = new Language(lgID, lgName);
 
         if (LanguageDAO.getInstance().update(language) > 0) {
+
             System.out.println("Cập nhật ngôn ngữ thành công!");
         } else {
             System.out.println("Cập nhật ngôn ngữ thất bại!");
@@ -49,6 +52,5 @@ public class TestLanguage {
         addLanguage();
         updateLanguage();
         deleteLanguage();
-
     }
 }

@@ -18,6 +18,7 @@ public class Document {
     private String description;
     private String url;
     private String image;
+    private String imageSrc;
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
@@ -196,5 +197,13 @@ public class Document {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 public class Loan {
     private int loanID;
     private int userId;
+
     private short quantityOfBorrow;
     private double deposit;
     private Date dateOfBorrow;
@@ -16,6 +17,7 @@ public class Loan {
 
     public Loan(String userId, short quantityOfBorrow, double deposit, Date dateOfBorrow, Date requiredReturnDate, String loanID) {
         this.userId = Integer.parseInt(userId.substring(4));
+
         this.quantityOfBorrow = quantityOfBorrow;
         this.deposit = deposit;
         this.dateOfBorrow = dateOfBorrow;
@@ -25,6 +27,7 @@ public class Loan {
 
     public Loan(String userId, short quantityOfBorrow, double deposit, Date dateOfBorrow, Date requiredReturnDate) {
         this.userId = Integer.parseInt(userId.substring(4));
+
         this.quantityOfBorrow = quantityOfBorrow;
         this.deposit = deposit;
         this.dateOfBorrow = dateOfBorrow;
@@ -45,6 +48,7 @@ public class Loan {
 
     public void setUserId(String userId) {
         this.userId = Integer.parseInt(userId.substring(4));
+
     }
 
     public short getQuantityOfBorrow() {
@@ -89,5 +93,6 @@ public class Loan {
 
     public void setLoanID(String loanID) {
         this.loanID = Integer.parseInt(loanID.substring(4));
+
     }
 }

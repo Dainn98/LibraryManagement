@@ -33,10 +33,17 @@
     </dependency>
 
     <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.33</version>
+    </dependency>
+
+    <dependency>
       <groupId>de.jensd</groupId>
       <artifactId>fontawesomefx-fontawesome</artifactId>
       <version>4.7.0-9.1.2</version>
     </dependency>
+
     <!--    JFXTRAS CONTROLS-->
     <!--    <dependency>-->
     <!--      <groupId>org.jfxtras</groupId>-->
@@ -51,18 +58,23 @@
       <version>11.2.1</version>
     </dependency>
     <!--    SimpleMetroArcGauge-->
+
     <dependency>
       <groupId>org.jfxtras</groupId>
       <artifactId>jfxtras-gauge-linear</artifactId>
       <version>17-r1</version>
     </dependency>
+
     <!--MATERIAL-DESIGNFONT-->
+
     <dependency>
       <groupId>de.jensd</groupId>
       <artifactId>fontawesomefx-materialdesignfont</artifactId>
       <version>2.0.26-9.1.2</version>
     </dependency>
+
     <!--    IKONLI-JAVAFX-->
+
     <dependency>
       <groupId>org.kordamp.ikonli</groupId>
       <artifactId>ikonli-octicons-pack</artifactId>

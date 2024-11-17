@@ -21,12 +21,14 @@ public class Language {
     }
 
     public int getIntLgID() {
+
         return lgID;
     }
 
     public void setLgID(String lgID) {
         this.lgID = Integer.parseInt(lgID.substring(4));
     }
+
 
     public String getLgName() {
         return lgName;
@@ -40,4 +42,5 @@ public class Language {
     public String toString() {
         return lgName;
     }
+
 }
