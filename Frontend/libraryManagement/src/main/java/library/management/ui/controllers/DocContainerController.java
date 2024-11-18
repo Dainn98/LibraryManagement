@@ -1,24 +1,29 @@
 package library.management.ui.controllers;
 
+import com.jfoenix.controls.JFXTextArea;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import library.management.data.entity.Document;
 
-public class DocContainerController {
+public class DocContainerController implements GeneralController {
 
+  @FXML
+  private VBox docInfo;
+  @FXML
+  private Label desDoc;
   @FXML
   private Label authorCatalog;
-
   @FXML
-  private ImageView docCatalogImage;
-
+  private ImageView docThumbnail;
   @FXML
   private VBox docCatalogView;
-
   @FXML
   private Hyperlink docTitleCatalog;
 
@@ -53,7 +58,7 @@ public class DocContainerController {
 
   public void setData(Document document) {
     Image image = new Image(getClass().getResourceAsStream(document.getImageSrc()));
-    docCatalogImage.setImage(image);
+    docThumbnail.setImage(image);
     docTitleCatalog.setText(document.getTitle());
     authorCatalog.setText(document.getAuthor());
 
@@ -66,5 +71,15 @@ public class DocContainerController {
             + "-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 10);"
     );
 
+  }
+
+  @FXML
+  private void handleClickDocThumbnail(MouseEvent mouseEvent) {
+    rotate3D(docThumbnail, 0, 1, docInfo, 270, 1, 90, Duration.millis(1000));
+  }
+
+  @FXML
+  private void handleExitDesDoc(MouseEvent mouseEvent) {
+    rotate3D(docInfo, 0, 1, docThumbnail, 270, 1, 90, Duration.millis(1000));
   }
 }
