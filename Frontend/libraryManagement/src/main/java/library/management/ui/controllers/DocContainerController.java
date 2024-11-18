@@ -12,13 +12,10 @@ public class DocContainerController {
 
   @FXML
   private Label authorCatalog;
-
   @FXML
   private ImageView docCatalogImage;
-
   @FXML
   private VBox docCatalogView;
-
   @FXML
   private Hyperlink docTitleCatalog;
 
