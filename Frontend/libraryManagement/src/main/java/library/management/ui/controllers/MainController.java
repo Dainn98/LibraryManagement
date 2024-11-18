@@ -207,7 +207,7 @@ public class MainController implements Initializable, properties, GeneralControl
   @FXML
   protected TableColumn<?, ?> yearApprovals;
   @FXML
-  protected TableColumn<?, ?> approveApprovals;
+  protected TableColumn<?, ?> approvalApprovals;
   // Document Management
   @FXML
   protected BorderPane docManagementBPane;
@@ -319,16 +319,14 @@ public class MainController implements Initializable, properties, GeneralControl
     showSection(allIssuedDocBPane);
   }
 
-  public void handleAvatarEnter(MouseEvent mouseEvent) {
-    rotate3D(pic, 0, 1, infoVBox, 270, 1, 90, Duration.millis(1000));
+  public void handleClickAvatar(MouseEvent mouseEvent) {
+    dashboardController.handleClickAvatar(pic, infoVBox);
   }
 
-  public void handleInfoExit(MouseEvent mouseEvent) {
-    rotate3D(infoVBox, 0, 1, pic, 270, 1, 90, Duration.millis(1000));
+  public void handleExitAvatarInfo(MouseEvent mouseEvent) {
+    dashboardController.handleExitAvatarInfo(infoVBox, pic);
   }
 
-  public void handleInfoStable(MouseEvent mouseEvent) {
-  }
 
   // DOCUMENT CONTROLLER
 

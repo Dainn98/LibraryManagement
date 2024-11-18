@@ -95,13 +95,13 @@
             <VBox spacing="10" style="-fx-padding: 20;">
                <StackPane>
                   <children>
-                     <ImageView fx:id="pic" fitHeight="222.0" fitWidth="200.0" onMouseClicked="#handleAvatarEnter" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fx:id="pic" fitHeight="222.0" fitWidth="200.0" onMouseClicked="#handleClickAvatar" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../sprites/mainScreen.png" />
                         <cursor>
                            <Cursor fx:constant="HAND" />
                         </cursor>
                      </ImageView>
-                     <VBox fx:id="infoVBox" onMouseEntered="#handleInfoStable" onMouseExited="#handleInfoExit" onMouseMoved="#handleInfoStable" prefHeight="200.0" prefWidth="100.0" visible="false" />
+                     <VBox fx:id="infoVBox" onMouseExited="#handleExitAvatarInfo" prefHeight="200.0" prefWidth="100.0" visible="false" />
                   </children>
                </StackPane>
                <Button fx:id="dashboardButton" onAction="#handleDashboardButton" prefWidth="200.0" text="Dashboard">
@@ -1434,7 +1434,7 @@
                                              <content>
                                                 <ScrollPane vbarPolicy="ALWAYS">
                                                    <content>
-                                                      <GridPane fx:id="apiViewGPane">
+                                                      <GridPane fx:id="apiViewGPane" hgap="10.0" vgap="10.0">
                                                         <rowConstraints>
                                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                         </rowConstraints>

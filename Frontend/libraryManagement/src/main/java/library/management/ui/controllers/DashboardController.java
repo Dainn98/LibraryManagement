@@ -1,11 +1,14 @@
 package library.management.ui.controllers;
 
 import javafx.scene.chart.XYChart;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import library.management.data.DAO.DocumentDAO;
 import library.management.data.DAO.LoanDAO;
 import library.management.data.DAO.UserDAO;
+import javafx.util.Duration;
 
-public class DashboardController {
+public class DashboardController implements GeneralController{
     private final MainController controller;
 
     public DashboardController(MainController controller) {
@@ -43,5 +46,13 @@ public class DashboardController {
         controller.allUsersGauge.setValue(totalUser);
         controller.docHoldersGauge.setMaxValue(totalUser);
         controller.docHoldersGauge.setValue(userHoldingDocs);
+    }
+
+    protected void handleClickAvatar(ImageView pic, VBox infoVBox) {
+        rotate3D(pic, 0, 1, infoVBox, 270, 1, 90, Duration.millis(1000));
+    }
+
+    protected void handleExitAvatarInfo(VBox infoVBox, ImageView pic) {
+        rotate3D(infoVBox, 0, 1, pic, 270, 1, 90, Duration.millis(1000));
     }
 }
