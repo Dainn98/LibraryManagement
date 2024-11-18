@@ -79,7 +79,7 @@ public class GoogleBooksAPI {
             String url = getInfoLink(volumeInfo);
             String image = getImageLink(volumeInfo);
 
-            Document document = new Document(categoryID, publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description, url, image, true);
+            Document document = new Document(categoryID, publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description, url, image, "Available");
 
             if (DocumentDAO.getInstance().add(document) > 0) {
                 System.out.println("Thêm sách thành công!");

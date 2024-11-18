@@ -4,8 +4,6 @@ import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.Document;
 
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class DocumentDAO implements DAOInterface<Document> {
             stmt.setString(11, document.getDescription());
             stmt.setString(12, document.getUrl());
             stmt.setString(13, document.getImage());
-            stmt.setBoolean(14, document.isAvailability());
+            stmt.setString(14, document.getAvailability());
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -49,7 +47,7 @@ public class DocumentDAO implements DAOInterface<Document> {
 
     @Override
     public int delete(Document document) {
-        String query = "DELETE FROM document WHERE documentId = ?";
+        String query = "UPDATE document SET availability = 'removed' WHERE documentId = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
@@ -60,6 +58,7 @@ public class DocumentDAO implements DAOInterface<Document> {
         }
         return 0;
     }
+
 
     @Override
     public int update(Document document) {
@@ -80,7 +79,7 @@ public class DocumentDAO implements DAOInterface<Document> {
             stmt.setString(11, document.getDescription());
             stmt.setString(12, document.getUrl());
             stmt.setString(13, document.getImage());
-            stmt.setBoolean(14, document.isAvailability());
+            stmt.setString(14, document.getAvailability());
             stmt.setInt(15, document.getIntDocumentID());
 
             return stmt.executeUpdate();
@@ -93,7 +92,7 @@ public class DocumentDAO implements DAOInterface<Document> {
 
     public List<Document> getBookList() {
         List<Document> bookList = new ArrayList<>();
-        String query = "SELECT * FROM document";
+        String query = "SELECT * FROM document WHERE availability != 'removed'";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
@@ -115,16 +114,16 @@ public class DocumentDAO implements DAOInterface<Document> {
                 document.setDescription(rs.getString("description"));
                 document.setUrl(rs.getString("url"));
                 document.setImage(rs.getString("image"));
-                document.setAvailability(rs.getBoolean("availability"));
+                document.setAvailability(rs.getString("availability"));
 
                 bookList.add(document);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return bookList;
     }
+
 
 
     public int getTotalQuantity() {
@@ -143,7 +142,7 @@ public class DocumentDAO implements DAOInterface<Document> {
     }
 
     public int getTotalAvailableCopies() {
-        String query = "SELECT SUM(availableCopies) FROM document";
+        String query = "SELECT SUM(availableCopies) FROM document WHERE availability = 'available'";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -195,7 +194,7 @@ public class DocumentDAO implements DAOInterface<Document> {
                     document.setDescription(rs.getString("description"));
                     document.setUrl(rs.getString("url"));
                     document.setImage(rs.getString("image"));
-                    document.setAvailability(rs.getBoolean("availability"));
+                    document.setAvailability(rs.getString("availability"));
 
                     searchResults.add(document);
                 }

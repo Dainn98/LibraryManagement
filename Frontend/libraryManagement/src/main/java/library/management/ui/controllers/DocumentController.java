@@ -44,28 +44,28 @@ public class DocumentController {
         controller.quantityDocView.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         controller.remainingDocsDocView.setCellValueFactory(new PropertyValueFactory<>("availableCopies"));
         controller.availabilityDocView.setCellValueFactory(new PropertyValueFactory<>("availability"));
-        controller.availabilityDocView.setCellFactory(column -> new TableCell<Document, Boolean>() {
+        controller.availabilityDocView.setCellValueFactory(new PropertyValueFactory<>("availability"));
+        controller.availabilityDocView.setCellFactory(column -> new TableCell<Document, String>() {
             private final Button button = new Button();
 
             @Override
-            protected void updateItem(Boolean availability, boolean empty) {
+            protected void updateItem(String availability, boolean empty) {
                 super.updateItem(availability, empty);
 
                 if (empty || availability == null) {
                     setGraphic(null);
                     setText(null);
                 } else {
-                    button.setText(availability ? "Available" : "Unavailable");
-                    button.setStyle("-fx-background-color: " + (availability ? "green" : "red") + "; -fx-text-fill: white;");
+                    button.setText(availability.equals("available") ? "Available" : "Unavailable");
+                    button.setStyle("-fx-background-color: " + (availability.equals("available") ? "green" : "red") + "; -fx-text-fill: white;");
 
-                    // Thêm sự kiện cho button nếu cần
                     button.setOnAction(event -> {
                         Document document = getTableRow().getItem();
                         Optional<ButtonType> result = showAlertConfirmation(
                                 "Change availability of document",
                                 "Are you sure you want to change availability of this document: " + document.getTitle() + "?");
                         if (result.isPresent() && result.get() == ButtonType.OK) {
-                            document.setAvailability(!availability);
+                            document.setAvailability(availability.equals("available") ? "unavailable" : "available");
                             DocumentDAO.getInstance().update(document);
                             controller.docView.refresh();
                         }
@@ -75,6 +75,7 @@ public class DocumentController {
                 }
             }
         });
+
         // label
         controller.allDocs.setText(String.valueOf(DocumentDAO.getInstance().getTotalQuantity()));
         controller.remainDocs.setText(String.valueOf(DocumentDAO.getInstance().getTotalAvailableCopies()));

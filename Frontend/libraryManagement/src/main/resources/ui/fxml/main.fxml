@@ -8,6 +8,7 @@
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Point3D?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -92,16 +93,46 @@
          <!-- Menu bên trái -->
          <left>
             <VBox spacing="10" style="-fx-padding: 20;">
-               <ImageView fx:id="pic" fitHeight="222.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                  <Image url="@../sprites/mainScreen.png" />
-               </ImageView>
-               <Button fx:id="dashboardButton" onAction="#handleDashboardButton" prefWidth="200.0" text="Dashboard" />
-               <Button fx:id="docsButton" onAction="#handleDocButton" prefWidth="200" text="Documents" />
-               <Button fx:id="usersButton" onAction="#handleUsersButton" prefWidth="200" text="Users" />
-               <Button fx:id="libraryCatalogButton" onAction="#handleLibraryCatalogButton" prefWidth="200" text="Library Catalog" />
-               <Button fx:id="pendingApprovalsButton" onAction="#handlePendingApprovalsButton" prefWidth="200" text="Pending Approvals" />
-               <Button fx:id="allIssuedDocumentButton" onAction="#handleIssuedDocButton" prefWidth="200" text="All Issued Document" />
-               <Button fx:id="signOutButton" onAction="#handleSignOutButton" prefWidth="200" text="Sign Out" />
+               <StackPane>
+                  <children>
+                     <ImageView fx:id="pic" fitHeight="222.0" fitWidth="200.0" onMouseClicked="#handleClickAvatar" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../sprites/mainScreen.png" />
+                        <cursor>
+                           <Cursor fx:constant="HAND" />
+                        </cursor>
+                     </ImageView>
+                     <VBox fx:id="infoVBox" onMouseExited="#handleExitAvatarInfo" prefHeight="200.0" prefWidth="100.0" visible="false" />
+                  </children>
+               </StackPane>
+               <Button fx:id="dashboardButton" onAction="#handleDashboardButton" prefWidth="200.0" text="Dashboard">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button fx:id="docsButton" onAction="#handleDocButton" prefWidth="200" text="Documents">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button fx:id="usersButton" onAction="#handleUsersButton" prefWidth="200" text="Users">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button fx:id="libraryCatalogButton" onAction="#handleLibraryCatalogButton" prefWidth="200" text="Library Catalog">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button fx:id="pendingApprovalsButton" onAction="#handlePendingApprovalsButton" prefWidth="200" text="Pending Approvals">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button fx:id="pendingLoansButton" mnemonicParsing="false" onAction="#handlePendingLoansButton" prefWidth="200.0" text="Pending Loans" />
+               <Button fx:id="allIssuedDocumentButton" onAction="#handleIssuedDocButton" prefWidth="200" text="All Issued Document">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button fx:id="signOutButton" onAction="#handleSignOutButton" prefWidth="200" text="Sign Out">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
             </VBox>
          </left>
 
@@ -1336,6 +1367,70 @@
                         </VBox>
                      </center>
                   </BorderPane>
+
+                  <BorderPane fx:id="pendingLoansBPane" visible="false" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+                     <center>
+                        <VBox>
+                           <children>
+                              <HBox alignment="CENTER" spacing="10.0">
+                                 <children>
+                                    <HBox HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="loansField" promptText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
+                                    <JFXComboBox fx:id="typeLoans" labelFloat="true" promptText="Select Issue Type" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
+                                    <HBox HBox.hgrow="ALWAYS" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </HBox>
+                              <TableView fx:id="loansView" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+                                 <columns>
+                                    <TableColumn fx:id="checkLoan" prefWidth="30.0" />
+                                    <TableColumn fx:id="issuedIDLoansView" prefWidth="92.0" text="Issued ID" />
+                                    <TableColumn fx:id="docIDLoansView" prefWidth="92.0" text="Document ISBN" />
+                                    <TableColumn fx:id="docTitleLoansView" prefWidth="92.0" text="Document Title" />
+                                    <TableColumn fx:id="userIDLoansView" prefWidth="92.0" text="User ID" />
+                                    <TableColumn fx:id="userNameLoansView" prefWidth="92.0" text="User Name" />
+                                    <TableColumn fx:id="issuedDateAndTimeLoansView" prefWidth="92.0" text="Date borrowed" />
+                                    <TableColumn fx:id="dueDateIDLoansView" prefWidth="92.0" text="Date Returned" />
+                                    <TableColumn fx:id="daysLoansView" prefWidth="92.0" text="Number of Days" />
+                                    <TableColumn fx:id="feeIDLoansView" prefWidth="92.0" text="Late Fee (MWK)" />
+                                    <TableColumn fx:id="approvalLoansView" prefWidth="75.0" text="Approval" />
+                                 </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                        </VBox>
+                     </center>
+                     <top>
+                        <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+                           <center>
+                              <Label text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font name="Segoe UI Semilight" size="23.0" />
+                                 </font>
+                                 <BorderPane.margin>
+                                    <Insets top="2.0" />
+                                 </BorderPane.margin>
+                              </Label>
+                           </center>
+                           <bottom>
+                              <VBox BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Loans Requests" />
+                                    <HBox prefHeight="3.0" prefWidth="957.0" style="-fx-background-color: #efefef;" />
+                                 </children>
+                              </VBox>
+                           </bottom>
+                        </BorderPane>
+                     </top>
+                  </BorderPane>
+
                </children>
             </StackPane>
          </center>

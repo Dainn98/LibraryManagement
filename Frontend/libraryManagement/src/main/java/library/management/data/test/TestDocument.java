@@ -22,7 +22,7 @@ public class TestDocument {
         String url = "https://example.com/doraemon";
         String image = "https://example.com/doraemon.jpg";
 
-        Document document = new Document(categoryID, publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description, url, image, true);
+        Document document = new Document(categoryID, publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description, url, image, "Available");
 
         if (DocumentDAO.getInstance().add(document) > 0) {
             System.out.println("Thêm sách thành công!");
@@ -56,7 +56,7 @@ public class TestDocument {
         String url = "https://example.com/updated-document";
         String image = "https://example.com/updated-image.jpg";
 
-        Document document = new Document(documentID, categoryID, publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description, url, image, true);
+        Document document = new Document(documentID, categoryID, publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description, url, image, "Available");
 
         if (DocumentDAO.getInstance().update(document) > 0) {
             System.out.println("Cập nhật sách thành công!");

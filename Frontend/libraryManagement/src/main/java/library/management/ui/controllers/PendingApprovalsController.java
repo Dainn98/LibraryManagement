@@ -389,7 +389,6 @@ public class PendingApprovalsController {
         }
     }
 
-
     public void handleSearchPendingUser() {
         String nameQuery = controller.checkUsername.getText().trim();
         List<String> selectedCountries = controller.checkCountry.getCheckModel().getCheckedItems();

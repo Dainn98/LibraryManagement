@@ -29,7 +29,8 @@ public class DashboardController {
         int totalStudent = UserDAO.getInstance().getAllUserCount();
         int approvedStudent = UserDAO.getInstance().getTotalApprovedUsersCount();
         int studentHoldingBook = LoanDAO.getInstance().getTotalUsersWhoBorrowedBooks();
-        studentInformation.getData().add(new XYChart.Data<>("All Student", totalStudent));
+        studentInformation.getData().add(new XYChart.Data<>("All Students", totalStudent));
+        studentInformation.getData().add(new XYChart.Data<>("Approved students", approvedStudent));
         studentInformation.getData().add(new XYChart.Data<>("Students holding documents", studentHoldingBook));
         controller.userBChart.getData().add(studentInformation);
         // load gauge
@@ -44,4 +45,5 @@ public class DashboardController {
         controller.docHoldersGauge.setMaxValue(totalStudent);
         controller.docHoldersGauge.setValue(studentHoldingBook);
     }
+
 }

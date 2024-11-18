@@ -92,7 +92,7 @@ public class MainController implements Initializable, AbstractUI, properties {
     @FXML
     protected TableColumn<Document, Integer> remainingDocsDocView;
     @FXML
-    protected TableColumn<Document, Boolean> availabilityDocView;
+    protected TableColumn<Document, String> availabilityDocView;
     @FXML
     protected HBox controlBoxDocView;
     @FXML
@@ -323,8 +323,17 @@ public class MainController implements Initializable, AbstractUI, properties {
         showSection(pendingApprovalsBPane);
     }
 
+    public void handlePendingLoansButton(ActionEvent actionEvent) {
+    }
+
     public void handleIssuedDocButton(ActionEvent actionEvent) {
         showSection(allIssuedDocBPane);
+    }
+
+    public void handleClickAvatar(MouseEvent mouseEvent) {
+    }
+
+    public void handleExitAvatarInfo(MouseEvent mouseEvent) {
     }
 
     // DOCUMENT CONTROLLER
@@ -445,6 +454,8 @@ public class MainController implements Initializable, AbstractUI, properties {
 
     public void handleCancelRegisterDoc(ActionEvent actionEvent) {
     }
+
+
 }
 
 

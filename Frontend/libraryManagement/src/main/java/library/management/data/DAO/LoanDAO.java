@@ -18,18 +18,20 @@ public class LoanDAO implements DAOInterface<Loan> {
 
     @Override
     public int add(Loan loan) {
-        String query = "INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO loans (userId, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate, status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setInt(1, loan.getIntUserId());
-            stmt.setShort(2, loan.getQuantityOfBorrow());
-            stmt.setDouble(3, loan.getDeposit());
-            stmt.setTimestamp(4, new Timestamp(loan.getDateOfBorrow().getTime()));
-            stmt.setTimestamp(5, new Timestamp(loan.getRequiredReturnDate().getTime()));
+            stmt.setInt(2, loan.getIntDocumentId());
+            stmt.setShort(3, loan.getQuantityOfBorrow());
+            stmt.setDouble(4, loan.getDeposit());
+            stmt.setTimestamp(5, new Timestamp(loan.getDateOfBorrow().getTime()));
+            stmt.setTimestamp(6, new Timestamp(loan.getRequiredReturnDate().getTime()));
+            stmt.setString(7, loan.getStatus());
 
-            int rowsInserted = stmt.executeUpdate();
-            return rowsInserted;
+            return stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -38,34 +40,36 @@ public class LoanDAO implements DAOInterface<Loan> {
 
     @Override
     public int delete(Loan loan) {
-        String query = "DELETE FROM loans WHERE loanID = ?";
+        String query = "UPDATE loans SET status = 'removed' WHERE loanID = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setInt(1, loan.getIntLoanID());
-            int rowsDeleted = stmt.executeUpdate();
-            return rowsDeleted;
+            return stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
     }
 
+
     @Override
     public int update(Loan loan) {
-        String query = "UPDATE loans SET userId = ?, quantityOfBorrow = ?, deposit = ?, dateOfBorrow = ?, requiredReturnDate = ? WHERE loanID = ?";
+        String query = "UPDATE loans SET userId = ?, documentId = ?, quantityOfBorrow = ?, deposit = ?, " +
+                "dateOfBorrow = ?, requiredReturnDate = ?, status = ? WHERE loanID = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setInt(1, loan.getIntUserId());
-            stmt.setShort(2, loan.getQuantityOfBorrow());
-            stmt.setDouble(3, loan.getDeposit());
-            stmt.setTimestamp(4, new Timestamp(loan.getDateOfBorrow().getTime()));
-            stmt.setTimestamp(5, new Timestamp(loan.getRequiredReturnDate().getTime()));
-            stmt.setInt(6, loan.getIntLoanID());
+            stmt.setInt(2, loan.getIntDocumentId());
+            stmt.setShort(3, loan.getQuantityOfBorrow());
+            stmt.setDouble(4, loan.getDeposit());
+            stmt.setTimestamp(5, new Timestamp(loan.getDateOfBorrow().getTime()));
+            stmt.setTimestamp(6, new Timestamp(loan.getRequiredReturnDate().getTime()));
+            stmt.setString(7, loan.getStatus());
+            stmt.setInt(8, loan.getIntLoanID());
 
-            int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated;
+            return stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,7 +77,7 @@ public class LoanDAO implements DAOInterface<Loan> {
     }
 
     public int getTotalUsersWhoBorrowedBooks() {
-        String query = "SELECT COUNT(DISTINCT userId) FROM loans";
+        String query = "SELECT COUNT(DISTINCT userId) FROM loans WHERE status = 'approved'";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -86,5 +90,4 @@ public class LoanDAO implements DAOInterface<Loan> {
         }
         return 0;
     }
-
 }
