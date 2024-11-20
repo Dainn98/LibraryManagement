@@ -12,9 +12,9 @@ public class DatabaseConnection {
     // Khối khởi tạo tĩnh để cấu hình HikariCP
     static {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3306/libdemo?useSSL=false&autoReconnect=true");
+        config.setJdbcUrl("jdbc:mysql://localhost:3307/libdemo?useSSL=false&autoReconnect=true");
         config.setUsername("root");
-        config.setPassword("Pdthien432005~");
+        config.setPassword("@Tuananh1275");
 
         config.setMaximumPoolSize(10);
         config.setMinimumIdle(5);

@@ -5,8 +5,8 @@ import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
-
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -14,9 +14,11 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import javafx.concurrent.Task;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -28,160 +30,178 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
+
 import library.management.data.entity.User;
 import library.management.properties;
-import library.management.ui.AbstractUI;
 import org.controlsfx.control.CheckComboBox;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class MainController implements Initializable, AbstractUI, properties {
-    // Dashboard Window
-    @FXML
-    protected VBox dashboardVBox;
-    @FXML
-    protected SimpleMetroArcGauge allDocsGauge;
-    @FXML
-    protected SimpleMetroArcGauge remainingDocsGauge;
-    @FXML
-    protected SimpleMetroArcGauge issuedDocsGauge;
-    @FXML
-    protected SimpleMetroArcGauge allUsersGauge;
-    @FXML
-    protected SimpleMetroArcGauge docHoldersGauge;
-    @FXML
-    protected BarChart<String, Number> docBChart;
-    @FXML
-    protected BarChart<String, Number> userBChart;
 
-    // Document Window
-    @FXML
-    protected BorderPane docBPane;
-    @FXML
-    protected Label allDocs;
-    @FXML
-    protected Label remainDocs;
-    @FXML
-    protected TextField searchDocTField;
-    @FXML
-    protected JFXButton addDocButton;
-    @FXML
-    protected JFXButton importDataButton;
-    @FXML
-    protected TableView<Document> docView;
-    @FXML
-    protected TableColumn<Document, Boolean> checkDocView;
-    @FXML
-    protected TableColumn<Document, String> docIDDocView;
-    @FXML
-    protected TableColumn<Document, String> docISBNDocView;
-    @FXML
-    protected TableColumn<Document, String> docNameDocView;
-    @FXML
-    protected TableColumn<Document, String> docAuthorDocView;
-    @FXML
-    protected TableColumn<Document, String> docPublisherDocView;
-    @FXML
-    protected TableColumn<Document, String> categoryDocView;
-    @FXML
-    protected TableColumn<Document, Integer> quantityDocView;
-    @FXML
-    protected TableColumn<Document, Integer> remainingDocsDocView;
-    @FXML
-    protected TableColumn<Document, String> availabilityDocView;
-    @FXML
-    protected HBox controlBoxDocView;
-    @FXML
-    protected CheckBox checkAllDocsView;
-    @FXML
-    protected Hyperlink deleteDocs;
+public class MainController implements Initializable, properties, GeneralController {
 
-    // Register Document
-    @FXML
-    protected BorderPane registerDocumentBPane;
-    @FXML
-    protected JFXButton backToDocs;
-    @FXML
-    protected TextField docISBNField;
-    @FXML
-    protected TextField docTitleField;
-    @FXML
-    protected TextField docAuthorField;
-    @FXML
-    protected TextField docPublisherField;
-    @FXML
-    protected TextField docPriceField;
-    @FXML
-    protected TextArea descriptionField;
-    @FXML
-    protected TextField numberOfIssueField;
-    @FXML
-    protected JFXButton cancelRegisterDocButton;
-    @FXML
-    protected Button submitDocButton;
-    @FXML
-    protected JFXComboBox<?> docCategory;
-    @FXML
-    protected JFXComboBox<?> docLanguage;
 
-    // User
-    @FXML
-    protected BorderPane usersBPane;
-    @FXML
-    protected TextField searchUserField;
-    @FXML
-    protected JFXComboBox<String> userFilterComboBox;
-    @FXML
-    protected JFXButton importDataUserButton;
-    @FXML
-    protected TableView<User> userView;
-    @FXML
-    protected TableColumn<User, Boolean> checkUserView;
-    @FXML
-    protected TableColumn<User, String> userIDUserView;
-    @FXML
-    protected TableColumn<User, String> userNameUserView;
-    @FXML
-    protected TableColumn<User, String> userPhoneUserView;
-    @FXML
-    protected TableColumn<User, String> userEmailUserView;
-    @FXML
-    protected ContextMenu selectUserContext;
-    @FXML
-    protected MenuItem selectMenu;
-    @FXML
-    protected TextField userIDField;
-    @FXML
-    protected TextField userNameField;
-    @FXML
-    protected TextField userEmailField;
-    @FXML
-    protected TextField userPhoneField;
-    @FXML
-    protected JFXButton cancelUserButton;
-    @FXML
-    protected JFXButton saveUserButton;
-    @FXML
-    protected JFXButton deleteUser;
-    @FXML
-    protected JFXButton updateUser;
-    @FXML
-    protected HBox controlUserView;
-    @FXML
-    protected CheckBox checkAllUsersView;
+  
+  private final DashboardController dashboardController = new DashboardController(this);
+  private final UserController userController = new UserController(this);
+  private final DocumentController documentController = new DocumentController(this);
+  private final CatalogController catalogController = new CatalogController(this);
+  private final PendingApprovalsController pendingApprovalsController = new PendingApprovalsController(this);
+  private final AvatarController avatarController = new AvatarController(this);
+  private final PendingLoanController pendingLoanController = new PendingLoanController(this);
+  private final IssuedDocument issuedDocument = new IssuedDocument(this);
 
-    // Pending Approvals
-    @FXML
+  // DASHBOARD PROPERTIES
+  @FXML
+  protected VBox infoVBox;
+  @FXML
+  protected ImageView pic;
+  @FXML
+  protected VBox dashboardVBox;
+  @FXML
+  protected SimpleMetroArcGauge allDocsGauge;
+  @FXML
+  protected SimpleMetroArcGauge remainingDocsGauge;
+  @FXML
+  protected SimpleMetroArcGauge issuedDocsGauge;
+  @FXML
+  protected SimpleMetroArcGauge allUsersGauge;
+  @FXML
+  protected SimpleMetroArcGauge docHoldersGauge;
+  @FXML
+  protected BarChart<String, Number> docBChart;
+  @FXML
+  protected BarChart<String, Number> userBChart;
+  
+  // DOCUMENT PROPERTIES
+  @FXML
+  protected BorderPane docBPane;
+  @FXML
+  protected Label allUsers;
+  @FXML
+  protected Label remainDocs;
+  @FXML
+  protected TextField searchDocTField;
+  @FXML
+  protected JFXButton addDocButton;
+  @FXML
+  protected JFXButton importDataButton;
+   @FXML
+   protected TableView<Document> docView;
+   @FXML
+   protected TableColumn<Document, Boolean> checkDocView;
+   @FXML
+   protected TableColumn<Document, String> docIDDocView;
+   @FXML
+   protected TableColumn<Document, String> docISBNDocView;
+   @FXML
+   protected TableColumn<Document, String> docNameDocView;
+   @FXML
+   protected TableColumn<Document, String> docAuthorDocView;
+   @FXML
+   protected TableColumn<Document, String> docPublisherDocView;
+   @FXML
+   protected TableColumn<Document, String> categoryDocView;
+   @FXML
+   protected TableColumn<Document, Integer> quantityDocView;
+   @FXML
+   protected TableColumn<Document, Integer> remainingDocsDocView;
+   @FXML
+   protected TableColumn<Document, String> availabilityDocView;
+  @FXML
+  protected HBox controlBoxDocView;
+  @FXML
+  protected CheckBox checkAllDocs;
+  @FXML
+  protected Hyperlink deleteDocs;
+  
+  // REGISTER DOCUMENT PROPERTIES
+  @FXML
+  protected BorderPane registerDocumentBPane;
+  @FXML
+  protected JFXButton backToDocs;
+  @FXML
+  protected TextField docISBNField;
+  @FXML
+  protected TextField docTitleField;
+  @FXML
+  protected TextField docAuthorField;
+  @FXML
+  protected TextField docPublisherField;
+  @FXML
+  protected TextField docPriceField;
+  @FXML
+  protected TextArea descriptionField;
+  @FXML
+  protected TextField numberOfIssueField;
+  @FXML
+  protected JFXButton cancelRegisterDocButton;
+  @FXML
+  protected Button submitDocButton;
+  @FXML
+  protected JFXComboBox<?> docCategory;
+  @FXML
+  protected JFXComboBox<?> docLanguage;
+  
+  // USER PROPERTIES
+  @FXML
+  protected BorderPane usersBPane;
+  @FXML
+  protected TextField searchUserField;
+  @FXML
+  protected JFXComboBox<String> userFilterComboBox;
+  @FXML
+  protected JFXButton importDataUserButton;
+  @FXML
+  protected TableView<User> userView;
+  @FXML
+  protected TableColumn<User, Boolean> checkUserView;
+  @FXML
+  protected TableColumn<User, String> userIDUserView;
+  @FXML
+  protected TableColumn<User, String> userNameUserView;
+  @FXML
+  protected TableColumn<User, String> userPhoneUserView;
+  @FXML
+  protected TableColumn<User, String> userEmailUserView;
+  @FXML
+  protected ContextMenu selectUserContext;
+  @FXML
+  protected MenuItem selectMenu;
+  @FXML
+  protected TextField userIDField;
+  @FXML
+  protected TextField userNameField;
+  @FXML
+  protected TextField userEmailField;
+  @FXML
+  protected TextField userPhoneField;
+  @FXML
+  protected JFXButton cancelUserButton;
+  @FXML
+  protected JFXButton saveUserButton;
+  @FXML
+  protected JFXButton deleteUser;
+  @FXML
+  protected JFXButton updateUser;
+  @FXML
+  protected HBox controlUserView;
+  @FXML
+  protected CheckBox checkAllUsersView;
+  
+  // PENDING APPROVALS PROPERTIES
+  @FXML
     protected BorderPane pendingApprovalsBPane;
     @FXML
     protected AutoCompleteTextField<String> checkUsername;
@@ -213,32 +233,33 @@ public class MainController implements Initializable, AbstractUI, properties {
     protected TableColumn<User, Void> approveApprovals;
     @FXML
     protected CheckBox checkAllApprovals;
-
-
-    // Document Management
-    @FXML
-    protected BorderPane docManagementBPane;
-    @FXML
-    protected JFXButton issueDocSwitchButton;
-    @FXML
-    protected JFXButton returnDocSwitchButton;
-    @FXML
-    protected BorderPane returnDocBPane;
-    @FXML
-    protected JFXListView<?> listInfo;
-    @FXML
-    protected AutoCompleteTextField lateFeeField;
-    @FXML
-    protected JFXButton submitButton;
-    @FXML
-    protected JFXButton renewButton;
-    @FXML
-    protected JFXButton submitIssueDocButton;
-    @FXML
-    protected JFXButton cancelIssueDocButton;
-
-    // All Issued Doc
-    @FXML
+  
+  // DOCUMENT MANAGEMENT PROPERTIES
+  @FXML
+  protected BorderPane docManagementBPane;
+  @FXML
+  protected JFXButton issueDocSwitchButton;
+  @FXML
+  protected JFXButton returnDocSwitchButton;
+  @FXML
+  protected BorderPane returnDocBPane;
+  @FXML
+  protected BorderPane issueDocBPane;
+  @FXML
+  protected JFXListView<?> listInfo;
+  @FXML
+  protected AutoCompleteTextField lateFeeField;
+  @FXML
+  protected JFXButton submitButton;
+  @FXML
+  protected JFXButton renewButton;
+  @FXML
+  protected JFXButton submitIssueDocButton;
+  @FXML
+  protected JFXButton cancelIssueDocButton;
+  
+  // All Issued Doc
+  @FXML
     protected BorderPane allIssuedDocBPane;
     @FXML
     protected TextField issuedDocField;
@@ -266,8 +287,8 @@ public class MainController implements Initializable, AbstractUI, properties {
     protected TableColumn<Loan, String> feeIDView;
     @FXML
     protected TableColumn<Loan, String> statusIDView;
-
-    // pending issue
+    
+     // pending issue
     @FXML
     protected BorderPane pendingLoansBPane;
     @FXML
@@ -298,65 +319,97 @@ public class MainController implements Initializable, AbstractUI, properties {
     protected TableColumn<Loan, String> feeIDLoansView;
     @FXML
     protected TableColumn<Loan, Void> approvalLoansView;
-    // CATALOG
-    @FXML
-    protected BorderPane catalogBPane;
-    @FXML
-    protected GridPane apiViewGPane;
-    @FXML
-    protected GridPane localViewGPane;
-    @FXML
-    protected AutoCompleteTextField<String> catalogSearchField;
+  
+  // CATALOG PROPERTIES
+  @FXML
+  protected BorderPane catalogBPane;
+  @FXML
+  protected GridPane apiViewGPane;
+  @FXML
+  protected GridPane localViewGPane;
+  @FXML
+  protected AutoCompleteTextField<String> catalogSearchField;
+  
+  // DOCUMENT INFORMATION PROPERTIES
+  @FXML
+  protected BorderPane docPropertiesBPane;
+  @FXML
+  protected Label titleInfo;
+  @FXML
+  protected Label authorInfo;
+  @FXML
+  protected Label publisherInfo;
+  @FXML
+  protected Label categoryInfo;
+  @FXML
+  protected Label languageInfo;
+  @FXML
+  protected Label isbnInfo;
+  @FXML
+  protected Label descriptionInfo;
+  @FXML
+  protected ImageView qrImageInfo;
+  @FXML
+  protected ImageView isbnImageInfo;
+  @FXML
+  protected Label titleHeading;
+  @FXML
+  protected ImageView thumbnailImageInfo;
 
+  private List<Document> documentList;
 
-    private final DashboardController dashboardController = new DashboardController(this);
-    private final UserController userController = new UserController(this);
-    private final DocumentController documentController = new DocumentController(this);
-    private final CatalogController catalogController = new CatalogController(this);
-    private final PendingApprovalsController pendingApprovalsController = new PendingApprovalsController(this);
-    private final PendingLoanController pendingLoanController = new PendingLoanController(this);
-    private final IssuedDocument issuedDocument = new IssuedDocument(this);
+  public List<Document> getDocumentList() {
+    return documentList;
+  }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        dashboardController.loadDashBoardData();
+  public Node getDocPropertiesBPane() {
+    return docPropertiesBPane;
+  }
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    dashboardController.loadDashBoardData();
         userController.initUsersView();
         documentController.initDocumentView();
         pendingApprovalsController.initApprovalsView();
         pendingLoanController.initPendingLoanView();
         issuedDocument.initIssueDocumentView();
         catalogController.initCatalog();
-    }
+    avatarController.initAvatar(infoVBox);
+    
+  }
 
-    // MENU CONTROLLER
-    @FXML
-    protected void showSection(Object sectionToShow) {
-        dashboardVBox.setVisible(sectionToShow == dashboardVBox);
-        docBPane.setVisible(sectionToShow == docBPane);
-        usersBPane.setVisible(sectionToShow == usersBPane);
-        catalogBPane.setVisible(sectionToShow == catalogBPane);
-        pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
-        allIssuedDocBPane.setVisible(sectionToShow == allIssuedDocBPane);
-        pendingLoansBPane.setVisible(sectionToShow == pendingLoansBPane);
-    }
+  // MENU CONTROLLER
+  @FXML
+  protected void showSection(Object sectionToShow) {
+    dashboardVBox.setVisible(sectionToShow == dashboardVBox);
+    docBPane.setVisible(sectionToShow == docBPane);
+    usersBPane.setVisible(sectionToShow == usersBPane);
+    catalogBPane.setVisible(sectionToShow == catalogBPane);
+    pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
+    allIssuedDocBPane.setVisible(sectionToShow == allIssuedDocBPane);
+    docManagementBPane.setVisible(sectionToShow == docManagementBPane);
+     pendingLoansBPane.setVisible(sectionToShow == pendingLoansBPane);
+    pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
+  }
 
-    @FXML
-    private void handleDashboardButton(ActionEvent actionEvent) {
-        dashboardController.loadDashBoardData();
-        showSection(dashboardVBox);
-    }
+  @FXML
+  protected void handleDashboardButton(ActionEvent actionEvent) {
+    dashboardController.loadDashBoardData();
+    showSection(dashboardVBox);
+  }
 
-    public void handleDocButton(ActionEvent actionEvent) {
-        documentController.loadDocumentData();
-        showSection(docBPane);
-    }
+  public void handleDocButton(ActionEvent actionEvent) {
+    documentController.loadDocumentData();
+    showSection(docBPane);
+  }
 
-    public void handleUsersButton(ActionEvent actionEvent) {
-        userController.loadUserViewData();
-        showSection(usersBPane);
-    }
+  public void handleUsersButton(ActionEvent actionEvent) {
+    userController.loadUserViewData();
+    showSection(usersBPane);
+  }
 
-    public void handleLibraryCatalogButton(ActionEvent actionEvent) {
+  public void handleLibraryCatalogButton(ActionEvent actionEvent) {
         Task<Void> loadCatalog = new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -367,118 +420,142 @@ public class MainController implements Initializable, AbstractUI, properties {
         Thread thread = new Thread(loadCatalog);
         thread.setDaemon(true);
         thread.start();
-        showSection(catalogBPane);
-    }
+  
+    showSection(catalogBPane);
+  }
 
-    public void handlePendingApprovalsButton(ActionEvent actionEvent) {
-        pendingApprovalsController.loadApprovalsData();
-        showSection(pendingApprovalsBPane);
-    }
-
-    // PENDING ISSUE
-    public void handlePendingLoansButton(ActionEvent actionEvent) {
-        pendingLoanController.loadLoanData();
+  public void handlePendingApprovalsButton(ActionEvent actionEvent) {
+    pendingApprovalsController.loadApprovalsData();
+    showSection(pendingApprovalsBPane);
+  }
+// PENDING ISSUE
+  public void handlePendingLoansButton(ActionEvent actionEvent) {
+  pendingLoanController.loadLoanData();
         showSection(pendingLoansBPane);
-    }
-
-    public void handleSearchPendingIssue(KeyEvent keyEvent) {
+  }
+  public void handleSearchPendingIssue(KeyEvent keyEvent) {
         pendingLoanController.handleSearchPendingIssue();
     }
 
-    // ALL ISSUED DOCUMENT
+   // ALL ISSUED DOCUMENT
     public void handleIssuedDocButton(ActionEvent actionEvent) {
         issuedDocument.loadLoanData();
         showSection(allIssuedDocBPane);
     }
-
     public void handleSearchID(KeyEvent keyEvent) {
         issuedDocument.handleSearchID();
     }
 
-    public void handleClickAvatar(MouseEvent mouseEvent) {
-    }
+  public void handleClickAvatar(MouseEvent mouseEvent) {
+    dashboardController.handleClickAvatar(pic, infoVBox);
+  }
 
-    public void handleExitAvatarInfo(MouseEvent mouseEvent) {
-    }
+  public void handleExitAvatarInfo(MouseEvent mouseEvent) {
+    dashboardController.handleExitAvatarInfo(infoVBox, pic);
+  }
 
-    // DOCUMENT CONTROLLER
+  // DOCUMENT CONTROLLER
 
-    @FXML
+  @FXML
     public void handleSearchDocTField(KeyEvent actionEvent) {
         documentController.handleSearchDocTField();
     }
-
     public void checkAllDocs(ActionEvent actionEvent) {
         documentController.checkAllDocs();
     }
 
-    public void handleAdvancedSearch(ActionEvent actionEvent) {
-    }
+  public void handleAdvancedSearch(ActionEvent actionEvent) {
+  //To Do
+  }
 
-    public void handleAddDocButton(ActionEvent actionEvent) {
-    }
+  public void handleAddDocButton(ActionEvent actionEvent) {
+  //To Do
+  }
 
-    public void handleImportDataButton(ActionEvent actionEvent) {
-    }
+  public void handleImportDataButton(ActionEvent actionEvent) {
+  //To Do
+  }
 
-    public void loadUpdateBook(ActionEvent actionEvent) {
-    }
+  public void loadUpdateBook(ActionEvent actionEvent) {
+  //To Do
+  }
 
-    public void DeleteBook(ActionEvent actionEvent) {
-    }
+  public void DeleteBook(ActionEvent actionEvent) {
+  //To Do
+  }
 
-    public void handleDeleteDocHyperlink(ActionEvent actionEvent) {
-        documentController.handleDeleteDocHyperlink();
-    }
+  public void handleDeleteDocHyperlink(ActionEvent actionEvent) {
+  documentController.handleDeleteDocHyperlink();
+  }
 
-    public void handleBackToDocs(ActionEvent actionEvent) {
-    }
+  //DOCUMENT MANAGEMENT CONTROLLER
+  public void handleBackToDoc(ActionEvent actionEvent) {
+    showSection(docBPane);
+  }
 
-    public void handleSubmitDoc(ActionEvent actionEvent) {
-    }
+  public void handleRenewDoc(ActionEvent actionEvent) {
+  }
 
-    //  USER CONTROLLER
-    public void searchUserDetails(KeyEvent event) {
-        userController.searchUserDetails();
-    }
+  public void handleSubmitIssueDoc(ActionEvent actionEvent) {
+  }
 
-    public void importData(ActionEvent actionEvent) {
-    }
+  @FXML
+  protected void handleReturnDocButton(ActionEvent actionEvent) {
+    showSection(docManagementBPane);
+    issueDocBPane.setVisible(false);
+    returnDocBPane.setVisible(true);
+  }
 
-    public void deleteUserRecord(ActionEvent actionEvent) {
-        userController.deleteUserRecord();
-    }
+  @FXML
+  protected void handleIssueDocButton(ActionEvent actionEvent) {
+    showSection(docManagementBPane);
+    issueDocBPane.setVisible(true);
+    returnDocBPane.setVisible(false);
+  }
 
-    public void handleCancelUserButton(ActionEvent actionEvent) {
-        userController.handleCancelUserButton();
-    }
+  // DOCUMENT INFORMATION CONTROLLER
+  @FXML
+  private void handleBackToCatalog(ActionEvent actionEvent) {
+  }
 
-    public void handleSaveUserButton(ActionEvent actionEvent) {
-        userController.handleSaveUserButton();
-    }
+  @FXML
+  private void handleAddDoc(ActionEvent actionEvent) {
+  }
 
-    public void handleUpdateUser(ActionEvent actionEvent) {
-    }
+  @FXML
+  private void handleCancelAddDoc(ActionEvent actionEvent) {
+  }
 
-    public void checkAllUsers(ActionEvent actionEvent) {
-        userController.checkAllUsers();
-    }
+  @FXML
+  private void handleSubmitDoc(ActionEvent actionEvent) {
+  }
 
-    //DOCUMENT MANAGEMENT
-    public void handleIssueDocSwitch(ActionEvent actionEvent) {
-    }
+  //  USER CONTROLLER
+  public void searchUserDetails(KeyEvent event) {
+    userController.searchUserDetails();
+  }
 
-    public void handleReturnDocSwitch(ActionEvent actionEvent) {
-    }
+  public void importData(ActionEvent actionEvent) {
+  }
 
-    public void handleBackToDoc(ActionEvent actionEvent) {
-    }
+  public void deleteUserRecord(ActionEvent actionEvent) {
+    userController.deleteUserRecord();
+  }
 
-    public void handleRenewDoc(ActionEvent actionEvent) {
-    }
+  public void handleCancelUserButton(ActionEvent actionEvent) {
+    userController.handleCancelUserButton();
+  }
 
-    public void handleSubmitIssueDoc(ActionEvent actionEvent) {
-    }
+  public void handleSaveUserButton(ActionEvent actionEvent) {
+    userController.handleSaveUserButton();
+  }
+
+  public void handleUpdateUser(ActionEvent actionEvent) {
+  }
+
+  public void checkAllUsers(ActionEvent actionEvent) {
+    userController.checkAllUsers();
+  }
 
     // PENDING APPROVAL
     public void disapprovePending(ActionEvent actionEvent) {
@@ -501,21 +578,14 @@ public class MainController implements Initializable, AbstractUI, properties {
     public void requestMenu(ContextMenuEvent contextMenuEvent) {
     }
 
-    public void fetchUserWithKey(KeyEvent event) {
-    }
 
-    public void fetchUserFeesDetails(MouseEvent mouseEvent) {
-        userController.fetchUserDetails();
-    }
-    //  SIGN OUT CONTROLLER
+  public void fetchUserWithKey(KeyEvent event) {
+  }
 
-    /**
-     * Handles the sign-out process for the user.
-     */
-    @FXML
-    protected void handleSignOutButton(ActionEvent actionEvent) {
-        signOutController.handleSignOut(actionEvent);
-    }
+  public void fetchUserFeesDetails(MouseEvent mouseEvent) {
+    userController.fetchUserDetails();
+  }
+
 
     public void handleCancelRegisterDoc(ActionEvent actionEvent) {
     }
@@ -535,6 +605,17 @@ public class MainController implements Initializable, AbstractUI, properties {
 
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> scheduledTask;
+    //  SIGN OUT CONTROLLER
+  /**
+   * Handles the sign-out process for the user.
+   */
+  @FXML
+  protected void handleSignOutButton(ActionEvent actionEvent) {
+
+    signOutController.handleSignOut(getClass());
+    Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    currentStage.close();
+  }
 }
 
 

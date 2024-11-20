@@ -1,40 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <groupId>library.management</groupId>
   <artifactId>demo</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <name>demo</name>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <junit.version>5.10.2</junit.version>  </properties>
-
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>22</source>
+          <target>22</target>
+        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.13.0</version>
+      </plugin>
+      <plugin>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <!-- Default configuration for running with: mvn clean javafx:run -->
+            <configuration>
+              <jlinkImageName>app</jlinkImageName>
+              <jlinkZipName>app</jlinkZipName>
+              <launcher>app</launcher>
+              <mainClass>library.management.demo/library.management.demo.HelloApplication
+              </mainClass>
+              <noHeaderFiles>true</noHeaderFiles>
+              <noManPages>true</noManPages>
+              <stripDebug>true</stripDebug>
+            </configuration>
+            <id>default-cli</id>
+          </execution>
+        </executions>
+        <groupId>org.openjfx</groupId>
+        <version>0.0.8</version>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
-      <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
+      <groupId>ch.qos.logback</groupId>
       <version>1.4.12</version>
     </dependency>
 
     <dependency>
-      <groupId>com.zaxxer</groupId>
       <artifactId>HikariCP</artifactId>
+      <groupId>com.zaxxer</groupId>
       <version>5.0.1</version>
     </dependency>
 
     <dependency>
-      <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
+      <groupId>mysql</groupId>
       <version>8.0.33</version>
     </dependency>
 
     <dependency>
-      <groupId>de.jensd</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <groupId>mysql</groupId>
+      <version>8.0.33</version>
+    </dependency>
+
+    <dependency>
       <artifactId>fontawesomefx-fontawesome</artifactId>
+      <groupId>de.jensd</groupId>
       <version>4.7.0-9.1.2</version>
     </dependency>
 
@@ -47,170 +78,189 @@
 
     <!--    CONTROLSFX-->
     <dependency>
-      <groupId>org.controlsfx</groupId>
       <artifactId>controlsfx</artifactId>
+      <groupId>org.controlsfx</groupId>
       <version>11.2.1</version>
     </dependency>
     <!--    SimpleMetroArcGauge-->
 
     <dependency>
-      <groupId>org.jfxtras</groupId>
       <artifactId>jfxtras-gauge-linear</artifactId>
+      <groupId>org.jfxtras</groupId>
       <version>17-r1</version>
     </dependency>
 
     <!--MATERIAL-DESIGNFONT-->
 
     <dependency>
-      <groupId>de.jensd</groupId>
       <artifactId>fontawesomefx-materialdesignfont</artifactId>
+      <groupId>de.jensd</groupId>
       <version>2.0.26-9.1.2</version>
     </dependency>
 
     <!--    IKONLI-JAVAFX-->
 
     <dependency>
-      <groupId>org.kordamp.ikonli</groupId>
       <artifactId>ikonli-octicons-pack</artifactId>
-      <version>12.3.1</version>
-    </dependency>
-    <dependency>
       <groupId>org.kordamp.ikonli</groupId>
-      <artifactId>ikonli-javafx</artifactId>
       <version>12.3.1</version>
     </dependency>
-
     <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-controls</artifactId>
-      <version>22.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-fxml</artifactId>
-      <version>22.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-web</artifactId>
-      <version>22.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-swing</artifactId>
-      <version>22.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>com.jfoenix</groupId>
       <artifactId>jfoenix</artifactId>
+      <groupId>com.jfoenix</groupId>
       <version>9.0.10</version>
     </dependency>
     <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-media</artifactId>
-      <version>22.0.1</version>
-    </dependency><dependency>
-    <groupId>org.controlsfx</groupId>
-    <artifactId>controlsfx</artifactId>
-    <version>11.2.1</version>
-  </dependency><dependency>
-    <groupId>com.dlsc.formsfx</groupId>
-    <artifactId>formsfx-core</artifactId>
-    <version>11.6.0</version>
-    <exclusions>
-      <exclusion>
-        <groupId>org.openjfx</groupId>
-        <artifactId>*</artifactId>
-      </exclusion>
-    </exclusions>
-  </dependency><dependency>
-    <groupId>net.synedra</groupId>
-    <artifactId>validatorfx</artifactId>
-    <version>0.5.0</version>
-    <exclusions>
-      <exclusion>
-        <groupId>org.openjfx</groupId>
-        <artifactId>*</artifactId>
-      </exclusion>
-    </exclusions>
-  </dependency><dependency>
-    <groupId>org.kordamp.ikonli</groupId>
-    <artifactId>ikonli-javafx</artifactId>
-    <version>12.3.1</version>
-  </dependency><dependency>
-    <groupId>org.kordamp.bootstrapfx</groupId>
-    <artifactId>bootstrapfx-core</artifactId>
-    <version>0.4.0</version>
-  </dependency><dependency>
-    <groupId>eu.hansolo</groupId>
-    <artifactId>tilesfx</artifactId>
-    <version>21.0.3</version>
-    <exclusions>
-      <exclusion>
-        <groupId>org.openjfx</groupId>
-        <artifactId>*</artifactId>
-      </exclusion>
-    </exclusions>
-  </dependency><dependency>
-    <groupId>com.github.almasb</groupId>
-    <artifactId>fxgl</artifactId>
-    <version>17.3</version>
-    <exclusions>
-      <exclusion>
-        <groupId>org.openjfx</groupId>
-        <artifactId>*</artifactId>
-      </exclusion>
-    </exclusions>
-  </dependency>
+      <artifactId>ikonli-javafx</artifactId>
+      <groupId>org.kordamp.ikonli</groupId>
+      <version>12.3.1</version>
+    </dependency>
+    <!--    JAVAFX-->
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
+      <artifactId>javafx-controls</artifactId>
+      <groupId>org.openjfx</groupId>
+      <version>22.0.1</version>
     </dependency>
     <dependency>
+      <artifactId>javafx-fxml</artifactId>
+      <groupId>org.openjfx</groupId>
+      <version>22.0.1</version>
+    </dependency>
+    <dependency>
+      <artifactId>javafx-web</artifactId>
+      <groupId>org.openjfx</groupId>
+      <version>22.0.1</version>
+    </dependency>
+    <dependency>
+      <artifactId>javafx-swing</artifactId>
+      <groupId>org.openjfx</groupId>
+      <version>22.0.1</version>
+    </dependency>
+    <dependency>
+      <artifactId>javafx-media</artifactId>
+      <groupId>org.openjfx</groupId>
+      <version>22.0.1</version>
+    </dependency>
+
+<!--CONTROLSFX -->
+    <dependency>
+      <artifactId>controlsfx</artifactId>
+      <groupId>org.controlsfx</groupId>
+      <version>11.2.1</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>formsfx-core</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>*</artifactId>
+          <groupId>org.openjfx</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>com.dlsc.formsfx</groupId>
+      <version>11.6.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>validatorfx</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>*</artifactId>
+          <groupId>org.openjfx</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>net.synedra</groupId>
+      <version>0.5.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>ikonli-javafx</artifactId>
+      <groupId>org.kordamp.ikonli</groupId>
+      <version>12.3.1</version>
+    </dependency>
+    <dependency>
+      <artifactId>bootstrapfx-core</artifactId>
+      <groupId>org.kordamp.bootstrapfx</groupId>
+      <version>0.4.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>tilesfx</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>*</artifactId>
+          <groupId>org.openjfx</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>eu.hansolo</groupId>
+      <version>21.0.3</version>
+    </dependency>
+    <dependency>
+      <artifactId>fxgl</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>*</artifactId>
+          <groupId>org.openjfx</groupId>
+        </exclusion>
+      </exclusions>
+      <groupId>com.github.almasb</groupId>
+      <version>17.3</version>
+    </dependency>
+    <dependency>
+      <artifactId>junit-jupiter-api</artifactId>
       <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit.version}</version>
       <scope>test</scope>
+      <version>${junit.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>${junit.version}</version>
     </dependency>
     <!--Google Book API-->
 
     <dependency>
-      <groupId>com.google.api-client</groupId>
       <artifactId>google-api-client</artifactId>
+      <groupId>com.google.api-client</groupId>
       <version>1.32.1</version>
     </dependency>
 
     <dependency>
-      <groupId>com.google.api-client</groupId>
       <artifactId>google-api-client-jackson2</artifactId>
-      <version>1.32.1</version>
-    </dependency>
-    <dependency>
       <groupId>com.google.api-client</groupId>
-      <artifactId>google-api-client-java6</artifactId>
       <version>1.32.1</version>
     </dependency>
     <dependency>
-      <groupId>com.google.http-client</groupId>
+      <artifactId>google-api-client-java6</artifactId>
+      <groupId>com.google.api-client</groupId>
+      <version>1.32.1</version>
+    </dependency>
+    <dependency>
       <artifactId>google-http-client-jackson2</artifactId>
+      <groupId>com.google.http-client</groupId>
       <version>1.39.0</version>
     </dependency>
     <!--GSON-->
     <dependency>
-      <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
+      <groupId>com.google.code.gson</groupId>
       <version>2.8.9</version>
 
     </dependency>
     <!--Charm-listen-->
     <dependency>
-      <groupId>com.gluonhq</groupId>
       <artifactId>charm-glisten</artifactId>
+      <groupId>com.gluonhq</groupId>
       <version>6.0.6</version>
     </dependency>
   </dependencies>
+  <groupId>library.management</groupId>
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>demo</name>
+
+  <properties>
+    <junit.version>5.10.2</junit.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <repositories>
     <repository>
@@ -219,37 +269,5 @@
     </repository>
   </repositories>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.13.0</version>
-        <configuration>
-          <source>22</source>
-          <target>22</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-maven-plugin</artifactId>
-        <version>0.0.8</version>
-        <executions>
-          <execution>
-            <!-- Default configuration for running with: mvn clean javafx:run -->
-            <id>default-cli</id>
-            <configuration>
-              <mainClass>library.management.demo/library.management.demo.HelloApplication</mainClass>
-              <launcher>app</launcher>
-              <jlinkZipName>app</jlinkZipName>
-              <jlinkImageName>app</jlinkImageName>
-              <noManPages>true</noManPages>
-              <stripDebug>true</stripDebug>
-              <noHeaderFiles>true</noHeaderFiles>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+  <version>1.0-SNAPSHOT</version>
 </project>
