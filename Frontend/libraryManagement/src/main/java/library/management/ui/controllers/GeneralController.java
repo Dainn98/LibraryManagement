@@ -20,21 +20,31 @@ public interface GeneralController {
   }
 
   default void fade(Node node, double fromValue, double toValue, Duration duration) {
+
+    if(toValue != 0.0) {
+      node.setVisible(true);
+    }
     FadeTransition fade = new FadeTransition(duration, node);
     fade.setFromValue(fromValue);
     fade.setToValue(toValue);
     fade.setInterpolator(Interpolator.EASE_BOTH);
+    fade.setOnFinished(e->{
+      if(toValue == 0.0) {
+        node.setVisible(false);
+      }
+    });
     fade.play();
   }
 
-  default void transFade(Node pane, double translateX, double fromValue, double toValue,
-                         Duration duration) {
-    translate(pane, translateX, duration);
-    fade(pane, fromValue, toValue, duration);
+
+  default void transFade(Node node, double translateX, double fromValue, double toValue,
+      Duration duration) {
+    translate(node, translateX, duration);
+    fade(node, fromValue, toValue, duration);
   }
 
   default void transFade(Node pane, double translateX, double fromValue, double toValue,
-                         Duration duration, String style) {
+      Duration duration, String style) {
     translate(pane, translateX, duration);
     fade(pane, fromValue, toValue, duration);
   }
@@ -52,8 +62,8 @@ public interface GeneralController {
    * @param duration the duration of the transitions
    */
   default void rotate3D(Node nodeS, double rotateS, int cycleS,
-                        Node nodeE, double rotateE, int cycleE,
-                        double angle, Duration duration) {
+      Node nodeE, double rotateE, int cycleE,
+      double angle, Duration duration) {
     // Create a RotateTransition for nodeS,nodeE.
     RotateTransition roS, roE;
 
