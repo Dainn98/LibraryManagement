@@ -54,7 +54,7 @@ public class IssuedDocument {
     }
 
     public void handleSearchID() {
-        String filterCriteria = controller.loanFilterComboBox.getValue();
+        String filterCriteria = controller.issueTypeIssuedDoc.getValue();
         String searchText = controller.issuedDocField.getText().trim().toLowerCase();
         list.clear();
         switch (filterCriteria) {
@@ -75,8 +75,8 @@ public class IssuedDocument {
 
     private void initFilterComboBox() {
         ObservableList<String> userFilters = FXCollections.observableArrayList("All ID", "Loan ID", "User ID", "Document ID");
-        controller.loanFilterComboBox.setItems(userFilters);
-        controller.loanFilterComboBox.setValue("All ID");
+        controller.issueTypeIssuedDoc.setItems(userFilters);
+        controller.issueTypeIssuedDoc.setValue("All ID");
     }
 
     public void loadLoanData() {

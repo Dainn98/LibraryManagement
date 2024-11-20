@@ -54,7 +54,7 @@ public class PendingApprovalsController {
     }
 
     private void initApproveButtonsColumn() {
-        controller.approveApprovals.setCellFactory(column -> new TableCell<User, Void>() {
+        controller.approvalApprovals.setCellFactory(column -> new TableCell<User, Void>() {
             private final Button approveButton = new Button("Approve");
             private final Button disapproveButton = new Button("Disapprove");
 
@@ -125,11 +125,11 @@ public class PendingApprovalsController {
         for (BooleanProperty checkBoxStatus : checkBoxStatusList) {
             checkBoxStatus.addListener((observable, oldValue, newValue) -> {
                 if (!newValue) {
-                    controller.checkAllApprovals.setSelected(false);
+                    controller.checkApprovals.setSelected(false);
                 } else {
                     boolean allSelected = checkBoxStatusList.stream().allMatch(BooleanProperty::get);
                     if (allSelected) {
-                        controller.checkAllApprovals.setSelected(true);
+                        controller.checkApprovals.setSelected(true);
                     }
                 }
             });
@@ -138,7 +138,7 @@ public class PendingApprovalsController {
 
 
     public void checkAllPending() {
-        boolean isSelected = controller.checkAllApprovals.isSelected();
+        boolean isSelected = controller.checkApprovals.isSelected();
         for (BooleanProperty checkBoxStatus : checkBoxStatusList) {
             checkBoxStatus.set(isSelected);
         }

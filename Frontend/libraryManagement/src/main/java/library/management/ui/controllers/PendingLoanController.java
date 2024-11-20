@@ -43,7 +43,7 @@ public class PendingLoanController {
 
         controller.checkLoan.setCellFactory(CheckBoxTableCell.forTableColumn(controller.checkLoan));
         controller.issuedIDLoansView.setCellValueFactory(new PropertyValueFactory<>("loanID"));
-        controller.docISBNLoansView.setCellValueFactory(cellData ->
+        controller.docIDLoansView.setCellValueFactory(cellData ->
                 new SimpleStringProperty(String.valueOf(cellData.getValue().getIssuedISBN()))
         );
         controller.docTitleLoansView.setCellValueFactory(cellData ->
@@ -78,7 +78,7 @@ public class PendingLoanController {
     }
 
     public void handleSearchPendingIssue() {
-        String filterCriteria = controller.pendingLoanFilterComboBox.getValue();
+        String filterCriteria = controller.typeLoans.getValue();
         String searchText = controller.loansField.getText().trim().toLowerCase();
         list.clear();
         switch (filterCriteria) {
@@ -100,8 +100,8 @@ public class PendingLoanController {
 
     private void initFilterComboBox() {
         ObservableList<String> userFilters = FXCollections.observableArrayList("All ID", "Loan ID", "User ID", "Document ID");
-        controller.pendingLoanFilterComboBox.setItems(userFilters);
-        controller.pendingLoanFilterComboBox.setValue("All ID");
+        controller.typeLoans.setItems(userFilters);
+        controller.typeLoans.setValue("All ID");
     }
 
     private void initApproveButtonsColumn() {

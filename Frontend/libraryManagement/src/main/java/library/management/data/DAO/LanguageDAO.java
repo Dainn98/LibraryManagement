@@ -1,8 +1,6 @@
 package library.management.data.DAO;
 
-
 import library.management.data.database.DatabaseConnection;
-
 import library.management.data.entity.Language;
 
 import java.sql.Connection;
@@ -15,7 +13,6 @@ import java.util.List;
 public class LanguageDAO implements DAOInterface<Language> {
     private static LanguageDAO instance;
 
-
     private LanguageDAO() {
     }
 
@@ -25,9 +22,8 @@ public class LanguageDAO implements DAOInterface<Language> {
         }
         return instance;
     }
-    
-    @Override
 
+    @Override
     public int add(Language language) {
         String query = "INSERT INTO language (lgName) VALUES (?)";
         try (Connection con = DatabaseConnection.getConnection();

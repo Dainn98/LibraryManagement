@@ -25,7 +25,6 @@ public class Document {
     public static int NOTAVALABLETOBOROW = 0;
     public static int NOTENOUGHCOPIES = -1;
 
-
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     public Document() {
