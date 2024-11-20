@@ -22,6 +22,9 @@ public class Document {
     private String image;
     private String availability;
 
+    public static int NOTAVALABLETOBOROW = 0;
+    public static int NOTENOUGHCOPIES = -1;
+
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     public Document() {
@@ -50,6 +53,19 @@ public class Document {
         this.url = url;
         this.image = image;
         this.availability = availability;
+    }
+
+    public Document(int categoryID, String publisher, int lgId, String title,
+                    String author, String isbn, String description, String url, String image) {
+        this.categoryID = categoryID;
+        this.publisher = publisher;
+        this.lgID = lgId;
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.description = description;
+        this.url = url;
+        this.image = image;
     }
 
     public Document(String categoryID, String publisher, String lgID, String title,

@@ -13,14 +13,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserDAO implements DAOInterface<User> {
+    private static UserDAO instance;
 
     private UserDAO() {
     }
 
     public static UserDAO getInstance() {
-        return new UserDAO();
+        if (instance == null) {
+            instance = new UserDAO();
+        }
+        return instance;
     }
-
 
     @Override
     public int add(User user) {
@@ -262,6 +265,36 @@ public class UserDAO implements DAOInterface<User> {
         return list;
     }
 
+    public User searchUserByID(int userId) {
+        String query = "SELECT * FROM user WHERE userId = ? AND status != 'removed'";
+        User user = null;
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, userId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    user = new User();
+                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
+                    user.setUserName(rs.getString("userName"));
+                    user.setIdentityCard(rs.getString("identityCard"));
+                    user.setPhoneNumber(rs.getString("phoneNumber"));
+                    user.setEmail(rs.getString("email"));
+                    user.setCountry(rs.getString("country"));
+                    user.setState(rs.getString("state"));
+                    user.setStatus(rs.getString("status"));
+                    user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
 
     public List<User> searchApprovedUserByPhoneNumber(String phoneNumber) {
         String query = "SELECT * FROM user WHERE status = 'approved' AND phoneNumber LIKE ?";
@@ -410,13 +443,9 @@ public class UserDAO implements DAOInterface<User> {
     public List<String> getAllPendingUserName(String keyword) {
         String query = "SELECT userName FROM user WHERE status = 'pending' AND userName LIKE ?";
         List<String> usernames = new ArrayList<>();
-
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
-
-            // Chuẩn bị chuỗi tìm kiếm với ký tự đại diện
             stmt.setString(1, "%" + keyword + "%");
-
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     usernames.add(rs.getString("userName"));
@@ -430,16 +459,12 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     public List<User> searchPendingUserByFilter(String nameQuery, List<String> countries, List<String> states, List<String> years) {
-        // Nếu bất kỳ danh sách nào được truyền vào rỗng, trả về danh sách trống
         if ((countries != null && countries.isEmpty()) ||
                 (states != null && states.isEmpty()) ||
                 (years != null && years.isEmpty())) {
-            return new ArrayList<>(); // Không trả về user nào cả
+            return new ArrayList<>();
         }
-
         StringBuilder query = new StringBuilder("SELECT * FROM user WHERE status = 'pending'");
-
-        // Xây dựng câu truy vấn động
         if (nameQuery != null && !nameQuery.isEmpty()) {
             query.append(" AND userName LIKE ?");
         }
@@ -458,15 +483,10 @@ public class UserDAO implements DAOInterface<User> {
             query.append(years.stream().map(y -> "?").collect(Collectors.joining(", ")));
             query.append(")");
         }
-
         List<User> users = new ArrayList<>();
-
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query.toString())) {
-
             int paramIndex = 1;
-
-            // Gán giá trị cho các tham số trong câu truy vấn
             if (nameQuery != null && !nameQuery.isEmpty()) {
                 stmt.setString(paramIndex++, "%" + nameQuery + "%");
             }

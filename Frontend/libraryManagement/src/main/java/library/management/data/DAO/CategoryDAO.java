@@ -11,12 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDAO implements DAOInterface<Category> {
+    private static CategoryDAO instance;
 
     private CategoryDAO() {
     }
 
-    public static CategoryDAO getInstance() {
-        return new CategoryDAO();
+    public static synchronized CategoryDAO getInstance() {
+        if (instance == null) {
+            instance = new CategoryDAO();
+        }
+        return instance;
     }
 
     @Override
@@ -122,6 +126,23 @@ public class CategoryDAO implements DAOInterface<Category> {
         }
 
         return tag;
+    }
+
+    public int getTagId(String tag) {
+        String query = "SELECT categoryID FROM category WHERE tag = ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, tag);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("categoryID");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
 

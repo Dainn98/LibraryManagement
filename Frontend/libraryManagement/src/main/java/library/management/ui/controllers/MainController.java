@@ -7,9 +7,13 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,6 +37,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
 import library.management.data.entity.Document;
+import library.management.data.entity.Loan;
 import library.management.data.entity.User;
 import library.management.properties;
 import library.management.ui.AbstractUI;
@@ -237,27 +242,61 @@ public class MainController implements Initializable, AbstractUI, properties {
     @FXML
     protected TextField issuedDocField;
     @FXML
-    protected JFXComboBox<?> issueTypeIssuedDoc;
+    protected JFXComboBox<String> loanFilterComboBox;
     @FXML
-    protected TableView<?> IDView;
+    protected TableView<Loan> IDView;
     @FXML
-    protected TableColumn<?, ?> issuedIDIDView;
+    protected TableColumn<Loan, String> issuedIDIDView;
     @FXML
-    protected TableColumn<?, ?> docIDIDView;
+    protected TableColumn<Loan, String> docIDIDView;
     @FXML
-    protected TableColumn<?, ?> docTitleIDView;
+    protected TableColumn<Loan, String> docTitleIDView;
     @FXML
-    protected TableColumn<?, ?> userIDIDView;
+    protected TableColumn<Loan, String> userIDIDView;
     @FXML
-    protected TableColumn<?, ?> userNameIDView;
+    protected TableColumn<Loan, String> userNameIDView;
     @FXML
-    protected TableColumn<?, ?> dueDateIDView;
+    protected TableColumn<Loan, String> dueDateIDView;
     @FXML
-    protected TableColumn<?, ?> issuedDateAndTimeIDView;
+    protected TableColumn<Loan, String> issuedDateAndTimeIDView;
     @FXML
-    protected TableColumn<?, ?> daysIDView;
+    protected TableColumn<Loan, String> daysIDView;
     @FXML
-    protected TableColumn<?, ?> feeIDView;
+    protected TableColumn<Loan, String> feeIDView;
+    @FXML
+    protected TableColumn<Loan, String> statusIDView;
+
+    // pending issue
+    @FXML
+    protected BorderPane pendingLoansBPane;
+    @FXML
+    protected TextField loansField;
+    @FXML
+    protected JFXComboBox<String> pendingLoanFilterComboBox;
+    @FXML
+    protected TableView<Loan> loansView;
+    @FXML
+    protected TableColumn<Loan, Boolean> checkLoan;
+    @FXML
+    protected TableColumn<Loan, String> issuedIDLoansView;
+    @FXML
+    protected TableColumn<Loan, String> docISBNLoansView;
+    @FXML
+    protected TableColumn<Loan, String> docTitleLoansView;
+    @FXML
+    protected TableColumn<Loan, String> userIDLoansView;
+    @FXML
+    protected TableColumn<Loan, String> userNameLoansView;
+    @FXML
+    protected TableColumn<Loan, String> issuedDateAndTimeLoansView;
+    @FXML
+    protected TableColumn<Loan, String> dueDateIDLoansView;
+    @FXML
+    protected TableColumn<Loan, String> daysLoansView;
+    @FXML
+    protected TableColumn<Loan, String> feeIDLoansView;
+    @FXML
+    protected TableColumn<Loan, Void> approvalLoansView;
     // CATALOG
     @FXML
     protected BorderPane catalogBPane;
@@ -265,9 +304,8 @@ public class MainController implements Initializable, AbstractUI, properties {
     protected GridPane apiViewGPane;
     @FXML
     protected GridPane localViewGPane;
-    private List<Document> documentList;
-    public List<Document> getDocumentList(){return documentList;}
-
+    @FXML
+    protected AutoCompleteTextField<String> catalogSearchField;
 
 
     private final DashboardController dashboardController = new DashboardController(this);
@@ -275,15 +313,18 @@ public class MainController implements Initializable, AbstractUI, properties {
     private final DocumentController documentController = new DocumentController(this);
     private final CatalogController catalogController = new CatalogController(this);
     private final PendingApprovalsController pendingApprovalsController = new PendingApprovalsController(this);
-
+    private final PendingLoanController pendingLoanController = new PendingLoanController(this);
+    private final IssuedDocument issuedDocument = new IssuedDocument(this);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dashboardController.loadDashBoardData();
         userController.initUsersView();
         documentController.initDocumentView();
-        catalogController.loadCatalogData(apiViewGPane,localViewGPane);
         pendingApprovalsController.initApprovalsView();
+        pendingLoanController.initPendingLoanView();
+        issuedDocument.initIssueDocumentView();
+        catalogController.initCatalog();
     }
 
     // MENU CONTROLLER
@@ -295,7 +336,7 @@ public class MainController implements Initializable, AbstractUI, properties {
         catalogBPane.setVisible(sectionToShow == catalogBPane);
         pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
         allIssuedDocBPane.setVisible(sectionToShow == allIssuedDocBPane);
-
+        pendingLoansBPane.setVisible(sectionToShow == pendingLoansBPane);
     }
 
     @FXML
@@ -315,6 +356,16 @@ public class MainController implements Initializable, AbstractUI, properties {
     }
 
     public void handleLibraryCatalogButton(ActionEvent actionEvent) {
+        Task<Void> loadCatalog = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                catalogController.searchAPIDocument();
+                return null;
+            }
+        };
+        Thread thread = new Thread(loadCatalog);
+        thread.setDaemon(true);
+        thread.start();
         showSection(catalogBPane);
     }
 
@@ -323,11 +374,24 @@ public class MainController implements Initializable, AbstractUI, properties {
         showSection(pendingApprovalsBPane);
     }
 
+    // PENDING ISSUE
     public void handlePendingLoansButton(ActionEvent actionEvent) {
+        pendingLoanController.loadLoanData();
+        showSection(pendingLoansBPane);
     }
 
+    public void handleSearchPendingIssue(KeyEvent keyEvent) {
+        pendingLoanController.handleSearchPendingIssue();
+    }
+
+    // ALL ISSUED DOCUMENT
     public void handleIssuedDocButton(ActionEvent actionEvent) {
+        issuedDocument.loadLoanData();
         showSection(allIssuedDocBPane);
+    }
+
+    public void handleSearchID(KeyEvent keyEvent) {
+        issuedDocument.handleSearchID();
     }
 
     public void handleClickAvatar(MouseEvent mouseEvent) {
@@ -455,7 +519,21 @@ public class MainController implements Initializable, AbstractUI, properties {
     public void handleCancelRegisterDoc(ActionEvent actionEvent) {
     }
 
+    // CATALOG
+    public void handleSearchCatalog(KeyEvent keyEvent) {
+        if (scheduler == null) {
+            scheduler = Executors.newScheduledThreadPool(1);
+        }
 
+        if (scheduledTask != null && !scheduledTask.isDone()) {
+            scheduledTask.cancel(false);
+        }
+
+        scheduledTask = scheduler.schedule(catalogController::searchAPIDocument, 400, TimeUnit.MILLISECONDS);
+    }
+
+    private ScheduledExecutorService scheduler;
+    private ScheduledFuture<?> scheduledTask;
 }
 
 

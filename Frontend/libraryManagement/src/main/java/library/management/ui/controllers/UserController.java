@@ -33,6 +33,10 @@ public class UserController {
             return checkBoxStatusList.get(index);
         });
         controller.checkUserView.setCellFactory(CheckBoxTableCell.forTableColumn(controller.checkUserView));
+        initFilterComboBox();
+    }
+
+    private void initFilterComboBox() {
         ObservableList<String> userFilters = FXCollections.observableArrayList("All", "ID", "Name", "Phone Number", "Email");
         controller.userFilterComboBox.setItems(userFilters);
         controller.userFilterComboBox.setValue("All");

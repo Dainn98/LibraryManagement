@@ -3,17 +3,23 @@ package library.management.data.DAO;
 import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.Document;
 
+import javax.print.Doc;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DocumentDAO implements DAOInterface<Document> {
 
+    private static DocumentDAO instance;
+
     private DocumentDAO() {
     }
 
-    public static DocumentDAO getInstance() {
-        return new DocumentDAO();
+    public static synchronized DocumentDAO getInstance() {
+        if (instance == null) {
+            instance = new DocumentDAO();
+        }
+        return instance;
     }
 
     @Override
@@ -204,6 +210,96 @@ public class DocumentDAO implements DAOInterface<Document> {
         }
 
         return searchResults;
+    }
+
+    public Document searchDocumentById(int documentId) {
+        String query = "SELECT * FROM document WHERE documentId = ? AND availability != 'removed'";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, documentId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Document document = new Document();
+                    document.setDocumentID(String.format("DOC%d", rs.getInt("documentId")));
+                    document.setCategoryID(String.format("CAT%d", rs.getInt("categoryID")));
+                    document.setPublisher(rs.getString("publisher"));
+                    document.setLgID(String.format("LANG%d", rs.getInt("lgID")));
+                    document.setTitle(rs.getString("title"));
+                    document.setAuthor(rs.getString("author"));
+                    document.setIsbn(rs.getString("isbn"));
+                    document.setQuantity(rs.getInt("quantity"));
+                    document.setAvailableCopies(rs.getInt("availableCopies"));
+                    document.setAddDate(rs.getTimestamp("addDate").toLocalDateTime().toString());
+                    document.setPrice(rs.getBigDecimal("price").doubleValue());
+                    document.setDescription(rs.getString("description"));
+                    document.setUrl(rs.getString("url"));
+                    document.setImage(rs.getString("image"));
+                    document.setAvailability(rs.getString("availability"));
+
+                    return document;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int canBeBorrowed(int documentId, int borrowQuantity) {
+        String query = "SELECT availableCopies, availability FROM document WHERE documentId = ? AND availability = 'available'";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, documentId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int availableCopies = rs.getInt("availableCopies");
+                    String availability = rs.getString("availability");
+                    if (!availability.equals("available")) {
+                        return Document.NOTAVALABLETOBOROW;
+                    } else if (availableCopies < borrowQuantity) {
+                        return Document.NOTENOUGHCOPIES;
+                    } else {
+                        return 1;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Document.NOTAVALABLETOBOROW;
+    }
+
+    public boolean decreaseAvailableCopies(int documentId, int decrementQuantity) {
+        String queryCheck = "SELECT availableCopies FROM document WHERE documentId = ?";
+        String queryUpdate = "UPDATE document SET availableCopies = availableCopies - ? WHERE documentId = ? AND availableCopies >= ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement checkStmt = con.prepareStatement(queryCheck)) {
+            checkStmt.setInt(1, documentId);
+            try (ResultSet rs = checkStmt.executeQuery()) {
+                if (rs.next()) {
+                    int availableCopies = rs.getInt("availableCopies");
+                    if (decrementQuantity > availableCopies) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+            try (PreparedStatement updateStmt = con.prepareStatement(queryUpdate)) {
+                updateStmt.setInt(1, decrementQuantity);
+                updateStmt.setInt(2, documentId);
+                updateStmt.setInt(3, decrementQuantity);
+                return updateStmt.executeUpdate() > 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }
