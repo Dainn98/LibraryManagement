@@ -8,6 +8,7 @@ import library.management.data.DAO.DocumentDAO;
 import library.management.data.DAO.LoanDAO;
 import library.management.data.DAO.UserDAO;
 
+
 public class DashboardController implements GeneralController {
 
   private final MainController controller;

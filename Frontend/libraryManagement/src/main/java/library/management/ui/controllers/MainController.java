@@ -8,6 +8,13 @@ import com.jfoenix.controls.JFXListView;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
+import javafx.concurrent.Task;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,18 +41,26 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
 import library.management.data.entity.Document;
+import library.management.data.entity.Loan;
+
 import library.management.data.entity.User;
 import library.management.properties;
 import org.controlsfx.control.CheckComboBox;
 
 @SuppressWarnings("CallToPrintStackTrace")
+
 public class MainController implements Initializable, properties, GeneralController {
 
 
+  
   private final DashboardController dashboardController = new DashboardController(this);
   private final UserController userController = new UserController(this);
+  private final DocumentController documentController = new DocumentController(this);
   private final CatalogController catalogController = new CatalogController(this);
+  private final PendingApprovalsController pendingApprovalsController = new PendingApprovalsController(this);
   private final AvatarController avatarController = new AvatarController(this);
+  private final PendingLoanController pendingLoanController = new PendingLoanController(this);
+  private final IssuedDocument issuedDocument = new IssuedDocument(this);
 
   // DASHBOARD PROPERTIES
   @FXML
@@ -68,6 +83,7 @@ public class MainController implements Initializable, properties, GeneralControl
   protected BarChart<String, Number> docBChart;
   @FXML
   protected BarChart<String, Number> userBChart;
+  
   // DOCUMENT PROPERTIES
   @FXML
   protected BorderPane docBPane;
@@ -81,34 +97,35 @@ public class MainController implements Initializable, properties, GeneralControl
   protected JFXButton addDocButton;
   @FXML
   protected JFXButton importDataButton;
-  @FXML
-  protected TableView<?> docView;
-  @FXML
-  protected TableColumn<?, ?> checkDocView;
-  @FXML
-  protected TableColumn<?, ?> docIDDocView;
-  @FXML
-  protected TableColumn<?, ?> docISBNDocView;
-  @FXML
-  protected TableColumn<?, ?> docNameDocView;
-  @FXML
-  protected TableColumn<?, ?> docAuthorDocView;
-  @FXML
-  protected TableColumn<?, ?> docPublisherDocView;
-  @FXML
-  protected TableColumn<?, ?> genreDocDocView;
-  @FXML
-  protected TableColumn<?, ?> quantityDocView;
-  @FXML
-  protected TableColumn<?, ?> remainingDocsDocView;
-  @FXML
-  protected TableColumn<?, ?> availabilityDocView;
+   @FXML
+   protected TableView<Document> docView;
+   @FXML
+   protected TableColumn<Document, Boolean> checkDocView;
+   @FXML
+   protected TableColumn<Document, String> docIDDocView;
+   @FXML
+   protected TableColumn<Document, String> docISBNDocView;
+   @FXML
+   protected TableColumn<Document, String> docNameDocView;
+   @FXML
+   protected TableColumn<Document, String> docAuthorDocView;
+   @FXML
+   protected TableColumn<Document, String> docPublisherDocView;
+   @FXML
+   protected TableColumn<Document, String> categoryDocView;
+   @FXML
+   protected TableColumn<Document, Integer> quantityDocView;
+   @FXML
+   protected TableColumn<Document, Integer> remainingDocsDocView;
+   @FXML
+   protected TableColumn<Document, String> availabilityDocView;
   @FXML
   protected HBox controlBoxDocView;
   @FXML
   protected CheckBox checkAllDocs;
   @FXML
   protected Hyperlink deleteDocs;
+  
   // REGISTER DOCUMENT PROPERTIES
   @FXML
   protected BorderPane registerDocumentBPane;
@@ -136,6 +153,7 @@ public class MainController implements Initializable, properties, GeneralControl
   protected JFXComboBox<?> docCategory;
   @FXML
   protected JFXComboBox<?> docLanguage;
+  
   // USER PROPERTIES
   @FXML
   protected BorderPane usersBPane;
@@ -181,35 +199,41 @@ public class MainController implements Initializable, properties, GeneralControl
   protected HBox controlUserView;
   @FXML
   protected CheckBox checkAllUsersView;
+  
   // PENDING APPROVALS PROPERTIES
   @FXML
-  protected BorderPane pendingApprovalsBPane;
-  @FXML
-  protected AutoCompleteTextField<?> checkUsername;
-  @FXML
-  protected CheckComboBox<?> checkCountry;
-  @FXML
-  protected CheckComboBox<?> checkState;
-  @FXML
-  protected CheckComboBox<?> checkYear;
-  @FXML
-  protected TableView<?> approvalsTView;
-  @FXML
-  protected TableColumn<?, ?> idApprovals;
-  @FXML
-  protected TableColumn<?, ?> usernameApprovals;
-  @FXML
-  protected TableColumn<?, ?> phoneNumberApprovals;
-  @FXML
-  protected TableColumn<?, ?> emailApprovals;
-  @FXML
-  protected TableColumn<?, ?> countryApprovals;
-  @FXML
-  protected TableColumn<?, ?> stateApprovals;
-  @FXML
-  protected TableColumn<?, ?> yearApprovals;
-  @FXML
-  protected TableColumn<?, ?> approvalApprovals;
+    protected BorderPane pendingApprovalsBPane;
+    @FXML
+    protected AutoCompleteTextField<String> checkUsername;
+    @FXML
+    protected CheckComboBox<String> checkCountry;
+    @FXML
+    protected CheckComboBox<String> checkState;
+    @FXML
+    protected CheckComboBox<String> checkYear;
+    @FXML
+    protected TableView<User> approvalsTView;
+    @FXML
+    protected TableColumn<User, Boolean> checkBoxApproval;
+    @FXML
+    protected TableColumn<User, String> idApprovals;
+    @FXML
+    protected TableColumn<User, String> usernameApprovals;
+    @FXML
+    protected TableColumn<User, String> phoneNumberApprovals;
+    @FXML
+    protected TableColumn<User, String> emailApprovals;
+    @FXML
+    protected TableColumn<User, String> countryApprovals;
+    @FXML
+    protected TableColumn<User, String> stateApprovals;
+    @FXML
+    protected TableColumn<User, String> yearApprovals;
+    @FXML
+    protected TableColumn<User, Void> approveApprovals;
+    @FXML
+    protected CheckBox checkAllApprovals;
+  
   // DOCUMENT MANAGEMENT PROPERTIES
   @FXML
   protected BorderPane docManagementBPane;
@@ -233,33 +257,69 @@ public class MainController implements Initializable, properties, GeneralControl
   protected JFXButton submitIssueDocButton;
   @FXML
   protected JFXButton cancelIssueDocButton;
+  
   // All Issued Doc
   @FXML
-  protected BorderPane allIssuedDocBPane;
-  @FXML
-  protected TextField issuedDocField;
-  @FXML
-  protected JFXComboBox<?> issueTypeIssuedDoc;
-  @FXML
-  protected TableView<?> IDView;
-  @FXML
-  protected TableColumn<?, ?> issuedIDIDView;
-  @FXML
-  protected TableColumn<?, ?> docIDIDView;
-  @FXML
-  protected TableColumn<?, ?> docTitleIDView;
-  @FXML
-  protected TableColumn<?, ?> userIDIDView;
-  @FXML
-  protected TableColumn<?, ?> userNameIDView;
-  @FXML
-  protected TableColumn<?, ?> dueDateIDView;
-  @FXML
-  protected TableColumn<?, ?> issuedDateAndTimeIDView;
-  @FXML
-  protected TableColumn<?, ?> daysIDView;
-  @FXML
-  protected TableColumn<?, ?> feeIDView;
+    protected BorderPane allIssuedDocBPane;
+    @FXML
+    protected TextField issuedDocField;
+    @FXML
+    protected JFXComboBox<String> loanFilterComboBox;
+    @FXML
+    protected TableView<Loan> IDView;
+    @FXML
+    protected TableColumn<Loan, String> issuedIDIDView;
+    @FXML
+    protected TableColumn<Loan, String> docIDIDView;
+    @FXML
+    protected TableColumn<Loan, String> docTitleIDView;
+    @FXML
+    protected TableColumn<Loan, String> userIDIDView;
+    @FXML
+    protected TableColumn<Loan, String> userNameIDView;
+    @FXML
+    protected TableColumn<Loan, String> dueDateIDView;
+    @FXML
+    protected TableColumn<Loan, String> issuedDateAndTimeIDView;
+    @FXML
+    protected TableColumn<Loan, String> daysIDView;
+    @FXML
+    protected TableColumn<Loan, String> feeIDView;
+    @FXML
+    protected TableColumn<Loan, String> statusIDView;
+    
+     // pending issue
+    @FXML
+    protected BorderPane pendingLoansBPane;
+    @FXML
+    protected TextField loansField;
+    @FXML
+    protected JFXComboBox<String> pendingLoanFilterComboBox;
+    @FXML
+    protected TableView<Loan> loansView;
+    @FXML
+    protected TableColumn<Loan, Boolean> checkLoan;
+    @FXML
+    protected TableColumn<Loan, String> issuedIDLoansView;
+    @FXML
+    protected TableColumn<Loan, String> docISBNLoansView;
+    @FXML
+    protected TableColumn<Loan, String> docTitleLoansView;
+    @FXML
+    protected TableColumn<Loan, String> userIDLoansView;
+    @FXML
+    protected TableColumn<Loan, String> userNameLoansView;
+    @FXML
+    protected TableColumn<Loan, String> issuedDateAndTimeLoansView;
+    @FXML
+    protected TableColumn<Loan, String> dueDateIDLoansView;
+    @FXML
+    protected TableColumn<Loan, String> daysLoansView;
+    @FXML
+    protected TableColumn<Loan, String> feeIDLoansView;
+    @FXML
+    protected TableColumn<Loan, Void> approvalLoansView;
+  
   // CATALOG PROPERTIES
   @FXML
   protected BorderPane catalogBPane;
@@ -267,6 +327,9 @@ public class MainController implements Initializable, properties, GeneralControl
   protected GridPane apiViewGPane;
   @FXML
   protected GridPane localViewGPane;
+  @FXML
+  protected AutoCompleteTextField<String> catalogSearchField;
+  
   // DOCUMENT INFORMATION PROPERTIES
   @FXML
   protected BorderPane docPropertiesBPane;
@@ -306,9 +369,14 @@ public class MainController implements Initializable, properties, GeneralControl
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     dashboardController.loadDashBoardData();
-    userController.initUsersView();
-    catalogController.loadCatalogData(apiViewGPane, localViewGPane);
+        userController.initUsersView();
+        documentController.initDocumentView();
+        pendingApprovalsController.initApprovalsView();
+        pendingLoanController.initPendingLoanView();
+        issuedDocument.initIssueDocumentView();
+        catalogController.initCatalog();
     avatarController.initAvatar(infoVBox);
+    
   }
 
   // MENU CONTROLLER
@@ -321,6 +389,7 @@ public class MainController implements Initializable, properties, GeneralControl
     pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
     allIssuedDocBPane.setVisible(sectionToShow == allIssuedDocBPane);
     docManagementBPane.setVisible(sectionToShow == docManagementBPane);
+     pendingLoansBPane.setVisible(sectionToShow == pendingLoansBPane);
     pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
   }
 
@@ -331,6 +400,7 @@ public class MainController implements Initializable, properties, GeneralControl
   }
 
   public void handleDocButton(ActionEvent actionEvent) {
+    documentController.loadDocumentData();
     showSection(docBPane);
   }
 
@@ -340,19 +410,41 @@ public class MainController implements Initializable, properties, GeneralControl
   }
 
   public void handleLibraryCatalogButton(ActionEvent actionEvent) {
+        Task<Void> loadCatalog = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                catalogController.searchAPIDocument();
+                return null;
+            }
+        };
+        Thread thread = new Thread(loadCatalog);
+        thread.setDaemon(true);
+        thread.start();
+  
     showSection(catalogBPane);
   }
 
   public void handlePendingApprovalsButton(ActionEvent actionEvent) {
+    pendingApprovalsController.loadApprovalsData();
     showSection(pendingApprovalsBPane);
   }
-
+// PENDING ISSUE
   public void handlePendingLoansButton(ActionEvent actionEvent) {
+  pendingLoanController.loadLoanData();
+        showSection(pendingLoansBPane);
   }
+  public void handleSearchPendingIssue(KeyEvent keyEvent) {
+        pendingLoanController.handleSearchPendingIssue();
+    }
 
-  public void handleIssuedDocButton(ActionEvent actionEvent) {
-    showSection(allIssuedDocBPane);
-  }
+   // ALL ISSUED DOCUMENT
+    public void handleIssuedDocButton(ActionEvent actionEvent) {
+        issuedDocument.loadLoanData();
+        showSection(allIssuedDocBPane);
+    }
+    public void handleSearchID(KeyEvent keyEvent) {
+        issuedDocument.handleSearchID();
+    }
 
   public void handleClickAvatar(MouseEvent mouseEvent) {
     dashboardController.handleClickAvatar(pic, infoVBox);
@@ -364,25 +456,36 @@ public class MainController implements Initializable, properties, GeneralControl
 
   // DOCUMENT CONTROLLER
 
-  public void handleSearchDocTField(ActionEvent actionEvent) {
-  }
+  @FXML
+    public void handleSearchDocTField(KeyEvent actionEvent) {
+        documentController.handleSearchDocTField();
+    }
+    public void checkAllDocs(ActionEvent actionEvent) {
+        documentController.checkAllDocs();
+    }
 
   public void handleAdvancedSearch(ActionEvent actionEvent) {
+  //To Do
   }
 
   public void handleAddDocButton(ActionEvent actionEvent) {
+  //To Do
   }
 
   public void handleImportDataButton(ActionEvent actionEvent) {
+  //To Do
   }
 
   public void loadUpdateBook(ActionEvent actionEvent) {
+  //To Do
   }
 
   public void DeleteBook(ActionEvent actionEvent) {
+  //To Do
   }
 
   public void handleDeleteDocHyperlink(ActionEvent actionEvent) {
+  documentController.handleDeleteDocHyperlink();
   }
 
   //DOCUMENT MANAGEMENT CONTROLLER
@@ -454,12 +557,27 @@ public class MainController implements Initializable, properties, GeneralControl
     userController.checkAllUsers();
   }
 
-  //ANOTHER
-  public void searchBook(KeyEvent event) {
-  }
+    // PENDING APPROVAL
+    public void disapprovePending(ActionEvent actionEvent) {
+        pendingApprovalsController.disapprovePending();
+    }
 
-  public void requestMenu(ContextMenuEvent contextMenuEvent) {
-  }
+    public void checkAllPending(ActionEvent actionEvent) {
+        pendingApprovalsController.checkAllPending();
+    }
+
+    public void approvePendingUsers(ActionEvent actionEvent) {
+        pendingApprovalsController.approvePendingUsers();
+    }
+
+    public void handleSearchPendingUser(KeyEvent keyEvent) {
+        pendingApprovalsController.handleSearchPendingUser();
+    }
+
+    //ANOTHER
+    public void requestMenu(ContextMenuEvent contextMenuEvent) {
+    }
+
 
   public void fetchUserWithKey(KeyEvent event) {
   }
@@ -467,8 +585,27 @@ public class MainController implements Initializable, properties, GeneralControl
   public void fetchUserFeesDetails(MouseEvent mouseEvent) {
     userController.fetchUserDetails();
   }
-  //  SIGN OUT CONTROLLER
 
+
+    public void handleCancelRegisterDoc(ActionEvent actionEvent) {
+    }
+
+    // CATALOG
+    public void handleSearchCatalog(KeyEvent keyEvent) {
+        if (scheduler == null) {
+            scheduler = Executors.newScheduledThreadPool(1);
+        }
+
+        if (scheduledTask != null && !scheduledTask.isDone()) {
+            scheduledTask.cancel(false);
+        }
+
+        scheduledTask = scheduler.schedule(catalogController::searchAPIDocument, 400, TimeUnit.MILLISECONDS);
+    }
+
+    private ScheduledExecutorService scheduler;
+    private ScheduledFuture<?> scheduledTask;
+    //  SIGN OUT CONTROLLER
   /**
    * Handles the sign-out process for the user.
    */

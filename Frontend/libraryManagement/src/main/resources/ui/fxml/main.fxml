@@ -320,8 +320,7 @@
                                                                   <Font name="System Bold" size="15.0" />
                                                                </font>
                                                             </Label>
-                                                            <Label fx:id="allUsers" layoutX="10.0" layoutY="23.0" text="0" textFill="#2b579a" HBox.hgrow="ALWAYS">
-
+                                                            <Label fx:id="allDocs" layoutX="10.0" layoutY="23.0" text="0" textFill="#2b579a" HBox.hgrow="ALWAYS">
                                                                <font>
                                                                   <Font name="System Bold" size="15.0" />
                                                                </font>
@@ -356,7 +355,7 @@
                                                          <children>
                                                             <HBox HBox.hgrow="ALWAYS">
                                                                <children>
-                                                                  <TextField fx:id="searchDocTField" alignment="TOP_LEFT" onAction="#handleSearchDocTField" onKeyTyped="#searchBook" prefHeight="26.0" prefWidth="333.0" promptText="Search for document by title, author or ISBN" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS">
+                                                                  <TextField fx:id="searchDocTField" alignment="TOP_LEFT" onKeyReleased="#handleSearchDocTField" prefHeight="26.0" prefWidth="333.0" promptText="Search for document by title, author or ISBN" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS">
                                                                      <font>
                                                                         <Font size="12.1" />
                                                                      </font>
@@ -427,7 +426,7 @@
                         </VBox>
                      </top>
                      <center>
-                        <TableView fx:id="docView" prefHeight="563.0" prefWidth="754.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+                        <TableView fx:id="docView" editable="true" prefHeight="563.0" prefWidth="754.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                            <columns>
                               <TableColumn fx:id="checkDocView" maxWidth="1500.0" minWidth="-1.0" prefWidth="33.0" />
                               <TableColumn fx:id="docIDDocView" minWidth="-1.0" prefWidth="90.0" text="Document ID" />
@@ -436,7 +435,7 @@
 
                               <TableColumn fx:id="docAuthorDocView" prefWidth="120.84616088867188" text="Document Author" />
                               <TableColumn fx:id="docPublisherDocView" prefWidth="122.32125854492188" text="Document Publisher" />
-                              <TableColumn fx:id="genreDocDocView" prefWidth="79.5841064453125" text="Doument Genre" />
+                              <TableColumn fx:id="categoryDocView" prefWidth="79.5841064453125" text="Doument Category" />
                               <TableColumn fx:id="quantityDocView" prefWidth="62.04144287109375" text="Quantity" />
                               <TableColumn fx:id="remainingDocsDocView" prefWidth="134.53460693359375" text="Remaining Documents" />
                               <TableColumn fx:id="availabilityDocView" prefWidth="116.0" text="Availability" />
@@ -457,9 +456,11 @@
                      <bottom>
                         <HBox fx:id="controlBoxDocView" spacing="15.0" BorderPane.alignment="CENTER">
                            <children>
-                              <CheckBox fx:id="checkAllDocs" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Check all" />
-                              <Hyperlink fx:id="deleteDocs" onAction="#handleDeleteDocHyperlink" text="Delete" />
-
+                              <CheckBox fx:id="checkAllDocsView" mnemonicParsing="false" onAction="#checkAllDocs" prefHeight="25.0" prefWidth="70.0" text="Check all" />
+                              <Hyperlink fx:id="deleteDocs" onAction="#handleDeleteDocHyperlink" text="Delete">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#e9594d" glyphName="TRASH" size="15" />
+                                 </graphic></Hyperlink>
                            </children>
                            <BorderPane.margin>
                               <Insets left="30.0" />
@@ -862,6 +863,7 @@
                      </center>
                   </BorderPane>
 
+
 <!--                  DOCUMENT INFORMATION-->
                   <BorderPane fx:id="docPropertiesBPane" visible="false">
                      <center>
@@ -869,6 +871,7 @@
                            <center>
                               <VBox prefHeight="569.0" prefWidth="802.0" spacing="10.0">
                                  <children>
+
                                     <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
                                           <HBox alignment="CENTER">
@@ -1019,6 +1022,7 @@
                         </BorderPane>
                      </top>
                      <bottom>
+
                         <HBox BorderPane.alignment="CENTER">
                            <children>
                               <JFXButton onAction="#handleAddDoc" text="Add Document" />
@@ -1496,6 +1500,7 @@
                      </bottom>
                   </BorderPane>
 
+
                   <!--               PENDING LOANS-->
                   <BorderPane fx:id="pendingLoansBPane" visible="false">
                      <center>
@@ -1504,6 +1509,7 @@
                               <HBox alignment="CENTER" spacing="10.0">
                                  <children>
                                     <HBox HBox.hgrow="ALWAYS" />
+
                                     <TextField fx:id="loansField" promptText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
                                     <JFXComboBox fx:id="typeLoans" labelFloat="true" promptText="Select Issue Type" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
                                     <HBox HBox.hgrow="ALWAYS" />
@@ -1559,6 +1565,7 @@
                         </BorderPane>
                      </top>
                   </BorderPane>
+
 
 <!--                  ALL ISSUED DOCUMENTS-->
                   <BorderPane fx:id="allIssuedDocBPane" visible="false">
@@ -1622,7 +1629,6 @@
                         </BorderPane>
                      </top>
                   </BorderPane>
-
                </children>
             </StackPane>
          </center>

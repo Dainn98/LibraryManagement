@@ -40,20 +40,30 @@ public class UserController {
     controller.userFilterComboBox.setValue("All");
   }
 
-  public void loadUserViewData() {
-    list.clear();
-    list.addAll(UserDAO.getInstance().getAllUser());
-    controller.userView.setItems(list);
-    initializeCheckBox();
-  }
+    public void initUsersView() {
+        controller.userIDUserView.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        controller.userNameUserView.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        controller.userPhoneUserView.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        controller.userEmailUserView.setCellValueFactory(new PropertyValueFactory<>("email"));
+        controller.checkUserView.setCellValueFactory(cellData -> {
+            int index = controller.userView.getItems().indexOf(cellData.getValue());
+            return checkBoxStatusList.get(index);
+        });
+        controller.checkUserView.setCellFactory(CheckBoxTableCell.forTableColumn(controller.checkUserView));
+        initFilterComboBox();
+    }
 
-  public void fetchUserDetails() {
-    User user = controller.userView.getSelectionModel().getSelectedItem();
-    if (user != null) {
-      controller.userIDField.setText(String.valueOf(user.getUserId()));
-      controller.userNameField.setText(user.getUserName());
-      controller.userPhoneField.setText(user.getPhoneNumber());
-      controller.userEmailField.setText(user.getEmail());
+    private void initFilterComboBox() {
+        ObservableList<String> userFilters = FXCollections.observableArrayList("All", "ID", "Name", "Phone Number", "Email");
+        controller.userFilterComboBox.setItems(userFilters);
+        controller.userFilterComboBox.setValue("All");
+    }
+
+    public void loadUserViewData() {
+        list.clear();
+        list.addAll(UserDAO.getInstance().getAllApprovedUser());
+        controller.userView.setItems(list);
+        initializeCheckBox();
     }
   }
 
@@ -76,48 +86,68 @@ public class UserController {
     for (int i = 0; i < list.size(); i++) {
       checkBoxStatusList.add(new SimpleBooleanProperty(false));
     }
-    for (BooleanProperty checkBoxStatus : checkBoxStatusList) {
-      checkBoxStatus.addListener((observable, oldValue, newValue) -> {
-        if (!newValue) {
-          controller.checkAllUsersView.setSelected(false);
+
+    private void initializeCheckBox() {
+        checkBoxStatusList.clear();
+        for (int i = 0; i < list.size(); i++) {
+            checkBoxStatusList.add(new SimpleBooleanProperty(false));
+        }
+        for (BooleanProperty checkBoxStatus : checkBoxStatusList) {
+            checkBoxStatus.addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    controller.checkAllUsersView.setSelected(false);
+                } else {
+                    boolean allSelected = checkBoxStatusList.stream().allMatch(BooleanProperty::get);
+                    if (allSelected) {
+                        controller.checkAllUsersView.setSelected(true);
+                    }
+                }
+            });
         }
       });
     }
   }
 
-  public void searchUserDetails() {
-    String filterCriteria = controller.userFilterComboBox.getValue();
-    String searchText = controller.searchUserField.getText().trim().toLowerCase();
-    list.clear();
-    switch (filterCriteria) {
-      case "ID":
-        list.addAll(UserDAO.getInstance().searchById(searchText));
-        break;
-      case "Name":
-        list.addAll(UserDAO.getInstance().searchByName(searchText));
-        break;
-      case "Phone Number":
-        list.addAll(UserDAO.getInstance().searchByPhoneNumber(searchText));
-        break;
-      case "Email":
-        list.addAll(UserDAO.getInstance().searchByEmail(searchText));
-        break;
-      default:
-        list.addAll(UserDAO.getInstance().searchAllByKeyword(searchText));
+    public void searchUserDetails() {
+        String filterCriteria = controller.userFilterComboBox.getValue();
+        String searchText = controller.searchUserField.getText().trim().toLowerCase();
+        list.clear();
+        switch (filterCriteria) {
+            case "ID":
+                list.addAll(UserDAO.getInstance().searchApprovedUserById(searchText));
+                break;
+            case "Name":
+                list.addAll(UserDAO.getInstance().searchApprovedUserByName(searchText));
+                break;
+            case "Phone Number":
+                list.addAll(UserDAO.getInstance().searchApprovedUserByPhoneNumber(searchText));
+                break;
+            case "Email":
+                list.addAll(UserDAO.getInstance().searchApprovedUserByEmail(searchText));
+                break;
+            default:
+                list.addAll(UserDAO.getInstance().searchAllApprovedUserByKeyword(searchText));
+        }
+        controller.userView.setItems(list);
+        initializeCheckBox();
     }
     controller.userView.setItems(list);
     initializeCheckBox();
   }
 
-  public void deleteUserRecord() {
-    // todo: xu ly truong hop user dang giu sach thi phai lam sao
-    Optional<ButtonType> result = showAlertConfirmation(
-        "Delete user",
-        "Are you sure you want to delete these users?");
-    if (result.isPresent() && result.get() == ButtonType.OK) {
-      for (int i = 0; i < list.size(); i++) {
-        if (checkBoxStatusList.get(i).getValue()) {
-          UserDAO.getInstance().delete(list.get(i));
+    public void deleteUserRecord() {
+        // todo: xu ly truong hop user dang giu sach thi phai lam sao
+        Optional<ButtonType> result = showAlertConfirmation(
+                "Delete user",
+                "Are you sure you want to delete these users?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            for (int i = 0; i < list.size(); i++) {
+                if (checkBoxStatusList.get(i).getValue()) {
+                    UserDAO.getInstance().delete(list.get(i));
+                }
+            }
+            loadUserViewData();
+            handleCancelUserButton();
         }
       }
       loadUserViewData();

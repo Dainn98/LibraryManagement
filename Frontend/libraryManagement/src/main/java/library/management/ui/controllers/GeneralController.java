@@ -20,6 +20,7 @@ public interface GeneralController {
   }
 
   default void fade(Node node, double fromValue, double toValue, Duration duration) {
+
     if(toValue != 0.0) {
       node.setVisible(true);
     }
@@ -34,6 +35,7 @@ public interface GeneralController {
     });
     fade.play();
   }
+
 
   default void transFade(Node node, double translateX, double fromValue, double toValue,
       Duration duration) {

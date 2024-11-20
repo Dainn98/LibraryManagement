@@ -11,12 +11,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ManagerDAO implements DAOInterface<Manager> {
+    private static ManagerDAO instance;
+
     private ManagerDAO() {
     }
 
 
     public static ManagerDAO getInstance() {
-        return new ManagerDAO();
+        if (instance == null) {
+            instance = new ManagerDAO();
+        }
+        return instance;
     }
 
     @Override

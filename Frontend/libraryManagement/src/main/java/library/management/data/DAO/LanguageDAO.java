@@ -13,16 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LanguageDAO implements DAOInterface<Language> {
+    private static LanguageDAO instance;
 
 
     private LanguageDAO() {
     }
 
-
-    public static LanguageDAO getInstance() {
-        return new LanguageDAO();
+    public static synchronized LanguageDAO getInstance() {
+        if (instance == null) {
+            instance = new LanguageDAO();
+        }
+        return instance;
     }
-
+    
     @Override
 
     public int add(Language language) {
@@ -108,4 +111,22 @@ public class LanguageDAO implements DAOInterface<Language> {
 
         return languageList;
     }
+
+    public int getLanguageId(String lgName) {
+        String query = "SELECT lgID FROM language WHERE lgName = ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, lgName);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("lgID");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
 }
