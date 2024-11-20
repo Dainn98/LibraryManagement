@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -20,7 +19,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
@@ -28,7 +26,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
@@ -88,13 +85,11 @@ public class MainController implements Initializable, properties, GeneralControl
   @FXML
   protected BorderPane docBPane;
   @FXML
-  protected Label allUsers;
+  protected Label allDocs;
   @FXML
   protected Label remainDocs;
   @FXML
   protected TextField searchDocTField;
-  @FXML
-  protected JFXButton addDocButton;
   @FXML
   protected JFXButton importDataButton;
    @FXML
@@ -122,37 +117,9 @@ public class MainController implements Initializable, properties, GeneralControl
   @FXML
   protected HBox controlBoxDocView;
   @FXML
-  protected CheckBox checkAllDocs;
+  protected CheckBox checkAllDocsView;
   @FXML
   protected Hyperlink deleteDocs;
-  
-  // REGISTER DOCUMENT PROPERTIES
-  @FXML
-  protected BorderPane registerDocumentBPane;
-  @FXML
-  protected JFXButton backToDocs;
-  @FXML
-  protected TextField docISBNField;
-  @FXML
-  protected TextField docTitleField;
-  @FXML
-  protected TextField docAuthorField;
-  @FXML
-  protected TextField docPublisherField;
-  @FXML
-  protected TextField docPriceField;
-  @FXML
-  protected TextArea descriptionField;
-  @FXML
-  protected TextField numberOfIssueField;
-  @FXML
-  protected JFXButton cancelRegisterDocButton;
-  @FXML
-  protected Button submitDocButton;
-  @FXML
-  protected JFXComboBox<?> docCategory;
-  @FXML
-  protected JFXComboBox<?> docLanguage;
   
   // USER PROPERTIES
   @FXML
@@ -230,9 +197,9 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected TableColumn<User, String> yearApprovals;
     @FXML
-    protected TableColumn<User, Void> approveApprovals;
+    protected TableColumn<User, Void> approvalApprovals;
     @FXML
-    protected CheckBox checkAllApprovals;
+    protected CheckBox checkApprovals;
   
   // DOCUMENT MANAGEMENT PROPERTIES
   @FXML
@@ -264,7 +231,7 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected TextField issuedDocField;
     @FXML
-    protected JFXComboBox<String> loanFilterComboBox;
+    protected JFXComboBox<String> issueTypeIssuedDoc;
     @FXML
     protected TableView<Loan> IDView;
     @FXML
@@ -294,7 +261,7 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected TextField loansField;
     @FXML
-    protected JFXComboBox<String> pendingLoanFilterComboBox;
+    protected JFXComboBox<String> typeLoans;
     @FXML
     protected TableView<Loan> loansView;
     @FXML
@@ -302,7 +269,7 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected TableColumn<Loan, String> issuedIDLoansView;
     @FXML
-    protected TableColumn<Loan, String> docISBNLoansView;
+    protected TableColumn<Loan, String> docIDLoansView;
     @FXML
     protected TableColumn<Loan, String> docTitleLoansView;
     @FXML
@@ -355,16 +322,6 @@ public class MainController implements Initializable, properties, GeneralControl
   protected Label titleHeading;
   @FXML
   protected ImageView thumbnailImageInfo;
-
-  private List<Document> documentList;
-
-  public List<Document> getDocumentList() {
-    return documentList;
-  }
-
-  public Node getDocPropertiesBPane() {
-    return docPropertiesBPane;
-  }
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {

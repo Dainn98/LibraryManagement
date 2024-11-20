@@ -1,8 +1,6 @@
 package library.management.data.DAO;
 
-
 import library.management.data.database.DatabaseConnection;
-
 import library.management.data.entity.Loan;
 
 import java.sql.*;
@@ -11,7 +9,6 @@ import java.util.List;
 
 public class LoanDAO implements DAOInterface<Loan> {
     private static LoanDAO instance;
-
 
     private LoanDAO() {
     }
@@ -24,7 +21,6 @@ public class LoanDAO implements DAOInterface<Loan> {
     }
 
     @Override
-
     public int add(Loan loan) {
         String query = "INSERT INTO loans (userId, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate, returnDate, status) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -85,7 +81,6 @@ public class LoanDAO implements DAOInterface<Loan> {
         }
         return 0;
     }
-
 
     public int getTotalUsersWhoBorrowedBooks() {
         String query = "SELECT COUNT(DISTINCT userId) FROM loans WHERE status = 'borrowing'";
