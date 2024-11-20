@@ -4,6 +4,7 @@
   -fx-box-sizing: border-box;
   -fx-font-family: 'Montserrat', sans-serif;
 }
+
 .form-container {
   -fx-background-color: white;
   -fx-background-radius: 30;
@@ -56,16 +57,16 @@
 .login-button {
   -fx-background-color: #000080;
   -fx-text-fill: white;
-  -fx-pref-width: 300;
+  -fx-pref-width: 150;
   -fx-pref-height: 40;
   -fx-background-radius: 5;
   -fx-cursor: hand;
 }
 
 .register-button {
-  -fx-background-color: #FF7F50;
+  -fx-background-color: #000080;
   -fx-text-fill: white;
-  -fx-pref-width: 300;
+  -fx-pref-width: 150;
   -fx-pref-height: 40;
   -fx-background-radius: 5;
   -fx-cursor: hand;
@@ -81,6 +82,8 @@
 
 .button:hover {
   -fx-opacity: 0.8;
+  -fx-scale-x: 1.025;
+  -fx-scale-y: 1.025;
 }
 
 .toggle {
