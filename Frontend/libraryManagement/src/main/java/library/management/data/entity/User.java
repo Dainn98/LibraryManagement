@@ -1,60 +1,51 @@
 package library.management.data.entity;
 
-import java.time.LocalDateTime;
-
 public class User {
     private int userId;
     private String userName;
+    private String address;
     private String identityCard;
     private String phoneNumber;
     private String email;
     private String country;
     private String state;
-    private String status;
-    private LocalDateTime registeredDate;
 
     public User() {
-    }
-
-    public User(String userId) {
-        this.userId = Integer.parseInt(userId);
     }
 
     public User(User user) {
         this.userId = user.userId;
         this.userName = user.userName;
+        this.address = user.address;
         this.identityCard = user.identityCard;
         this.phoneNumber = user.phoneNumber;
         this.email = user.email;
         this.country = user.country;
         this.state = user.state;
-        this.status = user.status;
-        this.registeredDate = user.registeredDate;
     }
 
-    public User(String userId, String userName, String identityCard,
-                String phoneNumber, String email, String country, String state, String status, LocalDateTime registeredDate) {
+    public User(String userId, String userName, String address, String identityCard,
+                String phoneNumber, String email, String country, String state) {
         this.userId = Integer.parseInt(userId.substring(4));
         this.userName = userName;
+        this.address = address;
         this.identityCard = identityCard;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.country = country;
         this.state = state;
-        this.registeredDate = registeredDate;
-        this.status = status;
     }
 
-    public User(String userName, String identityCard, String phoneNumber,
-                String email, String country, String state, String status) {
-        this.userName = userName;
+    public User(String userName, String address, String identityCard, String phoneNumber,
+                String email, String country, String state) {
+        this.address = address;
         this.identityCard = identityCard;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.userName = userName;
         this.country = country;
         this.state = state;
-        this.registeredDate = LocalDateTime.now();
-        this.status = status;
+
     }
 
     public String getUserName() {
@@ -63,6 +54,14 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getIdentityCard() {
@@ -116,30 +115,4 @@ public class User {
     public void setUserId(String userId) {
         this.userId = Integer.parseInt(userId.substring(4));
     }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getRegisteredDate() {
-        return registeredDate;
-    }
-
-    public void setRegisteredDate(LocalDateTime registeredDate) {
-        this.registeredDate = registeredDate;
-    }
-
-    public String getRegisteredYear() {
-        if (this.registeredDate != null) {
-            return String.valueOf(this.registeredDate.getYear());
-        } else {
-            return "Registered date is not set.";
-        }
-    }
-
-
 }

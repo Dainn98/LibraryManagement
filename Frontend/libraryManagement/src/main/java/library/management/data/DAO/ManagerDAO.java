@@ -1,6 +1,8 @@
 package library.management.data.DAO;
 
+
 import library.management.data.database.DatabaseConnection;
+
 import library.management.data.entity.Manager;
 
 import java.sql.Connection;
@@ -13,6 +15,7 @@ public class ManagerDAO implements DAOInterface<Manager> {
 
     private ManagerDAO() {
     }
+
 
     public static ManagerDAO getInstance() {
         if (instance == null) {
@@ -30,7 +33,7 @@ public class ManagerDAO implements DAOInterface<Manager> {
             stmt.setString(2, manager.getPassword());
             stmt.setString(3, manager.getIdentityCard());
             stmt.setString(4, manager.getEmail());
-
+          
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted;
         } catch (SQLException e) {
@@ -133,7 +136,6 @@ public class ManagerDAO implements DAOInterface<Manager> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return false;// Trả về false nếu không tìm thấy kết quả
     }
-
 }
