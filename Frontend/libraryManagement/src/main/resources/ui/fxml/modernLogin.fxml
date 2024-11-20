@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580" prefWidth="980" style="-fx-background-color: linear-gradient(to right, #e2e2e2, #c9d6ff);" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.ModernLoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580" prefWidth="980" style="-fx-background-color: linear-gradient(to right, #e2e2e2, #c9d6ff);" stylesheets="@../css/style_login.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.ModernLoginController">
   <top>
     <HBox prefHeight="40.0" prefWidth="980.0" BorderPane.alignment="CENTER" />
   </top>
@@ -30,11 +30,11 @@
   <center>
     <Pane prefHeight="500.0" prefWidth="780.0" styleClass="form-container" BorderPane.alignment="CENTER">
       <children>
-        <Pane id="signInForm" fx:id="loginForm" cache="true" prefHeight="500.0" prefWidth="390.0">
+        <Pane id="signInForm" fx:id="loginPane" cache="true" prefHeight="500.0" prefWidth="390.0">
           <children>
             <VBox alignment="CENTER" cache="true" layoutY="1.0" prefHeight="500.0" prefWidth="390.0" spacing="20.0">
               <children>
-                <Label styleClass="title-label-h1" text="Sign In">
+                <Label style="-fx-text-fill: BLACK;" styleClass="title-label-h1" text="Sign In">
                   <font>
                     <Font size="24.0" />
                   </font>
@@ -81,33 +81,33 @@
             </VBox>
           </children>
         </Pane>
-        <Pane fx:id="registerForm" cache="true" layoutX="390.0" prefHeight="500.0" prefWidth="390.0" visible="false">
+        <Pane fx:id="registerPane" cache="true" layoutX="390.0" prefHeight="500.0" prefWidth="390.0">
           <children>
-            <VBox alignment="CENTER" prefHeight="500.0" prefWidth="390.0" spacing="15.0">
+            <VBox alignment="CENTER" prefHeight="500.0" prefWidth="390.0" spacing="10.0">
               <children>
-                <Label styleClass="title-label-h1" text="Create Account">
+                <Label style="-fx-text-fill: BLACK;" styleClass="title-label-h1" text="Create Account">
                   <font>
                     <Font size="24.0" />
                   </font>
                 </Label>
-                <HBox prefHeight="42.0" prefWidth="290.0" spacing="10.0">
+                <HBox prefHeight="23.0" prefWidth="222.0" spacing="10.0">
                   <children>
-                    <Button fx:id="googleIcon_" mnemonicParsing="false" styleClass="switch-button-link">
+                    <Button fx:id="googleIcon_" mnemonicParsing="false" prefWidth="40.0" styleClass="switch-button-link">
                       <graphic>
                         <FontAwesomeIconView glyphName="GOOGLE_PLUS" />
                       </graphic>
                     </Button>
-                    <Button fx:id="facebookIcon_" mnemonicParsing="false" styleClass="switch-button-link">
+                    <Button fx:id="facebookIcon_" mnemonicParsing="false" prefWidth="40.0" styleClass="switch-button-link">
                       <graphic>
                         <FontAwesomeIconView glyphName="FACEBOOK" />
                       </graphic>
                     </Button>
-                    <Button fx:id="githubIcon_" mnemonicParsing="false" styleClass="switch-button-link">
+                    <Button fx:id="githubIcon_" mnemonicParsing="false" prefWidth="40.0" styleClass="switch-button-link">
                       <graphic>
                         <FontAwesomeIconView glyphName="GITHUB" />
                       </graphic>
                     </Button>
-                    <Button fx:id="linkedinIcon_" mnemonicParsing="false" styleClass="switch-button-link">
+                    <Button fx:id="linkedinIcon_" mnemonicParsing="false" prefWidth="40.0" styleClass="switch-button-link">
                       <graphic>
                         <FontAwesomeIconView glyphName="LINKEDIN" />
                       </graphic>
@@ -121,12 +121,12 @@
                   </VBox.margin>
                 </HBox>
                 <Label text="or use your email for registeration" />
-                <TextField fx:id="registerUsername" promptText="Enter username" styleClass="input-field" />
-                <TextField fx:id="registerEmail" promptText="Enter  email" styleClass="input-field" />
-                <TextField fx:id="registerIdentityCard" promptText="Enter Identity Card" styleClass="input-field" />
-                <PasswordField fx:id="registerPassword" promptText="Enter password" styleClass="input-field" />
-                <PasswordField fx:id="confirmPassword" promptText="Confirm password" styleClass="input-field" />
-                <Button fx:id="registerButton" onAction="#handleRegister" styleClass="register-button" text="SIGN UP" />
+                <TextField fx:id="registerUsername" promptText="Name" styleClass="input-field" />
+                <TextField fx:id="registerEmail" promptText="Email" styleClass="input-field" />
+                <TextField fx:id="registerIdentityCard" promptText="Identity Card" styleClass="input-field" />
+                <PasswordField fx:id="registerPassword" promptText="Password" styleClass="input-field" />
+                <PasswordField fx:id="confirmPassword" promptText="Confirm Password" styleClass="input-field" />
+                <Button fx:id="registerButton" onAction="#handleRegister" styleClass="login-button" text="SIGN UP" />
               </children>
               <padding>
                 <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
@@ -135,9 +135,9 @@
           </children>
         </Pane>
 
-        <Pane fx:id="logRegSprites" accessibleRole="INCREMENT_BUTTON" layoutX="390.0" prefHeight="500.0" prefWidth="390.0" style="-fx-background-color: linear-gradient(to right, #5c6bc0, #512da8);" styleClass="form-container" />
+        <Pane fx:id="transPane" accessibleRole="INCREMENT_BUTTON" layoutX="390.0" prefHeight="500.0" prefWidth="390.0" style="-fx-background-color: linear-gradient(to right, #5c6bc0, #512da8);" styleClass="form-container" />
 
-        <Pane fx:id="registerNavigation" cache="true" cacheHint="SCALE" layoutX="390.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="390.0">
+        <Pane fx:id="registerSwitch" cache="true" cacheHint="SCALE" layoutX="390.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="390.0">
           <children>
             <Label alignment="CENTER" layoutY="135.0" prefHeight="29.0" prefWidth="390.0" styleClass="title-label-h1_2" text="Hello, Friend!" textFill="#f7f4f4" />
             <Label alignment="CENTER" layoutY="205.0" prefWidth="390.0" styleClass="title-label-h2" text="Register with your personal details to" />
@@ -153,7 +153,7 @@
             <Insets />
           </opaqueInsets>
         </Pane>
-        <Pane fx:id="loginNavigation" cache="true" prefHeight="500.0" prefWidth="390.0" visible="false">
+        <Pane fx:id="loginSwitch" cache="true" prefHeight="500.0" prefWidth="390.0" visible="false">
           <children>
             <Label alignment="CENTER" layoutY="135.0" prefWidth="390.0" styleClass="title-label-h1_2" text="Welcome Back!" />
             <Label alignment="CENTER" layoutY="205.0" prefWidth="390.0" styleClass="title-label-h2" text="Enter your personal details to" />

@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -30,7 +31,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
+import javafx.stage.Stage;
 import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
 import library.management.data.entity.Document;
 import library.management.data.entity.User;
@@ -45,7 +46,8 @@ public class MainController implements Initializable, properties, GeneralControl
   private final UserController userController = new UserController(this);
   private final CatalogController catalogController = new CatalogController(this);
   private final AvatarController avatarController = new AvatarController(this);
-  // Dashboard Window
+
+  // DASHBOARD PROPERTIES
   @FXML
   protected VBox infoVBox;
   @FXML
@@ -66,7 +68,7 @@ public class MainController implements Initializable, properties, GeneralControl
   protected BarChart<String, Number> docBChart;
   @FXML
   protected BarChart<String, Number> userBChart;
-  // Document Window
+  // DOCUMENT PROPERTIES
   @FXML
   protected BorderPane docBPane;
   @FXML
@@ -107,7 +109,7 @@ public class MainController implements Initializable, properties, GeneralControl
   protected CheckBox checkAllDocs;
   @FXML
   protected Hyperlink deleteDocs;
-  // Register Document
+  // REGISTER DOCUMENT PROPERTIES
   @FXML
   protected BorderPane registerDocumentBPane;
   @FXML
@@ -134,7 +136,7 @@ public class MainController implements Initializable, properties, GeneralControl
   protected JFXComboBox<?> docCategory;
   @FXML
   protected JFXComboBox<?> docLanguage;
-  // User
+  // USER PROPERTIES
   @FXML
   protected BorderPane usersBPane;
   @FXML
@@ -179,7 +181,7 @@ public class MainController implements Initializable, properties, GeneralControl
   protected HBox controlUserView;
   @FXML
   protected CheckBox checkAllUsersView;
-  // Pending Approvals
+  // PENDING APPROVALS PROPERTIES
   @FXML
   protected BorderPane pendingApprovalsBPane;
   @FXML
@@ -208,7 +210,7 @@ public class MainController implements Initializable, properties, GeneralControl
   protected TableColumn<?, ?> yearApprovals;
   @FXML
   protected TableColumn<?, ?> approvalApprovals;
-  // Document Management
+  // DOCUMENT MANAGEMENT PROPERTIES
   @FXML
   protected BorderPane docManagementBPane;
   @FXML
@@ -217,6 +219,8 @@ public class MainController implements Initializable, properties, GeneralControl
   protected JFXButton returnDocSwitchButton;
   @FXML
   protected BorderPane returnDocBPane;
+  @FXML
+  protected BorderPane issueDocBPane;
   @FXML
   protected JFXListView<?> listInfo;
   @FXML
@@ -256,17 +260,47 @@ public class MainController implements Initializable, properties, GeneralControl
   protected TableColumn<?, ?> daysIDView;
   @FXML
   protected TableColumn<?, ?> feeIDView;
-  // CATALOG
+  // CATALOG PROPERTIES
   @FXML
   protected BorderPane catalogBPane;
   @FXML
   protected GridPane apiViewGPane;
   @FXML
   protected GridPane localViewGPane;
+  // DOCUMENT INFORMATION PROPERTIES
+  @FXML
+  protected BorderPane docPropertiesBPane;
+  @FXML
+  protected Label titleInfo;
+  @FXML
+  protected Label authorInfo;
+  @FXML
+  protected Label publisherInfo;
+  @FXML
+  protected Label categoryInfo;
+  @FXML
+  protected Label languageInfo;
+  @FXML
+  protected Label isbnInfo;
+  @FXML
+  protected Label descriptionInfo;
+  @FXML
+  protected ImageView qrImageInfo;
+  @FXML
+  protected ImageView isbnImageInfo;
+  @FXML
+  protected Label titleHeading;
+  @FXML
+  protected ImageView thumbnailImageInfo;
+
   private List<Document> documentList;
 
   public List<Document> getDocumentList() {
     return documentList;
+  }
+
+  public Node getDocPropertiesBPane() {
+    return docPropertiesBPane;
   }
 
   @Override
@@ -286,7 +320,8 @@ public class MainController implements Initializable, properties, GeneralControl
     catalogBPane.setVisible(sectionToShow == catalogBPane);
     pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
     allIssuedDocBPane.setVisible(sectionToShow == allIssuedDocBPane);
-
+    docManagementBPane.setVisible(sectionToShow == docManagementBPane);
+    pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
   }
 
   @FXML
@@ -327,7 +362,6 @@ public class MainController implements Initializable, properties, GeneralControl
     dashboardController.handleExitAvatarInfo(infoVBox, pic);
   }
 
-
   // DOCUMENT CONTROLLER
 
   public void handleSearchDocTField(ActionEvent actionEvent) {
@@ -351,13 +385,46 @@ public class MainController implements Initializable, properties, GeneralControl
   public void handleDeleteDocHyperlink(ActionEvent actionEvent) {
   }
 
-  public void handleBackToDocs(ActionEvent actionEvent) {
+  //DOCUMENT MANAGEMENT CONTROLLER
+  public void handleBackToDoc(ActionEvent actionEvent) {
+    showSection(docBPane);
   }
 
-  public void handleCancelRegisterDoc(ActionEvent actionEvent) {
+  public void handleRenewDoc(ActionEvent actionEvent) {
   }
 
-  public void handleSubmitDoc(ActionEvent actionEvent) {
+  public void handleSubmitIssueDoc(ActionEvent actionEvent) {
+  }
+
+  @FXML
+  protected void handleReturnDocButton(ActionEvent actionEvent) {
+    showSection(docManagementBPane);
+    issueDocBPane.setVisible(false);
+    returnDocBPane.setVisible(true);
+  }
+
+  @FXML
+  protected void handleIssueDocButton(ActionEvent actionEvent) {
+    showSection(docManagementBPane);
+    issueDocBPane.setVisible(true);
+    returnDocBPane.setVisible(false);
+  }
+
+  // DOCUMENT INFORMATION CONTROLLER
+  @FXML
+  private void handleBackToCatalog(ActionEvent actionEvent) {
+  }
+
+  @FXML
+  private void handleAddDoc(ActionEvent actionEvent) {
+  }
+
+  @FXML
+  private void handleCancelAddDoc(ActionEvent actionEvent) {
+  }
+
+  @FXML
+  private void handleSubmitDoc(ActionEvent actionEvent) {
   }
 
   //  USER CONTROLLER
@@ -387,22 +454,6 @@ public class MainController implements Initializable, properties, GeneralControl
     userController.checkAllUsers();
   }
 
-  //DOCUMENT MANAGEMENT
-  public void handleIssueDocSwitch(ActionEvent actionEvent) {
-  }
-
-  public void handleReturnDocSwitch(ActionEvent actionEvent) {
-  }
-
-  public void handleBackToDoc(ActionEvent actionEvent) {
-  }
-
-  public void handleRenewDoc(ActionEvent actionEvent) {
-  }
-
-  public void handleSubmitIssueDoc(ActionEvent actionEvent) {
-  }
-
   //ANOTHER
   public void searchBook(KeyEvent event) {
   }
@@ -423,7 +474,10 @@ public class MainController implements Initializable, properties, GeneralControl
    */
   @FXML
   protected void handleSignOutButton(ActionEvent actionEvent) {
-    signOutController.handleSignOut(actionEvent);
+
+    signOutController.handleSignOut(getClass());
+    Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+    currentStage.close();
   }
 }
 

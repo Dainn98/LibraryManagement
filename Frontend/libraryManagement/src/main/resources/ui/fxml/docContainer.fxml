@@ -13,7 +13,7 @@
    <children>
       <StackPane styleClass="image-view">
          <children>
-            <VBox fx:id="docInfo" focusTraversable="true" onMouseExited="#handleExitDesDoc" prefHeight="200.0" prefWidth="100.0" visible="false">
+            <VBox fx:id="docInfo" focusTraversable="true" onMouseExited="#handleExitDesDoc" onMousePressed="#handlePressDocInfo" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
                   <Label fx:id="desDoc" text="Hello, my name is Tuan Anh. I'm a sophomore in Unv" wrapText="true" VBox.vgrow="ALWAYS" />
                </children>
@@ -21,7 +21,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </VBox>
-            <ImageView fx:id="docThumbnail" fitHeight="240.0" fitWidth="160.0" onMouseClicked="#handleClickDocThumbnail" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="docThumbnail" fitHeight="240.0" fitWidth="160.0" onMouseEntered="#handleEnterDocThumbnail" onMousePressed="#handlePressDocInfo" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../sprites/mainScreen.png" />
                </image>
@@ -33,7 +33,7 @@
       </StackPane>
       <VBox spacing="5.0" VBox.vgrow="ALWAYS">
          <children>
-            <Hyperlink fx:id="docTitleCatalog" prefHeight="24.0" prefWidth="168.0" text="Hyperlink" textAlignment="CENTER" />
+            <Hyperlink fx:id="docTitleCatalog" onMousePressed="#handlePressDocInfo" prefHeight="24.0" prefWidth="168.0" text="Hyperlink" textAlignment="CENTER" />
             <Label fx:id="authorCatalog" text="Label" VBox.vgrow="ALWAYS">
                <padding>
                   <Insets left="5.0" />

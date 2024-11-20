@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.DocContainerController">
+  <center>
+    <VBox prefHeight="569.0" prefWidth="802.0" spacing="10.0">
+      <children>
+        <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" VBox.vgrow="ALWAYS">
+          <children>
+            <HBox alignment="CENTER">
+              <children>
+                <Label style="-fx-font-size: 20;" text="Bibliographic information" />
+              </children>
+              <padding>
+                <Insets bottom="30.0" top="30.0" />
+              </padding>
+            </HBox>
+            <HBox prefWidth="100.0">
+              <children>
+                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Title" />
+                <Label fx:id="titleInfo" style="-fx-font-size: 14;" text="Harry Potter và Phòng Chứa Bí Mật" wrapText="true" />
+              </children>
+            </HBox>
+            <HBox>
+              <children>
+                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Author" HBox.hgrow="ALWAYS" />
+                <Label fx:id="authorInfo" style="-fx-font-size: 14;" text="J. K. Rowling" wrapText="true" HBox.hgrow="ALWAYS" />
+              </children>
+            </HBox>
+            <HBox>
+              <children>
+                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Publisher" HBox.hgrow="ALWAYS" />
+                <Label fx:id="publisherInfo" style="-fx-font-size: 14;" text="Nhà xuất bản Trẻ, 2016" wrapText="true" HBox.hgrow="ALWAYS" />
+              </children>
+            </HBox>
+            <HBox>
+              <children>
+                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Category" HBox.hgrow="ALWAYS" />
+                <Label fx:id="categoryInfo" style="-fx-font-size: 14;" text="Mange" wrapText="true" HBox.hgrow="ALWAYS" />
+              </children>
+            </HBox>
+            <HBox>
+              <children>
+                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Language" HBox.hgrow="ALWAYS" />
+                <Label fx:id="languageInfo" style="-fx-font-size: 14;" text="Lý Lan" wrapText="true" HBox.hgrow="ALWAYS" />
+              </children>
+            </HBox>
+            <HBox>
+              <children>
+                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="ISBN" HBox.hgrow="ALWAYS" />
+                <Label fx:id="isbnInfo" style="-fx-font-size: 14;" text="6041100919, 9786041100916" wrapText="true" HBox.hgrow="ALWAYS" />
+              </children>
+            </HBox>
+            <HBox VBox.vgrow="ALWAYS">
+              <children>
+                <HBox prefWidth="100.0" HBox.hgrow="ALWAYS">
+                  <children>
+                    <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Description" HBox.hgrow="ALWAYS" />
+                    <ScrollPane hbarPolicy="NEVER" pannable="true" prefWidth="630.0">
+                      <content>
+                        <Label fx:id="descriptionInfo" maxWidth="600.0" style="-fx-font-size: 14;" text="&quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết! &quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết!&quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết! &quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết!&quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết! &quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết!&quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết! &quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết!" wrapText="true">
+                          <padding>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                          </padding>
+                        </Label>
+                      </content>
+                      <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                      </padding>
+                    </ScrollPane>
+                  </children>
+                </HBox>
+              </children>
+            </HBox>
+                  <HBox fx:id="priceHBox" translateX="-800.0" visible="false">
+                     <children>
+                        <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Price" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="priceField" maxWidth="200.0" promptText="Enter the price of document" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+          </children>
+          <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+          </padding>
+        </VBox>
+      </children>
+    </VBox>
+  </center>
+  <left>
+    <VBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+      <children>
+        <ImageView fx:id="thumbnailImageInfo" fitHeight="300.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../sprites/content(3).jpg" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="qrImageInfo" fitHeight="150.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../sprites/QRCode.jpg" />
+          </image>
+        </ImageView>
+        <ImageView fx:id="isbnImageInfo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@../sprites/ISBN.png" />
+          </image>
+        </ImageView>
+            <JFXButton onAction="#handleAddDoc" prefWidth="150.0" text="Add Document" VBox.vgrow="ALWAYS" />
+      </children>
+      <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+      </padding>
+    </VBox>
+  </left>
+  <top>
+    <HBox BorderPane.alignment="CENTER">
+      <children>
+        <Label fx:id="titleHeading" prefHeight="35.0" prefWidth="392.0" style="-fx-font-size: 24;" text="Harry Potter và Phòng Chứa Bí Mật">
+          <font>
+            <Font name="System Bold" size="12.0" />
+          </font>
+        </Label>
+      </children>
+    </HBox>
+  </top>
+   <bottom>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox fx:id="saveHBox" alignment="CENTER_RIGHT" translateX="-800.0" visible="false" VBox.vgrow="ALWAYS">
+               <children>
+                  <JFXButton onAction="#handleSave" prefWidth="100.0" text="Save" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" right="20.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>
