@@ -3,7 +3,10 @@ package library.management.data.database;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
@@ -43,6 +46,8 @@ public class DatabaseConnection {
              PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
             stmt.setString(1, title);
             stmt.setString(2, authors);
+
+
             stmt.setString(3, description);
             stmt.setString(4, genre);
             stmt.setString(5, thumbnail); // Lưu đường dẫn ảnh bìa

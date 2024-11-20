@@ -19,10 +19,11 @@ public class GoogleBooksAPI {
     private static final String API_KEY = "AIzaSyA-ISmMzbKBzb24boY2XF6ZzmvQbWpZSt4";
 
     public static void main(String[] args) {
-        String query = "Harry Potter";
+        String query = "Sherlock Homes";
         try {
             JsonArray books = fetchBooks(query);
             if (books != null) {
+                //testThumbnails(books);
                 saveBooksToDatabase(books);
             } else {
                 System.out.println("No books found.");
@@ -109,6 +110,7 @@ public class GoogleBooksAPI {
     }
 
     // phương thức lấy bìa sách
+
     private static String getImageLink(JsonObject volumeInfo) {
         if (!volumeInfo.has("imageLinks")) {
             return "No thumbnail available";
@@ -156,4 +158,26 @@ public class GoogleBooksAPI {
         }
         return "No ISBN available";
     }
+
+
+    // Hàm kiểm tra và in ra thumbnail của từng cuốn sách
+    /*public static void testThumbnails(JsonArray books) {
+        if (books == null || books.size() == 0) {
+            System.out.println("Không có sách nào để kiểm tra.");
+            return;
+        }
+
+        for (int i = 0; i < books.size(); i++) {
+            JsonObject book = books.get(i).getAsJsonObject();
+            JsonObject volumeInfo = book.getAsJsonObject("volumeInfo");
+
+            // Lấy liên kết thumbnail
+            String thumbnail = getImageLink(volumeInfo);
+            System.out.println("Sách #" + (i + 1) + ":");
+            System.out.println("  Tiêu đề: " + getTitle(volumeInfo));
+            System.out.println("  Thumbnail: " + thumbnail);
+            System.out.println("-------------------------------");
+        }
+    }*/
+
 }
