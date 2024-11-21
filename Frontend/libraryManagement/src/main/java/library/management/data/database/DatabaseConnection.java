@@ -14,7 +14,7 @@ public class DatabaseConnection {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:mysql://localhost:3307/libdemo?useSSL=false&autoReconnect=true");
         config.setUsername("root");
-        config.setPassword("@Tuananh1275");
+        config.setPassword("@....");
 
         config.setMaximumPoolSize(10);
         config.setMinimumIdle(5);
