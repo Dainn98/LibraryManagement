@@ -68,6 +68,9 @@ public class DocContainerController implements GeneralController {
   private Label descriptionInfo;
   @FXML
   private HBox priceHBox;
+
+  @FXML
+  private HBox numberHBox;
   @FXML
   private TextField priceField;
   @FXML
@@ -152,8 +155,10 @@ public class DocContainerController implements GeneralController {
     if (check) {
       transFade(priceHBox, DX, 0.5, 1, DURATION);
       transFade(saveHBox, DX, 0.5, 1, DURATION);
+      transFade(numberHBox, DX, 0.5, 1, DURATION);
       check = false;
     } else {
+      transFade(numberHBox, -DX, 1, 0, DURATION);
       transFade(priceHBox, -DX, 1, 0, DURATION);
       transFade(saveHBox, -DX, 1, 0, DURATION);
       check = true;

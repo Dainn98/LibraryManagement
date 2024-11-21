@@ -781,7 +781,7 @@
                   </BorderPane>
 
 <!--                  LIBRARY CATALOG-->
-                  <BorderPane fx:id="catalogBPane" prefHeight="200.0" prefWidth="200.0">
+                  <BorderPane fx:id="catalogBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <top>
                         <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                            <center>
@@ -818,7 +818,7 @@
                                     <HBox>
                                        <children>
                                           <HBox HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="catalogSearchField" promptText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
+                                          <AutoCompleteTextField fx:id="catalogSearchField" floatText="Search for Document by Title, Author or ISBN..." onDragDetected="#handleSearchCatalog" HBox.hgrow="ALWAYS" />
                                           <HBox HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
@@ -1558,6 +1558,35 @@
                            </bottom>
                         </BorderPane>
                      </top>
+                     <bottom>
+                        <HBox fx:id="controllLoans" prefHeight="32.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <CheckBox fx:id="checkLoans" mnemonicParsing="false" onAction="#checkAllUsers" text="Check all">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <Hyperlink fx:id="deleteLoans" onAction="#deleteUserRecord" text="Delete" textFill="#2b579a">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#e9594d" glyphName="TRASH" size="15" />
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets left="20.0" top="2.0" />
+                                 </HBox.margin>
+                              </Hyperlink>
+                              <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Button fx:id="disapproveLoansButton" mnemonicParsing="false" prefWidth="120.0" text="Disapprove">
+                                       <HBox.margin>
+                                          <Insets right="20.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="approveLoansButton" mnemonicParsing="false" prefWidth="120.0" text="Approve" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </bottom>
                   </BorderPane>
 
 <!--                  ALL ISSUED DOCUMENTS-->

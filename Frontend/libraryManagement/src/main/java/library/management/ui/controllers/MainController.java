@@ -210,6 +210,10 @@ public class MainController implements Initializable, properties, GeneralControl
   protected TableColumn<?, ?> yearApprovals;
   @FXML
   protected TableColumn<?, ?> approvalApprovals;
+
+  // PENDING LOANS PROPERTIES
+  @FXML
+  protected BorderPane pendingLoansBPane;
   // DOCUMENT MANAGEMENT PROPERTIES
   @FXML
   protected BorderPane docManagementBPane;
@@ -321,7 +325,8 @@ public class MainController implements Initializable, properties, GeneralControl
     pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
     allIssuedDocBPane.setVisible(sectionToShow == allIssuedDocBPane);
     docManagementBPane.setVisible(sectionToShow == docManagementBPane);
-    pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
+    pendingLoansBPane.setVisible(sectionToShow == pendingLoansBPane);
+
   }
 
   @FXML
@@ -452,6 +457,9 @@ public class MainController implements Initializable, properties, GeneralControl
 
   public void checkAllUsers(ActionEvent actionEvent) {
     userController.checkAllUsers();
+  }
+  //CATALOG CONTROLLER
+  public void handleSearchCatalog(MouseEvent mouseEvent) {
   }
 
   //ANOTHER
