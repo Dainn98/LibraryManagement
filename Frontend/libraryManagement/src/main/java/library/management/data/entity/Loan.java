@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 public class Loan {
     private int loanID;
-    private int userId;
+    private String userName; // Replaced userId with userName as primary identifier
     private int documentId;
     private short quantityOfBorrow;
     private double deposit;
@@ -23,16 +23,12 @@ public class Loan {
         this.loanID = Integer.parseInt(loanID.substring(4));
     }
 
-    public String getUserId() {
-        return String.format("USER%d", this.userId);
+    public String getUserName() {
+        return userName;
     }
 
-    public int getIntUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = Integer.parseInt(userId.substring(4));
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getDocumentId() {
@@ -115,7 +111,10 @@ public class Loan {
         return DocumentDAO.getInstance().searchDocumentById(this.documentId).getTitle();
     }
 
-    public String getUserName() {
-        return UserDAO.getInstance().searchUserByID(this.userId).getUserName();
+    public String getUserNameFromDAO() {
+        return UserDAO.getInstance().searchApprovedUserByName(this.userName).stream()
+                .findFirst()
+                .map(User::getUserName)
+                .orElse("Unknown User");
     }
 }

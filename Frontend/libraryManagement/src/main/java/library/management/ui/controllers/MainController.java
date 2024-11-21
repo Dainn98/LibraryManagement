@@ -126,8 +126,6 @@ import org.controlsfx.control.CheckComboBox;
     @FXML
     protected TableColumn<User, Boolean> checkUserView;
     @FXML
-    protected TableColumn<User, String> userIDUserView;
-    @FXML
     protected TableColumn<User, String> userNameUserView;
     @FXML
     protected TableColumn<User, String> userPhoneUserView;
@@ -137,8 +135,6 @@ import org.controlsfx.control.CheckComboBox;
     protected ContextMenu selectUserContext;
     @FXML
     protected MenuItem selectMenu;
-    @FXML
-    protected TextField userIDField;
     @FXML
     protected TextField userNameField;
     @FXML
@@ -232,8 +228,6 @@ import org.controlsfx.control.CheckComboBox;
     @FXML
     protected TableColumn<Loan, String> docTitleIDView;
     @FXML
-    protected TableColumn<Loan, String> userIDIDView;
-    @FXML
     protected TableColumn<Loan, String> userNameIDView;
     @FXML
     protected TableColumn<Loan, String> dueDateIDView;
@@ -263,8 +257,6 @@ import org.controlsfx.control.CheckComboBox;
     protected TableColumn<Loan, String> docIDLoansView;
     @FXML
     protected TableColumn<Loan, String> docTitleLoansView;
-    @FXML
-    protected TableColumn<Loan, String> userIDLoansView;
     @FXML
     protected TableColumn<Loan, String> userNameLoansView;
     @FXML
