@@ -18,7 +18,6 @@ public class modernLogin extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/fxml/modernLogin.fxml"));
             Scene scene = new Scene(loader.load());
-            scene.getStylesheets().add(getClass().getResource("/ui/css/style.css").toExternalForm());
             primaryStage.setTitle("Library Management System");
             primaryStage.setResizable(false);
             primaryStage.setScene(scene);

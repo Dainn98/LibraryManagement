@@ -97,66 +97,68 @@ select * from language;
 CREATE TABLE user (
     userId INT AUTO_INCREMENT PRIMARY KEY,
     userName VARCHAR(100),
-    address VARCHAR(100),
     identityCard CHAR(12),
     phoneNumber CHAR(10),
     email VARCHAR(100),
-    country varchar(50),
-    state varchar(50)
+    country VARCHAR(50),
+    state VARCHAR(50),
+    status VARCHAR(10) DEFAULT 'pending',
+    registeredDate DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 
-INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
-VALUES ('Nguyen Van A', '123 Street', '012345678901', '0987654321', 'a@example.com', 'Vietnam', 'Hanoi');
+INSERT INTO user (userName, identityCard, phoneNumber, email, country, state)
+VALUES ('Nguyen Van A', '012345678901', '0987654321', 'a@example.com', 'Vietnam', 'Hanoi');
 
-INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
-VALUES ('Tran Thi B', '456 Avenue', '012345678902', '0987654322', 'b@example.com', 'Vietnam', 'Ho Chi Minh City');
+INSERT INTO user (userName, identityCard, phoneNumber, email, country, state)
+VALUES ('Tran Thi B', '012345678902', '0987654322', 'b@example.com', 'Vietnam', 'Ho Chi Minh City');
 
-INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
-VALUES ('Le Van C', '789 Road', '012345678903', '0987654323', 'c@example.com', 'Vietnam', 'Da Nang');
+INSERT INTO user (userName, identityCard, phoneNumber, email, country, state)
+VALUES ('Le Van C', '012345678903', '0987654323', 'c@example.com', 'Vietnam', 'Da Nang');
 
-INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
-VALUES ('Pham Thi D', '101 Street', '012345678904', '0987654324', 'd@example.com', 'Vietnam', 'Hai Phong');
+INSERT INTO user (userName, identityCard, phoneNumber, email, country, state)
+VALUES ('Pham Thi D', '012345678904', '0987654324', 'd@example.com', 'Vietnam', 'Hai Phong');
 
-INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
-VALUES ('Hoang Van E', '202 Avenue', '012345678905', '0987654325', 'e@example.com', 'Vietnam', 'Can Tho');
+INSERT INTO user (userName, identityCard, phoneNumber, email, country, state)
+VALUES ('Hoang Van E', '012345678905', '0987654325', 'e@example.com', 'Vietnam', 'Can Tho');
 
-INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
-VALUES ('Do Thi F', '303 Road', '012345678906', '0987654326', 'f@example.com', 'Vietnam', 'Hue');
+INSERT INTO user (userName, identityCard, phoneNumber, email, country, state)
+VALUES ('Do Thi F', '012345678906', '0987654326', 'f@example.com', 'Vietnam', 'Hue');
 
-INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
-VALUES ('Nguyen Van G', '404 Street', '012345678907', '0987654327', 'g@example.com', 'Vietnam', 'Nha Trang');
+INSERT INTO user (userName, identityCard, phoneNumber, email, country, state)
+VALUES ('Nguyen Van G', '012345678907', '0987654327', 'g@example.com', 'Vietnam', 'Nha Trang');
 
-INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
-VALUES ('Tran Thi H', '505 Avenue', '012345678908', '0987654328', 'h@example.com', 'Vietnam', 'Vung Tau');
+INSERT INTO user (userName, identityCard, phoneNumber, email, country, state)
+VALUES ('Tran Thi H', '012345678908', '0987654328', 'h@example.com', 'Vietnam', 'Vung Tau');
 
-INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
-VALUES ('Le Van I', '606 Road', '012345678909', '0987654329', 'i@example.com', 'Vietnam', 'Bac Ninh');
+INSERT INTO user (userName, identityCard, phoneNumber, email, country, state)
+VALUES ('Le Van I', '012345678909', '0987654329', 'i@example.com', 'Vietnam', 'Bac Ninh');
 
-INSERT INTO user (userName, address, identityCard, phoneNumber, email, country, state)
-VALUES ('Pham Thi J', '707 Street', '012345678910', '0987654330', 'j@example.com', 'Vietnam', 'Quang Ninh');
-
+INSERT INTO user (userName, identityCard, phoneNumber, email, country, state)
+VALUES ('Pham Thi J', '012345678910', '0987654330', 'j@example.com', 'Vietnam', 'Quang Ninh');
 
 select * from user;
 
 CREATE TABLE document (
     documentId INT AUTO_INCREMENT PRIMARY KEY,
-    categoryID int,
+    categoryID INT,
     publisher VARCHAR(100),
-    lgID smallint,
+    lgID SMALLINT,
     title VARCHAR(100),
     author VARCHAR(100),
     isbn VARCHAR(13) UNIQUE NOT NULL,
     description TEXT,
-    url text,
-    image text,
+    url TEXT,
+    image TEXT,
     quantity INT,
     availableCopies INT,
     addDate DATETIME,
     price DECIMAL(10,2),
-	FOREIGN KEY (categoryId) REFERENCES category(categoryID),
+    availability BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (categoryId) REFERENCES category(categoryID),
     FOREIGN KEY (lgId) REFERENCES language(lgID)
 );
+
 
 INSERT INTO document (categoryId, publisher, lgId, title, author, isbn, description, url, image, quantity, availableCopies, addDate, price)
 VALUES ('1', 'Oxford University Press', '1', 'Advanced Mathematics', 'John Doe', '9783161484100', 'A comprehensive guide to advanced mathematics.', 'https://example.com/book1', 'https://example.com/image1.jpg', 25, 25, NOW(), 30.50);
@@ -228,35 +230,35 @@ CREATE TABLE loans (
     FOREIGN KEY (userId) REFERENCES user(userId) ON DELETE SET NULL
 );
 
-INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('1', 3, 100.00, '2024-11-02 10:00:00', '2024-12-02 10:00:00');
+-- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+-- VALUES ('1', 3, 100.00, '2024-11-02 10:00:00', '2024-12-02 10:00:00');
 
-INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('2', 2, 50.00, '2024-11-03 11:00:00', '2024-12-03 11:00:00');
+-- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+-- VALUES ('2', 2, 50.00, '2024-11-03 11:00:00', '2024-12-03 11:00:00');
 
-INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('3', 5, 150.00, '2024-11-04 12:00:00', '2024-12-04 12:00:00');
+-- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+-- VALUES ('3', 5, 150.00, '2024-11-04 12:00:00', '2024-12-04 12:00:00');
 
-INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('4', 1, 30.00, '2024-11-05 13:00:00', '2024-12-05 13:00:00');
+-- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+-- VALUES ('4', 1, 30.00, '2024-11-05 13:00:00', '2024-12-05 13:00:00');
 
-INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('5', 4, 120.00, '2024-11-06 14:00:00', '2024-12-06 14:00:00');
+-- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+-- VALUES ('5', 4, 120.00, '2024-11-06 14:00:00', '2024-12-06 14:00:00');
 
-INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('6', 2, 60.00, '2024-11-07 15:00:00', '2024-12-07 15:00:00');
+-- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+-- VALUES ('6', 2, 60.00, '2024-11-07 15:00:00', '2024-12-07 15:00:00');
 
-INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('7', 3, 90.00, '2024-11-08 16:00:00', '2024-12-08 16:00:00');
+-- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+-- VALUES ('7', 3, 90.00, '2024-11-08 16:00:00', '2024-12-08 16:00:00');
 
-INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('8', 1, 40.00, '2024-11-09 17:00:00', '2024-12-09 17:00:00');
+-- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+-- VALUES ('8', 1, 40.00, '2024-11-09 17:00:00', '2024-12-09 17:00:00');
 
-INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('9', 6, 200.00, '2024-11-10 18:00:00', '2024-12-10 18:00:00');
+-- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+-- VALUES ('9', 6, 200.00, '2024-11-10 18:00:00', '2024-12-10 18:00:00');
 
-INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
-VALUES ('10', 2, 70.00, '2024-11-11 19:00:00', '2024-12-11 19:00:00');
+-- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+-- VALUES ('10', 2, 70.00, '2024-11-11 19:00:00', '2024-12-11 19:00:00');
 
 select * from loans;
 
@@ -268,38 +270,38 @@ CREATE TABLE loandetail (
     -- Khóa ngoại tham chiếu đến loanId trong bảng loans
     FOREIGN KEY (loanId) REFERENCES loans(loanId),
     -- Khóa ngoại tham chiếu đến documentId trong bảng document
-    FOREIGN KEY (documentId) REFERENCES document(documentId)
+    FOREIGN KEY (documentId) REFERENCES document(documentId) on delete set null
 );
 
 
-INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('1', '1', 1);
+-- INSERT INTO loandetail (loanId, documentId, quantity)
+-- VALUES ('1', '1', 1);
 
-INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('2', '2', 2);
+-- INSERT INTO loandetail (loanId, documentId, quantity)
+-- VALUES ('2', '2', 2);
 
-INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('3', '3', 1);
+-- INSERT INTO loandetail (loanId, documentId, quantity)
+-- VALUES ('3', '3', 1);
 
-INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('4', '4', 1);
+-- INSERT INTO loandetail (loanId, documentId, quantity)
+-- VALUES ('4', '4', 1);
 
-INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('5', '5', 3);
+-- INSERT INTO loandetail (loanId, documentId, quantity)
+-- VALUES ('5', '5', 3);
 
-INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('3', '6', 1);
+-- INSERT INTO loandetail (loanId, documentId, quantity)
+-- VALUES ('3', '6', 1);
 
-INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('7', '7', 2);
+-- INSERT INTO loandetail (loanId, documentId, quantity)
+-- VALUES ('7', '7', 2);
 
-INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('8', '8', 1);
+-- INSERT INTO loandetail (loanId, documentId, quantity)
+-- VALUES ('8', '8', 1);
 
-INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('8', '9', 1);
+-- INSERT INTO loandetail (loanId, documentId, quantity)
+-- VALUES ('8', '9', 1);
 
-INSERT INTO loandetail (loanId, documentId, quantity)
-VALUES ('9', '10', 2);
+-- INSERT INTO loandetail (loanId, documentId, quantity)
+-- VALUES ('9', '10', 2);
 
-select * from loandetail;
+-- select * from loandetail;

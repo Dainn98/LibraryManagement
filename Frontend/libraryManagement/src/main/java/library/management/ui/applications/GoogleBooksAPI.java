@@ -6,6 +6,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -13,7 +16,12 @@ import com.google.gson.JsonParser;
 
 import library.management.data.database.DatabaseConnection;
 import library.management.data.DAO.DocumentDAO;
+import com.sun.source.tree.IfTree;
+import library.management.data.DAO.CategoryDAO;
+import library.management.data.DAO.LanguageDAO;
+import library.management.data.entity.Category;
 import library.management.data.entity.Document;
+import library.management.data.entity.Language;
 
 public class GoogleBooksAPI {
     private static final String API_KEY = "AIzaSyA-ISmMzbKBzb24boY2XF6ZzmvQbWpZSt4";
@@ -21,10 +29,10 @@ public class GoogleBooksAPI {
     public static void main(String[] args) {
         String query = "Sherlock Homes";
         try {
-            JsonArray books = fetchBooks(query);
+            JsonArray books = fetchBooks(query, 30, 0);
             if (books != null) {
-                //testThumbnails(books);
-                saveBooksToDatabase(books);
+                testThumbnails(books);
+                //saveBooksToDatabase(books);
             } else {
                 System.out.println("No books found.");
             }
@@ -33,10 +41,64 @@ public class GoogleBooksAPI {
         }
     }
 
+    public static List<Document> searchDocument(String query, int maxResults, int startIndex) throws Exception {
+        if (query == null || query.trim().isEmpty()) {
+            query = "bestseller";
+        }
+        List<Document> documents = new ArrayList<>();
+
+        JsonArray books = fetchBooks(query, maxResults, startIndex);
+        if (books == null || books.size() == 0) {
+            return documents;
+        }
+
+        for (int i = 0; i < books.size(); i++) {
+            JsonObject book = books.get(i).getAsJsonObject();
+            JsonObject volumeInfo = book.getAsJsonObject("volumeInfo");
+
+            String title = getTitle(volumeInfo);
+            String authors = getAuthors(volumeInfo);
+            String isbn = getISBN(volumeInfo);
+            String language = getLanguage(volumeInfo);
+            int languageID = LanguageDAO.getInstance().getLanguageId(language);
+            if (languageID < 0) {
+                Language lg = new Language();
+                lg.setLgName(language);
+                LanguageDAO.getInstance().add(lg);
+                languageID = LanguageDAO.getInstance().getLanguageId(language);
+            }
+            String description = getDescription(volumeInfo);
+            String thumbnail = getImageLink(volumeInfo);
+            if (Objects.equals(thumbnail, "No thumbnail available")) {
+                thumbnail = "/ui/sprites/demoDoc.gif";
+            }
+            String infoLink = getInfoLink(volumeInfo);
+            String categotyTag = getGenre(volumeInfo).getFirst();
+            String publisher = getPublisher(volumeInfo);
+            int categoryID = CategoryDAO.getInstance().getTagId(categotyTag);
+            if (categoryID < 0) {
+                Category category = new Category();
+                category.setTag(categotyTag);
+                CategoryDAO.getInstance().add(category);
+                categoryID = CategoryDAO.getInstance().getTagId(categotyTag);
+            }
+
+
+            // Tạo đối tượng Document và thêm vào danh sách
+            Document document = new Document(categoryID, publisher, languageID, title, authors, isbn, description, infoLink, thumbnail);
+            documents.add(document);
+        }
+        return documents;
+    }
+
+
     // Phương thức tìm kiếm sách từ Google Books API
-    public static JsonArray fetchBooks(String query) throws Exception {
+    public static JsonArray fetchBooks(String query, int maxResults, int startIndex) throws Exception {
         String urlString = "https://www.googleapis.com/books/v1/volumes?q="
-                + query.replace(" ", "+") + "&key=" + API_KEY;
+                + query.replace(" ", "+")
+                + "&maxResults=" + maxResults
+                + "&startIndex=" + startIndex
+                + "&key=" + API_KEY;
         URL url = new URL(urlString);
 
         // Mở kết nối và lấy phản hồi JSON
@@ -61,7 +123,7 @@ public class GoogleBooksAPI {
     }
 
     // Phương thức lưu thông tin sách vào cơ sở dữ liệu
-    public static void saveBooksToDatabase(JsonArray books) {
+    /*public static void saveBooksToDatabase(JsonArray books) {
         for (int i = 0; i < books.size(); i++) {
             JsonObject book = books.get(i).getAsJsonObject();
             JsonObject volumeInfo = book.getAsJsonObject("volumeInfo");
@@ -88,7 +150,7 @@ public class GoogleBooksAPI {
                 System.out.println("Thêm sách thất bại!");
             }
         }
-    }
+    }*/
 
     private static String getTitle(JsonObject volumeInfo) {
         return volumeInfo.has("title") ? volumeInfo.get("title").getAsString() : "No title available";
@@ -157,6 +219,10 @@ public class GoogleBooksAPI {
             }
         }
         return "No ISBN available";
+    }
+
+    private static String getPublisher(JsonObject volumeInfo) {
+        return volumeInfo.has("publisher") ? volumeInfo.get("publisher").getAsString() : "Unknown publisher";
     }
 
 

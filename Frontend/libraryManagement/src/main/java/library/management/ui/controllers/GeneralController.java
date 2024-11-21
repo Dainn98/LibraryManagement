@@ -6,8 +6,6 @@ import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
@@ -22,17 +20,27 @@ public interface GeneralController {
   }
 
   default void fade(Node node, double fromValue, double toValue, Duration duration) {
+
+    if(toValue != 0.0) {
+      node.setVisible(true);
+    }
     FadeTransition fade = new FadeTransition(duration, node);
     fade.setFromValue(fromValue);
     fade.setToValue(toValue);
     fade.setInterpolator(Interpolator.EASE_BOTH);
+    fade.setOnFinished(e->{
+      if(toValue == 0.0) {
+        node.setVisible(false);
+      }
+    });
     fade.play();
   }
 
-  default void transFade(Node pane, double translateX, double fromValue, double toValue,
+
+  default void transFade(Node node, double translateX, double fromValue, double toValue,
       Duration duration) {
-    translate(pane, translateX, duration);
-    fade(pane, fromValue, toValue, duration);
+    translate(node, translateX, duration);
+    fade(node, fromValue, toValue, duration);
   }
 
   default void transFade(Node pane, double translateX, double fromValue, double toValue,
@@ -41,42 +49,75 @@ public interface GeneralController {
     fade(pane, fromValue, toValue, duration);
   }
 
-  default void rotate3DBack(Node nodeS, Node nodeE, Duration duration) {
+  /**
+   * Applies a 3D rotation and fade transition to two nodes sequentially.
+   *
+   * @param nodeS    the first node to apply the rotation and fade transition
+   * @param rotateS  the initial rotation angle for the first node
+   * @param cycleS   the number of cycles for the rotation of the first node
+   * @param nodeE    the second node to apply the rotation and fade transition
+   * @param rotateE  the initial rotation angle for the second node
+   * @param cycleE   the number of cycles for the rotation of the second node
+   * @param angle    the angle by which to rotate the nodes
+   * @param duration the duration of the transitions
+   */
+  default void rotate3D(Node nodeS, double rotateS, int cycleS,
+      Node nodeE, double rotateE, int cycleE,
+      double angle, Duration duration) {
+    // Create a RotateTransition for nodeS,nodeE.
+    RotateTransition roS, roE;
 
+    nodeS.setRotationAxis(Rotate.Y_AXIS); // Rotate around the Y axis
+    nodeS.setRotate(rotateS); //  Set the initial rotation angle
 
-  }
+    roS = new RotateTransition(duration, nodeS);
+    roS.setByAngle(angle); // Rotate by the specified angle
+    roS.setCycleCount(cycleS); // Set the number of cycles
+    roS.setInterpolator(Interpolator.EASE_BOTH);
 
- default void rotate3D(Node nodeS, Node nodeE, Duration duration) {
-    // Set the pivot point to the center of the nodeS
-    nodeS.setRotationAxis(Rotate.Y_AXIS);
-    nodeS.setRotate(0);
+    // Create a FadeTransition for nodeS.
+    FadeTransition fOutS = new FadeTransition(duration, nodeS);
+    fOutS.setFromValue(1.0); // Set the initial opacity
+    fOutS.setToValue(0.0); // Set the final opacity
+    fOutS.setInterpolator(Interpolator.EASE_BOTH);
 
-    // Create a RotateTransition for nodeS
-    RotateTransition rotateTransition = new RotateTransition(duration, nodeS);
-    rotateTransition.setByAngle(180); // Rotate 180 degrees
-    rotateTransition.setCycleCount(1); // Only rotate once
-    rotateTransition.setInterpolator(Interpolator.EASE_BOTH);
+    nodeE.setRotationAxis(Rotate.Y_AXIS);
+    nodeE.setRotate(rotateE);
 
-    // Create a FadeTransition for nodeS
-    FadeTransition fadeOutTransition = new FadeTransition(duration, nodeS);
-    fadeOutTransition.setFromValue(1.0);
-    fadeOutTransition.setToValue(0.0);
-    fadeOutTransition.setInterpolator(Interpolator.EASE_BOTH);
+    roE = new RotateTransition(duration, nodeE);
+    roE.setByAngle(angle);
+    roE.setCycleCount(cycleE);
+    roE.setInterpolator(Interpolator.EASE_BOTH);
+
+// Ensure the ImageView is visible before starting the transition
+    checkVisible(nodeE);
 
     // Create a FadeTransition for nodeE
-    FadeTransition fadeInTransition = new FadeTransition(duration, nodeE);
-    fadeInTransition.setFromValue(0.0);
-    fadeInTransition.setToValue(1.0);
-    fadeInTransition.setInterpolator(Interpolator.EASE_BOTH);
+    FadeTransition fInE = new FadeTransition(duration, nodeE);
+    fInE.setFromValue(0.0);
+    fInE.setToValue(1.0);
+    fInE.setInterpolator(Interpolator.EASE_BOTH);
 
     // Play the transitions sequentially
-    rotateTransition.setOnFinished(event -> {
-        fadeOutTransition.play();
-        fadeOutTransition.setOnFinished(event2 -> fadeInTransition.play());
-    });
+    roS.setOnFinished(event -> {
+      fOutS.play();
+      fOutS.setOnFinished(event2 -> {
+        nodeS.setVisible(false);
+        checkVisible(nodeE);
+      });
+      roE.play();
+      checkVisible(nodeE);
 
-    rotateTransition.play();
-}
+    });
+    roS.play();
+  }
+
+  private void checkVisible(Node node) {
+    if (!node.isVisible()) {
+      node.setVisible(true);
+      node.setOpacity(1.0);
+    }
+  }
 
   /**
    * Adds zoom effects to a button when hovered.
