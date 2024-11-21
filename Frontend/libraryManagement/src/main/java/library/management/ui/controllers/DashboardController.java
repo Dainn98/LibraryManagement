@@ -33,8 +33,8 @@ public class DashboardController implements GeneralController {
     controller.docBChart.getData().add(documentInformation);
     XYChart.Series<String, Number> studentInformation = new XYChart.Series<>();
     studentInformation.setName("Users information");
-    int totalStudent = UserDAO.getInstance().getAllUserCount();
-    int approvedStudent = UserDAO.getInstance().getTotalApprovedUsersCount();
+    int totalStudent = UserDAO.getInstance().getAllUsersCount();
+    int approvedStudent = UserDAO.getInstance().getApprovedUsersCount();
     int studentHoldingBook = LoanDAO.getInstance().getTotalUsersWhoBorrowedBooks();
     studentInformation.getData().add(new XYChart.Data<>("All users", totalStudent));
     studentInformation.getData().add(new XYChart.Data<>("Approved users", approvedStudent));

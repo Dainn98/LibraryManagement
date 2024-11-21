@@ -37,7 +37,6 @@ public class PendingApprovalsController {
             return checkBoxStatusList.get(index);
         });
         controller.checkBoxApproval.setCellFactory(CheckBoxTableCell.forTableColumn(controller.checkBoxApproval));
-        controller.idApprovals.setCellValueFactory(new PropertyValueFactory<>("userId"));
         controller.usernameApprovals.setCellValueFactory(new PropertyValueFactory<>("userName"));
         controller.phoneNumberApprovals.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         controller.emailApprovals.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -107,7 +106,7 @@ public class PendingApprovalsController {
 
     public void loadApprovalsData() {
         list.clear();
-        list.addAll(UserDAO.getInstance().getAllPendingUser());
+        list.addAll(UserDAO.getInstance().getPendingUsers());
         controller.approvalsTView.setItems(list);
         initializeCheckBox();
         controller.checkUsername.setText("");

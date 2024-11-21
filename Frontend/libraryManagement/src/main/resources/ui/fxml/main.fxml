@@ -620,8 +620,8 @@
                                                                   <Insets />
                                                                </HBox.margin>
                                                                <children>
-                                                                  <Label text="User ID: " />
-                                                                  <AutoCompleteTextField fx:id="userIDIssue" floatText="Enter user ID to search" />
+                                                                  <Label text="User name: " />
+                                                                  <AutoCompleteTextField fx:id="userIDIssue" floatText="Enter user name to search" />
                                                                </children>
                                                             </VBox>
                                                             <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
@@ -1111,7 +1111,6 @@
 
                            <columns>
                               <TableColumn fx:id="checkUserView" maxWidth="900.0" minWidth="-Infinity" prefWidth="33.4842529296875" />
-                              <TableColumn fx:id="userIDUserView" prefWidth="152.17880249023438" text="User ID" />
                               <TableColumn fx:id="userNameUserView" prefWidth="131.423828125" text="User Name" />
                               <TableColumn fx:id="userPhoneUserView" prefWidth="147.15032958984375" text="Phone  Number" />
                               <TableColumn fx:id="userEmailUserView" prefWidth="178.96624755859375" text="Email Address" />
@@ -1266,7 +1265,6 @@
                               <TableView fx:id="approvalsTView" editable="true" prefHeight="620.0" prefWidth="620.0">
                                  <columns>
                                     <TableColumn fx:id="checkBoxApproval" minWidth="-Infinity" prefWidth="30.0" />
-                                    <TableColumn fx:id="idApprovals" prefWidth="75.0" text="ID" />
                                     <TableColumn fx:id="usernameApprovals" prefWidth="100.0" text="Username" />
                                     <TableColumn fx:id="phoneNumberApprovals" prefWidth="100.0" text="Phone Number" />
                                     <TableColumn fx:id="emailApprovals" prefWidth="100.0" text="Email" />
@@ -1371,7 +1369,6 @@
                                     <TableColumn fx:id="issuedIDLoansView" prefWidth="92.0" text="Issued ID" />
                                     <TableColumn fx:id="docIDLoansView" prefWidth="92.0" text="Document ISBN" />
                                     <TableColumn fx:id="docTitleLoansView" prefWidth="92.0" text="Document Title" />
-                                    <TableColumn fx:id="userIDLoansView" prefWidth="92.0" text="User ID" />
                                     <TableColumn fx:id="userNameLoansView" prefWidth="92.0" text="User Name" />
                                     <TableColumn fx:id="issuedDateAndTimeLoansView" prefWidth="92.0" text="Date borrowed" />
                                     <TableColumn fx:id="dueDateIDLoansView" prefWidth="92.0" text="Date Returned" />
@@ -1442,7 +1439,7 @@
 
 
                   <!--                  ALL ISSUED DOCUMENTS-->
-                  <BorderPane fx:id="allIssuedDocBPane">
+                  <BorderPane fx:id="allIssuedDocBPane" visible="false">
                      <center>
                         <VBox>
                            <children>
@@ -1465,7 +1462,6 @@
                                     <TableColumn fx:id="issuedIDIDView" prefWidth="92.0" text="Issued ID" />
                                     <TableColumn fx:id="docIDIDView" prefWidth="92.0" text="Document ISBN" />
                                     <TableColumn fx:id="docTitleIDView" prefWidth="92.0" text="Document Title" />
-                                    <TableColumn fx:id="userIDIDView" prefWidth="92.0" text="User ID" />
                                     <TableColumn fx:id="userNameIDView" prefWidth="92.0" text="User Name" />
                                     <TableColumn fx:id="issuedDateAndTimeIDView" prefWidth="92.0" text="Date borrowed" />
                                     <TableColumn fx:id="dueDateIDView" prefWidth="92.0" text="Date Returned" />

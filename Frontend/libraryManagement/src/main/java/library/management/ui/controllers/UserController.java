@@ -24,7 +24,6 @@ public class UserController {
     }
 
     public void initUsersView() {
-        controller.userIDUserView.setCellValueFactory(new PropertyValueFactory<>("userId"));
         controller.userNameUserView.setCellValueFactory(new PropertyValueFactory<>("userName"));
         controller.userPhoneUserView.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         controller.userEmailUserView.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -44,7 +43,7 @@ public class UserController {
 
     public void loadUserViewData() {
         list.clear();
-        list.addAll(UserDAO.getInstance().getAllApprovedUser());
+        list.addAll(UserDAO.getInstance().getAllApprovedUsers());
         controller.userView.setItems(list);
         initializeCheckBox();
     }
@@ -52,7 +51,6 @@ public class UserController {
     public void fetchUserDetails() {
         User user = controller.userView.getSelectionModel().getSelectedItem();
         if (user != null) {
-            controller.userIDField.setText(String.valueOf(user.getUserId()));
             controller.userNameField.setText(user.getUserName());
             controller.userPhoneField.setText(user.getPhoneNumber());
             controller.userEmailField.setText(user.getEmail());
@@ -60,7 +58,6 @@ public class UserController {
     }
 
     public void handleCancelUserButton() {
-        controller.userIDField.setText("");
         controller.userNameField.setText("");
         controller.userPhoneField.setText("");
         controller.userEmailField.setText("");
@@ -98,9 +95,6 @@ public class UserController {
         String searchText = controller.searchUserField.getText().trim().toLowerCase();
         list.clear();
         switch (filterCriteria) {
-            case "ID":
-                list.addAll(UserDAO.getInstance().searchApprovedUserById(searchText));
-                break;
             case "Name":
                 list.addAll(UserDAO.getInstance().searchApprovedUserByName(searchText));
                 break;
@@ -111,7 +105,7 @@ public class UserController {
                 list.addAll(UserDAO.getInstance().searchApprovedUserByEmail(searchText));
                 break;
             default:
-                list.addAll(UserDAO.getInstance().searchAllApprovedUserByKeyword(searchText));
+                list.addAll(UserDAO.getInstance().searchApprovedUsersByKeyword(searchText));
         }
         controller.userView.setItems(list);
         initializeCheckBox();
@@ -134,7 +128,7 @@ public class UserController {
     }
 
     public void handleSaveUserButton() {
-        // todo: khong duoc cho nguoi dung thay doi userID
+        // todo: khong duoc cho nguoi dung thay doi username da ton tai
         // todo: kiem tra thong tin thay doi co dung cac yeu cau du lieu khong
         Optional<ButtonType> result = showAlertConfirmation(
                 "Update user",
