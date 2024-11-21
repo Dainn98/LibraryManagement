@@ -121,7 +121,7 @@
             <Image url="@../sprites/ISBN.png" />
           </image>
         </ImageView>
-            <JFXButton onAction="#handleAddDoc" prefWidth="150.0" text="Add Document" VBox.vgrow="ALWAYS" />
+        <JFXButton onAction="#handleAddDoc" prefWidth="150.0" text="Add Document" VBox.vgrow="ALWAYS" />
       </children>
       <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -139,18 +139,18 @@
       </children>
     </HBox>
   </top>
-   <bottom>
-      <VBox BorderPane.alignment="CENTER">
-         <children>
-            <HBox fx:id="saveHBox" alignment="CENTER_RIGHT" translateX="-800.0" visible="false" VBox.vgrow="ALWAYS">
-               <children>
-                  <JFXButton onAction="#handleSave" prefWidth="100.0" text="Save" />
-               </children>
-               <padding>
-                  <Insets bottom="20.0" right="20.0" />
-               </padding>
-            </HBox>
-         </children>
-      </VBox>
-   </bottom>
+  <bottom>
+    <VBox BorderPane.alignment="CENTER">
+      <children>
+        <HBox fx:id="saveHBox" alignment="CENTER_RIGHT" translateX="-800.0" visible="false" VBox.vgrow="ALWAYS">
+          <children>
+            <JFXButton onAction="#handleSave" prefWidth="100.0" text="Save" />
+          </children>
+          <padding>
+            <Insets bottom="20.0" right="20.0" />
+          </padding>
+        </HBox>
+      </children>
+    </VBox>
+  </bottom>
 </BorderPane>

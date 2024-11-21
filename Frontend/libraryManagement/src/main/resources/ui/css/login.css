@@ -303,7 +303,7 @@
 /*Checkbox*/
 
 .checkbox-main{
-    -fx-text-fill: -fx-secondary; 
+    -fx-text-fill: -fx-secondary;
     -jfx-checked-color: -fx-primary;
     -fx-font-size: 10pt;
 }
