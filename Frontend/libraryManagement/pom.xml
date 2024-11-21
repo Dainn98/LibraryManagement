@@ -40,6 +40,16 @@
   </build>
   <dependencies>
     <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>core</artifactId>
+      <version>3.5.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>javase</artifactId>
+      <version>3.5.2</version>
+    </dependency>
+    <dependency>
       <artifactId>logback-classic</artifactId>
       <groupId>ch.qos.logback</groupId>
       <version>1.4.12</version>

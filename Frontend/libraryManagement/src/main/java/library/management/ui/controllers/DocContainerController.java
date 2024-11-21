@@ -2,15 +2,22 @@ package library.management.ui.controllers;
 
 
 import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -22,13 +29,24 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
+import library.management.data.DAO.DocumentDAO;
 import library.management.data.entity.Document;
 import library.management.ui.applications.ImageDownloader;
+import library.management.ui.applications.CodeGenerator;
+
+
+import static library.management.alert.AlertMaker.showAlertConfirmation;
+import static library.management.alert.AlertMaker.showAlertInformation;
 
 public class DocContainerController implements GeneralController {
 
   private final static double DX = 800;
   private final static Duration DURATION = Duration.millis(1000);
+  private final static int QR_HEIGHT = 150;
+  private final static int QR_WIDTH = 150;
+  private final static int BARCODE_HEIGHT = 100;
+  private final static int BARCODE_WIDTH = 250;
+
   private final String[] colors = {"D1E8FF", // Light Blue
       "FFF7D1", // Light Yellow
       "FFE4E6", // Light Pink
@@ -59,6 +77,8 @@ public class DocContainerController implements GeneralController {
   boolean check = true;
   private Image image;
   private Document document;
+  private Image QRImage;
+  private Image barcodeImage;
   @FXML
   private Label titleInfo;
   @FXML
@@ -102,6 +122,8 @@ public class DocContainerController implements GeneralController {
   private VBox docCatalogView;
   @FXML
   private Hyperlink docTitleCatalog;
+  @FXML
+  protected JFXButton addDocButton;
 
     public void setData(Document doc) {
       this.document = doc;
@@ -111,6 +133,15 @@ public class DocContainerController implements GeneralController {
       } else {
         image = ImageDownloader.downloadImage(document.getImage());
       }
+      try {
+        QRImage = CodeGenerator.generateQRCode(document.getUrl(), QR_WIDTH, QR_HEIGHT);
+        if (!document.getIsbn().equals("No ISBN available")) {
+          barcodeImage = CodeGenerator.generateBarcodeWithText(document.getIsbn(), BARCODE_WIDTH, BARCODE_HEIGHT);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+
         Platform.runLater(()-> {
             docThumbnail.setImage(image);
             docTitleCatalog.setText(document.getTitle());
@@ -151,12 +182,13 @@ public class DocContainerController implements GeneralController {
   private void handlePressDocInfo(MouseEvent mouseEvent) throws IOException {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader();
-      fxmlLoader.setLocation(getClass().getResource("/ui/fxml/docInformation.fxml")); // setLocation
+      fxmlLoader.setLocation(getClass().getResource("/ui/fxml/docInformation.fxml"));
       Parent root = fxmlLoader.load();
       Stage stage = new Stage();
       stage.setTitle("Document Information");
-      DocContainerController controller = fxmlLoader.getController(); // getController
-      controller.setData(); // setData
+      DocContainerController controller = fxmlLoader.getController();
+      controller.loadDocData(document, image, QRImage, barcodeImage);
+
       stage.setResizable(false);
       stage.setScene(new Scene(root));
       stage.setOnCloseRequest((WindowEvent event) -> {
@@ -178,9 +210,27 @@ public class DocContainerController implements GeneralController {
         "The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, near New York City, the novel depicts first-person narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan.");
   }
 
-  private void loadDocData() {
-    titleInfo.setText("Document Information");
+  private void loadDocData(Document doc, Image thumbnail, Image QRImage, Image isbnImage) {
+    titleInfo.setText(doc.getTitle());
+    authorInfo.setText(doc.getAuthor());
+    publisherInfo.setText(doc.getPublisher());
+    categoryInfo.setText(doc.getCategory());
+    languageInfo.setText(doc.getLanguage());
+    isbnInfo.setText(doc.getIsbn());
+    descriptionInfo.setText(doc.getDescription());
+    thumbnailImageInfo.setImage(thumbnail);
+    qrImageInfo.setImage(QRImage);
+    titleHeading.textProperty().set(doc.getTitle());
+    isbnImageInfo.imageProperty().set(isbnImage);
+    addDocButton.setOnAction(event -> handleSave(doc));
+  }
 
+  public Document getDocument() {
+      return this.document;
+  }
+
+  public Image getImage() {
+      return this.image;
   }
 
   @FXML
@@ -200,7 +250,84 @@ public class DocContainerController implements GeneralController {
     }
   }
 
-  @FXML
-  private void handleSave(ActionEvent actionEvent) {
+  private void handleSave(Document doc) {
+    if (doc == null) {
+      System.out.println("null");
+      return;
+    }
+    if (numberField.textProperty().getValue().isEmpty() || !isStringAnInteger(numberField.textProperty().getValue())) {
+      showAlertInformation("Invalid Quantity", "Please enter a valid quantity!");
+      return;
+    }
+    int number = Integer.parseInt(numberField.textProperty().getValue());
+    if (number <= 0) {
+      showAlertInformation("Invalid Quantity", "Please enter a valid number!");
+      return;
+    }
+    if (priceField.textProperty().getValue().isEmpty() || !isStringAnDouble(priceField.textProperty().getValue())) {
+      showAlertInformation("Invalid Price", "Please enter a valid price!");
+      return;
+    }
+    double price = Double.parseDouble(priceField.textProperty().getValue());
+    if (price <= 0) {
+      showAlertInformation("Invalid Price", "Please enter a valid price!");
+      return;
+    }
+    Optional<ButtonType> result = showAlertConfirmation("Add document", "Are you sure you want to add this document?");
+    if (result.isPresent() && result.get() == ButtonType.OK) {
+      Document newDoc = new Document(doc);
+      newDoc.setQuantity(number);
+      newDoc.setAvailableCopies(number);
+      newDoc.setPrice(price);
+      newDoc.setAddDate(LocalDateTime.now());
+      newDoc.setAvailability("available");
+      Document existingDoc = DocumentDAO.getInstance().getDocumentById(doc.getIntDocumentID());
+      if (existingDoc == null) {
+        DocumentDAO.getInstance().add(newDoc);
+      } else {
+        showAlertConfirmation("Document exists", "Document already exists!\n" +
+                "Are you sure you want to update this document:\n"
+                + "-Update new price:" + price + ".\n"
+                + "-Add new copies:" + newDoc + ".\n"
+                + "-Set availability to available.");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+          newDoc.setQuantity(existingDoc.getQuantity() + number);
+          newDoc.setAvailableCopies(existingDoc.getAvailableCopies() + number);
+          newDoc.setPrice(price);
+          newDoc.setAvailability("available");
+          DocumentDAO.getInstance().update(newDoc);
+        }
+      }
+      showAlertInformation("Document Added", "Document added successfully!");
+      priceField.setText("");
+      numberField.setText("");
+      handleAddDoc(null);
+    }
   }
+
+  public boolean isStringAnInteger(String str) {
+    if (str == null || str.isEmpty()) {
+      return false;
+    }
+    try {
+      Integer.parseInt(str);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  public boolean isStringAnDouble(String str) {
+    if (str == null || str.isEmpty()) {
+      return false;
+    }
+    try {
+      Double.parseDouble(str);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+
 }

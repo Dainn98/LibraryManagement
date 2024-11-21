@@ -462,4 +462,47 @@ public class UserDAO implements DAOInterface<User> {
         return userNames;
     }
 
+    public List<String> searchApprovedUserNames(String query) {
+        List<String> approvedUserNames = new ArrayList<>();
+        String sqlQuery = "SELECT userName FROM user WHERE status = 'approved' AND " +
+                "(userName LIKE ?)";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sqlQuery)) {
+
+            String searchKeyword = "%" + query + "%"; // Tìm kiếm theo từ khóa
+            stmt.setString(1, searchKeyword); // userName
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    approvedUserNames.add(rs.getString("userName")); // Lấy tên và thêm vào danh sách
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return approvedUserNames; // Trả về danh sách tên
+    }
+
+    public User searchApprovedUserByExactName(String name) {
+        String query = "SELECT * FROM user WHERE status = 'approved' AND userName = ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, name); // So khớp chính xác userName
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Trả về đối tượng User nếu tìm thấy
+                    return buildUserFromResultSet(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Trả về null nếu không tìm thấy user
+    }
+
 }

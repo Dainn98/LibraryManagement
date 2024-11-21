@@ -1,6 +1,7 @@
 package library.management.data.entity;
 
 import library.management.data.DAO.CategoryDAO;
+import library.management.data.DAO.LanguageDAO;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -85,6 +86,25 @@ public class Document {
         this.url = url;
         this.image = image;
         this.availability = availability;
+    }
+
+    public Document(Document document) {
+        super();
+        this.documentID = document.documentID;
+        this.categoryID = document.categoryID;
+        this.publisher = document.publisher;
+        this.lgID = document.lgID;
+        this.title = document.title;
+        this.author = document.author;
+        this.isbn = document.isbn;
+        this.quantity = document.quantity;
+        this.availableCopies = document.availableCopies;
+        this.addDate = document.addDate;
+        this.price = document.price;
+        this.description = document.description;
+        this.url = document.url;
+        this.image = document.image;
+        this.availability = document.availability;
     }
 
     private int parseId(String input, String prefix) {
@@ -187,6 +207,10 @@ public class Document {
         this.addDate = LocalDateTime.parse(addDate, DATE_FORMATTER);
     }
 
+    public void setAddDate(LocalDateTime time) {
+        this.addDate = time;
+    }
+
     public double getPrice() {
         return price;
     }
@@ -221,6 +245,10 @@ public class Document {
 
     public String getCategory() {
         return CategoryDAO.getInstance().getTagByID(getIntCategoryID());
+    }
+
+    public String getLanguage() {
+        return LanguageDAO.getInstance().getLanguageName(this.getIntLgID());
     }
 
     public String getAvailability() {

@@ -41,16 +41,27 @@ public class DashboardController implements GeneralController {
     studentInformation.getData().add(new XYChart.Data<>("Students holding users", studentHoldingBook));
     controller.userBChart.getData().add(studentInformation);
     // load gauge
-    controller.allDocsGauge.setMaxValue(docQuantity);
-    controller.allDocsGauge.setValue(docQuantity);
-    controller.remainingDocsGauge.setMaxValue(docQuantity);
-    controller.remainingDocsGauge.setValue(remainingDocQuantity);
-    controller.issuedDocsGauge.setMaxValue(docQuantity);
-    controller.issuedDocsGauge.setValue(docQuantity - remainingDocQuantity);
-    controller.allUsersGauge.setMaxValue(totalStudent);
-    controller.allUsersGauge.setValue(approvedStudent);
-    controller.docHoldersGauge.setMaxValue(totalStudent);
-    controller.docHoldersGauge.setValue(studentHoldingBook);
+    if (docQuantity > 0) {
+      controller.allDocsGauge.setMaxValue(docQuantity);
+      controller.allDocsGauge.setValue(docQuantity);
+    }
+    if (remainingDocQuantity > 0) {
+      controller.remainingDocsGauge.setMaxValue(docQuantity);
+      controller.remainingDocsGauge.setValue(remainingDocQuantity);
+    }
+    if ((docQuantity - remainingDocQuantity) > 0) {
+      controller.issuedDocsGauge.setMaxValue(docQuantity);
+      controller.issuedDocsGauge.setValue(docQuantity - remainingDocQuantity);
+    }
+    if (totalStudent > 0) {
+      controller.allUsersGauge.setMaxValue(totalStudent);
+      controller.allUsersGauge.setValue(approvedStudent);
+    }
+    if (studentHoldingBook > 0) {
+      controller.docHoldersGauge.setMaxValue(totalStudent);
+      controller.docHoldersGauge.setValue(studentHoldingBook);
+    }
+
   }
 
   protected void handleClickAvatar(ImageView pic, VBox infoVBox) {
