@@ -129,4 +129,13 @@ public class DocumentController {
             loadDocumentData();
         }
     }
+
+    public void DeleteBook() {
+        Document document = controller.docView.getSelectionModel().getSelectedItem();
+        if (document != null) {
+            showAlertConfirmation("Delete document", "Are you sure you want to delete this document?");
+            DocumentDAO.getInstance().delete(document);
+        }
+        loadDocumentData();
+    }
 }

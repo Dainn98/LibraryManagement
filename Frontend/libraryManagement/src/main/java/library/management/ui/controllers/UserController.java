@@ -13,6 +13,7 @@ import library.management.data.entity.User;
 import java.util.Optional;
 
 import static library.management.alert.AlertMaker.showAlertConfirmation;
+import static library.management.alert.AlertMaker.showAlertInformation;
 
 public class UserController {
     private final MainController controller;
@@ -111,7 +112,7 @@ public class UserController {
         initializeCheckBox();
     }
 
-    public void deleteUserRecord() {
+    public void deleteUsersRecord() {
         // todo: xu ly truong hop user dang giu sach thi phai lam sao
         Optional<ButtonType> result = showAlertConfirmation(
                 "Delete user",
@@ -127,8 +128,20 @@ public class UserController {
         }
     }
 
+    public void deleteOneUserRecord() {
+        // todo: xu ly truong hop user dang giu sach thi phai lam sao
+        Optional<ButtonType> result = showAlertConfirmation(
+                "Delete user",
+                "Are you sure you want to delete this user?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            User user = controller.userView.getSelectionModel().getSelectedItem();
+            UserDAO.getInstance().delete(user);
+            loadUserViewData();
+            handleCancelUserButton();
+        }
+    }
+
     public void handleSaveUserButton() {
-        // todo: khong duoc cho nguoi dung thay doi username da ton tai
         // todo: kiem tra thong tin thay doi co dung cac yeu cau du lieu khong
         Optional<ButtonType> result = showAlertConfirmation(
                 "Update user",
@@ -138,9 +151,14 @@ public class UserController {
             changedUser.setUserName(controller.userNameField.getText());
             changedUser.setPhoneNumber(controller.userPhoneField.getText());
             changedUser.setEmail(controller.userEmailField.getText());
-            UserDAO.getInstance().update(changedUser);
-            handleCancelUserButton();
-            loadUserViewData();
+            if (UserDAO.getInstance().doesUserNameExist(changedUser.getUserName())) {
+                showAlertInformation("Update user information fail!", "This user already exists.");
+            } else {
+                UserDAO.getInstance().update(changedUser);
+                showAlertInformation("Update user information!", "User updated successfully.");
+                handleCancelUserButton();
+                loadUserViewData();
+            }
         }
     }
 }

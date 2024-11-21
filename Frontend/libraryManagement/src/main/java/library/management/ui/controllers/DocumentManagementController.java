@@ -133,9 +133,9 @@ public class DocumentManagementController {
             controller.docPublisherInfo.setText(document.getPublisher());
             controller.price.setText(String.valueOf(document.getPrice()));
             if (!Objects.equals(document.getAvailability(), "available")) {
-                controller.availablity.setText("Not available");
+                controller.availability.setText("Not available");
             } else {
-                controller.availablity.setText(String.valueOf(document.getAvailableCopies()));
+                controller.availability.setText(String.valueOf(document.getAvailableCopies()));
             }
         }
     }
@@ -148,7 +148,7 @@ public class DocumentManagementController {
         controller.docAuthorInfo.setText("Document Author");
         controller.docPublisherInfo.setText("Document Publisher");
         controller.price.setText("Price");
-        controller.availablity.setText("Availability");
+        controller.availability.setText("Availability");
         controller.userIDIssue.setText("");
         controller.docISBNIssue.setText("");
         controller.quantityDoc.setText("");
@@ -165,7 +165,7 @@ public class DocumentManagementController {
             showAlertInformation("Invalid Document", "Please enter a valid document!");
             return;
         }
-        if (controller.availablity.getText().equals("Not available")) {
+        if (controller.availability.getText().equals("Not available")) {
             showAlertInformation("Invalid Document", "This document is not available!");
             return;
         }
@@ -174,7 +174,7 @@ public class DocumentManagementController {
             return;
         }
         int borrowedQuantity = Integer.parseInt(controller.quantityDoc.getText());
-        if (borrowedQuantity <= 0 || borrowedQuantity > Integer.parseInt(controller.availablity.getText())) {
+        if (borrowedQuantity <= 0 || borrowedQuantity > Integer.parseInt(controller.availability.getText())) {
             showAlertInformation("Invalid Quantity", "Please enter a valid quantity!");
             return;
         }

@@ -202,12 +202,12 @@ public class DocumentDAO implements DAOInterface<Document> {
     public List<Document> searchDocuments(String keyword) {
         List<Document> searchResults = new ArrayList<>();
         String query = "SELECT * FROM document WHERE " +
-                "CAST(documentId AS CHAR) LIKE ? OR " +
+                "(CAST(documentId AS CHAR) LIKE ? OR " +
                 "isbn LIKE ? OR " +
                 "title LIKE ? OR " +
                 "author LIKE ? OR " +
                 "publisher LIKE ? OR " +
-                "CAST(categoryID AS CHAR) LIKE ?";
+                "CAST(categoryID AS CHAR) LIKE ?) AND availability != 'removed'";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -248,6 +248,7 @@ public class DocumentDAO implements DAOInterface<Document> {
 
         return searchResults;
     }
+
 
     public Document searchDocumentById(int documentId) {
         String query = "SELECT * FROM document WHERE documentId = ? AND availability != 'removed'";
