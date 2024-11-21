@@ -818,6 +818,7 @@
                                     <HBox>
                                        <children>
                                           <HBox HBox.hgrow="ALWAYS" />
+
                                           <AutoCompleteTextField fx:id="catalogSearchField" onKeyPressed="#handleSearchCatalogPressed" onKeyReleased="#handleSearchCatalog" promptText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
                                           <HBox HBox.hgrow="ALWAYS" />
                                        </children>

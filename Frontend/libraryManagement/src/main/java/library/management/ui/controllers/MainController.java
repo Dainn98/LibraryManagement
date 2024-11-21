@@ -41,9 +41,7 @@ import library.management.properties;
 import org.controlsfx.control.CheckComboBox;
 
 @SuppressWarnings("CallToPrintStackTrace")
-
 public class MainController implements Initializable, properties, GeneralController {
-
 
     private final DashboardController dashboardController = new DashboardController(this);
     private final UserController userController = new UserController(this);
@@ -659,8 +657,6 @@ public class MainController implements Initializable, properties, GeneralControl
         Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
     }
-
-
 }
 
 

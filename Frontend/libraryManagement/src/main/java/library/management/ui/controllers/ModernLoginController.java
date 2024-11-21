@@ -98,9 +98,6 @@ public class ModernLoginController  implements Initializable,GeneralController {
     }
 
     public void showRegisterForm(ActionEvent actionEvent) {
-        Timeline timeline = new Timeline();
-
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.5), e -> {
             registerPane.setVisible(true);
             loginSwitch.setVisible(true);
             transFade(registerPane, rightTrans, 0, 1, Duration.seconds(0.5));
@@ -108,18 +105,9 @@ public class ModernLoginController  implements Initializable,GeneralController {
             transFade(loginSwitch, rightTrans, 0.5, 1, Duration.seconds(0.5));
             transFade(registerSwitch, rightTrans, 0.5, 0, Duration.seconds(0.5));
             transFade(transPane, leftTrans, 1, 1, Duration.seconds(0.5));
-        }));
-
-        timeline.setOnFinished(e -> {
-            loginPane.setVisible(false);
-            registerSwitch.setVisible(false);
-        });
-        timeline.play();
     }
 
     public void showLoginForm(ActionEvent actionEvent) {
-        Timeline timeline = new Timeline();
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.5), e -> {
             loginPane.setVisible(true);
             registerSwitch.setVisible(true);
             transFade(registerPane, leftTrans, 1, 0, Duration.seconds(0.5));
@@ -127,14 +115,6 @@ public class ModernLoginController  implements Initializable,GeneralController {
             transFade(loginPane, leftTrans, 0.5, 1, Duration.seconds(0.5));
             transFade(loginSwitch, leftTrans, 0.5, 0, Duration.seconds(0.5));
             transFade(transPane, rightTrans, 1, 1, Duration.seconds(0.5));
-        }));
-
-        timeline.setOnFinished(e -> {
-            registerPane.setVisible(false);
-            loginSwitch.setVisible(false);
-        });
-
-        timeline.play();
     }
 
     @Override

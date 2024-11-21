@@ -83,18 +83,18 @@
                 </HBox>
               </children>
             </HBox>
-            <HBox fx:id="numberHBox" translateX="-800.0" visible="false">
-              <children>
-                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Number" HBox.hgrow="ALWAYS" />
-                <TextField fx:id="numberField" maxWidth="200.0" promptText="Enter the amount of document" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
-              </children>
-            </HBox>
-            <HBox fx:id="priceHBox" translateX="-800.0" visible="false">
-              <children>
-                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Price" HBox.hgrow="ALWAYS" />
-                <TextField fx:id="priceField" maxWidth="200.0" promptText="Enter the price of document" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
-              </children>
-            </HBox>
+                  <HBox fx:id="numberHBox" translateX="800.0" visible="false">
+                     <children>
+                        <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Number" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="numberField" maxWidth="200.0" promptText="Enter the price of document" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="priceHBox" translateX="-800.0" visible="false">
+                     <children>
+                        <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Price" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="priceField" maxWidth="200.0" promptText="Enter the price of document" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
           </children>
           <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

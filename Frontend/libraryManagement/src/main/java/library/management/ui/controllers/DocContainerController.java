@@ -95,6 +95,7 @@ public class DocContainerController implements GeneralController {
   private Label descriptionInfo;
   @FXML
   private HBox priceHBox;
+
   @FXML
   private HBox numberHBox;
   @FXML
@@ -187,6 +188,7 @@ public class DocContainerController implements GeneralController {
       stage.setTitle("Document Information");
       DocContainerController controller = fxmlLoader.getController();
       controller.loadDocData(document, image, QRImage, barcodeImage);
+
       stage.setResizable(false);
       stage.setScene(new Scene(root));
       stage.setOnCloseRequest((WindowEvent event) -> {
@@ -196,6 +198,16 @@ public class DocContainerController implements GeneralController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+  private void setData() {
+    this.titleInfo.setText("The Great Gatsby");
+    this.authorInfo.setText("F. Scott Fitzgerald");
+    this.publisherInfo.setText("Charles Scribner's Sons");
+    this.categoryInfo.setText("Novel");
+    this.languageInfo.setText("English");
+    this.isbnInfo.setText("9780743273565");
+    this.descriptionInfo.setText(
+        "The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, near New York City, the novel depicts first-person narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan.");
   }
 
   private void loadDocData(Document doc, Image thumbnail, Image QRImage, Image isbnImage) {
@@ -227,8 +239,10 @@ public class DocContainerController implements GeneralController {
       transFade(priceHBox, DX, 0.5, 1, DURATION);
       transFade(numberHBox, DX, 0.5, 1, DURATION);
       transFade(saveHBox, DX, 0.5, 1, DURATION);
+      transFade(numberHBox, -DX, 0.5, 1, DURATION);
       check = false;
     } else {
+      transFade(numberHBox, DX, 1, 0, DURATION);
       transFade(priceHBox, -DX, 1, 0, DURATION);
       transFade(numberHBox, -DX, 1, 0, DURATION);
       transFade(saveHBox, -DX, 1, 0, DURATION);
