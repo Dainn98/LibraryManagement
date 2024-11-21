@@ -134,11 +134,14 @@ public class DocContainerController implements GeneralController {
   @FXML
   private void handlePressDocInfo(MouseEvent mouseEvent) throws IOException {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(
-          getClass().getResource("/ui/fxml/docInformation.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader();
+      fxmlLoader.setLocation(getClass().getResource("/ui/fxml/docInformation.fxml")); // setLocation
       Parent root = fxmlLoader.load();
       Stage stage = new Stage();
       stage.setTitle("Document Information");
+      DocContainerController controller = fxmlLoader.getController(); // getController
+      controller.setData(); // setData
+      stage.setResizable(false);
       stage.setScene(new Scene(root));
       stage.setOnCloseRequest((WindowEvent event) -> {
         stage.close();
@@ -148,6 +151,16 @@ public class DocContainerController implements GeneralController {
       e.printStackTrace();
     }
   }
+  private void setData() {
+    this.titleInfo.setText("The Great Gatsby");
+    this.authorInfo.setText("F. Scott Fitzgerald");
+    this.publisherInfo.setText("Charles Scribner's Sons");
+    this.categoryInfo.setText("Novel");
+    this.languageInfo.setText("English");
+    this.isbnInfo.setText("9780743273565");
+    this.descriptionInfo.setText(
+        "The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, near New York City, the novel depicts first-person narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan.");
+  }
 
 
   @FXML
@@ -155,10 +168,10 @@ public class DocContainerController implements GeneralController {
     if (check) {
       transFade(priceHBox, DX, 0.5, 1, DURATION);
       transFade(saveHBox, DX, 0.5, 1, DURATION);
-      transFade(numberHBox, DX, 0.5, 1, DURATION);
+      transFade(numberHBox, -DX, 0.5, 1, DURATION);
       check = false;
     } else {
-      transFade(numberHBox, -DX, 1, 0, DURATION);
+      transFade(numberHBox, DX, 1, 0, DURATION);
       transFade(priceHBox, -DX, 1, 0, DURATION);
       transFade(saveHBox, -DX, 1, 0, DURATION);
       check = true;
