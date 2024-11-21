@@ -29,7 +29,6 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -819,7 +818,7 @@
                                     <HBox>
                                        <children>
                                           <HBox HBox.hgrow="ALWAYS" />
-                                          <AutoCompleteTextField fx:id="catalogSearchField" promptText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
+                                          <AutoCompleteTextField fx:id="catalogSearchField" onKeyPressed="#handleSearchCatalogPressed" onKeyReleased="#handleSearchCatalog" promptText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
                                           <HBox HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
@@ -1246,7 +1245,7 @@
                   </BorderPane>
 
                   <!--              PENDING APPROVALS-->
-                  <BorderPane fx:id="pendingApprovalsBPane" visible="false">
+                  <BorderPane fx:id="pendingApprovalsBPane" visible="false" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
                      <center>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
@@ -1256,7 +1255,7 @@
                                     <Label text="Filter Approvals:" />
                                     <ButtonBar>
                                        <buttons>
-                                          <AutoCompleteTextField fx:id="checkUsername" promptText="Username" />
+                                          <AutoCompleteTextField fx:id="checkUsername" onKeyReleased="#handleSearchPendingUser" promptText="Username" />
                                           <CheckComboBox fx:id="checkCountry" style="-fx-background-color: WHITE;" title="Country" />
                                           <CheckComboBox fx:id="checkState" title="State" />
                                           <CheckComboBox fx:id="checkYear" title="Year" />
@@ -1315,12 +1314,12 @@
                      <bottom>
                         <HBox fx:id="controllApproval" prefHeight="32.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                            <children>
-                              <CheckBox fx:id="checkApprovals" mnemonicParsing="false" onAction="#checkAllUsers" text="Check all">
+                              <CheckBox fx:id="checkApprovals" mnemonicParsing="false" onAction="#checkAllPending" text="Check all">
                                  <HBox.margin>
                                     <Insets top="5.0" />
                                  </HBox.margin>
                               </CheckBox>
-                              <Hyperlink onAction="#deleteUserRecord" text="Delete" textFill="#2b579a">
+                              <Hyperlink onAction="#disapprovePending" text="Delete" textFill="#2b579a">
                                  <graphic>
                                     <FontAwesomeIconView fill="#e9594d" glyphName="TRASH" size="15" />
                                  </graphic>
@@ -1330,7 +1329,7 @@
                               </Hyperlink>
                               <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Button mnemonicParsing="false" prefWidth="120.0" text="Approve">
+                                    <Button mnemonicParsing="false" onAction="#approvePendingUsers" prefWidth="120.0" text="Approve">
                                        <HBox.margin>
                                           <Insets right="20.0" />
                                        </HBox.margin>
@@ -1346,16 +1345,16 @@
                   </BorderPane>
 
 
+
                   <!--               PENDING LOANS-->
-                  <BorderPane fx:id="pendingLoansBPane" visible="false">
+                  <BorderPane fx:id="pendingLoansBPane" visible="false" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
                      <center>
                         <VBox>
                            <children>
                               <HBox alignment="CENTER" spacing="10.0">
                                  <children>
                                     <HBox HBox.hgrow="ALWAYS" />
-
-                                    <TextField fx:id="loansField" promptText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="loansField" onKeyReleased="#handleSearchPendingIssue" promptText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
                                     <JFXComboBox fx:id="typeLoans" labelFloat="true" promptText="Select Issue Type" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
                                     <HBox HBox.hgrow="ALWAYS" />
                                  </children>
@@ -1409,18 +1408,48 @@
                            </bottom>
                         </BorderPane>
                      </top>
+                     <bottom>
+                        <HBox fx:id="controllLoans" prefHeight="32.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <CheckBox fx:id="checkLoans" mnemonicParsing="false" onAction="#checkAllPendingIssue" text="Check all">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <Hyperlink fx:id="deleteLoans" onAction="#deletePendingIssue" text="Delete" textFill="#2b579a">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#e9594d" glyphName="TRASH" size="15" />
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets left="20.0" top="2.0" />
+                                 </HBox.margin>
+                              </Hyperlink>
+                              <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Button fx:id="disapproveLoansButton" mnemonicParsing="false" onAction="#disapprovePendingIssue" prefWidth="120.0" text="Disapprove">
+                                       <HBox.margin>
+                                          <Insets right="20.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="approveLoansButton" mnemonicParsing="false" onAction="#approvePendingIssue" prefWidth="120.0" text="Approve" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </bottom>
                   </BorderPane>
 
 
-<!--                  ALL ISSUED DOCUMENTS-->
-                  <BorderPane fx:id="allIssuedDocBPane" visible="false">
+
+                  <!--                  ALL ISSUED DOCUMENTS-->
+                  <BorderPane fx:id="allIssuedDocBPane">
                      <center>
                         <VBox>
                            <children>
                               <HBox alignment="CENTER" spacing="10.0">
                                  <children>
                                     <HBox HBox.hgrow="ALWAYS" />
-                                    <TextField fx:id="issuedDocField" promptText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="issuedDocField" onKeyReleased="#handleSearchID" promptText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
                                     <JFXComboBox fx:id="issueTypeIssuedDoc" labelFloat="true" promptText="Select Issue Type" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
                                     <HBox HBox.hgrow="ALWAYS" />
                                  </children>

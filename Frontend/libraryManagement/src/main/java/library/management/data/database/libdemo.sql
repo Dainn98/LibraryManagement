@@ -78,7 +78,7 @@ select * from category;
 
 CREATE TABLE language (
     lgID SMALLINT AUTO_INCREMENT PRIMARY KEY,
-    lgName VARCHAR(50)
+    lgName VARCHAR(50) unique
 );
 
 INSERT INTO language (lgName) VALUES ('English');
@@ -96,10 +96,10 @@ select * from language;
 
 CREATE TABLE user (
     userId INT AUTO_INCREMENT PRIMARY KEY,
-    userName VARCHAR(100),
-    identityCard CHAR(12),
-    phoneNumber CHAR(10),
-    email VARCHAR(100),
+    userName VARCHAR(100) unique,
+    identityCard CHAR(12) unique,
+    phoneNumber CHAR(10) unique,
+    email VARCHAR(100) unique,
     country VARCHAR(50),
     state VARCHAR(50),
     status VARCHAR(10) DEFAULT 'pending',
@@ -154,7 +154,7 @@ CREATE TABLE document (
     availableCopies INT,
     addDate DATETIME,
     price DECIMAL(10,2),
-    availability BOOLEAN DEFAULT TRUE,
+    availability Varchar(15) DEFAULT 'available',
     FOREIGN KEY (categoryId) REFERENCES category(categoryID),
     FOREIGN KEY (lgId) REFERENCES language(lgID)
 );
@@ -222,86 +222,56 @@ select * from document;
 CREATE TABLE loans (
     loanID INT AUTO_INCREMENT PRIMARY KEY,
     userId int,
+	documentId int,
     quantityOfBorrow SMALLINT,
     deposit DECIMAL(10, 2),
-    dateOfBorrow DATETIME,
+    dateOfBorrow DATETIME default CURRENT_TIMESTAMP,
     requiredReturnDate DATETIME,
+    returnDate datetime default null,
+    status varchar(20) default 'Pending',
     -- Khóa ngoại tham chiếu đến userId trong bảng user
-    FOREIGN KEY (userId) REFERENCES user(userId) ON DELETE SET NULL
+    FOREIGN KEY (userId) REFERENCES user(userId),
+    FOREIGN KEY (documentId) REFERENCES document(documentId)
 );
 
--- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
--- VALUES ('1', 3, 100.00, '2024-11-02 10:00:00', '2024-12-02 10:00:00');
+-- Thêm dữ liệu vào bảng loans
+INSERT INTO loans (userId, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+VALUES (1, 1, 3, 100.00, '2024-11-02 10:00:00', '2024-12-02 10:00:00');
 
--- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
--- VALUES ('2', 2, 50.00, '2024-11-03 11:00:00', '2024-12-03 11:00:00');
+INSERT INTO loans (userId, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+VALUES (2, 2, 2, 50.00, '2024-11-03 11:00:00', '2024-12-03 11:00:00');
 
--- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
--- VALUES ('3', 5, 150.00, '2024-11-04 12:00:00', '2024-12-04 12:00:00');
+INSERT INTO loans (userId, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+VALUES (3, 3, 5, 150.00, '2024-11-04 12:00:00', '2024-12-04 12:00:00');
 
--- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
--- VALUES ('4', 1, 30.00, '2024-11-05 13:00:00', '2024-12-05 13:00:00');
+INSERT INTO loans (userId, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+VALUES (4, 4, 1, 30.00, '2024-11-05 13:00:00', '2024-12-05 13:00:00');
 
--- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
--- VALUES ('5', 4, 120.00, '2024-11-06 14:00:00', '2024-12-06 14:00:00');
+INSERT INTO loans (userId, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+VALUES (5, 5, 4, 120.00, '2024-11-06 14:00:00', '2024-12-06 14:00:00');
 
--- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
--- VALUES ('6', 2, 60.00, '2024-11-07 15:00:00', '2024-12-07 15:00:00');
+INSERT INTO loans (userId, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+VALUES (6, 6, 2, 60.00, '2024-11-07 15:00:00', '2024-12-07 15:00:00');
 
--- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
--- VALUES ('7', 3, 90.00, '2024-11-08 16:00:00', '2024-12-08 16:00:00');
+INSERT INTO loans (userId, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+VALUES (7, 7, 3, 90.00, '2024-11-08 16:00:00', '2024-12-08 16:00:00');
 
--- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
--- VALUES ('8', 1, 40.00, '2024-11-09 17:00:00', '2024-12-09 17:00:00');
+INSERT INTO loans (userId, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+VALUES (8, 8, 1, 40.00, '2024-11-09 17:00:00', '2024-12-09 17:00:00');
 
--- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
--- VALUES ('9', 6, 200.00, '2024-11-10 18:00:00', '2024-12-10 18:00:00');
+INSERT INTO loans (userId, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+VALUES (9, 9, 6, 200.00, '2024-11-10 18:00:00', '2024-12-10 18:00:00');
 
--- INSERT INTO loans (userId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
--- VALUES ('10', 2, 70.00, '2024-11-11 19:00:00', '2024-12-11 19:00:00');
+INSERT INTO loans (userId, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate)
+VALUES (10, 10, 2, 70.00, '2024-11-11 19:00:00', '2024-12-11 19:00:00');
 
 select * from loans;
 
-CREATE TABLE loandetail (
-    loanDetailID INT AUTO_INCREMENT PRIMARY KEY,
-    loanId int,
-    documentId int,
-    quantity SMALLINT,
-    -- Khóa ngoại tham chiếu đến loanId trong bảng loans
-    FOREIGN KEY (loanId) REFERENCES loans(loanId),
-    -- Khóa ngoại tham chiếu đến documentId trong bảng document
-    FOREIGN KEY (documentId) REFERENCES document(documentId) on delete set null
+CREATE TABLE suggestion (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    value VARCHAR(255) UNIQUE NOT NULL,
+    frequency INT NOT NULL
 );
 
 
--- INSERT INTO loandetail (loanId, documentId, quantity)
--- VALUES ('1', '1', 1);
-
--- INSERT INTO loandetail (loanId, documentId, quantity)
--- VALUES ('2', '2', 2);
-
--- INSERT INTO loandetail (loanId, documentId, quantity)
--- VALUES ('3', '3', 1);
-
--- INSERT INTO loandetail (loanId, documentId, quantity)
--- VALUES ('4', '4', 1);
-
--- INSERT INTO loandetail (loanId, documentId, quantity)
--- VALUES ('5', '5', 3);
-
--- INSERT INTO loandetail (loanId, documentId, quantity)
--- VALUES ('3', '6', 1);
-
--- INSERT INTO loandetail (loanId, documentId, quantity)
--- VALUES ('7', '7', 2);
-
--- INSERT INTO loandetail (loanId, documentId, quantity)
--- VALUES ('8', '8', 1);
-
--- INSERT INTO loandetail (loanId, documentId, quantity)
--- VALUES ('8', '9', 1);
-
--- INSERT INTO loandetail (loanId, documentId, quantity)
--- VALUES ('9', '10', 2);
-
--- select * from loandetail;
+select * from suggestion;

@@ -16,15 +16,21 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import library.management.data.DAO.DocumentDAO;
+import library.management.data.DAO.SuggestionDAO;
+import library.management.data.DataStructure.Trie;
 import library.management.data.entity.Document;
 import library.management.ui.applications.GoogleBooksAPI;
 
 public class CatalogController {
     private final MainController controller;
-    private final List<Document> documentList = new ArrayList<>();
-    private final List<DocContainerController> docContainerControllerList = new ArrayList<>();
+    private final List<Document> APIdocumentList = new ArrayList<>();
+    private final List<Document> localDocumentList = new ArrayList<>();
+    private final List<DocContainerController> APIDocContainerControllerList = new ArrayList<>();
+    private final List<DocContainerController> localDocContainerControllerList = new ArrayList<>();
     private final ObservableList<String> documentTitleSuggestions = FXCollections.observableArrayList();
     private ContextMenu suggestionMenu;
+    private final Trie titleTrie = new Trie();
 
 
     private static final int CATALOG_COLUMN_MAX = 6;
@@ -55,15 +61,36 @@ public class CatalogController {
                 controller.apiViewGPane.add(docContainerVBox, column++, row);
 
                 GridPane.setMargin(docContainerVBox, new Insets(10));
-                docContainerControllerList.add(docContainerController);
+                APIDocContainerControllerList.add(docContainerController);
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        column = 0;
+        row = 1;
+        try {
+            for (int i = 0; i < CatalogController.CATALOG_DOCUMENT_MAX; i++) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
+                VBox docContainerVBox = fxmlLoader.load();
+                DocContainerController docContainerController = fxmlLoader.getController();
+                if(column == CATALOG_COLUMN_MAX) {
+                    column = 0;
+                    ++row;
+                }
+                controller.localViewGPane.add(docContainerVBox, column++, row);
+
+                GridPane.setMargin(docContainerVBox, new Insets(10));
+                localDocContainerControllerList.add(docContainerController);
             }
         } catch(IOException e) {
             e.printStackTrace();
         }
         initializeAutoComplete();
+        titleTrie.addAll(SuggestionDAO.getInstance().getAll());
     }
 
-    protected void searchAPIDocument() {
+    protected void searchDocument() {
         loadDocument(controller.catalogSearchField.getText().trim());
         List<Task<Void>> tasks = new ArrayList<>();
         for (int i = 0; i < CatalogController.CATALOG_DOCUMENT_MAX; ++i) {
@@ -71,21 +98,34 @@ public class CatalogController {
             Task<Void> loadController = new Task<>() {
                 @Override
                 protected Void call() throws Exception {
-                    docContainerControllerList.get(index).setData(documentList.get(index));
+                    APIDocContainerControllerList.get(index).setData(APIdocumentList.get(index));
                     return null;
                 }
             };
             tasks.add(loadController);
         }
-        ExecutorService executor = Executors.newFixedThreadPool(4);
+        for (int i = 0; i < CatalogController.CATALOG_DOCUMENT_MAX; ++i) {
+            final int index = i;
+            Task<Void> loadController = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    localDocContainerControllerList.get(index).setData(localDocumentList.get(index));
+                    return null;
+                }
+            };
+            tasks.add(loadController);
+        }
+        ExecutorService executor = Executors.newFixedThreadPool(8);
         tasks.forEach(executor::execute);
         executor.shutdown();
     }
 
     private void loadDocument(String query) {
-        documentList.clear();
+        APIdocumentList.clear();
+        localDocumentList.clear();
         try {
-            documentList.addAll(GoogleBooksAPI.searchDocument(query, CatalogController.CATALOG_DOCUMENT_MAX, 0));
+            APIdocumentList.addAll(GoogleBooksAPI.searchDocument(query, CatalogController.CATALOG_DOCUMENT_MAX, 0));
+            localDocumentList.addAll(DocumentDAO.getInstance().searchDocumentInDatabase(query, CatalogController.CATALOG_DOCUMENT_MAX, 0));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,13 +145,7 @@ public class CatalogController {
     }
 
     private void updateSuggestions(String query) {
-        List<String> suggestions = new ArrayList<>();
-        suggestions.add("Name");
-        suggestions.add("Harry");
-        suggestions.add("Adventure");
-        suggestions.add("Fiction");
-        suggestions.add("Doraemon");
-        suggestions.add("Naruto");
+        List<String> suggestions = titleTrie.searchSuggestions(query);
         documentTitleSuggestions.setAll(suggestions);
         suggestionMenu.getItems().clear();
         for (String suggestion : suggestions) {
@@ -119,7 +153,8 @@ public class CatalogController {
             item.setOnAction(event -> {
                 controller.catalogSearchField.setText(suggestion);
                 suggestionMenu.hide();
-                searchAPIDocument();
+                titleTrie.incrementFrequency(suggestion);
+                searchDocument();
             });
             suggestionMenu.getItems().add(item);
         }
@@ -132,5 +167,14 @@ public class CatalogController {
             suggestionMenu.hide();
         }
     }
+
+    public void addSuggestion() {
+        String query = controller.catalogSearchField.getText().trim();
+        if (!query.isEmpty()) {
+            titleTrie.insert(query, 1);
+            titleTrie.incrementFrequency(query);
+        }
+    }
+
 }
 
