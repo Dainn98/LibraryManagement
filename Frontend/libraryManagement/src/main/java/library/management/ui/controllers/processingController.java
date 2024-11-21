@@ -9,48 +9,51 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import library.management.data.entity.Document;
 
-public class CatalogController {
+public class processingController {
 
-  private final MainController controller;
+  private final fullUserController controller;
   private List<Document> documentList;
-
-  private static final int CATALOG_COLUMN_MAX = 6;
+  private final List<DocContainerController> docContainerControllerList = new ArrayList<>();
+  private static final int PROCESS_COLUMN_MAX = 6;
   private static final String DOCUMENT_CONTAINER_SOURCES = "/ui/fxml/docContainer.fxml";
+  private static final int PROCESS_DOCUMENT_MAX = 18;
 
-  public CatalogController(MainController controller) {
+  public processingController(fullUserController controller) {
     this.controller = controller;
   }
 
-  protected void loadCatalogData(GridPane apiView, GridPane localView) {
+  public fullUserController getController() {
+    return controller;
+  }
+
+  public void initProcess() {
     documentList = controller.getDocumentList();
     if (documentList != null) {
       documentList.clear();
     }
 
     documentList = new ArrayList<>(loadDocument());
-
     int column = 0;
     int row = 1;
     try {
-      for (Document doc : documentList) {
+      for (int i = 0; i < processingController.PROCESS_DOCUMENT_MAX; i++) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
         VBox docContainerVBox = fxmlLoader.load();
         DocContainerController docContainerController = fxmlLoader.getController();
-
-        docContainerController.setData(doc);
-
-        if (column == CATALOG_COLUMN_MAX) {
+        if (column == PROCESS_COLUMN_MAX) {
           column = 0;
           ++row;
         }
-        apiView.add(docContainerVBox, column++, row);
+        controller.processViewGPane.add(docContainerVBox, column++, row);
+
         GridPane.setMargin(docContainerVBox, new Insets(10));
+        docContainerControllerList.add(docContainerController);
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
-
+    initializeAutoComplete();
   }
 
   private List<Document> loadDocument() {
@@ -66,6 +69,10 @@ public class CatalogController {
       document.setAuthor("Author " + i);
       list.add(document);
     }
+
     return list;
+  }
+
+  public void initializeAutoComplete() {
   }
 }

@@ -286,7 +286,6 @@ public class MainController implements Initializable, properties, GeneralControl
     catalogBPane.setVisible(sectionToShow == catalogBPane);
     pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
     allIssuedDocBPane.setVisible(sectionToShow == allIssuedDocBPane);
-
   }
 
   @FXML

@@ -22,7 +22,7 @@ public class main extends Application implements properties {
   @Override
   public void start(Stage primaryStage) {
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_SCREEN_SOURCES));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/fxml/full.fxml"));
       StackPane root = loader.load();
       Scene scene = new Scene(root);
 //      scene.getStylesheets()
