@@ -26,8 +26,6 @@ public class main extends Application implements properties {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_SCREEN_SOURCES));
             StackPane root = loader.load();
             Scene scene = new Scene(root);
-//      scene.getStylesheets()
-//          .add(Objects.requireNonNull(getClass().getResource(MAIN_STYLE_SOURCES)).toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setTitle(MAIN_TITLE);
 

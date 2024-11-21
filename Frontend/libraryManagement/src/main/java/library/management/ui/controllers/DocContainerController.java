@@ -79,8 +79,6 @@ public class DocContainerController implements GeneralController {
   @FXML
   private HBox numberHBox;
   @FXML
-  private HBox numberHBox;
-  @FXML
   private TextField priceField;
   @FXML
   private TextField numberField;
