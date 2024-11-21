@@ -9,7 +9,7 @@ public class Loan {
     private int loanID;
     private String userName; // Replaced userId with userName as primary identifier
     private int documentId;
-    private short quantityOfBorrow;
+    private int quantityOfBorrow;
     private double deposit;
     private LocalDateTime dateOfBorrow;
     private LocalDateTime requiredReturnDate;
@@ -21,6 +21,16 @@ public class Loan {
 
     public Loan(String loanID) {
         this.loanID = Integer.parseInt(loanID.substring(4));
+    }
+
+    public Loan(String userName, int documentId, int quantityOfBorrow, double deposit) {
+        this.userName = userName;
+        this.documentId = documentId;
+        this.quantityOfBorrow = quantityOfBorrow;
+        this.deposit = deposit;
+        this.dateOfBorrow = LocalDateTime.now();
+        this.requiredReturnDate = this.dateOfBorrow.plusDays(30);
+        this.status = "borrowing";
     }
 
     public String getUserName() {
@@ -43,11 +53,11 @@ public class Loan {
         this.documentId = Integer.parseInt(documentId.substring(3));
     }
 
-    public short getQuantityOfBorrow() {
+    public int getQuantityOfBorrow() {
         return quantityOfBorrow;
     }
 
-    public void setQuantityOfBorrow(short quantityOfBorrow) {
+    public void setQuantityOfBorrow(int quantityOfBorrow) {
         this.quantityOfBorrow = quantityOfBorrow;
     }
 
@@ -117,4 +127,17 @@ public class Loan {
                 .map(User::getUserName)
                 .orElse("Unknown User");
     }
+
+    @Override
+    public String toString() {
+        return String.format("Loan ID: %s, User Name: %s, Document ID: %s, Quantity Borrowed: %d, Deposit: %.2f, Required Return Date: %s, Status: %s",
+                getLoanID(),
+                getUserName(),
+                getDocumentId(),
+                getQuantityOfBorrow(),
+                getDeposit(),
+                getRequiredReturnDate() != null ? getRequiredReturnDate().toString() : "N/A",
+                getStatus());
+    }
+
 }

@@ -468,7 +468,7 @@
                      </bottom></BorderPane>
 
                   <!--               DOCUMENT MANAGEMENT-->
-                  <BorderPane fx:id="docManagementBPane" visible="false">
+                  <BorderPane fx:id="docManagementBPane">
                      <center>
 
                         <VBox prefHeight="390.0" prefWidth="639.0">
@@ -525,7 +525,7 @@
                               </BorderPane>
                               <StackPane prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <BorderPane fx:id="returnDocBPane" visible="false">
+                                    <BorderPane fx:id="returnDocBPane">
                                        <top>
                                           <VBox BorderPane.alignment="CENTER">
                                              <children>
@@ -556,7 +556,7 @@
                                                       <HBox alignment="CENTER" spacing="10.0">
                                                          <children>
                                                             <HBox HBox.hgrow="ALWAYS" />
-                                                            <TextField promptText="Enter Issue ID" style="-fx-background-radius: 30;" />
+                                                            <TextField fx:id="searchLoanID" onMouseReleased="#searchLoanByID" promptText="Enter Issue ID" style="-fx-background-radius: 30;" />
                                                             <CheckComboBox prefWidth="133.0" title="Issue Type" />
                                                             <HBox HBox.hgrow="ALWAYS" />
                                                          </children>
@@ -598,7 +598,7 @@
                                           </HBox>
                                        </bottom>
                                     </BorderPane>
-                                    <BorderPane fx:id="issueDocBPane">
+                                    <BorderPane fx:id="issueDocBPane" visible="false">
                                        <center>
                                           <VBox>
                                              <children>
@@ -621,7 +621,7 @@
                                                                </HBox.margin>
                                                                <children>
                                                                   <Label text="User name: " />
-                                                                  <AutoCompleteTextField fx:id="userIDIssue" floatText="Enter user name to search" />
+                                                                  <AutoCompleteTextField fx:id="userIDIssue" floatText="Enter user name to search" onKeyReleased="#handleSearchUserInformation" />
                                                                </children>
                                                             </VBox>
                                                             <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
@@ -671,7 +671,7 @@
                                                                </rotationAxis>
                                                                <children>
                                                                   <Label text="Document ISBN/ Barcode: " />
-                                                                  <AutoCompleteTextField fx:id="docISBNIssue" floatText="Enter document ISDN/ Barcode to search" />
+                                                                  <AutoCompleteTextField fx:id="docISBNIssue" floatText="Enter document ISDN/ Barcode to search" onKeyReleased="#handleSearchDocInformation" />
                                                                   <Label text="Quantity:" />
                                                                   <AutoCompleteTextField fx:id="quantityDoc" floatText="Enter quantity" />
                                                                </children>
@@ -737,7 +737,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
                                                    <children>
-                                                      <JFXButton fx:id="cancelIssueDocButton" text="Cancel" />
+                                                      <JFXButton fx:id="cancelIssueDocButton" onAction="#handleCancelIssue" text="Cancel" />
                                                       <JFXButton fx:id="submitIssueDocButton" onAction="#handleSubmitIssueDoc" text="Submit">
                                                          <HBox.margin>
                                                             <Insets right="30.0" />

@@ -23,12 +23,14 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
 import library.management.data.entity.Document;
@@ -51,7 +53,8 @@ public class MainController implements Initializable, properties, GeneralControl
     private final AvatarController avatarController = new AvatarController(this);
     private final PendingLoanController pendingLoanController = new PendingLoanController(this);
     private final IssuedDocument issuedDocument = new IssuedDocument(this);
-
+    private final DocumentManagementController documentManagementController = new DocumentManagementController(this);
+    private final ReturnDocumentController returnDocumentController = new ReturnDocumentController(this);
 
     // DASHBOARD PROPERTIES
     @FXML
@@ -203,7 +206,19 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected BorderPane issueDocBPane;
     @FXML
-    protected JFXListView<?> listInfo;
+    protected AutoCompleteTextField<String> userIDIssue;
+    @FXML
+    protected AutoCompleteTextField<String> docISBNIssue;
+    @FXML
+    protected AutoCompleteTextField<String> quantityDoc;
+    @FXML
+    protected Text userNameInfo;
+    @FXML
+    protected Text emailInfo;
+    @FXML
+    protected Text phoneNumberInfo;
+    @FXML
+    protected JFXListView<Loan> listInfo;
     @FXML
     protected AutoCompleteTextField lateFeeField;
     @FXML
@@ -214,6 +229,20 @@ public class MainController implements Initializable, properties, GeneralControl
     protected JFXButton submitIssueDocButton;
     @FXML
     protected JFXButton cancelIssueDocButton;
+    @FXML
+    protected Text docTitleInfo;
+    @FXML
+    protected Text docAuthorInfo;
+    @FXML
+    protected Text docPublisherInfo;
+    @FXML
+    protected Text price;
+    @FXML
+    protected Text availablity;
+    @FXML
+    protected TextField searchLoanID;
+
+
 
     // All Issued Doc
     @FXML
@@ -327,7 +356,7 @@ public class MainController implements Initializable, properties, GeneralControl
         issuedDocument.initIssueDocumentView();
         catalogController.initCatalog();
         avatarController.initAvatar(infoVBox);
-
+        documentManagementController.initDocumentManagement();
     }
 
     // MENU CONTROLLER
@@ -465,13 +494,40 @@ public class MainController implements Initializable, properties, GeneralControl
     }
 
     public void handleRenewDoc(ActionEvent actionEvent) {
+        returnDocumentController.loadListView();
     }
 
     public void handleSubmitIssueDoc(ActionEvent actionEvent) {
+        documentManagementController.handleSubmitIssueDoc();
+    }
+
+    @FXML
+    private void handleSearchUserInformation(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            documentManagementController.handleSearchUserInformation();
+        }
+    }
+
+    @FXML
+    private void searchLoanByID(MouseEvent mouseEvent) {
+        returnDocumentController.searchLoanByID();
+    }
+
+    @FXML
+    private void handleSearchDocInformation(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            documentManagementController.handleSearchDocInformation();
+        }
+    }
+
+    @FXML
+    private void handleCancelIssue(ActionEvent actionEvent) {
+        documentManagementController.handleCancelIssue();
     }
 
     @FXML
     protected void handleReturnDocButton(ActionEvent actionEvent) {
+        returnDocumentController.loadListView();
         showSection(docManagementBPane);
         issueDocBPane.setVisible(false);
         returnDocBPane.setVisible(true);
@@ -499,6 +555,7 @@ public class MainController implements Initializable, properties, GeneralControl
 
     @FXML
     private void handleSubmitDoc(ActionEvent actionEvent) {
+        returnDocumentController.handleSubmitDoc();
     }
 
     //  USER CONTROLLER
@@ -564,6 +621,7 @@ public class MainController implements Initializable, properties, GeneralControl
     // CATALOG
     @FXML
     private void handleSearchCatalog(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) return;
         if (scheduler == null) {
             scheduler = Executors.newScheduledThreadPool(1);
         }

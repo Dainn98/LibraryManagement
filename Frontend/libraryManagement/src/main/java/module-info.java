@@ -19,6 +19,8 @@ module library.management {
     requires jfxtras.gauge.linear;
     requires com.gluonhq.charm.glisten;
     requires jdk.compiler;
+    requires com.google.zxing;
+    requires com.google.zxing.javase;
     // Application
     opens library.management.ui.applications to javafx.graphics, javafx.fxml;
     exports library.management.ui.applications to javafx.graphics, javafx.fxml;

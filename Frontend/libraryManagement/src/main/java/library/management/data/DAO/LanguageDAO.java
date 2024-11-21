@@ -125,4 +125,21 @@ public class LanguageDAO implements DAOInterface<Language> {
         return -1;
     }
 
+    public String getLanguageName(int lgID) {
+        String query = "SELECT lgName FROM language WHERE lgID = ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, lgID);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("lgName");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

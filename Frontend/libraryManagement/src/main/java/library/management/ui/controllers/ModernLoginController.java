@@ -1,8 +1,6 @@
 package library.management.ui.controllers;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -29,19 +27,15 @@ public class ModernLoginController  implements Initializable,GeneralController {
     private static final double leftTrans = -(double) WIDTH / 2;
 
     @FXML
-    protected Pane demoPane;
+    protected Pane transPane;
     @FXML
-    protected Pane logRegSprites;
+    protected Pane registerSwitch;
     @FXML
-    protected Pane registerNavigation;
+    protected Pane loginSwitch;
     @FXML
-    protected Pane loginNavigation;
+    protected Pane loginPane;
     @FXML
-    protected Pane loginForm;
-    @FXML
-    protected Pane registerForm;
-    @FXML
-    protected Pane switchForm;
+    protected Pane registerPane;
     @FXML
     protected TextField loginUsername;
     @FXML
@@ -107,18 +101,18 @@ public class ModernLoginController  implements Initializable,GeneralController {
         Timeline timeline = new Timeline();
 
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.5), e -> {
-            registerForm.setVisible(true);
-            loginNavigation.setVisible(true);
-            transFade(registerForm, rightTrans, 0, 1, Duration.seconds(0.5));
-            transFade(loginForm, rightTrans, 1, 0, Duration.seconds(0.5));
-            transFade(loginNavigation, rightTrans, 0.5, 1, Duration.seconds(0.5));
-            transFade(registerNavigation, rightTrans, 0.5, 0, Duration.seconds(0.5));
-            transFade(logRegSprites, leftTrans, 1, 1, Duration.seconds(0.5));
+            registerPane.setVisible(true);
+            loginSwitch.setVisible(true);
+            transFade(registerPane, rightTrans, 0, 1, Duration.seconds(0.5));
+            transFade(loginPane, rightTrans, 1, 0, Duration.seconds(0.5));
+            transFade(loginSwitch, rightTrans, 0.5, 1, Duration.seconds(0.5));
+            transFade(registerSwitch, rightTrans, 0.5, 0, Duration.seconds(0.5));
+            transFade(transPane, leftTrans, 1, 1, Duration.seconds(0.5));
         }));
 
         timeline.setOnFinished(e -> {
-            loginForm.setVisible(false);
-            registerNavigation.setVisible(false);
+            loginPane.setVisible(false);
+            registerSwitch.setVisible(false);
         });
         timeline.play();
     }
@@ -126,18 +120,18 @@ public class ModernLoginController  implements Initializable,GeneralController {
     public void showLoginForm(ActionEvent actionEvent) {
         Timeline timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.5), e -> {
-            loginForm.setVisible(true);
-            registerNavigation.setVisible(true);
-            transFade(registerForm, leftTrans, 1, 0, Duration.seconds(0.5));
-            transFade(registerNavigation, leftTrans, 0, 1, Duration.seconds(0.5));
-            transFade(loginForm, leftTrans, 0.5, 1, Duration.seconds(0.5));
-            transFade(loginNavigation, leftTrans, 0.5, 0, Duration.seconds(0.5));
-            transFade(logRegSprites, rightTrans, 1, 1, Duration.seconds(0.5));
+            loginPane.setVisible(true);
+            registerSwitch.setVisible(true);
+            transFade(registerPane, leftTrans, 1, 0, Duration.seconds(0.5));
+            transFade(registerSwitch, leftTrans, 0, 1, Duration.seconds(0.5));
+            transFade(loginPane, leftTrans, 0.5, 1, Duration.seconds(0.5));
+            transFade(loginSwitch, leftTrans, 0.5, 0, Duration.seconds(0.5));
+            transFade(transPane, rightTrans, 1, 1, Duration.seconds(0.5));
         }));
 
         timeline.setOnFinished(e -> {
-            registerForm.setVisible(false);
-            loginNavigation.setVisible(false);
+            registerPane.setVisible(false);
+            loginSwitch.setVisible(false);
         });
 
         timeline.play();
@@ -145,16 +139,16 @@ public class ModernLoginController  implements Initializable,GeneralController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loginForm.setVisible(true);
-        registerNavigation.setVisible(true);
-        registerForm.setVisible(false);
-        loginNavigation.setVisible(false);
+        loginPane.setVisible(true);
+        registerSwitch.setVisible(true);
+        registerPane.setVisible(false);
+        loginSwitch.setVisible(false);
 
-        registerForm.setLayoutX(0);
-        loginForm.setLayoutX(0);
+        registerPane.setLayoutX(0);
+        loginPane.setLayoutX(0);
 
-        loginNavigation.setLayoutX((double) -WIDTH / 2);
-        registerNavigation.setLayoutX((double) WIDTH / 2);
+        loginSwitch.setLayoutX((double) -WIDTH / 2);
+        registerSwitch.setLayoutX((double) WIDTH / 2);
     }
 
     /**

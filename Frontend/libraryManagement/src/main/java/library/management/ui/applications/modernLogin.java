@@ -25,7 +25,5 @@ public class modernLogin extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }

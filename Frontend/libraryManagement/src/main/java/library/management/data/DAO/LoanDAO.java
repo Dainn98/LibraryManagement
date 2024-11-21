@@ -4,6 +4,7 @@ import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.Loan;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class LoanDAO implements DAOInterface<Loan> {
 
             stmt.setString(1, loan.getUserName());
             stmt.setInt(2, loan.getIntDocumentId());
-            stmt.setShort(3, loan.getQuantityOfBorrow());
+            stmt.setInt(3, loan.getQuantityOfBorrow());
             stmt.setDouble(4, loan.getDeposit());
             stmt.setTimestamp(5, Timestamp.valueOf(loan.getDateOfBorrow()));
             stmt.setTimestamp(6, Timestamp.valueOf(loan.getRequiredReturnDate()));
@@ -66,7 +67,7 @@ public class LoanDAO implements DAOInterface<Loan> {
 
             stmt.setString(1, loan.getUserName());
             stmt.setInt(2, loan.getIntDocumentId());
-            stmt.setShort(3, loan.getQuantityOfBorrow());
+            stmt.setInt(3, loan.getQuantityOfBorrow());
             stmt.setDouble(4, loan.getDeposit());
             stmt.setTimestamp(5, Timestamp.valueOf(loan.getDateOfBorrow()));
             stmt.setTimestamp(6, Timestamp.valueOf(loan.getRequiredReturnDate()));
@@ -368,4 +369,61 @@ public class LoanDAO implements DAOInterface<Loan> {
         return loanList;
     }
 
+    public List<Loan> getActiveLoans() {
+        List<Loan> loanList = new ArrayList<>();
+        String query = "SELECT * FROM loans WHERE status NOT IN ('removed', 'disapproved', 'returned', 'pending')";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                loanList.add(mapLoan(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return loanList;
+    }
+
+    public boolean returnDocument(Loan loan) {
+        String query = "UPDATE loans SET status = 'returned', returnDate = ? WHERE loanID = ? AND status NOT IN ('removed', 'disapproved', 'returned', 'pending')";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setInt(2, loan.getIntLoanID());
+
+            if (stmt.executeUpdate() > 0) {
+                if (DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), -loan.getQuantityOfBorrow())) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<Loan> searchReturnLoanByLoanId(String loanId) {
+        String query = "SELECT * FROM loans WHERE status NOT IN ('removed', 'disapproved', 'returned', 'pending') AND CAST(loanID AS CHAR) LIKE ?";
+        List<Loan> loanList = new ArrayList<>();
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + loanId + "%");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    loanList.add(mapLoan(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return loanList;
+    }
 }
