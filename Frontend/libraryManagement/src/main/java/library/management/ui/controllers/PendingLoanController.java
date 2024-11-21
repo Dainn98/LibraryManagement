@@ -181,5 +181,56 @@ public class PendingLoanController {
         for (int i = 0; i < list.size(); i++) {
             this.checkBoxStatusList.add(new SimpleBooleanProperty(false));
         }
+        for (BooleanProperty checkBoxStatus : checkBoxStatusList) {
+            checkBoxStatus.addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    controller.checkLoans.setSelected(false);
+                } else {
+                    boolean allSelected = checkBoxStatusList.stream().allMatch(BooleanProperty::get);
+                    if (allSelected) {
+                        controller.checkLoans.setSelected(true);
+                    }
+                }
+            });
+        }
+    }
+
+    public void checkAllPendingIssue() {
+        boolean isSelected = controller.checkLoans.isSelected();
+        for (BooleanProperty checkBoxStatus : checkBoxStatusList) {
+            checkBoxStatus.set(isSelected);
+        }
+    }
+
+    public void disapprovePendingIssue() {
+        Optional<ButtonType> result = showAlertConfirmation(
+                "Disapprove pending loans",
+                "Are you sure you want to disapprove these loans?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            for (int i = 0; i < list.size(); i++) {
+                if (checkBoxStatusList.get(i).getValue()) {
+                    if (LoanDAO.getInstance().disapprove(list.get(i)) < 0) {
+                        System.out.println("loi disapprove loan");
+                    }
+                }
+            }
+        }
+        loadLoanData();
+    }
+
+    public void approvePendingIssue() {
+        Optional<ButtonType> result = showAlertConfirmation(
+                "Approve pending loans",
+                "Are you sure you want to approve these loans?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            for (int i = 0; i < list.size(); i++) {
+                if (checkBoxStatusList.get(i).getValue()) {
+                    if (LoanDAO.getInstance().approve(list.get(i)) < 0) {
+                        System.out.println("loi approve loan");
+                    }
+                }
+            }
+        }
+        loadLoanData();
     }
 }

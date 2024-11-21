@@ -302,4 +302,50 @@ public class DocumentDAO implements DAOInterface<Document> {
         return false;
     }
 
+    public List<Document> searchDocumentInDatabase(String query, int maxResults, int startIndex) {
+        List<Document> documents = new ArrayList<>();
+        String sqlQuery = "SELECT * FROM document WHERE " +
+                "(title LIKE ? OR author LIKE ? OR isbn LIKE ? OR publisher LIKE ?) " +
+                "AND availability != 'removed' LIMIT ? OFFSET ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sqlQuery)) {
+
+            String searchKeyword = "%" + query + "%";
+            stmt.setString(1, searchKeyword); // title
+            stmt.setString(2, searchKeyword); // author
+            stmt.setString(3, searchKeyword); // isbn
+            stmt.setString(4, searchKeyword); // publisher
+            stmt.setInt(5, maxResults);       // max results
+            stmt.setInt(6, startIndex);       // offset
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Document document = new Document();
+                    document.setDocumentID(String.format("DOC%d", rs.getInt("documentId")));
+                    document.setCategoryID(String.format("CAT%d", rs.getInt("categoryID")));
+                    document.setPublisher(rs.getString("publisher"));
+                    document.setLgID(String.format("LANG%d", rs.getInt("lgID")));
+                    document.setTitle(rs.getString("title"));
+                    document.setAuthor(rs.getString("author"));
+                    document.setIsbn(rs.getString("isbn"));
+                    document.setQuantity(rs.getInt("quantity"));
+                    document.setAvailableCopies(rs.getInt("availableCopies"));
+                    document.setAddDate(rs.getTimestamp("addDate").toLocalDateTime().toString());
+                    document.setPrice(rs.getBigDecimal("price").doubleValue());
+                    document.setDescription(rs.getString("description"));
+                    document.setUrl(rs.getString("url"));
+                    document.setImage(rs.getString("image"));
+                    document.setAvailability(rs.getString("availability"));
+
+                    documents.add(document);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return documents;
+    }
+
 }

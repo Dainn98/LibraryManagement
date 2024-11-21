@@ -57,6 +57,8 @@ public class DocContainerController implements GeneralController {
       "CFD8DC"  // Light Gray
   };
   boolean check = true;
+  private Image image;
+  private Document document;
   @FXML
   private Label titleInfo;
   @FXML
@@ -74,7 +76,11 @@ public class DocContainerController implements GeneralController {
   @FXML
   private HBox priceHBox;
   @FXML
+  private HBox numberHBox;
+  @FXML
   private TextField priceField;
+  @FXML
+  private TextField numberField;
   @FXML
   private ImageView thumbnailImageInfo;
   @FXML
@@ -96,9 +102,9 @@ public class DocContainerController implements GeneralController {
   @FXML
   private Hyperlink docTitleCatalog;
 
-    public void setData(Document document) {
+    public void setData(Document doc) {
+      this.document = doc;
       String imageUrl = document.getImage();
-      Image image;
       if (Objects.equals(imageUrl, "/ui/sprites/demoDoc.gif")) {
         image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imageUrl)));
       } else {
@@ -158,15 +164,21 @@ public class DocContainerController implements GeneralController {
     }
   }
 
+  private void loadDocData() {
+    titleInfo.setText("Document Information");
+
+  }
 
   @FXML
   private void handleAddDoc(ActionEvent actionEvent) {
     if (check) {
       transFade(priceHBox, DX, 0.5, 1, DURATION);
+      transFade(numberHBox, DX, 0.5, 1, DURATION);
       transFade(saveHBox, DX, 0.5, 1, DURATION);
       check = false;
     } else {
       transFade(priceHBox, -DX, 1, 0, DURATION);
+      transFade(numberHBox, -DX, 1, 0, DURATION);
       transFade(saveHBox, -DX, 1, 0, DURATION);
       check = true;
     }
