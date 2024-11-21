@@ -15,9 +15,17 @@ public class DatabaseConnection {
     // Khối khởi tạo tĩnh để cấu hình HikariCP
     static {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3306/libdemo?useSSL=false&autoReconnect=true");
+        /*config.setJdbcUrl("jdbc:mysql://localhost:3306/libdemo?useSSL=false&autoReconnect=true");
         config.setUsername("root");
-        config.setPassword("");
+        config.setPassword("");*/
+
+        /*config.setJdbcUrl("jdbc:mysql://bhdhbvbnzgx0wns50jsy-mysql.services.clever-cloud.com:3306/bhdhbvbnzgx0wns50jsy?useSSL=false&autoReconnect=true");
+        config.setUsername("ueqiv7zizvzrfyya");
+        config.setPassword("lhzioZP31QXOKAZNuVFM");*/
+
+        config.setJdbcUrl("jdbc:mysql://ukvexf6kt5s7fy33:GKvPJk2sStgrOb9S1MMn@b6ozsnp2bumoavmqcybz-mysql.services.clever-cloud.com:3306/b6ozsnp2bumoavmqcybz?useSSL=false&autoReconnect=true");
+        config.setUsername("ukvexf6kt5s7fy33");
+        config.setPassword("GKvPJk2sStgrOb9S1MMn");
 
         config.setMaximumPoolSize(10);
         config.setMinimumIdle(5);
@@ -39,7 +47,7 @@ public class DatabaseConnection {
     }
 
     // Phương thức để lưu thông tin sách vào cơ sở dữ liệu
-    public static void saveBook(String title, String authors, String description, String genre, String thumbnail, String language) {
+    /*public static void saveBook(String title, String authors, String description, String genre, String thumbnail, String language) {
         String insertSQL = "INSERT INTO books (title, authors, description, genre, thumbnail, language) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
@@ -57,5 +65,5 @@ public class DatabaseConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

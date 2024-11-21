@@ -161,7 +161,7 @@ public class GoogleBooksAPI {
 
 
     // Hàm kiểm tra và in ra thumbnail của từng cuốn sách
-    /*public static void testThumbnails(JsonArray books) {
+    public static void testThumbnails(JsonArray books) {
         if (books == null || books.size() == 0) {
             System.out.println("Không có sách nào để kiểm tra.");
             return;
@@ -178,6 +178,6 @@ public class GoogleBooksAPI {
             System.out.println("  Thumbnail: " + thumbnail);
             System.out.println("-------------------------------");
         }
-    }*/
+    }
 
 }
