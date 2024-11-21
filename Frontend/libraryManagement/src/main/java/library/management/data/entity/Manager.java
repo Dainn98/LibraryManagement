@@ -26,7 +26,6 @@ public class Manager {
         this.email = email;
     }
 
-
     public String getManagerName() {
         return managerName;
     }
@@ -43,7 +42,6 @@ public class Manager {
         this.password = password;
     }
 
-
     public String getEmail() {
         return email;
     }
@@ -57,7 +55,6 @@ public class Manager {
     }
 
     public int getIntManagerID() {
-
         return managerID;
     }
 

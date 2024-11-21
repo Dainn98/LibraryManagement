@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+
 public class AvatarController {
 
   private static final String AVATAR_INFO_SOURCE = "/ui/fxml/avatarInfo.fxml";

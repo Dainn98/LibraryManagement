@@ -1,5 +1,7 @@
 package library.management.data.entity;
 
+import library.management.data.DAO.CategoryDAO;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,7 +20,10 @@ public class Document {
     private String description;
     private String url;
     private String image;
-    private String imageSrc;
+    private String availability;
+
+    public static int NOTAVALABLETOBOROW = 0;
+    public static int NOTENOUGHCOPIES = -1;
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
@@ -32,7 +37,7 @@ public class Document {
     }
 
     public Document(String documentID, String categoryID, String publisher, String lgId, String title,
-                    String author, String isbn, int quantity, int availableCopies, String addDate, double price, String description, String url, String image) {
+                    String author, String isbn, int quantity, int availableCopies, String addDate, double price, String description, String url, String image, String availability) {
         this.documentID = parseId(documentID, "DOC");
         this.categoryID = parseId(categoryID, "CAT");
         this.publisher = publisher;
@@ -47,10 +52,24 @@ public class Document {
         this.description = description;
         this.url = url;
         this.image = image;
+        this.availability = availability;
+    }
+
+    public Document(int categoryID, String publisher, int lgId, String title,
+                    String author, String isbn, String description, String url, String image) {
+        this.categoryID = categoryID;
+        this.publisher = publisher;
+        this.lgID = lgId;
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.description = description;
+        this.url = url;
+        this.image = image;
     }
 
     public Document(String categoryID, String publisher, String lgID, String title,
-                    String author, String isbn, int quantity, int availableCopies, String addDate, double price, String description, String url, String image) {
+                    String author, String isbn, int quantity, int availableCopies, String addDate, double price, String description, String url, String image, String availability) {
         super();
         this.categoryID = parseId(categoryID, "CAT");
         this.publisher = publisher;
@@ -65,6 +84,7 @@ public class Document {
         this.description = description;
         this.url = url;
         this.image = image;
+        this.availability = availability;
     }
 
     private int parseId(String input, String prefix) {
@@ -75,7 +95,7 @@ public class Document {
         }
     }
 
-    public String getStringDocumentID() {
+    public String getDocumentID() {
         return String.format("DOC%d", documentID);
     }
 
@@ -199,11 +219,15 @@ public class Document {
         this.url = url;
     }
 
-    public String getImageSrc() {
-        return imageSrc;
+    public String getCategory() {
+        return CategoryDAO.getInstance().getTagByID(getIntCategoryID());
     }
 
-    public void setImageSrc(String imageSrc) {
-        this.imageSrc = imageSrc;
+    public String getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
     }
 }

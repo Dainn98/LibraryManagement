@@ -1,7 +1,11 @@
 package library.management.ui.controllers;
 
+
 import java.io.IOException;
+import java.util.Objects;
+
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import library.management.data.entity.Document;
+import library.management.ui.applications.ImageDownloader;
 
 public class DocContainerController implements GeneralController {
 
@@ -52,6 +57,8 @@ public class DocContainerController implements GeneralController {
       "CFD8DC"  // Light Gray
   };
   boolean check = true;
+  private Image image;
+  private Document document;
   @FXML
   private Label titleInfo;
   @FXML
@@ -72,7 +79,11 @@ public class DocContainerController implements GeneralController {
   @FXML
   private HBox numberHBox;
   @FXML
+  private HBox numberHBox;
+  @FXML
   private TextField priceField;
+  @FXML
+  private TextField numberField;
   @FXML
   private ImageView thumbnailImageInfo;
   @FXML
@@ -94,21 +105,28 @@ public class DocContainerController implements GeneralController {
   @FXML
   private Hyperlink docTitleCatalog;
 
-  public void setData(Document document) {
-    Image image = new Image(getClass().getResourceAsStream(document.getImageSrc()));
-    docThumbnail.setImage(image);
-    docTitleCatalog.setText(document.getTitle());
-    authorCatalog.setText(document.getAuthor());
+    public void setData(Document doc) {
+      this.document = doc;
+      String imageUrl = document.getImage();
+      if (Objects.equals(imageUrl, "/ui/sprites/demoDoc.gif")) {
+        image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imageUrl)));
+      } else {
+        image = ImageDownloader.downloadImage(document.getImage());
+      }
+        Platform.runLater(()-> {
+            docThumbnail.setImage(image);
+            docTitleCatalog.setText(document.getTitle());
+            authorCatalog.setText(document.getAuthor());
 
-    //Style
-    docTitleCatalog.setStyle("-fx-text-fill: #002B5B; -fx-font-size: 14px;");  // Navy Blue
-    authorCatalog.setStyle("-fx-text-fill: #333333; -fx-padding: 5;");    // Dark Gray
-    docCatalogView.setStyle(
-        "-fx-background-color:#" + colors[(int) (Math.random() * colors.length)] + ";"
-            + "-fx-background-radius: 15;"
-            + "-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 10);");
-
-  }
+            docTitleCatalog.setStyle("-fx-text-fill: #002B5B; -fx-font-size: 14px;");  // Navy Blue
+            authorCatalog.setStyle("-fx-text-fill: #333333; -fx-padding: 5;");    // Dark Gray
+            docCatalogView.setStyle(
+                    "-fx-background-color:#" + colors[(int) (Math.random() * colors.length)] + ";"
+                            + "-fx-background-radius: 15;"
+                            + "-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 10);"
+            );
+        });
+    }
 
   @FXML
   private void handleEnterDocThumbnail(MouseEvent mouseEvent) {
@@ -162,17 +180,23 @@ public class DocContainerController implements GeneralController {
         "The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, near New York City, the novel depicts first-person narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan.");
   }
 
+  private void loadDocData() {
+    titleInfo.setText("Document Information");
+
+  }
 
   @FXML
   private void handleAddDoc(ActionEvent actionEvent) {
     if (check) {
       transFade(priceHBox, DX, 0.5, 1, DURATION);
+      transFade(numberHBox, DX, 0.5, 1, DURATION);
       transFade(saveHBox, DX, 0.5, 1, DURATION);
       transFade(numberHBox, -DX, 0.5, 1, DURATION);
       check = false;
     } else {
       transFade(numberHBox, DX, 1, 0, DURATION);
       transFade(priceHBox, -DX, 1, 0, DURATION);
+      transFade(numberHBox, -DX, 1, 0, DURATION);
       transFade(saveHBox, -DX, 1, 0, DURATION);
       check = true;
     }
