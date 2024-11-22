@@ -268,7 +268,7 @@ public class LoanDAO implements DAOInterface<Loan> {
     private Loan mapLoan(ResultSet rs) throws SQLException {
         Loan loan = new Loan();
         loan.setLoanID(String.format("LOAN%d", rs.getInt("loanID")));
-        loan.setUserName(rs.getString("userName")); // Sử dụng userName thay vì userId
+        loan.setUserName(rs.getString("userName"));
         loan.setDocumentId(String.format("DOC%d", rs.getInt("documentId")));
         loan.setQuantityOfBorrow(rs.getShort("quantityOfBorrow"));
         loan.setDeposit(rs.getDouble("deposit"));
@@ -282,11 +282,6 @@ public class LoanDAO implements DAOInterface<Loan> {
         return loan;
     }
 
-    /**
-     * Tìm kiếm các khoản vay (Loan) đang ở trạng thái 'pending' theo Loan ID.
-     * @param loanId Loan ID cần tìm kiếm.
-     * @return List<Loan> - Danh sách các khoản vay tìm thấy.
-     */
     public List<Loan> searchPendingByLoanId(String loanId) {
         String query = "SELECT * FROM loans WHERE status = 'pending' AND CAST(loanID AS CHAR) LIKE ?";
         List<Loan> loanList = new ArrayList<>();
@@ -308,11 +303,6 @@ public class LoanDAO implements DAOInterface<Loan> {
         return loanList;
     }
 
-    /**
-     * Tìm kiếm các khoản vay (Loan) đang ở trạng thái 'pending' theo Document ID.
-     * @param documentId Document ID cần tìm kiếm.
-     * @return List<Loan> - Danh sách các khoản vay tìm thấy.
-     */
     public List<Loan> searchPendingByDocumentId(String documentId) {
         String query = "SELECT * FROM loans WHERE status = 'pending' AND CAST(documentId AS CHAR) LIKE ?";
         List<Loan> loanList = new ArrayList<>();
@@ -334,12 +324,6 @@ public class LoanDAO implements DAOInterface<Loan> {
         return loanList;
     }
 
-    /**
-     * Tìm kiếm các khoản vay (Loan) đang ở trạng thái 'pending' theo từ khóa.
-     * Tìm kiếm trong Loan ID, Document ID, và User Name.
-     * @param keyword Từ khóa tìm kiếm.
-     * @return List<Loan> - Danh sách các khoản vay tìm thấy.
-     */
     public List<Loan> searchPendingIssueByKeyWord(String keyword) {
         String query = "SELECT * FROM loans l " +
                 "JOIN user u ON l.userId = u.userName " +
@@ -406,15 +390,25 @@ public class LoanDAO implements DAOInterface<Loan> {
         return false;
     }
 
-    public List<Loan> searchReturnLoanByLoanId(String loanId) {
-        String query = "SELECT * FROM loans WHERE status NOT IN ('removed', 'disapproved', 'returned', 'pending') AND CAST(loanID AS CHAR) LIKE ?";
+    public List<Loan> searchReturnLoanByLoanIdAndStatus(String loanId, List<String> statuses) {
+        if (statuses == null || statuses.isEmpty()) {
+            return new ArrayList<>();
+        }
+        StringBuilder query = new StringBuilder("SELECT * FROM loans WHERE status IN (");
+        for (int i = 0; i < statuses.size(); i++) {
+            query.append("?");
+            if (i < statuses.size() - 1) {
+                query.append(", ");
+            }
+        }
+        query.append(") AND CAST(loanID AS CHAR) LIKE ?");
         List<Loan> loanList = new ArrayList<>();
-
         try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setString(1, "%" + loanId + "%");
-
+             PreparedStatement stmt = con.prepareStatement(query.toString())) {
+            for (int i = 0; i < statuses.size(); i++) {
+                stmt.setString(i + 1, statuses.get(i));
+            }
+            stmt.setString(statuses.size() + 1, "%" + loanId + "%");
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     loanList.add(mapLoan(rs));
@@ -423,7 +417,8 @@ public class LoanDAO implements DAOInterface<Loan> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return loanList;
     }
+
+
 }

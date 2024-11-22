@@ -3,8 +3,9 @@ package library.management.data.DAO;
 import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.Document;
 
-import javax.print.Doc;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,42 +96,55 @@ public class DocumentDAO implements DAOInterface<Document> {
         return 0;
     }
 
-    public Document getDocumentById(int documentId) {
-        String query = "SELECT * FROM document WHERE documentId = ? AND availability != 'removed'";
+    public Document getDocumentByIsbn(String isbn) {
+        String query = "SELECT * FROM document WHERE isbn = ? AND availability != 'removed'";
+
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setInt(1, documentId);
+            stmt.setString(1, isbn);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    // Nếu tìm thấy document, tạo đối tượng Document từ kết quả
-                    Document document = new Document();
-                    document.setDocumentID(String.format("DOC%d", rs.getInt("documentId")));
-                    document.setCategoryID(String.format("CAT%d", rs.getInt("categoryID")));
-                    document.setPublisher(rs.getString("publisher"));
-                    document.setLgID(String.format("LANG%d", rs.getInt("lgID")));
-                    document.setTitle(rs.getString("title"));
-                    document.setAuthor(rs.getString("author"));
-                    document.setIsbn(rs.getString("isbn"));
-                    document.setQuantity(rs.getInt("quantity"));
-                    document.setAvailableCopies(rs.getInt("availableCopies"));
-                    document.setAddDate(rs.getTimestamp("addDate").toLocalDateTime().toString());
-                    document.setPrice(rs.getBigDecimal("price").doubleValue());
-                    document.setDescription(rs.getString("description"));
-                    document.setUrl(rs.getString("url"));
-                    document.setImage(rs.getString("image"));
-                    document.setAvailability(rs.getString("availability"));
-
-                    return document; // Trả về document nếu tìm thấy
+                    return mapResultSetToDocument(rs);
                 }
             }
         } catch (SQLException e) {
+            System.err.println("Error while fetching document with ISBN: " + isbn);
             e.printStackTrace();
         }
-        return null; // Trả về null nếu không tìm thấy document
+
+        return null;
     }
 
+    private Document mapResultSetToDocument(ResultSet rs) throws SQLException {
+        Document document = new Document();
+
+        document.setDocumentID(String.format("DOC%d", rs.getInt("documentId")));
+        document.setCategoryID(String.format("CAT%d", rs.getInt("categoryID")));
+        document.setPublisher(rs.getString("publisher"));
+        document.setLgID(String.format("LANG%d", rs.getInt("lgID")));
+        document.setTitle(rs.getString("title"));
+        document.setAuthor(rs.getString("author"));
+        document.setIsbn(rs.getString("isbn"));
+        document.setQuantity(rs.getInt("quantity"));
+        document.setAvailableCopies(rs.getInt("availableCopies"));
+
+        // Xử lý addDate
+        Timestamp timestamp = rs.getTimestamp("addDate");
+        if (timestamp != null) {
+            LocalDateTime addDate = timestamp.toLocalDateTime();
+            document.setAddDate(addDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
+        }
+
+        document.setPrice(rs.getBigDecimal("price").doubleValue());
+        document.setDescription(rs.getString("description"));
+        document.setUrl(rs.getString("url"));
+        document.setImage(rs.getString("image"));
+        document.setAvailability(rs.getString("availability"));
+
+        return document;
+    }
 
 
     public List<Document> getBookList() {
@@ -202,12 +216,12 @@ public class DocumentDAO implements DAOInterface<Document> {
     public List<Document> searchDocuments(String keyword) {
         List<Document> searchResults = new ArrayList<>();
         String query = "SELECT * FROM document WHERE " +
-                "CAST(documentId AS CHAR) LIKE ? OR " +
+                "(CAST(documentId AS CHAR) LIKE ? OR " +
                 "isbn LIKE ? OR " +
                 "title LIKE ? OR " +
                 "author LIKE ? OR " +
                 "publisher LIKE ? OR " +
-                "CAST(categoryID AS CHAR) LIKE ?";
+                "CAST(categoryID AS CHAR) LIKE ?) AND availability != 'removed'";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -248,6 +262,7 @@ public class DocumentDAO implements DAOInterface<Document> {
 
         return searchResults;
     }
+
 
     public Document searchDocumentById(int documentId) {
         String query = "SELECT * FROM document WHERE documentId = ? AND availability != 'removed'";

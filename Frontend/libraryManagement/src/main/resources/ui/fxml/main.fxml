@@ -556,8 +556,8 @@
                                                       <HBox alignment="CENTER" spacing="10.0">
                                                          <children>
                                                             <HBox HBox.hgrow="ALWAYS" />
-                                                            <TextField fx:id="searchLoanID" onMouseReleased="#searchLoanByID" promptText="Enter Issue ID" style="-fx-background-radius: 30;" />
-                                                            <CheckComboBox prefWidth="133.0" title="Issue Type" />
+                                                            <TextField fx:id="searchLoanID" onKeyReleased="#searchLoanByID" promptText="Enter Issue ID" style="-fx-background-radius: 30;" />
+                                                            <CheckComboBox fx:id="issueTypeComboBox" prefWidth="133.0" title="Issue Type" />
                                                             <HBox HBox.hgrow="ALWAYS" />
                                                          </children>
                                                          <padding>
@@ -682,7 +682,7 @@
                                                                   <Text fx:id="docAuthorInfo" strokeType="OUTSIDE" strokeWidth="0.0" text="Document Author" VBox.vgrow="ALWAYS" />
                                                                   <Text fx:id="docPublisherInfo" strokeType="OUTSIDE" strokeWidth="0.0" text="Document Publisher" VBox.vgrow="ALWAYS" />
                                                                   <Text fx:id="price" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" VBox.vgrow="ALWAYS" />
-                                                                  <Text fx:id="availablity" strokeType="OUTSIDE" strokeWidth="0.0" text="Availablity" VBox.vgrow="ALWAYS" />
+                                                                  <Text fx:id="availability" strokeType="OUTSIDE" strokeWidth="0.0" text="Availablity" VBox.vgrow="ALWAYS" />
                                                                </children>
                                                                <HBox.margin>
                                                                   <Insets />
@@ -863,186 +863,6 @@
                      </center>
                   </BorderPane>
 
-
-<!--                  DOCUMENT INFORMATION-->
-                  <BorderPane fx:id="docPropertiesBPane" visible="false">
-                     <center>
-                        <BorderPane>
-                           <center>
-                              <VBox prefHeight="569.0" prefWidth="802.0" spacing="10.0">
-                                 <children>
-
-                                    <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <HBox alignment="CENTER">
-                                             <children>
-                                                <Label style="-fx-font-size: 20;" text="Bibliographic information" />
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="30.0" top="30.0" />
-                                             </padding>
-                                          </HBox>
-                                          <HBox prefWidth="100.0">
-                                             <children>
-                                                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Title" />
-                                                <Label fx:id="titleInfo" style="-fx-font-size: 14;" text="Harry Potter và Phòng Chứa Bí Mật" wrapText="true" />
-                                             </children>
-                                          </HBox>
-                                          <HBox>
-                                             <children>
-                                                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Author" HBox.hgrow="ALWAYS" />
-                                                <Label fx:id="authorInfo" style="-fx-font-size: 14;" text="J. K. Rowling" wrapText="true" HBox.hgrow="ALWAYS" />
-                                             </children>
-                                          </HBox>
-                                          <HBox>
-                                             <children>
-                                                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Publisher" HBox.hgrow="ALWAYS" />
-                                                <Label fx:id="publisherInfo" style="-fx-font-size: 14;" text="Nhà xuất bản Trẻ, 2016" wrapText="true" HBox.hgrow="ALWAYS" />
-                                             </children>
-                                          </HBox>
-                                          <HBox>
-                                             <children>
-                                                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Category" HBox.hgrow="ALWAYS" />
-                                                <Label fx:id="categoryInfo" style="-fx-font-size: 14;" text="Mange" wrapText="true" HBox.hgrow="ALWAYS" />
-                                             </children>
-                                          </HBox>
-                                          <HBox>
-                                             <children>
-                                                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Language" HBox.hgrow="ALWAYS" />
-                                                <Label fx:id="languageInfo" style="-fx-font-size: 14;" text="Lý Lan" wrapText="true" HBox.hgrow="ALWAYS" />
-                                             </children>
-                                          </HBox>
-                                          <HBox>
-                                             <children>
-                                                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="ISBN" HBox.hgrow="ALWAYS" />
-                                                <Label fx:id="isbnInfo" style="-fx-font-size: 14;" text="6041100919, 9786041100916" wrapText="true" HBox.hgrow="ALWAYS" />
-                                             </children>
-                                          </HBox>
-                                          <HBox VBox.vgrow="ALWAYS">
-                                             <children>
-                                                <HBox prefWidth="100.0" HBox.hgrow="ALWAYS">
-                                                   <children>
-                                                      <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Description" HBox.hgrow="ALWAYS" />
-                                                      <ScrollPane hbarPolicy="NEVER" pannable="true" prefWidth="630.0">
-                                                         <content>
-                                                            <Label fx:id="descriptionInfo" maxWidth="600.0" style="-fx-font-size: 14;" text="&quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết! &quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết!&quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết! &quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết!&quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết! &quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết!&quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết! &quot;Semantic&quot; trong tiếng Việt có nghĩa là &quot;ngữ nghĩa&quot; hoặc &quot;thuộc về ý nghĩa&quot;. Trong ngữ cảnh lập trình và web, &quot;semantic&quot; thường chỉ đến việc sử dụng các thẻ HTML một cách có ý nghĩa, giúp trình duyệt và người dùng hiểu rõ hơn về cấu trúc và nội dung của trang web.Ví dụ, thẻ &lt;header&gt;, &lt;article&gt;, &lt;footer&gt; là các thẻ semantic, vì chúng mô tả rõ ràng vai trò của các phần trong tài liệu.Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết!" wrapText="true">
-                                                               <padding>
-                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                                               </padding>
-                                                            </Label>
-                                                         </content>
-                                                         <padding>
-                                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                                         </padding>
-                                                      </ScrollPane>
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
-                                    </VBox>
-                                 </children>
-                              </VBox>
-                           </center>
-                           <left>
-                              <VBox alignment="CENTER" prefWidth="0.0" spacing="20.0" BorderPane.alignment="CENTER">
-                                 <children>
-                                    <ImageView fx:id="thumbnailImageInfo" fitHeight="300.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../sprites/content(3).jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fx:id="qrImageInfo" fitHeight="150.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../sprites/QRCode.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fx:id="isbnImageInfo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../sprites/ISBN.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                 </padding>
-                              </VBox>
-                           </left>
-                           <top>
-                              <HBox BorderPane.alignment="CENTER">
-                                 <children>
-                                    <Label fx:id="titleHeading" prefHeight="35.0" prefWidth="392.0" style="-fx-font-size: 24;" text="Harry Potter và Phòng Chứa Bí Mật">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </Label>
-                                    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <JFXButton onAction="#handleBackToCatalog" prefWidth="70.0" text="Back " HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                       </children>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                       <padding>
-                                          <Insets right="10.0" />
-                                       </padding>
-                                    </HBox>
-                                 </children>
-                              </HBox>
-                           </top>
-                        </BorderPane>
-                     </center>
-                     <top>
-                        <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-                           <center>
-                              <Label text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
-                                 <font>
-                                    <Font name="Segoe UI Semilight" size="23.0" />
-                                 </font>
-                                 <BorderPane.margin>
-                                    <Insets top="2.0" />
-                                 </BorderPane.margin>
-                              </Label>
-                           </center>
-                           <bottom>
-                              <VBox BorderPane.alignment="CENTER">
-                                 <children>
-                                    <Label text="Document Properties" />
-                                    <HBox prefHeight="3.0" prefWidth="957.0" style="-fx-background-color: #efefef;" />
-                                 </children>
-                              </VBox>
-                           </bottom>
-                        </BorderPane>
-                     </top>
-                     <bottom>
-
-                        <HBox BorderPane.alignment="CENTER">
-                           <children>
-                              <JFXButton onAction="#handleAddDoc" text="Add Document" />
-                              <HBox alignment="CENTER_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <JFXButton onAction="#handleCancelAddDoc" text="Cancel" />
-                                    <JFXButton onAction="#handleSubmitDoc" text="Submit" />
-                                 </children>
-                                 <padding>
-                                    <Insets right="10.0" />
-                                 </padding>
-                              </HBox>
-                           </children>
-                           <padding>
-                              <Insets left="10.0" right="10.0" />
-                           </padding>
-                        </HBox>
-                     </bottom>
-                  </BorderPane>
-
                   <!--               User-->
                   <BorderPane fx:id="usersBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <top>
@@ -1140,14 +960,6 @@
                                     <Insets left="17.0" top="5.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="userIDField" layoutX="30.0" layoutY="249.0" promptText="User ID" style="-fx-background-radius: 0;" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font name="Segoe UI Semilight" size="13.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets left="20.0" right="20.0" top="20.0" />
-                                 </VBox.margin>
-                              </TextField>
                               <TextField fx:id="userNameField" layoutX="30.0" layoutY="250.0" promptText="User Name" style="-fx-background-radius: 0;">
                                  <font>
                                     <Font name="Segoe UI Semilight" size="13.0" />
@@ -1230,7 +1042,7 @@
                                     <Insets top="5.0" />
                                  </HBox.margin>
                               </CheckBox>
-                              <Hyperlink onAction="#deleteUserRecord" text="Delete" textFill="#2b579a">
+                              <Hyperlink onAction="#deleteUsersRecord" text="Delete" textFill="#2b579a">
 
                                  <graphic>
                                     <FontAwesomeIconView fill="#e9594d" glyphName="TRASH" size="15" />

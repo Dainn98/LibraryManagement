@@ -2,11 +2,9 @@ package library.management.ui.controllers;
 
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.PauseTransition;
@@ -14,7 +12,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
@@ -199,16 +196,6 @@ public class DocContainerController implements GeneralController {
       e.printStackTrace();
     }
   }
-  private void setData() {
-    this.titleInfo.setText("The Great Gatsby");
-    this.authorInfo.setText("F. Scott Fitzgerald");
-    this.publisherInfo.setText("Charles Scribner's Sons");
-    this.categoryInfo.setText("Novel");
-    this.languageInfo.setText("English");
-    this.isbnInfo.setText("9780743273565");
-    this.descriptionInfo.setText(
-        "The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, near New York City, the novel depicts first-person narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan.");
-  }
 
   private void loadDocData(Document doc, Image thumbnail, Image QRImage, Image isbnImage) {
     titleInfo.setText(doc.getTitle());
@@ -222,7 +209,7 @@ public class DocContainerController implements GeneralController {
     qrImageInfo.setImage(QRImage);
     titleHeading.textProperty().set(doc.getTitle());
     isbnImageInfo.imageProperty().set(isbnImage);
-    addDocButton.setOnAction(event -> handleSave(doc));
+    addDocButton.setOnAction(event -> handleSave(event, doc));
   }
 
   public Document getDocument() {
@@ -237,20 +224,18 @@ public class DocContainerController implements GeneralController {
   private void handleAddDoc(ActionEvent actionEvent) {
     if (check) {
       transFade(priceHBox, DX, 0.5, 1, DURATION);
-      transFade(numberHBox, DX, 0.5, 1, DURATION);
       transFade(saveHBox, DX, 0.5, 1, DURATION);
       transFade(numberHBox, -DX, 0.5, 1, DURATION);
       check = false;
     } else {
       transFade(numberHBox, DX, 1, 0, DURATION);
       transFade(priceHBox, -DX, 1, 0, DURATION);
-      transFade(numberHBox, -DX, 1, 0, DURATION);
       transFade(saveHBox, -DX, 1, 0, DURATION);
       check = true;
     }
   }
 
-  private void handleSave(Document doc) {
+  private void handleSave(ActionEvent actionEvent, Document doc) {
     if (doc == null) {
       System.out.println("null");
       return;
@@ -281,14 +266,18 @@ public class DocContainerController implements GeneralController {
       newDoc.setPrice(price);
       newDoc.setAddDate(LocalDateTime.now());
       newDoc.setAvailability("available");
-      Document existingDoc = DocumentDAO.getInstance().getDocumentById(doc.getIntDocumentID());
+      if (newDoc.getIsbn().equals("No ISBN available")) {
+        showAlertInformation("Illegal document!", "The document must have ISBN to add!");
+        return;
+      }
+      Document existingDoc = DocumentDAO.getInstance().getDocumentByIsbn(doc.getIsbn());
       if (existingDoc == null) {
         DocumentDAO.getInstance().add(newDoc);
       } else {
         showAlertConfirmation("Document exists", "Document already exists!\n" +
                 "Are you sure you want to update this document:\n"
                 + "-Update new price:" + price + ".\n"
-                + "-Add new copies:" + newDoc + ".\n"
+                + "-Add :" + number + " new copies.\n"
                 + "-Set availability to available.");
         if (result.isPresent() && result.get() == ButtonType.OK) {
           newDoc.setQuantity(existingDoc.getQuantity() + number);
@@ -296,12 +285,14 @@ public class DocContainerController implements GeneralController {
           newDoc.setPrice(price);
           newDoc.setAvailability("available");
           DocumentDAO.getInstance().update(newDoc);
+        } else {
+          return;
         }
       }
       showAlertInformation("Document Added", "Document added successfully!");
       priceField.setText("");
       numberField.setText("");
-      handleAddDoc(null);
+      handleAddDoc(actionEvent);
     }
   }
 
