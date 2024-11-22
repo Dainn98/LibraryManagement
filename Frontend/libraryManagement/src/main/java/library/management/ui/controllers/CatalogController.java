@@ -44,7 +44,6 @@ public class CatalogController {
     public MainController getController() {
         return controller;
     }
-
     protected void initCatalog() {
         int column = 0;
         int row = 1;
@@ -79,6 +78,7 @@ public class CatalogController {
                     ++row;
                 }
                 controller.localViewGPane.add(docContainerVBox, column++, row);
+
 
                 GridPane.setMargin(docContainerVBox, new Insets(10));
                 localDocContainerControllerList.add(docContainerController);
