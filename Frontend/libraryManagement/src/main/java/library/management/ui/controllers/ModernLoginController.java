@@ -12,9 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import library.management.UserScreen;
 import library.management.data.DAO.ManagerDAO;
 import library.management.data.DAO.UserDAO;
-import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.main;
 
@@ -55,14 +55,17 @@ public class ModernLoginController  implements Initializable,GeneralController {
         String userName = loginUsername.getText();
         String password = loginPassword.getText();
         if (ManagerDAO.getInstance().checkManager(userName, password)) {
-            // Close the current login window
             Stage loginStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             loginStage.close();
-
-            // Launch the Main application
             main mainApp = new main();
             Stage mainStage = new Stage();
             mainApp.start(mainStage);
+        }else if (UserDAO.getInstance().checkUserLogin(userName, password)) {
+            Stage loginStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            loginStage.close();
+            UserScreen userScreen = new UserScreen();
+            Stage mainStage = new Stage();
+            userScreen.start(mainStage);
         } else {
             showAlertInformation("Login Failed", "Invalid username or password. Please try again.");
         }

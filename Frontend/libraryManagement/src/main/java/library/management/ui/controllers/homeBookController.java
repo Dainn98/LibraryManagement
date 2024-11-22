@@ -87,7 +87,7 @@ public class homeBookController {
     for (int i = 1; i <= 100; i++) {
       document = new Document();
       document.setTitle("Document Title " + i);
-      document.setImageSrc("/ui/sprites/demoDoc.gif");
+//      document.setImageSrc("/ui/sprites/demoDoc.gif");
       document.setAuthor("Author " + i);
       list.add(document);
     }
