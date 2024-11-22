@@ -13,6 +13,7 @@ import library.management.data.entity.User;
 import java.util.Optional;
 
 import static library.management.alert.AlertMaker.showAlertConfirmation;
+import static library.management.alert.AlertMaker.showAlertInformation;
 
 public class UserController {
     private final MainController controller;
@@ -24,7 +25,6 @@ public class UserController {
     }
 
     public void initUsersView() {
-        controller.userIDUserView.setCellValueFactory(new PropertyValueFactory<>("userId"));
         controller.userNameUserView.setCellValueFactory(new PropertyValueFactory<>("userName"));
         controller.userPhoneUserView.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         controller.userEmailUserView.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -33,6 +33,10 @@ public class UserController {
             return checkBoxStatusList.get(index);
         });
         controller.checkUserView.setCellFactory(CheckBoxTableCell.forTableColumn(controller.checkUserView));
+        initFilterComboBox();
+    }
+
+    private void initFilterComboBox() {
         ObservableList<String> userFilters = FXCollections.observableArrayList("All", "ID", "Name", "Phone Number", "Email");
         controller.userFilterComboBox.setItems(userFilters);
         controller.userFilterComboBox.setValue("All");
@@ -40,7 +44,7 @@ public class UserController {
 
     public void loadUserViewData() {
         list.clear();
-        list.addAll(UserDAO.getInstance().getAllUser());
+        list.addAll(UserDAO.getInstance().getAllApprovedUsers());
         controller.userView.setItems(list);
         initializeCheckBox();
     }
@@ -48,7 +52,6 @@ public class UserController {
     public void fetchUserDetails() {
         User user = controller.userView.getSelectionModel().getSelectedItem();
         if (user != null) {
-            controller.userIDField.setText(String.valueOf(user.getUserId()));
             controller.userNameField.setText(user.getUserName());
             controller.userPhoneField.setText(user.getPhoneNumber());
             controller.userEmailField.setText(user.getEmail());
@@ -56,7 +59,6 @@ public class UserController {
     }
 
     public void handleCancelUserButton() {
-        controller.userIDField.setText("");
         controller.userNameField.setText("");
         controller.userPhoneField.setText("");
         controller.userEmailField.setText("");
@@ -69,7 +71,7 @@ public class UserController {
         }
     }
 
-    public void initializeCheckBox() {
+    private void initializeCheckBox() {
         checkBoxStatusList.clear();
         for (int i = 0; i < list.size(); i++) {
             checkBoxStatusList.add(new SimpleBooleanProperty(false));
@@ -78,36 +80,39 @@ public class UserController {
             checkBoxStatus.addListener((observable, oldValue, newValue) -> {
                 if (!newValue) {
                     controller.checkAllUsersView.setSelected(false);
+                } else {
+                    boolean allSelected = checkBoxStatusList.stream().allMatch(BooleanProperty::get);
+                    if (allSelected) {
+                        controller.checkAllUsersView.setSelected(true);
+                    }
                 }
             });
         }
     }
+
 
     public void searchUserDetails() {
         String filterCriteria = controller.userFilterComboBox.getValue();
         String searchText = controller.searchUserField.getText().trim().toLowerCase();
         list.clear();
         switch (filterCriteria) {
-            case "ID":
-                list.addAll(UserDAO.getInstance().searchById(searchText));
-                break;
             case "Name":
-                list.addAll(UserDAO.getInstance().searchByName(searchText));
+                list.addAll(UserDAO.getInstance().searchApprovedUserByName(searchText));
                 break;
             case "Phone Number":
-                list.addAll(UserDAO.getInstance().searchByPhoneNumber(searchText));
+                list.addAll(UserDAO.getInstance().searchApprovedUserByPhoneNumber(searchText));
                 break;
             case "Email":
-                list.addAll(UserDAO.getInstance().searchByEmail(searchText));
+                list.addAll(UserDAO.getInstance().searchApprovedUserByEmail(searchText));
                 break;
             default:
-                list.addAll(UserDAO.getInstance().searchAllByKeyword(searchText));
+                list.addAll(UserDAO.getInstance().searchApprovedUsersByKeyword(searchText));
         }
         controller.userView.setItems(list);
         initializeCheckBox();
     }
 
-    public void deleteUserRecord() {
+    public void deleteUsersRecord() {
         // todo: xu ly truong hop user dang giu sach thi phai lam sao
         Optional<ButtonType> result = showAlertConfirmation(
                 "Delete user",
@@ -119,11 +124,24 @@ public class UserController {
                 }
             }
             loadUserViewData();
+            handleCancelUserButton();
+        }
+    }
+
+    public void deleteOneUserRecord() {
+        // todo: xu ly truong hop user dang giu sach thi phai lam sao
+        Optional<ButtonType> result = showAlertConfirmation(
+                "Delete user",
+                "Are you sure you want to delete this user?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            User user = controller.userView.getSelectionModel().getSelectedItem();
+            UserDAO.getInstance().delete(user);
+            loadUserViewData();
+            handleCancelUserButton();
         }
     }
 
     public void handleSaveUserButton() {
-        // todo: khong duoc cho nguoi dung thay doi userID
         // todo: kiem tra thong tin thay doi co dung cac yeu cau du lieu khong
         Optional<ButtonType> result = showAlertConfirmation(
                 "Update user",
@@ -133,9 +151,14 @@ public class UserController {
             changedUser.setUserName(controller.userNameField.getText());
             changedUser.setPhoneNumber(controller.userPhoneField.getText());
             changedUser.setEmail(controller.userEmailField.getText());
-            UserDAO.getInstance().update(changedUser);
-            handleCancelUserButton();
-            loadUserViewData();
+            if (UserDAO.getInstance().doesUserNameExist(changedUser.getUserName())) {
+                showAlertInformation("Update user information fail!", "This user already exists.");
+            } else {
+                UserDAO.getInstance().update(changedUser);
+                showAlertInformation("Update user information!", "User updated successfully.");
+                handleCancelUserButton();
+                loadUserViewData();
+            }
         }
     }
 }

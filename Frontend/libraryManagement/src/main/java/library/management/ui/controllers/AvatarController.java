@@ -7,30 +7,29 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+
 public class AvatarController {
-  private MainController controller;
+
   private static final String AVATAR_INFO_SOURCE = "/ui/fxml/avatarInfo.fxml";
   @FXML
   public VBox avatarVBox;
-
   @FXML
   public JFXButton logOutButton;
-
   @FXML
   public Label manaName;
-
   @FXML
   public JFXButton settingsButton;
+  private MainController controller;
 
   public AvatarController() {
     // No-argument constructor
   }
 
-  public AvatarController(MainController controller){
+  public AvatarController(MainController controller) {
     this.controller = controller;
   }
 
-  public void initAvatar(VBox vBox){
+  public void initAvatar(VBox vBox) {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader();
       fxmlLoader.setLocation(getClass().getResource(AVATAR_INFO_SOURCE));
@@ -38,7 +37,7 @@ public class AvatarController {
       AvatarController avatarController = fxmlLoader.getController();
       avatarController.setData();
       vBox.getChildren().add(vboxLoad);
-    } catch (IOException e){
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }

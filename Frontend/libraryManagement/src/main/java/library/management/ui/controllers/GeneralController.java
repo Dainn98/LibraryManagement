@@ -20,17 +20,27 @@ public interface GeneralController {
   }
 
   default void fade(Node node, double fromValue, double toValue, Duration duration) {
+
+    if(toValue != 0.0) {
+      node.setVisible(true);
+    }
     FadeTransition fade = new FadeTransition(duration, node);
     fade.setFromValue(fromValue);
     fade.setToValue(toValue);
     fade.setInterpolator(Interpolator.EASE_BOTH);
+    fade.setOnFinished(e->{
+      if(toValue == 0.0) {
+        node.setVisible(false);
+      }
+    });
     fade.play();
   }
 
-  default void transFade(Node pane, double translateX, double fromValue, double toValue,
+
+  default void transFade(Node node, double translateX, double fromValue, double toValue,
       Duration duration) {
-    translate(pane, translateX, duration);
-    fade(pane, fromValue, toValue, duration);
+    translate(node, translateX, duration);
+    fade(node, fromValue, toValue, duration);
   }
 
   default void transFade(Node pane, double translateX, double fromValue, double toValue,

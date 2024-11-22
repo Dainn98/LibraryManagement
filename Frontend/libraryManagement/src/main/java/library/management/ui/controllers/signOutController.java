@@ -1,33 +1,33 @@
 package library.management.ui.controllers;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
-import javafx.stage.Stage;
+import static library.management.alert.AlertMaker.showAlertConfirmation;
 
 import java.io.IOException;
 import java.util.Optional;
-
-import static library.management.alert.AlertMaker.showAlertConfirmation;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class signOutController {
 
-  public static void handleSignOut(ActionEvent actionEvent) {
-    Optional<ButtonType> result = showAlertConfirmation(
-        "Sign Out",
+  public static void handleSignOut(Class<? extends MainController> aClass) {
+    Optional<ButtonType> result = showAlertConfirmation("Sign Out",
         "Are you sure you want to sign out?");
     if (result.isPresent() && result.get() == ButtonType.OK) {
       try {
-        FXMLLoader loader = new FXMLLoader(
-            signOutController.class.getResource("/ui/fxml/modernLogin.fxml"));
-        Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(loader.load());
-        scene.getStylesheets()
-            .add(signOutController.class.getResource("/ui/css/style.css").toExternalForm());
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(signOutController.class.getResource("/ui/fxml/modernLogin.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
         stage.setTitle("Library Management System");
         stage.setResizable(false);
-        stage.setScene(scene);
+        stage.setScene(new Scene(root));
+        stage.setOnCloseRequest((WindowEvent event) -> {
+          stage.close();
+        });
         stage.show();
       } catch (IOException e) {
         System.err.println(e.getMessage());

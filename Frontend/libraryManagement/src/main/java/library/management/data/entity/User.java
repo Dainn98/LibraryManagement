@@ -1,51 +1,52 @@
 package library.management.data.entity;
 
+import java.time.LocalDateTime;
+
 public class User {
-    private int userId;
     private String userName;
-    private String address;
     private String identityCard;
     private String phoneNumber;
     private String email;
+    private String password;
     private String country;
     private String state;
+    private String status;
+    private LocalDateTime registeredDate;
 
     public User() {
     }
 
     public User(User user) {
-        this.userId = user.userId;
         this.userName = user.userName;
-        this.address = user.address;
         this.identityCard = user.identityCard;
         this.phoneNumber = user.phoneNumber;
         this.email = user.email;
+        this.password = user.password;
         this.country = user.country;
         this.state = user.state;
+        this.status = user.status;
+        this.registeredDate = user.registeredDate;
     }
 
-    public User(String userId, String userName, String address, String identityCard,
-                String phoneNumber, String email, String country, String state) {
-        this.userId = Integer.parseInt(userId.substring(4));
+    public User(String userName, String identityCard, String phoneNumber,
+                String email, String country, String state, String status, LocalDateTime registeredDate) {
         this.userName = userName;
-        this.address = address;
         this.identityCard = identityCard;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.country = country;
         this.state = state;
+        this.status = status;
+        this.registeredDate = registeredDate != null ? registeredDate : LocalDateTime.now();
     }
 
-    public User(String userName, String address, String identityCard, String phoneNumber,
-                String email, String country, String state) {
-        this.address = address;
-        this.identityCard = identityCard;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+    public User(String userName, String identityCard, String email, String password) {
         this.userName = userName;
-        this.country = country;
-        this.state = state;
-
+        this.identityCard = identityCard;
+        this.email = email;
+        this.password = password;
+        this.status = "pending";
+        this.registeredDate = LocalDateTime.now();
     }
 
     public String getUserName() {
@@ -54,14 +55,6 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getIdentityCard() {
@@ -88,6 +81,14 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getCountry() {
         return country;
     }
@@ -104,15 +105,31 @@ public class User {
         this.state = state;
     }
 
-    public int getIntUserId() {
-        return userId;
+    public String getStatus() {
+        return status;
     }
 
-    public String getUserId() {
-        return String.format("USER%d", userId);
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public void setUserId(String userId) {
-        this.userId = Integer.parseInt(userId.substring(4));
+    public LocalDateTime getRegisteredDate() {
+        return registeredDate;
+    }
+
+    public void setRegisteredDate(LocalDateTime registeredDate) {
+        this.registeredDate = registeredDate;
+    }
+
+    public String getRegisteredYear() {
+        return this.registeredDate != null ? String.valueOf(this.registeredDate.getYear()) : "Registered date is not set.";
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "User[userName='%s', identityCard='%s', phoneNumber='%s', email='%s', password='%s', country='%s', state='%s', status='%s', registeredDate='%s']",
+                userName, identityCard, phoneNumber, email, password, country, state, status, registeredDate
+        );
     }
 }
