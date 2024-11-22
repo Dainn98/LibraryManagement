@@ -5,6 +5,7 @@ import library.management.data.DAO.LanguageDAO;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Document {
     private int documentID;
@@ -204,8 +205,21 @@ public class Document {
     }
 
     public void setAddDate(String addDate) {
-        this.addDate = LocalDateTime.parse(addDate, DATE_FORMATTER);
+        if (addDate == null || addDate.isEmpty()) {
+            throw new IllegalArgumentException("addDate cannot be null or empty");
+        }
+
+        if (addDate.matches("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}")) {
+            addDate += ":00"; // Thêm giây mặc định
+        }
+
+        try {
+            this.addDate = LocalDateTime.parse(addDate, DATE_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date format for addDate: " + addDate, e);
+        }
     }
+
 
     public void setAddDate(LocalDateTime time) {
         this.addDate = time;
