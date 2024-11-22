@@ -15,6 +15,7 @@ import javafx.util.Duration;
 import library.management.UserScreen;
 import library.management.data.DAO.ManagerDAO;
 import library.management.data.DAO.UserDAO;
+import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.main;
 
@@ -54,16 +55,22 @@ public class ModernLoginController  implements Initializable,GeneralController {
     public void handleLogin(ActionEvent actionEvent) {
         String userName = loginUsername.getText();
         String password = loginPassword.getText();
-        if (ManagerDAO.getInstance().checkManager(userName, password)) {
+        Manager mainManager = ManagerDAO.getInstance().checkManager(userName, password);
+        if (mainManager != null) {
             Stage loginStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             loginStage.close();
             main mainApp = new main();
+            mainApp.setManager(mainManager);
             Stage mainStage = new Stage();
             mainApp.start(mainStage);
-        }else if (UserDAO.getInstance().checkUserLogin(userName, password)) {
+            return;
+        }
+        User mainUser = UserDAO.getInstance().checkUserLogin(userName, password);
+        if (mainUser != null) {
             Stage loginStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             loginStage.close();
             UserScreen userScreen = new UserScreen();
+            userScreen.setUser(mainUser);
             Stage mainStage = new Stage();
             userScreen.start(mainStage);
         } else {

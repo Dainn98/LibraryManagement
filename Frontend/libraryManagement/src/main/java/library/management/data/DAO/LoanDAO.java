@@ -420,5 +420,26 @@ public class LoanDAO implements DAOInterface<Loan> {
         return loanList;
     }
 
+    public List<Loan> getHistoryLoan(String userName) {
+        List<Loan> loanList = new ArrayList<>();
+        String query = "SELECT * FROM loans WHERE status IN ('returned', 'late') AND userName = ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, userName); // Gán giá trị userName vào câu truy vấn
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    loanList.add(mapLoan(rs)); // Ánh xạ từng bản ghi thành đối tượng Loan
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return loanList;
+    }
+
 
 }

@@ -1,15 +1,22 @@
 package library.management;
 
 import java.io.IOException;
-import java.util.Objects;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import library.management.data.entity.User;
+import library.management.ui.controllers.FullUserController;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class UserScreen extends Application implements properties {
+    private User user;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public static void main(String[] args) {
         try {
@@ -34,6 +41,9 @@ public class UserScreen extends Application implements properties {
             primaryStage.setResizable(true);
             primaryStage.setMinWidth(SCREEN_WIDTH);
             primaryStage.setMinHeight(SCREEN_HEIGHT);
+
+            FullUserController controller = loader.getController();
+            controller.setMainUser(user);
 
             primaryStage.show();
         } catch (IOException e) {

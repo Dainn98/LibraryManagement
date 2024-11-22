@@ -554,20 +554,23 @@ public class UserDAO implements DAOInterface<User> {
         return false;
     }
 
-    public boolean checkUserLogin(String username, String password) {
-        String query = "SELECT COUNT(*) FROM user WHERE userName = ? AND password = ? AND status = 'approved'";
+    public User checkUserLogin(String username, String password) {
+        String query = "SELECT * FROM user WHERE userName = ? AND password = ? AND status = 'approved'";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setString(1, username);
             stmt.setString(2, password);
+
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getInt(1) > 0;
+                    return buildUserFromResultSet(rs);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
+
 }

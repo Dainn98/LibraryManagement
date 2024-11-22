@@ -11,18 +11,18 @@ import library.management.data.entity.Document;
 
 public class processingController {
 
-  private final fullUserController controller;
+  private final FullUserController controller;
   private List<Document> documentList;
   private final List<DocContainerController> docContainerControllerList = new ArrayList<>();
   private static final int PROCESS_COLUMN_MAX = 6;
   private static final String DOCUMENT_CONTAINER_SOURCES = "/ui/fxml/docContainer.fxml";
   private static final int PROCESS_DOCUMENT_MAX = 18;
 
-  public processingController(fullUserController controller) {
+  public processingController(FullUserController controller) {
     this.controller = controller;
   }
 
-  public fullUserController getController() {
+  public FullUserController getController() {
     return controller;
   }
 

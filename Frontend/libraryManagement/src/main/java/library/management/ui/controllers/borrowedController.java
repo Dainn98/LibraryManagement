@@ -3,27 +3,26 @@ package library.management.ui.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.ObservableList;
+
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import library.management.data.entity.Document;
 
 public class borrowedController {
-  private final fullUserController controller;
+  private final FullUserController controller;
   private List<Document> documentList;
   private final List<DocContainerController> docContainerControllerList = new ArrayList<>();
   private static final int BORROWED_COLUMN_MAX = 6;
   private static final String DOCUMENT_CONTAINER_SOURCES = "/ui/fxml/docContainer.fxml";
   private static final int BORROWED_DOCUMENT_MAX = 18;
 
-  public borrowedController(fullUserController controller) {
+  public borrowedController(FullUserController controller) {
     this.controller = controller;
   }
 
-  public fullUserController getController() {
+  public FullUserController getController() {
     return controller;
   }
 
