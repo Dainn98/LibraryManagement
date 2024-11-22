@@ -36,6 +36,7 @@ import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
 
+import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.properties;
 import org.controlsfx.control.CheckComboBox;
@@ -53,6 +54,7 @@ public class MainController implements Initializable, properties, GeneralControl
     private final IssuedDocument issuedDocument = new IssuedDocument(this);
     private final DocumentManagementController documentManagementController = new DocumentManagementController(this);
     private final ReturnDocumentController returnDocumentController = new ReturnDocumentController(this);
+    private Manager mainManager;
 
     // DASHBOARD PROPERTIES
     @FXML
@@ -354,6 +356,10 @@ public class MainController implements Initializable, properties, GeneralControl
         avatarController.initAvatar(infoVBox);
         documentManagementController.initDocumentManagement();
         returnDocumentController.initReturnDocument();
+    }
+
+    public void setMainManager(Manager manager) {
+        this.mainManager = manager;
     }
 
     // MENU CONTROLLER

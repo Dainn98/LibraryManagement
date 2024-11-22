@@ -10,8 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,15 +23,18 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import library.management.data.entity.Document;
+import library.management.data.entity.Loan;
+import library.management.data.entity.User;
 import library.management.properties;
 
-public class fullUserController implements Initializable, properties, GeneralController {
+public class FullUserController implements Initializable, properties, GeneralController {
 
   private final homeBookController homeController = new homeBookController(this);
   private final borrowedController borrowedController = new borrowedController(this);
   private final processingController processingController = new processingController(this);
-  private final historyController historyController = new historyController(this);
+  private final HistoryController historyController = new HistoryController(this);
   private final AvatarController2 avatarController = new AvatarController2(this);
+  private User mainUser;
 
   @FXML
   protected GridPane borrowViewGPane;
@@ -45,9 +46,6 @@ public class fullUserController implements Initializable, properties, GeneralCon
   protected FontAwesomeIconView alert;
 
   @FXML
-  protected TableColumn<?, ?> availabilityDocView;
-
-  @FXML
   protected Button borrowButton;
 
   @FXML
@@ -55,12 +53,6 @@ public class fullUserController implements Initializable, properties, GeneralCon
 
   @FXML
   protected AutoCompleteTextField<?> catalogSearchField;
-
-  @FXML
-  protected CheckBox checkAllDocs;
-
-  @FXML
-  protected TableColumn<?, ?> checkDocView;
 
   @FXML
   protected ScrollPane borrowedPane;
@@ -72,40 +64,44 @@ public class fullUserController implements Initializable, properties, GeneralCon
   protected HBox controlBoxDocView;
 
   @FXML
-  protected Hyperlink deleteDocs;
-
-  @FXML
-  protected TableColumn<?, ?> docAuthorDocView;
-
-  @FXML
   protected BorderPane docBPane;
 
+  // HISTORY
   @FXML
-  protected TableColumn<?, ?> docIDDocView;
-
-  @FXML
-  protected TableColumn<?, ?> docISBNDocView;
-
-  @FXML
-  protected TableColumn<?, ?> docNameDocView;
-
-  @FXML
-  protected TableColumn<?, ?> docPublisherDocView;
-
-  @FXML
-  protected TableView<?> docView;
+  protected TableView<Loan> docView;
 
   @FXML
   protected FontAwesomeIconView filter;
 
   @FXML
-  protected GridPane fineGrid;
+  protected TableColumn<Loan, String> docIDDocView;
 
   @FXML
-  protected GridPane fourGrid;
+  protected TableColumn<Loan, String> docISBNDocView;
 
   @FXML
-  protected TableColumn<?, ?> genreDocDocView;
+  protected TableColumn<Loan, String> docNameDocView;
+
+  @FXML
+  protected TableColumn<Loan, String> docAuthorDocView;
+
+  @FXML
+  protected TableColumn<Loan, String> docPublisherDocView;
+
+  @FXML
+  protected TableColumn<Loan, String> categoryDocDocView;
+
+  @FXML
+  protected TableColumn<Loan, Integer> quantityDocView;
+
+  @FXML
+  protected TableColumn<Loan, String> requestedDateView;
+
+  @FXML
+  protected TableColumn<Loan, String> returnDateView;
+
+  @FXML
+  protected TableColumn<Loan, String> statusLoanView;
 
   @FXML
   protected VBox home;
@@ -135,12 +131,6 @@ public class fullUserController implements Initializable, properties, GeneralCon
   protected Button processingButton;
 
   @FXML
-  protected TableColumn<?, ?> quantityDocView;
-
-  @FXML
-  protected TableColumn<?, ?> remainingDocsDocView;
-
-  @FXML
   protected TextField searchDocTField;
 
   @FXML
@@ -148,9 +138,6 @@ public class fullUserController implements Initializable, properties, GeneralCon
 
   @FXML
   protected Button signOutButton;
-
-  @FXML
-  protected GridPane threeGrid;
 
   @FXML
   protected GridPane twoGrid;
@@ -161,6 +148,14 @@ public class fullUserController implements Initializable, properties, GeneralCon
 
   public List<Document> getDocumentList() {
     return documentList;
+  }
+
+  public void setMainUser(User mainUser) {
+    this.mainUser = mainUser;
+  }
+
+  public String getMainUserName() {
+    return mainUser.getUserName();
   }
 
   @Override
@@ -184,7 +179,7 @@ public class fullUserController implements Initializable, properties, GeneralCon
 
   @FXML
   void handleAdvancedSearch(ActionEvent event) {
-
+    showSection(catalogBPane);
   }
 
   @FXML
@@ -229,16 +224,7 @@ public class fullUserController implements Initializable, properties, GeneralCon
 
   @FXML
   void handleHistoryButton(ActionEvent event) {
-    Task<Void> loadHistory = new Task<Void>() {
-      @Override
-      protected Void call() throws Exception {
-        historyController.initIssueDocumentView();
-        return null;
-      }
-    };
-    Thread thread = new Thread(loadHistory);
-    thread.setDaemon(true);
-    thread.start();
+    historyController.loadHistory();
     showSection(docBPane);
   }
 

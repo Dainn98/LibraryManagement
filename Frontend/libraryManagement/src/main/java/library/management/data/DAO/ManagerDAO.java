@@ -73,7 +73,7 @@ public class ManagerDAO implements DAOInterface<Manager> {
         return 0;
     }
 
-    public boolean checkManager(String managerName, String password) {
+    public Manager checkManager(String managerName, String password) {
         String query = "SELECT * FROM manager WHERE managerName = ? AND password = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -82,14 +82,27 @@ public class ManagerDAO implements DAOInterface<Manager> {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return true;
+                    return buildManagerFromResultSet(rs);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+
+        return null;
     }
+
+    private Manager buildManagerFromResultSet(ResultSet rs) throws SQLException {
+        Manager manager = new Manager();
+        manager.setManagerID(rs.getInt("managerID"));
+        manager.setManagerName(rs.getString("managerName"));
+        manager.setPassword(rs.getString("password"));
+        manager.setIdentityCard(rs.getString("identityCard"));
+        manager.setEmail(rs.getString("email"));
+        return manager;
+    }
+
+
 
     public boolean checkManagerByUserName(String managerName) {
         String query = "SELECT * FROM manager WHERE managerName = ?";

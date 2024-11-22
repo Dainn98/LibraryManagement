@@ -1,26 +1,20 @@
 package library.management.ui.controllers;
 
-import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import library.management.data.entity.Document;
 
 public class homeBookController {
 
-  private final fullUserController controller;
+  private final FullUserController controller;
   private
   List<Document> documentList;
   private final List<DocContainerController> docContainerControllerList = new ArrayList<>();
@@ -32,10 +26,10 @@ public class homeBookController {
   private static final String DOCUMENT_CONTAINER_SOURCES = "/ui/fxml/docContainer.fxml";
   private static final int CATALOG_DOCUMENT_MAX = 18;
 
-  public homeBookController(fullUserController controller) {
+  public homeBookController(FullUserController controller) {
     this.controller = controller;
   }
-  public fullUserController getController() {
+  public FullUserController getController() {
     return controller;
   }
   protected void initHomeData() {

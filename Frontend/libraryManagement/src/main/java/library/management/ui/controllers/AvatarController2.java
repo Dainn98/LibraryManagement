@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class AvatarController2 {
-  private fullUserController controller;
+  private FullUserController controller;
   private static final String AVATAR_INFO_SOURCE = "/ui/fxml/avatarInfo2.fxml";
   @FXML
   public VBox avatarVBox;
@@ -26,7 +26,7 @@ public class AvatarController2 {
     // No-argument constructor
   }
 
-  public AvatarController2(fullUserController controller){
+  public AvatarController2(FullUserController controller){
     this.controller = controller;
   }
 
