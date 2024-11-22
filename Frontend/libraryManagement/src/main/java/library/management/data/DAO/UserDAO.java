@@ -27,7 +27,7 @@ public class UserDAO implements DAOInterface<User> {
 
     @Override
     public int add(User user) {
-        String query = "INSERT INTO user (userName, identityCard, phoneNumber, email, country, state, registeredDate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO user (userName, identityCard, phoneNumber, email, country, state, status, registeredDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
@@ -37,7 +37,8 @@ public class UserDAO implements DAOInterface<User> {
             stmt.setString(4, user.getEmail());
             stmt.setString(5, user.getCountry());
             stmt.setString(6, user.getState());
-            stmt.setObject(7, user.getRegisteredDate());
+            stmt.setString(7, user.getStatus());
+            stmt.setObject(8, user.getRegisteredDate());
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -48,34 +49,32 @@ public class UserDAO implements DAOInterface<User> {
 
     @Override
     public int delete(User user) {
-        String query = "UPDATE user SET status = 'removed' WHERE userId = ?";
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setInt(1, user.getIntUserId());
-            return stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-
-    @Override
-    public int update(User user) {
-        String query = "UPDATE user SET userName = ?, identityCard = ?, phoneNumber = ?, email = ?, country = ?, state = ?, registeredDate = ?, status = ? WHERE userId = ?";
+        String query = "UPDATE user SET status = 'removed' WHERE userName = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setString(1, user.getUserName());
-            stmt.setString(2, user.getIdentityCard());
-            stmt.setString(3, user.getPhoneNumber());
-            stmt.setString(4, user.getEmail());
-            stmt.setString(5, user.getCountry());
-            stmt.setString(6, user.getState());
-            stmt.setObject(7, user.getRegisteredDate());
-            stmt.setString(8, user.getStatus());
-            stmt.setInt(9, user.getIntUserId());
+            return stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int update(User user) {
+        String query = "UPDATE user SET identityCard = ?, phoneNumber = ?, email = ?, country = ?, state = ?, registeredDate = ?, status = ? WHERE userName = ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, user.getIdentityCard());
+            stmt.setString(2, user.getPhoneNumber());
+            stmt.setString(3, user.getEmail());
+            stmt.setString(4, user.getCountry());
+            stmt.setString(5, user.getState());
+            stmt.setObject(6, user.getRegisteredDate());
+            stmt.setString(7, user.getStatus());
+            stmt.setString(8, user.getUserName());
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -84,129 +83,57 @@ public class UserDAO implements DAOInterface<User> {
         return 0;
     }
 
-    public int getAllUserCount() {
-        String query = "SELECT COUNT(*) FROM user";
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-
-    public List<User> getAllApprovedUser() {
+    public List<User> getAllApprovedUsers() {
         String query = "SELECT * FROM user WHERE status = 'approved'";
-        List<User> list = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                User user = new User();
-                user.setUserId(String.format("USER%s", rs.getInt("userId")));
-                user.setUserName(rs.getString("userName"));
-                user.setIdentityCard(rs.getString("identityCard"));
-                user.setPhoneNumber(rs.getString("phoneNumber"));
-                user.setEmail(rs.getString("email"));
-                user.setCountry(rs.getString("country"));
-                user.setState(rs.getString("state"));
-                user.setStatus(rs.getString("status"));
-                user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
-                list.add(user);
+                users.add(buildUserFromResultSet(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return list;
+
+        return users;
     }
 
-    public List<User> getAllPendingUser() {
-        String query = "SELECT * FROM user WHERE status = 'pending'";
-        List<User> list = new ArrayList<>();
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                User user = new User();
-                user.setUserId(String.format("USER%s", rs.getInt("userId")));
-                user.setUserName(rs.getString("userName"));
-                user.setIdentityCard(rs.getString("identityCard"));
-                user.setPhoneNumber(rs.getString("phoneNumber"));
-                user.setEmail(rs.getString("email"));
-                user.setCountry(rs.getString("country"));
-                user.setState(rs.getString("state"));
-                user.setStatus(rs.getString("status"));
-                user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
-                list.add(user);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    public int getTotalApprovedUsersCount() {
-        String query = "SELECT COUNT(*) FROM user WHERE status = 'approved'";
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-
-    // return all users that have keyword in name, email, phone number, id.
-    public List<User> searchAllApprovedUserByKeyword(String keyword) {
-        String query = "SELECT * FROM user WHERE status = 'approved' AND (userName LIKE ? OR email LIKE ? OR phoneNumber LIKE ? OR userId LIKE ?)";
-        List<User> list = new ArrayList<>();
+    /**
+     * Search approved users by a keyword in userName, email, or phoneNumber.
+     */
+    public List<User> searchApprovedUsersByKeyword(String keyword) {
+        String query = "SELECT * FROM user WHERE status = 'approved' AND (userName LIKE ? OR email LIKE ? OR phoneNumber LIKE ?)";
+        List<User> users = new ArrayList<>();
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             String searchPattern = "%" + keyword + "%";
-
             stmt.setString(1, searchPattern);
             stmt.setString(2, searchPattern);
             stmt.setString(3, searchPattern);
-            stmt.setString(4, searchPattern);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    User user = new User();
-                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
-                    user.setUserName(rs.getString("userName"));
-                    user.setIdentityCard(rs.getString("identityCard"));
-                    user.setPhoneNumber(rs.getString("phoneNumber"));
-                    user.setEmail(rs.getString("email"));
-                    user.setCountry(rs.getString("country"));
-                    user.setState(rs.getString("state"));
-                    user.setStatus(rs.getString("status"));
-                    user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
-                    list.add(user);
+                    users.add(buildUserFromResultSet(rs));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return list;
+
+        return users;
     }
 
+    /**
+     * Search approved users by name.
+     */
     public List<User> searchApprovedUserByName(String name) {
         String query = "SELECT * FROM user WHERE status = 'approved' AND userName LIKE ?";
-        List<User> list = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -215,90 +142,22 @@ public class UserDAO implements DAOInterface<User> {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    User user = new User();
-                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
-                    user.setUserName(rs.getString("userName"));
-                    user.setIdentityCard(rs.getString("identityCard"));
-                    user.setPhoneNumber(rs.getString("phoneNumber"));
-                    user.setEmail(rs.getString("email"));
-                    user.setCountry(rs.getString("country"));
-                    user.setState(rs.getString("state"));
-                    user.setStatus(rs.getString("status"));
-                    user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
-                    list.add(user);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-
-    public List<User> searchApprovedUserById(String userId) {
-        String query = "SELECT * FROM user WHERE status = 'approved' AND userId LIKE ?";
-        List<User> list = new ArrayList<>();
-
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setString(1, "%" + userId + "%");
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    User user = new User();
-                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
-                    user.setUserName(rs.getString("userName"));
-                    user.setIdentityCard(rs.getString("identityCard"));
-                    user.setPhoneNumber(rs.getString("phoneNumber"));
-                    user.setEmail(rs.getString("email"));
-                    user.setCountry(rs.getString("country"));
-                    user.setState(rs.getString("state"));
-                    user.setStatus(rs.getString("status"));
-                    user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
-                    list.add(user);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    public User searchUserByID(int userId) {
-        String query = "SELECT * FROM user WHERE userId = ? AND status != 'removed'";
-        User user = null;
-
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setInt(1, userId);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    user = new User();
-                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
-                    user.setUserName(rs.getString("userName"));
-                    user.setIdentityCard(rs.getString("identityCard"));
-                    user.setPhoneNumber(rs.getString("phoneNumber"));
-                    user.setEmail(rs.getString("email"));
-                    user.setCountry(rs.getString("country"));
-                    user.setState(rs.getString("state"));
-                    user.setStatus(rs.getString("status"));
-                    user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
+                    users.add(buildUserFromResultSet(rs));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return user;
+        return users;
     }
 
-
+    /**
+     * Search approved users by phone number.
+     */
     public List<User> searchApprovedUserByPhoneNumber(String phoneNumber) {
         String query = "SELECT * FROM user WHERE status = 'approved' AND phoneNumber LIKE ?";
-        List<User> list = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -307,29 +166,22 @@ public class UserDAO implements DAOInterface<User> {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    User user = new User();
-                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
-                    user.setUserName(rs.getString("userName"));
-                    user.setIdentityCard(rs.getString("identityCard"));
-                    user.setPhoneNumber(rs.getString("phoneNumber"));
-                    user.setEmail(rs.getString("email"));
-                    user.setCountry(rs.getString("country"));
-                    user.setState(rs.getString("state"));
-                    user.setStatus(rs.getString("status"));
-                    user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
-                    list.add(user);
+                    users.add(buildUserFromResultSet(rs));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return list;
+
+        return users;
     }
 
-
+    /**
+     * Search approved users by email.
+     */
     public List<User> searchApprovedUserByEmail(String email) {
         String query = "SELECT * FROM user WHERE status = 'approved' AND email LIKE ?";
-        List<User> list = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -338,132 +190,26 @@ public class UserDAO implements DAOInterface<User> {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    User user = new User();
-                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
-                    user.setUserName(rs.getString("userName"));
-                    user.setIdentityCard(rs.getString("identityCard"));
-                    user.setPhoneNumber(rs.getString("phoneNumber"));
-                    user.setEmail(rs.getString("email"));
-                    user.setCountry(rs.getString("country"));
-                    user.setState(rs.getString("state"));
-                    user.setStatus(rs.getString("status"));
-                    user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
-                    list.add(user);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    public int disapprove(User user) {
-        String query = "UPDATE user SET status = 'disapprove' WHERE userId = ? AND status = 'pending'";
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setInt(1, user.getIntUserId());
-
-            return stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public int approve(User user) {
-        String query = "UPDATE user SET status = 'approved' WHERE userId = ? AND status = 'pending'";
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setInt(1, user.getIntUserId());
-
-            return stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public List<String> getAllPendingCountries() {
-        String query = "SELECT DISTINCT country FROM user WHERE status = 'pending'";
-        List<String> countries = new ArrayList<>();
-
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                countries.add(rs.getString("country"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return countries;
-    }
-
-
-    public List<String> getAllPendingStates() {
-        String query = "SELECT DISTINCT state FROM user WHERE status = 'pending'";
-        List<String> states = new ArrayList<>();
-
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                states.add(rs.getString("state"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return states;
-    }
-
-    public List<String> getAllPendingYears() {
-        String query = "SELECT DISTINCT YEAR(registeredDate) AS year FROM user WHERE status = 'pending'";
-        List<String> years = new ArrayList<>();
-
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                years.add(rs.getString("year"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return years;
-    }
-
-    public List<String> getAllPendingUserName(String keyword) {
-        String query = "SELECT userName FROM user WHERE status = 'pending' AND userName LIKE ?";
-        List<String> usernames = new ArrayList<>();
-        try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setString(1, "%" + keyword + "%");
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    usernames.add(rs.getString("userName"));
+                    users.add(buildUserFromResultSet(rs));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return usernames;
+        return users;
     }
 
+    /**
+     * Get all pending users filtered by name, country, state, and registered year.
+     */
     public List<User> searchPendingUserByFilter(String nameQuery, List<String> countries, List<String> states, List<String> years) {
         if ((countries != null && countries.isEmpty()) ||
                 (states != null && states.isEmpty()) ||
                 (years != null && years.isEmpty())) {
             return new ArrayList<>();
         }
+
         StringBuilder query = new StringBuilder("SELECT * FROM user WHERE status = 'pending'");
         if (nameQuery != null && !nameQuery.isEmpty()) {
             query.append(" AND userName LIKE ?");
@@ -483,24 +229,26 @@ public class UserDAO implements DAOInterface<User> {
             query.append(years.stream().map(y -> "?").collect(Collectors.joining(", ")));
             query.append(")");
         }
+
         List<User> users = new ArrayList<>();
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query.toString())) {
+
             int paramIndex = 1;
             if (nameQuery != null && !nameQuery.isEmpty()) {
                 stmt.setString(paramIndex++, "%" + nameQuery + "%");
             }
-            if (countries != null && !countries.isEmpty()) {
+            if (countries != null) {
                 for (String country : countries) {
                     stmt.setString(paramIndex++, country);
                 }
             }
-            if (states != null && !states.isEmpty()) {
+            if (states != null) {
                 for (String state : states) {
                     stmt.setString(paramIndex++, state);
                 }
             }
-            if (years != null && !years.isEmpty()) {
+            if (years != null) {
                 for (String year : years) {
                     stmt.setString(paramIndex++, year);
                 }
@@ -508,17 +256,7 @@ public class UserDAO implements DAOInterface<User> {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    User user = new User();
-                    user.setUserId(String.format("USER%s", rs.getInt("userId")));
-                    user.setUserName(rs.getString("userName"));
-                    user.setIdentityCard(rs.getString("identityCard"));
-                    user.setPhoneNumber(rs.getString("phoneNumber"));
-                    user.setEmail(rs.getString("email"));
-                    user.setCountry(rs.getString("country"));
-                    user.setState(rs.getString("state"));
-                    user.setStatus(rs.getString("status"));
-                    user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
-                    users.add(user);
+                    users.add(buildUserFromResultSet(rs));
                 }
             }
         } catch (SQLException e) {
@@ -528,5 +266,243 @@ public class UserDAO implements DAOInterface<User> {
         return users;
     }
 
+    /**
+     * Helper method to build a User object from ResultSet.
+     */
+    private User buildUserFromResultSet(ResultSet rs) throws SQLException {
+        User user = new User();
+        user.setUserName(rs.getString("userName"));
+        user.setIdentityCard(rs.getString("identityCard"));
+        user.setPhoneNumber(rs.getString("phoneNumber"));
+        user.setEmail(rs.getString("email"));
+        user.setCountry(rs.getString("country"));
+        user.setState(rs.getString("state"));
+        user.setStatus(rs.getString("status"));
+        user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
+        return user;
+    }
+
+    public int approve(User user) {
+        String query = "UPDATE user SET status = 'approved' WHERE userName = ? AND status = 'pending'";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, user.getUserName()); // Sử dụng userName để xác định người dùng
+            return stmt.executeUpdate(); // Trả về số lượng bản ghi được cập nhật
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; // Trả về 0 nếu không có bản ghi nào được cập nhật
+    }
+
+    public int disapprove(User user) {
+        String query = "UPDATE user SET status = 'disapproved' WHERE userName = ? AND status = 'pending'";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, user.getUserName()); // Sử dụng userName để xác định người dùng
+            return stmt.executeUpdate(); // Trả về số lượng bản ghi được cập nhật
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; // Trả về 0 nếu không có bản ghi nào được cập nhật
+    }
+
+    /**
+     * Trả về số lượng tất cả người dùng với mọi trạng thái.
+     * @return int - Số lượng người dùng.
+     */
+    public int getAllUsersCount() {
+        String query = "SELECT COUNT(*) AS userCount FROM user";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("userCount");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0; // Trả về 0 nếu có lỗi xảy ra hoặc không tìm thấy kết quả
+    }
+
+    /**
+     * Trả về số lượng người dùng với trạng thái 'approved'.
+     * @return int - Số lượng người dùng có trạng thái approved.
+     */
+    public int getApprovedUsersCount() {
+        String query = "SELECT COUNT(*) AS userCount FROM user WHERE status = 'approved'";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("userCount");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0; // Trả về 0 nếu có lỗi xảy ra hoặc không tìm thấy kết quả
+    }
+
+    /**
+     * Trả về danh sách các người dùng có trạng thái 'pending'.
+     * @return List<User> - Danh sách người dùng đang ở trạng thái pending.
+     */
+    public List<User> getPendingUsers() {
+        String query = "SELECT * FROM user WHERE status = 'pending'";
+        List<User> pendingUsers = new ArrayList<>();
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                pendingUsers.add(buildUserFromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pendingUsers;
+    }
+
+    /**
+     * Trả về danh sách các quốc gia (country) có người dùng đang ở trạng thái 'pending'.
+     * @return List<String> - Danh sách các quốc gia có trạng thái pending, không trùng lặp.
+     */
+    public List<String> getAllPendingCountries() {
+        String query = "SELECT DISTINCT country FROM user WHERE status = 'pending'";
+        List<String> countries = new ArrayList<>();
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                countries.add(rs.getString("country"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return countries;
+    }
+
+    /**
+     * Trả về danh sách các bang (state) có người dùng đang ở trạng thái 'pending'.
+     * @return List<String> - Danh sách các bang có trạng thái pending, không trùng lặp.
+     */
+    public List<String> getAllPendingStates() {
+        String query = "SELECT DISTINCT state FROM user WHERE status = 'pending'";
+        List<String> states = new ArrayList<>();
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                states.add(rs.getString("state"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return states;
+    }
+
+    /**
+     * Trả về danh sách các năm đăng ký (registered year) của người dùng đang ở trạng thái 'pending'.
+     * @return List<String> - Danh sách các năm đăng ký có trạng thái pending, không trùng lặp.
+     */
+    public List<String> getAllPendingYears() {
+        String query = "SELECT DISTINCT YEAR(registeredDate) AS year FROM user WHERE status = 'pending'";
+        List<String> years = new ArrayList<>();
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                years.add(rs.getString("year"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return years;
+    }
+
+    /**
+     * Trả về danh sách tên người dùng (userName) đang ở trạng thái 'pending' chứa từ khóa tìm kiếm.
+     * @param keyword - Từ khóa tìm kiếm (có thể là một phần của userName).
+     * @return List<String> - Danh sách tên người dùng có trạng thái pending.
+     */
+    public List<String> getAllPendingUserName(String keyword) {
+        String query = "SELECT userName FROM user WHERE status = 'pending' AND userName LIKE ?";
+        List<String> userNames = new ArrayList<>();
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + keyword + "%"); // Tìm kiếm theo từ khóa
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    userNames.add(rs.getString("userName"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userNames;
+    }
+
+    public List<String> searchApprovedUserNames(String query) {
+        List<String> approvedUserNames = new ArrayList<>();
+        String sqlQuery = "SELECT userName FROM user WHERE status = 'approved' AND " +
+                "(userName LIKE ?)";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sqlQuery)) {
+
+            String searchKeyword = "%" + query + "%"; // Tìm kiếm theo từ khóa
+            stmt.setString(1, searchKeyword); // userName
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    approvedUserNames.add(rs.getString("userName")); // Lấy tên và thêm vào danh sách
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return approvedUserNames; // Trả về danh sách tên
+    }
+
+    public User searchApprovedUserByExactName(String name) {
+        String query = "SELECT * FROM user WHERE status = 'approved' AND userName = ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, name); // So khớp chính xác userName
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Trả về đối tượng User nếu tìm thấy
+                    return buildUserFromResultSet(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Trả về null nếu không tìm thấy user
+    }
 
 }

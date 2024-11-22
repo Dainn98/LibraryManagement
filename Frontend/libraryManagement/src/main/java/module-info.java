@@ -20,6 +20,8 @@ module library.management {
     requires com.gluonhq.charm.glisten;
     requires jdk.compiler;
     requires org.slf4j;
+    requires com.google.zxing;
+    requires com.google.zxing.javase;
     // Application
     opens library.management.ui.applications to javafx.graphics, javafx.fxml;
     exports library.management.ui.applications to javafx.graphics, javafx.fxml;

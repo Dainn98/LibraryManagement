@@ -7,7 +7,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import library.management.data.DAO.LoanDAO;
 import library.management.data.entity.Loan;
 
-
 public class IssuedDocument {
     private final MainController controller;
     private final ObservableList<Loan> list = FXCollections.observableArrayList();
@@ -25,9 +24,8 @@ public class IssuedDocument {
         controller.docTitleIDView.setCellValueFactory(cellData ->
                 new SimpleStringProperty(String.valueOf(cellData.getValue().getIssuedTitle()))
         );
-        controller.userIDIDView.setCellValueFactory(new PropertyValueFactory<>("userId"));
         controller.userNameIDView.setCellValueFactory(cellData ->
-                new SimpleStringProperty(String.valueOf(cellData.getValue().getUserName()))
+                new SimpleStringProperty(cellData.getValue().getUserName())
         );
         controller.issuedDateAndTimeIDView.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getDateOfBorrow().toLocalDate().toString())
@@ -61,8 +59,8 @@ public class IssuedDocument {
             case "Loan ID":
                 list.addAll(LoanDAO.getInstance().searchHandledByLoanId(searchText));
                 break;
-            case "User ID":
-                list.addAll(LoanDAO.getInstance().searchHandledByUserId(searchText));
+            case "User Name":
+                list.addAll(LoanDAO.getInstance().searchHandledByUserName(searchText));
                 break;
             case "Document ID":
                 list.addAll(LoanDAO.getInstance().searchHandledByDocumentId(searchText));
@@ -74,7 +72,8 @@ public class IssuedDocument {
     }
 
     private void initFilterComboBox() {
-        ObservableList<String> userFilters = FXCollections.observableArrayList("All ID", "Loan ID", "User ID", "Document ID");
+        // Đổi "User ID" thành "User Name" trong danh sách bộ lọc
+        ObservableList<String> userFilters = FXCollections.observableArrayList("All ID", "Loan ID", "User Name", "Document ID");
         controller.issueTypeIssuedDoc.setItems(userFilters);
         controller.issueTypeIssuedDoc.setValue("All ID");
     }

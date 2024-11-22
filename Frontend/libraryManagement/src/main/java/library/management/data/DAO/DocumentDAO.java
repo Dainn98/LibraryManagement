@@ -95,6 +95,43 @@ public class DocumentDAO implements DAOInterface<Document> {
         return 0;
     }
 
+    public Document getDocumentById(int documentId) {
+        String query = "SELECT * FROM document WHERE documentId = ? AND availability != 'removed'";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, documentId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Nếu tìm thấy document, tạo đối tượng Document từ kết quả
+                    Document document = new Document();
+                    document.setDocumentID(String.format("DOC%d", rs.getInt("documentId")));
+                    document.setCategoryID(String.format("CAT%d", rs.getInt("categoryID")));
+                    document.setPublisher(rs.getString("publisher"));
+                    document.setLgID(String.format("LANG%d", rs.getInt("lgID")));
+                    document.setTitle(rs.getString("title"));
+                    document.setAuthor(rs.getString("author"));
+                    document.setIsbn(rs.getString("isbn"));
+                    document.setQuantity(rs.getInt("quantity"));
+                    document.setAvailableCopies(rs.getInt("availableCopies"));
+                    document.setAddDate(rs.getTimestamp("addDate").toLocalDateTime().toString());
+                    document.setPrice(rs.getBigDecimal("price").doubleValue());
+                    document.setDescription(rs.getString("description"));
+                    document.setUrl(rs.getString("url"));
+                    document.setImage(rs.getString("image"));
+                    document.setAvailability(rs.getString("availability"));
+
+                    return document; // Trả về document nếu tìm thấy
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Trả về null nếu không tìm thấy document
+    }
+
+
 
     public List<Document> getBookList() {
         List<Document> bookList = new ArrayList<>();
@@ -300,6 +337,110 @@ public class DocumentDAO implements DAOInterface<Document> {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public List<Document> searchDocumentInDatabase(String query, int maxResults, int startIndex) {
+        List<Document> documents = new ArrayList<>();
+        String sqlQuery = "SELECT * FROM document WHERE " +
+                "(title LIKE ? OR author LIKE ? OR isbn LIKE ? OR publisher LIKE ?) " +
+                "AND availability != 'removed' LIMIT ? OFFSET ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sqlQuery)) {
+
+            String searchKeyword = "%" + query + "%";
+            stmt.setString(1, searchKeyword); // title
+            stmt.setString(2, searchKeyword); // author
+            stmt.setString(3, searchKeyword); // isbn
+            stmt.setString(4, searchKeyword); // publisher
+            stmt.setInt(5, maxResults);       // max results
+            stmt.setInt(6, startIndex);       // offset
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Document document = new Document();
+                    document.setDocumentID(String.format("DOC%d", rs.getInt("documentId")));
+                    document.setCategoryID(String.format("CAT%d", rs.getInt("categoryID")));
+                    document.setPublisher(rs.getString("publisher"));
+                    document.setLgID(String.format("LANG%d", rs.getInt("lgID")));
+                    document.setTitle(rs.getString("title"));
+                    document.setAuthor(rs.getString("author"));
+                    document.setIsbn(rs.getString("isbn"));
+                    document.setQuantity(rs.getInt("quantity"));
+                    document.setAvailableCopies(rs.getInt("availableCopies"));
+                    document.setAddDate(rs.getTimestamp("addDate").toLocalDateTime().toString());
+                    document.setPrice(rs.getBigDecimal("price").doubleValue());
+                    document.setDescription(rs.getString("description"));
+                    document.setUrl(rs.getString("url"));
+                    document.setImage(rs.getString("image"));
+                    document.setAvailability(rs.getString("availability"));
+
+                    documents.add(document);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return documents;
+    }
+
+    public List<String> searchISBNByKeyword(String query, int limit) {
+        List<String> isbns = new ArrayList<>();
+        String sqlQuery = "SELECT isbn FROM document WHERE isbn LIKE ? AND availability != 'removed' LIMIT ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sqlQuery)) {
+
+            String searchKeyword = "%" + query + "%"; // Sử dụng LIKE để tìm kiếm
+            stmt.setString(1, searchKeyword);
+            stmt.setInt(2, limit); // Thêm giới hạn số kết quả trả về
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    isbns.add(rs.getString("isbn")); // Thêm ISBN vào danh sách
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return isbns; // Trả về danh sách ISBN tìm được
+    }
+
+    public Document searchDocumentByISBN(String isbn) {
+        String query = "SELECT * FROM document WHERE isbn = ? AND availability != 'removed'";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, isbn);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Document document = new Document();
+                    document.setDocumentID(String.format("DOC%d", rs.getInt("documentId")));
+                    document.setCategoryID(String.format("CAT%d", rs.getInt("categoryID")));
+                    document.setPublisher(rs.getString("publisher"));
+                    document.setLgID(String.format("LANG%d", rs.getInt("lgID")));
+                    document.setTitle(rs.getString("title"));
+                    document.setAuthor(rs.getString("author"));
+                    document.setIsbn(rs.getString("isbn"));
+                    document.setQuantity(rs.getInt("quantity"));
+                    document.setAvailableCopies(rs.getInt("availableCopies"));
+                    document.setAddDate(rs.getTimestamp("addDate").toLocalDateTime().toString());
+                    document.setPrice(rs.getBigDecimal("price").doubleValue());
+                    document.setDescription(rs.getString("description"));
+                    document.setUrl(rs.getString("url"));
+                    document.setImage(rs.getString("image"));
+                    document.setAvailability(rs.getString("availability"));
+
+                    return document;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Trả về null nếu không tìm thấy document
     }
 
 }

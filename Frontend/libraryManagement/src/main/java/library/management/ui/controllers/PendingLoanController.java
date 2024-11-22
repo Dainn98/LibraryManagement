@@ -32,30 +32,28 @@ public class PendingLoanController {
 
     public void initPendingLoanView() {
         controller.loansView.setEditable(true);
+        setupTableColumns();
+        initApproveButtonsColumn();
+        initFilterComboBox();
+    }
+
+    private void setupTableColumns() {
         controller.checkLoan.setCellValueFactory(cellData -> {
             int index = controller.loansView.getItems().indexOf(cellData.getValue());
-            if (index >= 0 && index < checkBoxStatusList.size()) {
-                return checkBoxStatusList.get(index);
-            } else {
-                return new SimpleBooleanProperty(false);
-            }
+            return index >= 0 && index < checkBoxStatusList.size() ?
+                    checkBoxStatusList.get(index) :
+                    new SimpleBooleanProperty(false);
         });
-
         controller.checkLoan.setCellFactory(CheckBoxTableCell.forTableColumn(controller.checkLoan));
         controller.issuedIDLoansView.setCellValueFactory(new PropertyValueFactory<>("loanID"));
         controller.docIDLoansView.setCellValueFactory(cellData ->
-                new SimpleStringProperty(String.valueOf(cellData.getValue().getIssuedISBN()))
-        );
+                new SimpleStringProperty(cellData.getValue().getIssuedISBN()));
         controller.docTitleLoansView.setCellValueFactory(cellData ->
-                new SimpleStringProperty(String.valueOf(cellData.getValue().getIssuedTitle()))
-        );
-        controller.userIDLoansView.setCellValueFactory(new PropertyValueFactory<>("userId"));
+                new SimpleStringProperty(cellData.getValue().getIssuedTitle()));
         controller.userNameLoansView.setCellValueFactory(cellData ->
-                new SimpleStringProperty(String.valueOf(cellData.getValue().getUserName()))
-        );
+                new SimpleStringProperty(cellData.getValue().getUserName()));
         controller.issuedDateAndTimeLoansView.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getDateOfBorrow().toLocalDate().toString())
-        );
+                new SimpleStringProperty(cellData.getValue().getDateOfBorrow().toLocalDate().toString()));
         controller.dueDateIDLoansView.setCellValueFactory(cellData -> {
             if (cellData.getValue().getReturnDate() != null) {
                 return new SimpleStringProperty(cellData.getValue().getReturnDate().toLocalDate().toString());
@@ -71,10 +69,7 @@ public class PendingLoanController {
             return new SimpleStringProperty(String.valueOf(days));
         });
         controller.feeIDLoansView.setCellValueFactory(cellData ->
-                new SimpleStringProperty(String.format("%.2f", cellData.getValue().getDeposit()))
-        );
-        initApproveButtonsColumn();
-        initFilterComboBox();
+                new SimpleStringProperty(String.format("%.2f", cellData.getValue().getDeposit())));
     }
 
     public void handleSearchPendingIssue() {
@@ -85,8 +80,8 @@ public class PendingLoanController {
             case "Loan ID":
                 list.addAll(LoanDAO.getInstance().searchPendingByLoanId(searchText));
                 break;
-            case "User ID":
-                list.addAll(LoanDAO.getInstance().searchPendingByUserId(searchText));
+            case "User Name":
+                list.addAll(LoanDAO.getInstance().searchPendingByUserName(searchText));
                 break;
             case "Document ID":
                 list.addAll(LoanDAO.getInstance().searchPendingByDocumentId(searchText));
@@ -99,74 +94,69 @@ public class PendingLoanController {
     }
 
     private void initFilterComboBox() {
-        ObservableList<String> userFilters = FXCollections.observableArrayList("All ID", "Loan ID", "User ID", "Document ID");
-        controller.typeLoans.setItems(userFilters);
+        ObservableList<String> filters = FXCollections.observableArrayList("All ID", "Loan ID", "User Name", "Document ID");
+        controller.typeLoans.setItems(filters);
         controller.typeLoans.setValue("All ID");
     }
 
     private void initApproveButtonsColumn() {
         controller.approvalLoansView.setCellFactory(column -> new TableCell<Loan, Void>() {
-            private final Button approveButton = new Button("Approve");
-            private final Button disapproveButton = new Button("Disapprove");
-
-            {
-                approveButton.setStyle("-fx-background-color: green; -fx-text-fill: white;");
-                disapproveButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-
-                approveButton.setOnAction(event -> {
-                    Loan loan = getTableView().getItems().get(getIndex());
-                    Optional<ButtonType> result = showAlertConfirmation(
-                            "Approve pending issue",
-                            "Are you sure you want to approve this issue?");
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
-                        int canBoBorrowed = DocumentDAO.getInstance().canBeBorrowed(loan.getIntDocumentId(), loan.getQuantityOfBorrow());
-                        if (canBoBorrowed == Document.NOTAVALABLETOBOROW) {
-                            showAlertInformation("Unable to lend this document!",
-                                    "This document is not available to be borrowed!");
-                        } else if (canBoBorrowed == Document.NOTENOUGHCOPIES) {
-                            showAlertInformation("Unable to lend this document!",
-                                    "There are not enough copies of this document to be borrowed!");
-                        } else if (!DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), loan.getQuantityOfBorrow())) {
-                            showAlertInformation("Unable to lend this document!",
-                                    "Something went wrong while trying to lend this document!");
-                        } else if (LoanDAO.getInstance().approve(loan) <= 0) {
-                            showAlertInformation("Unable to lend this document!",
-                                    "Something went wrong!");
-                            DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), -loan.getQuantityOfBorrow());
-                        } else {
-                            loadLoanData();
-                        }
-                    }
-                });
-
-                disapproveButton.setOnAction(event -> {
-                    Loan loan = getTableView().getItems().get(getIndex());
-                    Optional<ButtonType> result = showAlertConfirmation(
-                            "Disapprove pending issue",
-                            "Are you sure you want to disapprove this issue?");
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
-                        if (LoanDAO.getInstance().disapprove(loan) <= 0) {
-                            showAlertInformation("Unable to disapprove this document!",
-                                    "Something went wrong!");
-                        } else {
-                            loadLoanData();
-                        }
-                    }
-                });
-            }
-
+            private final Button approveButton = createApproveButton();
+            private final Button disapproveButton = createDisapproveButton();
             private final HBox buttonBox = new HBox(10, disapproveButton, approveButton);
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(buttonBox);
-                }
+                setGraphic(empty ? null : buttonBox);
+            }
+
+            private Button createApproveButton() {
+                Button button = new Button("Approve");
+                button.setStyle("-fx-background-color: green; -fx-text-fill: white;");
+                button.setOnAction(event -> handleApproveLoan(getIndex()));
+                return button;
+            }
+
+            private Button createDisapproveButton() {
+                Button button = new Button("Disapprove");
+                button.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+                button.setOnAction(event -> handleDisapproveLoan(getIndex()));
+                return button;
             }
         });
+    }
+
+    private void handleApproveLoan(int index) {
+        Loan loan = list.get(index);
+        Optional<ButtonType> result = showAlertConfirmation("Approve Loan", "Are you sure?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            int canBorrow = DocumentDAO.getInstance().canBeBorrowed(loan.getIntDocumentId(), loan.getQuantityOfBorrow());
+            if (canBorrow == Document.NOTAVALABLETOBOROW) {
+                showAlertInformation("Cannot Approve", "Document not available.");
+            } else if (canBorrow == Document.NOTENOUGHCOPIES) {
+                showAlertInformation("Cannot Approve", "Not enough copies.");
+            } else if (!DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), loan.getQuantityOfBorrow())) {
+                showAlertInformation("Cannot Approve", "Error updating document copies.");
+            } else if (LoanDAO.getInstance().approve(loan) <= 0) {
+                showAlertInformation("Cannot Approve", "Error approving loan.");
+                DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), -loan.getQuantityOfBorrow());
+            } else {
+                loadLoanData();
+            }
+        }
+    }
+
+    private void handleDisapproveLoan(int index) {
+        Loan loan = list.get(index);
+        Optional<ButtonType> result = showAlertConfirmation("Disapprove Loan", "Are you sure?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if (LoanDAO.getInstance().disapprove(loan) <= 0) {
+                showAlertInformation("Cannot Disapprove", "Error disapproving loan.");
+            } else {
+                loadLoanData();
+            }
+        }
     }
 
     public void loadLoanData() {
@@ -177,9 +167,43 @@ public class PendingLoanController {
     }
 
     private void initializeCheckBox() {
-        this.checkBoxStatusList.clear();
+        checkBoxStatusList.clear();
         for (int i = 0; i < list.size(); i++) {
-            this.checkBoxStatusList.add(new SimpleBooleanProperty(false));
+            checkBoxStatusList.add(new SimpleBooleanProperty(false));
         }
+        for (BooleanProperty checkBoxStatus : checkBoxStatusList) {
+            checkBoxStatus.addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    controller.checkLoans.setSelected(false);
+                } else if (checkBoxStatusList.stream().allMatch(BooleanProperty::get)) {
+                    controller.checkLoans.setSelected(true);
+                }
+            });
+        }
+    }
+
+    public void checkAllPendingIssue() {
+        boolean isSelected = controller.checkLoans.isSelected();
+        checkBoxStatusList.forEach(checkBoxStatus -> checkBoxStatus.set(isSelected));
+    }
+
+    public void disapprovePendingIssue() {
+        Optional<ButtonType> result = showAlertConfirmation("Disapprove Loans", "Are you sure?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            list.stream()
+                    .filter(loan -> checkBoxStatusList.get(list.indexOf(loan)).get())
+                    .forEach(loan -> LoanDAO.getInstance().disapprove(loan));
+        }
+        loadLoanData();
+    }
+
+    public void approvePendingIssue() {
+        Optional<ButtonType> result = showAlertConfirmation("Approve Loans", "Are you sure?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            list.stream()
+                    .filter(loan -> checkBoxStatusList.get(list.indexOf(loan)).get())
+                    .forEach(loan -> LoanDAO.getInstance().approve(loan));
+        }
+        loadLoanData();
     }
 }

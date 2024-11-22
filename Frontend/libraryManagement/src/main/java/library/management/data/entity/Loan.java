@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 
 public class Loan {
     private int loanID;
-    private int userId;
+    private String userName; // Replaced userId with userName as primary identifier
     private int documentId;
-    private short quantityOfBorrow;
+    private int quantityOfBorrow;
     private double deposit;
     private LocalDateTime dateOfBorrow;
     private LocalDateTime requiredReturnDate;
@@ -23,16 +23,22 @@ public class Loan {
         this.loanID = Integer.parseInt(loanID.substring(4));
     }
 
-    public String getUserId() {
-        return String.format("USER%d", this.userId);
+    public Loan(String userName, int documentId, int quantityOfBorrow, double deposit) {
+        this.userName = userName;
+        this.documentId = documentId;
+        this.quantityOfBorrow = quantityOfBorrow;
+        this.deposit = deposit;
+        this.dateOfBorrow = LocalDateTime.now();
+        this.requiredReturnDate = this.dateOfBorrow.plusDays(30);
+        this.status = "borrowing";
     }
 
-    public int getIntUserId() {
-        return this.userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(String userId) {
-        this.userId = Integer.parseInt(userId.substring(4));
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getDocumentId() {
@@ -47,11 +53,11 @@ public class Loan {
         this.documentId = Integer.parseInt(documentId.substring(3));
     }
 
-    public short getQuantityOfBorrow() {
+    public int getQuantityOfBorrow() {
         return quantityOfBorrow;
     }
 
-    public void setQuantityOfBorrow(short quantityOfBorrow) {
+    public void setQuantityOfBorrow(int quantityOfBorrow) {
         this.quantityOfBorrow = quantityOfBorrow;
     }
 
@@ -115,7 +121,23 @@ public class Loan {
         return DocumentDAO.getInstance().searchDocumentById(this.documentId).getTitle();
     }
 
-    public String getUserName() {
-        return UserDAO.getInstance().searchUserByID(this.userId).getUserName();
+    public String getUserNameFromDAO() {
+        return UserDAO.getInstance().searchApprovedUserByName(this.userName).stream()
+                .findFirst()
+                .map(User::getUserName)
+                .orElse("Unknown User");
     }
+
+    @Override
+    public String toString() {
+        return String.format("Loan ID: %s, User Name: %s, Document ID: %s, Quantity Borrowed: %d, Deposit: %.2f, Required Return Date: %s, Status: %s",
+                getLoanID(),
+                getUserName(),
+                getDocumentId(),
+                getQuantityOfBorrow(),
+                getDeposit(),
+                getRequiredReturnDate() != null ? getRequiredReturnDate().toString() : "N/A",
+                getStatus());
+    }
+
 }

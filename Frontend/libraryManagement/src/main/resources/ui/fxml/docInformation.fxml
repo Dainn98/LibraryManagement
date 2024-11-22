@@ -44,7 +44,7 @@
                 <Label fx:id="publisherInfo" style="-fx-font-size: 14;" text="Nhà xuất bản Trẻ, 2016" wrapText="true" HBox.hgrow="ALWAYS" />
               </children>
             </HBox>
-            <HBox>
+            <HBox fx:id="addDocumentButton">
               <children>
                 <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Category" HBox.hgrow="ALWAYS" />
                 <Label fx:id="categoryInfo" style="-fx-font-size: 14;" text="Mange" wrapText="true" HBox.hgrow="ALWAYS" />
@@ -83,6 +83,12 @@
                 </HBox>
               </children>
             </HBox>
+                  <HBox fx:id="numberHBox" translateX="800.0" visible="false">
+                     <children>
+                        <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Number" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="numberField" maxWidth="200.0" promptText="Enter the price of document" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
                   <HBox fx:id="priceHBox" translateX="-800.0" visible="false">
                      <children>
                         <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Price" HBox.hgrow="ALWAYS" />
@@ -110,12 +116,12 @@
             <Image url="@../sprites/QRCode.jpg" />
           </image>
         </ImageView>
-        <ImageView fx:id="isbnImageInfo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="isbnImageInfo" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@../sprites/ISBN.png" />
           </image>
         </ImageView>
-            <JFXButton onAction="#handleAddDoc" prefWidth="150.0" text="Add Document" VBox.vgrow="ALWAYS" />
+        <JFXButton onAction="#handleAddDoc" prefWidth="150.0" text="Add Document" VBox.vgrow="ALWAYS" />
       </children>
       <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -125,7 +131,7 @@
   <top>
     <HBox BorderPane.alignment="CENTER">
       <children>
-        <Label fx:id="titleHeading" prefHeight="35.0" prefWidth="392.0" style="-fx-font-size: 24;" text="Harry Potter và Phòng Chứa Bí Mật">
+        <Label fx:id="titleHeading" prefHeight="35.0" prefWidth="392.0" style="-fx-font-size: 24;" text="Harry Potter và Phòng Chứa Bí Mật" HBox.hgrow="ALWAYS">
           <font>
             <Font name="System Bold" size="12.0" />
           </font>
@@ -133,18 +139,18 @@
       </children>
     </HBox>
   </top>
-   <bottom>
-      <VBox BorderPane.alignment="CENTER">
-         <children>
-            <HBox fx:id="saveHBox" alignment="CENTER_RIGHT" translateX="-800.0" visible="false" VBox.vgrow="ALWAYS">
-               <children>
-                  <JFXButton onAction="#handleSave" prefWidth="100.0" text="Save" />
-               </children>
-               <padding>
-                  <Insets bottom="20.0" right="20.0" />
-               </padding>
-            </HBox>
-         </children>
-      </VBox>
-   </bottom>
+  <bottom>
+    <VBox BorderPane.alignment="CENTER">
+      <children>
+        <HBox fx:id="saveHBox" alignment="CENTER_RIGHT" translateX="-800.0" visible="false" VBox.vgrow="ALWAYS">
+          <children>
+            <JFXButton fx:id="addDocButton" prefWidth="100.0" text="Save" />
+          </children>
+          <padding>
+            <Insets bottom="20.0" right="20.0" />
+          </padding>
+        </HBox>
+      </children>
+    </VBox>
+  </bottom>
 </BorderPane>
