@@ -676,8 +676,6 @@ public class MainController implements Initializable, properties, GeneralControl
         Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
     }
-
-
 }
 
 
