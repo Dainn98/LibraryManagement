@@ -5,7 +5,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -27,8 +26,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.CheckComboBox?>
 
-<StackPane prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FullUserController">
+<StackPane prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FullUserController">
    <children>
       <BorderPane prefHeight="806.0" prefWidth="1010.0" StackPane.alignment="CENTER">
          <top>
@@ -71,7 +71,7 @@
             </BorderPane>
          </top>
          <bottom>
-            <HBox alignment="CENTER" prefHeight="37.0" prefWidth="1026.0" style="-fx-padding: 10;">
+            <HBox alignment="CENTER" prefHeight="37.0" prefWidth="1026.0" style="-fx-padding: 10;" visible="false">
                <children>
                   <Label text="© 2024 TAAD - Library Management System" textFill="WHITE">
                      <HBox.margin>
@@ -139,7 +139,7 @@
          <center>
             <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <BorderPane fx:id="docBPane" prefHeight="687.0" prefWidth="919.0">
+                  <BorderPane fx:id="docBPane" prefHeight="687.0" prefWidth="919.0" visible="false">
                      <top>
                         <VBox BorderPane.alignment="CENTER">
                            <children>
@@ -170,7 +170,16 @@
                                                                         <Font size="12.1" />
                                                                      </font>
                                                                   </TextField>
-                                                                  <Hyperlink onAction="#handleAdvancedSearch" text="Advanced search" HBox.hgrow="ALWAYS" />
+                                                                  <HBox alignment="CENTER" spacing="10.0">
+                                                                     <children>
+                                                                        <HBox HBox.hgrow="ALWAYS" />
+                                                                        <CheckComboBox fx:id="issueTypeComboBox" prefWidth="133.0" title="Filter By" />
+                                                                        <HBox HBox.hgrow="ALWAYS" />
+                                                                     </children>
+                                                                     <padding>
+                                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                     </padding>
+                                                                  </HBox>
                                                                </children>
                                                             </HBox>
                                                          </children>
@@ -217,7 +226,7 @@
                         </HBox>
                      </bottom>
                   </BorderPane>
-                  <BorderPane fx:id="catalogBPane" visible="false">
+                  <BorderPane fx:id="catalogBPane">
                      <top>
                         <BorderPane fx:id="homePane" maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                            <center>
@@ -259,11 +268,16 @@
                                              <children>
                                                 <AnchorPane prefHeight="35.0" prefWidth="33.0">
                                                    <children>
-                                                      <FontAwesomeIconView fx:id="filter" glyphName="FILTER" layoutX="10.0" layoutY="29.0" onMouseDragEntered="#handleFilter" selectionFill="#f2f2f2" size="25" text="">
-                                                         <font>
-                                                            <Font size="18.0" />
-                                                         </font>
-                                                      </FontAwesomeIconView>
+                                                      <HBox alignment="CENTER" layoutX="14.0" layoutY="1.0" spacing="10.0">
+                                                         <children>
+                                                            <HBox HBox.hgrow="ALWAYS" />
+                                                            <CheckComboBox fx:id="issueTypeComboBox1" prefHeight="30.0" prefWidth="83.0" title="Filter" />
+                                                            <HBox HBox.hgrow="ALWAYS" />
+                                                         </children>
+                                                         <padding>
+                                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                         </padding>
+                                                      </HBox>
                                                    </children>
                                                 </AnchorPane>
                                                 <AnchorPane prefHeight="0.0" prefWidth="41.0">
