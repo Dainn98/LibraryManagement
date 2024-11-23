@@ -1,13 +1,12 @@
 package library.management.data.entity;
 
 import library.management.data.DAO.DocumentDAO;
-import library.management.data.DAO.UserDAO;
 
 import java.time.LocalDateTime;
 
 public class Loan {
     private int loanID;
-    private String userName; // Replaced userId with userName as primary identifier
+    private String userName;
     private int documentId;
     private int quantityOfBorrow;
     private double deposit;
@@ -15,12 +14,11 @@ public class Loan {
     private LocalDateTime requiredReturnDate;
     private LocalDateTime returnDate;
     private String status;
+    private Document document;
 
     public Loan() {
-    }
-
-    public Loan(String loanID) {
-        this.loanID = Integer.parseInt(loanID.substring(4));
+        super();
+        setDocument();
     }
 
     public Loan(String userName, int documentId, int quantityOfBorrow, double deposit) {
@@ -31,6 +29,7 @@ public class Loan {
         this.dateOfBorrow = LocalDateTime.now();
         this.requiredReturnDate = this.dateOfBorrow.plusDays(30);
         this.status = "borrowing";
+        setDocument();
     }
 
     public String getUserName() {
@@ -121,13 +120,6 @@ public class Loan {
         return DocumentDAO.getInstance().searchDocumentById(this.documentId).getTitle();
     }
 
-    public String getUserNameFromDAO() {
-        return UserDAO.getInstance().searchApprovedUserByName(this.userName).stream()
-                .findFirst()
-                .map(User::getUserName)
-                .orElse("Unknown User");
-    }
-
     @Override
     public String toString() {
         return String.format("Loan ID: %s, User Name: %s, Document ID: %s, Quantity Borrowed: %d, Deposit: %.2f, Required Return Date: %s, Status: %s",
@@ -140,4 +132,74 @@ public class Loan {
                 getStatus());
     }
 
+    public void setDocument() {
+        if (document == null) {
+            this.document = DocumentDAO.getInstance().searchDocumentById(this.documentId);
+        }
+    }
+
+    public String getISBN() {
+        if (document != null) {
+            return document.getIsbn();
+        } else {
+            setDocument();
+            if (document != null) {
+                return document.getIsbn();
+            } else {
+                return "N/A";
+            }
+        }
+    }
+
+    public String getTitle() {
+        if (document != null) {
+            return document.getTitle();
+        } else {
+            setDocument();
+            if (document != null) {
+                return document.getTitle();
+            } else {
+                return "N/A";
+            }
+        }
+    }
+
+    public String getAuthor() {
+        if (document != null) {
+            return document.getAuthor();
+        } else {
+            setDocument();
+            if (document != null) {
+                return document.getAuthor();
+            } else {
+                return "N/A";
+            }
+        }
+    }
+
+    public String getPublisher() {
+        if (document != null) {
+            return document.getPublisher();
+        } else {
+            setDocument();
+            if (document != null) {
+                return document.getPublisher();
+            } else {
+                return "N/A";
+            }
+        }
+    }
+
+    public String getCategory() {
+        if (document != null) {
+            return document.getCategory();
+        } else {
+            setDocument();
+            if (document != null) {
+                return document.getCategory();
+            } else {
+                return "N/A";
+            }
+        }
+    }
 }

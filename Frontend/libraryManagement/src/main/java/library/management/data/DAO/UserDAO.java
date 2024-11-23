@@ -27,7 +27,8 @@ public class UserDAO implements DAOInterface<User> {
 
     @Override
     public int add(User user) {
-        String query = "INSERT INTO user (userName, identityCard, phoneNumber, email, country, state, status, registeredDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO user (userName, identityCard, phoneNumber, email, password, country, state, status, registeredDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
@@ -35,10 +36,11 @@ public class UserDAO implements DAOInterface<User> {
             stmt.setString(2, user.getIdentityCard());
             stmt.setString(3, user.getPhoneNumber());
             stmt.setString(4, user.getEmail());
-            stmt.setString(5, user.getCountry());
-            stmt.setString(6, user.getState());
-            stmt.setString(7, user.getStatus());
-            stmt.setObject(8, user.getRegisteredDate());
+            stmt.setString(5, user.getPassword());
+            stmt.setString(6, user.getCountry());
+            stmt.setString(7, user.getState());
+            stmt.setString(8, user.getStatus());
+            stmt.setObject(9, user.getRegisteredDate());
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -63,18 +65,20 @@ public class UserDAO implements DAOInterface<User> {
 
     @Override
     public int update(User user) {
-        String query = "UPDATE user SET identityCard = ?, phoneNumber = ?, email = ?, country = ?, state = ?, registeredDate = ?, status = ? WHERE userName = ?";
+        String query = "UPDATE user SET identityCard = ?, phoneNumber = ?, email = ?, password = ?, country = ?, state = ?, registeredDate = ?, status = ? WHERE userName = ?";
+
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setString(1, user.getIdentityCard());
             stmt.setString(2, user.getPhoneNumber());
             stmt.setString(3, user.getEmail());
-            stmt.setString(4, user.getCountry());
-            stmt.setString(5, user.getState());
-            stmt.setObject(6, user.getRegisteredDate());
-            stmt.setString(7, user.getStatus());
-            stmt.setString(8, user.getUserName());
+            stmt.setString(4, user.getPassword());
+            stmt.setString(5, user.getCountry());
+            stmt.setString(6, user.getState());
+            stmt.setObject(7, user.getRegisteredDate());
+            stmt.setString(8, user.getStatus());
+            stmt.setString(9, user.getUserName());
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -275,6 +279,7 @@ public class UserDAO implements DAOInterface<User> {
         user.setIdentityCard(rs.getString("identityCard"));
         user.setPhoneNumber(rs.getString("phoneNumber"));
         user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password"));
         user.setCountry(rs.getString("country"));
         user.setState(rs.getString("state"));
         user.setStatus(rs.getString("status"));
@@ -282,17 +287,18 @@ public class UserDAO implements DAOInterface<User> {
         return user;
     }
 
+
     public int approve(User user) {
         String query = "UPDATE user SET status = 'approved' WHERE userName = ? AND status = 'pending'";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, user.getUserName()); // Sử dụng userName để xác định người dùng
-            return stmt.executeUpdate(); // Trả về số lượng bản ghi được cập nhật
+            stmt.setString(1, user.getUserName());
+            return stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0; // Trả về 0 nếu không có bản ghi nào được cập nhật
+        return 0;
     }
 
     public int disapprove(User user) {
@@ -300,12 +306,12 @@ public class UserDAO implements DAOInterface<User> {
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, user.getUserName()); // Sử dụng userName để xác định người dùng
-            return stmt.executeUpdate(); // Trả về số lượng bản ghi được cập nhật
+            stmt.setString(1, user.getUserName());
+            return stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0; // Trả về 0 nếu không có bản ghi nào được cập nhật
+        return 0;
     }
 
     /**
@@ -325,7 +331,7 @@ public class UserDAO implements DAOInterface<User> {
             e.printStackTrace();
         }
 
-        return 0; // Trả về 0 nếu có lỗi xảy ra hoặc không tìm thấy kết quả
+        return 0;
     }
 
     /**
@@ -345,7 +351,7 @@ public class UserDAO implements DAOInterface<User> {
             e.printStackTrace();
         }
 
-        return 0; // Trả về 0 nếu có lỗi xảy ra hoặc không tìm thấy kết quả
+        return 0;
     }
 
     /**
@@ -448,7 +454,7 @@ public class UserDAO implements DAOInterface<User> {
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, "%" + keyword + "%"); // Tìm kiếm theo từ khóa
+            stmt.setString(1, "%" + keyword + "%");
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -470,39 +476,101 @@ public class UserDAO implements DAOInterface<User> {
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(sqlQuery)) {
 
-            String searchKeyword = "%" + query + "%"; // Tìm kiếm theo từ khóa
-            stmt.setString(1, searchKeyword); // userName
+            String searchKeyword = "%" + query + "%";
+            stmt.setString(1, searchKeyword);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    approvedUserNames.add(rs.getString("userName")); // Lấy tên và thêm vào danh sách
+                    approvedUserNames.add(rs.getString("userName"));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return approvedUserNames; // Trả về danh sách tên
+        return approvedUserNames;
     }
 
     public User searchApprovedUserByExactName(String name) {
         String query = "SELECT * FROM user WHERE status = 'approved' AND userName = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setString(1, name); // So khớp chính xác userName
-
+            stmt.setString(1, name);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    // Trả về đối tượng User nếu tìm thấy
                     return buildUserFromResultSet(rs);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
+    }
 
-        return null; // Trả về null nếu không tìm thấy user
+    public boolean doesUserNameExist(String userName) {
+        String query = "SELECT COUNT(*) FROM user WHERE userName = ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, userName);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean doesIdentityCardExist(String identityCard) {
+        String query = "SELECT COUNT(*) FROM user WHERE identityCard = ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, identityCard);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean doesEmailExist(String email) {
+        String query = "SELECT COUNT(*) FROM user WHERE email = ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public User checkUserLogin(String username, String password) {
+        String query = "SELECT * FROM user WHERE userName = ? AND password = ? AND status = 'approved'";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return buildUserFromResultSet(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

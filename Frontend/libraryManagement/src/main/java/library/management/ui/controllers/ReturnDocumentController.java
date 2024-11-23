@@ -1,9 +1,9 @@
 package library.management.ui.controllers;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ButtonType;
-import library.management.data.DAO.DocumentDAO;
 import library.management.data.DAO.LoanDAO;
 import library.management.data.entity.Loan;
 
@@ -13,7 +13,7 @@ import static library.management.alert.AlertMaker.showAlertConfirmation;
 import static library.management.alert.AlertMaker.showAlertInformation;
 
 public class ReturnDocumentController {
-    private MainController controller;
+    private final MainController controller;
     private final ObservableList<Loan> list = FXCollections.observableArrayList();
 
     public ReturnDocumentController(MainController controller) {
@@ -21,8 +21,19 @@ public class ReturnDocumentController {
     }
 
     public void initReturnDocument() {
-
+        initComboBox();
+        controller.issueTypeComboBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> {
+            while (change.next()) {
+                searchLoanByID();
+            }
+        });
     }
+
+    private void initComboBox() {
+        controller.issueTypeComboBox.getItems().addAll( "pendingReturn", "borrowing", "late");
+        controller.issueTypeComboBox.getCheckModel().checkAll();
+    }
+
 
     public void loadListView() {
         list.clear();
@@ -77,7 +88,7 @@ public class ReturnDocumentController {
 
     public void searchLoanByID() {
         list.clear();
-        list.addAll(LoanDAO.getInstance().searchReturnLoanByLoanId(controller.searchLoanID.getText()));
+        list.addAll(LoanDAO.getInstance().searchReturnLoanByLoanIdAndStatus(controller.searchLoanID.getText(), controller.issueTypeComboBox.getCheckModel().getCheckedItems()));
         controller.listInfo.setItems(list);
     }
 }

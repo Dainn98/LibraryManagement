@@ -36,6 +36,7 @@ import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
 
+import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.properties;
 import org.controlsfx.control.CheckComboBox;
@@ -53,6 +54,7 @@ public class MainController implements Initializable, properties, GeneralControl
     private final IssuedDocument issuedDocument = new IssuedDocument(this);
     private final DocumentManagementController documentManagementController = new DocumentManagementController(this);
     private final ReturnDocumentController returnDocumentController = new ReturnDocumentController(this);
+    private Manager mainManager;
 
     // DASHBOARD PROPERTIES
     @FXML
@@ -174,8 +176,6 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected TableColumn<User, Boolean> checkBoxApproval;
     @FXML
-    protected TableColumn<User, String> idApprovals;
-    @FXML
     protected TableColumn<User, String> usernameApprovals;
     @FXML
     protected TableColumn<User, String> phoneNumberApprovals;
@@ -218,7 +218,7 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected JFXListView<Loan> listInfo;
     @FXML
-    protected AutoCompleteTextField lateFeeField;
+    protected AutoCompleteTextField<String> lateFeeField;
     @FXML
     protected JFXButton submitButton;
     @FXML
@@ -236,11 +236,11 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected Text price;
     @FXML
-    protected Text availablity;
+    protected Text availability;
     @FXML
     protected TextField searchLoanID;
-
-
+    @FXML
+    protected CheckComboBox<String> issueTypeComboBox;
 
     // All Issued Doc
     @FXML
@@ -355,11 +355,16 @@ public class MainController implements Initializable, properties, GeneralControl
         catalogController.initCatalog();
         avatarController.initAvatar(infoVBox);
         documentManagementController.initDocumentManagement();
+        returnDocumentController.initReturnDocument();
+    }
+
+    public void setMainManager(Manager manager) {
+        this.mainManager = manager;
     }
 
     // MENU CONTROLLER
     @FXML
-    protected void showSection(Object sectionToShow) {
+    private void showSection(Object sectionToShow) {
         dashboardVBox.setVisible(sectionToShow == dashboardVBox);
         docBPane.setVisible(sectionToShow == docBPane);
         usersBPane.setVisible(sectionToShow == usersBPane);
@@ -372,22 +377,25 @@ public class MainController implements Initializable, properties, GeneralControl
     }
 
     @FXML
-    protected void handleDashboardButton(ActionEvent actionEvent) {
+    private void handleDashboardButton(ActionEvent actionEvent) {
         dashboardController.loadDashBoardData();
         showSection(dashboardVBox);
     }
 
-    public void handleDocButton(ActionEvent actionEvent) {
+    @FXML
+    private void handleDocButton(ActionEvent actionEvent) {
         documentController.loadDocumentData();
         showSection(docBPane);
     }
 
-    public void handleUsersButton(ActionEvent actionEvent) {
+    @FXML
+    private void handleUsersButton(ActionEvent actionEvent) {
         userController.loadUserViewData();
         showSection(usersBPane);
     }
 
-    public void handleLibraryCatalogButton(ActionEvent actionEvent) {
+    @FXML
+    private void handleLibraryCatalogButton(ActionEvent actionEvent) {
         Task<Void> loadCatalog = new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -402,100 +410,116 @@ public class MainController implements Initializable, properties, GeneralControl
         showSection(catalogBPane);
     }
 
-    public void handlePendingApprovalsButton(ActionEvent actionEvent) {
+    @FXML
+    private void handlePendingApprovalsButton(ActionEvent actionEvent) {
         pendingApprovalsController.loadApprovalsData();
         showSection(pendingApprovalsBPane);
     }
 
     // PENDING ISSUE
-    public void handlePendingLoansButton(ActionEvent actionEvent) {
+    @FXML
+    private void handlePendingLoansButton(ActionEvent actionEvent) {
         pendingLoanController.loadLoanData();
         showSection(pendingLoansBPane);
     }
 
-    public void handleSearchPendingIssue(KeyEvent keyEvent) {
+    @FXML
+    private void handleSearchPendingIssue(KeyEvent keyEvent) {
         pendingLoanController.handleSearchPendingIssue();
     }
 
-    public void checkAllPendingIssue(ActionEvent actionEvent) {
+    @FXML
+    private void checkAllPendingIssue(ActionEvent actionEvent) {
         pendingLoanController.checkAllPendingIssue();
     }
 
-    public void deletePendingIssue(ActionEvent actionEvent) {
+    @FXML
+    private void deletePendingIssue(ActionEvent actionEvent) {
         pendingLoanController.disapprovePendingIssue();
     }
 
-    public void disapprovePendingIssue(ActionEvent actionEvent) {
+    @FXML
+    private void disapprovePendingIssue(ActionEvent actionEvent) {
         pendingLoanController.disapprovePendingIssue();
     }
 
-    public void approvePendingIssue(ActionEvent actionEvent) {
+    @FXML
+    private void approvePendingIssue(ActionEvent actionEvent) {
         pendingLoanController.approvePendingIssue();
     }
 
     // ALL ISSUED DOCUMENT
-    public void handleIssuedDocButton(ActionEvent actionEvent) {
+    @FXML
+    private void handleIssuedDocButton(ActionEvent actionEvent) {
         issuedDocument.loadLoanData();
         showSection(allIssuedDocBPane);
     }
 
-    public void handleSearchID(KeyEvent keyEvent) {
+    @FXML
+    private void handleSearchID(KeyEvent keyEvent) {
         issuedDocument.handleSearchID();
     }
 
-    public void handleClickAvatar(MouseEvent mouseEvent) {
+    @FXML
+    private void handleClickAvatar(MouseEvent mouseEvent) {
         dashboardController.handleClickAvatar(pic, infoVBox);
     }
 
-    public void handleExitAvatarInfo(MouseEvent mouseEvent) {
+    @FXML
+    private void handleExitAvatarInfo(MouseEvent mouseEvent) {
         dashboardController.handleExitAvatarInfo(infoVBox, pic);
     }
 
     // DOCUMENT CONTROLLER
 
     @FXML
-    public void handleSearchDocTField(KeyEvent actionEvent) {
+    private void handleSearchDocTField(KeyEvent actionEvent) {
         documentController.handleSearchDocTField();
     }
 
-    public void checkAllDocs(ActionEvent actionEvent) {
+    @FXML
+    private void checkAllDocs(ActionEvent actionEvent) {
         documentController.checkAllDocs();
     }
 
-    public void handleAdvancedSearch(ActionEvent actionEvent) {
+    @FXML
+    private void handleAdvancedSearch(ActionEvent actionEvent) {
+        showSection(catalogBPane);
+    }
+
+    @FXML
+    private void handleImportDataButton(ActionEvent actionEvent) {
         //To Do
     }
 
-    public void handleAddDocButton(ActionEvent actionEvent) {
-        //To Do
+    @FXML
+    private void loadUpdateBook(ActionEvent actionEvent) {
+        documentController.loadDocumentData();
     }
 
-    public void handleImportDataButton(ActionEvent actionEvent) {
-        //To Do
+    @FXML
+    private void DeleteBook(ActionEvent actionEvent) {
+        documentController.DeleteBook();
     }
 
-    public void loadUpdateBook(ActionEvent actionEvent) {
-        //To Do
-    }
-
-    public void DeleteBook(ActionEvent actionEvent) {
-        //To Do
-    }
-
-    public void handleDeleteDocHyperlink(ActionEvent actionEvent) {
+    @FXML
+    private void handleDeleteDocHyperlink(ActionEvent actionEvent) {
         documentController.handleDeleteDocHyperlink();
     }
 
     //DOCUMENT MANAGEMENT CONTROLLER
-    public void handleBackToDoc(ActionEvent actionEvent) {
+    @FXML
+    private void handleBackToDoc(ActionEvent actionEvent) {
         showSection(docBPane);
     }
 
-    public void handleRenewDoc(ActionEvent actionEvent) {
+    @FXML
+    private void handleRenewDoc(ActionEvent actionEvent) {
         returnDocumentController.loadListView();
     }
 
-    public void handleSubmitIssueDoc(ActionEvent actionEvent) {
+    @FXML
+    private void handleSubmitIssueDoc(ActionEvent actionEvent) {
         documentManagementController.handleSubmitIssueDoc();
     }
 
@@ -507,7 +531,7 @@ public class MainController implements Initializable, properties, GeneralControl
     }
 
     @FXML
-    private void searchLoanByID(MouseEvent mouseEvent) {
+    private void searchLoanByID(KeyEvent keyEvent) {
         returnDocumentController.searchLoanByID();
     }
 
@@ -524,7 +548,7 @@ public class MainController implements Initializable, properties, GeneralControl
     }
 
     @FXML
-    protected void handleReturnDocButton(ActionEvent actionEvent) {
+    private void handleReturnDocButton(ActionEvent actionEvent) {
         returnDocumentController.loadListView();
         showSection(docManagementBPane);
         issueDocBPane.setVisible(false);
@@ -532,23 +556,10 @@ public class MainController implements Initializable, properties, GeneralControl
     }
 
     @FXML
-    protected void handleIssueDocButton(ActionEvent actionEvent) {
+    private void handleIssueDocButton(ActionEvent actionEvent) {
         showSection(docManagementBPane);
         issueDocBPane.setVisible(true);
         returnDocBPane.setVisible(false);
-    }
-
-    // DOCUMENT INFORMATION CONTROLLER
-    @FXML
-    private void handleBackToCatalog(ActionEvent actionEvent) {
-    }
-
-    @FXML
-    private void handleAddDoc(ActionEvent actionEvent) {
-    }
-
-    @FXML
-    private void handleCancelAddDoc(ActionEvent actionEvent) {
     }
 
     @FXML
@@ -557,63 +568,77 @@ public class MainController implements Initializable, properties, GeneralControl
     }
 
     //  USER CONTROLLER
-    public void searchUserDetails(KeyEvent event) {
+    @FXML
+    private void searchUserDetails(KeyEvent event) {
         userController.searchUserDetails();
     }
 
-    public void importData(ActionEvent actionEvent) {
+    @FXML
+    private void importData(ActionEvent actionEvent) {
     }
 
-    public void deleteUserRecord(ActionEvent actionEvent) {
-        userController.deleteUserRecord();
+    @FXML
+    private void deleteUsersRecord(ActionEvent actionEvent) {
+        userController.deleteUsersRecord();
     }
 
-    public void handleCancelUserButton(ActionEvent actionEvent) {
+    @FXML
+    private void deleteUserRecord(ActionEvent actionEvent) {
+        userController.deleteOneUserRecord();
+    }
+
+    @FXML
+    private void handleCancelUserButton(ActionEvent actionEvent) {
         userController.handleCancelUserButton();
     }
 
-    public void handleSaveUserButton(ActionEvent actionEvent) {
+    @FXML
+    private void handleSaveUserButton(ActionEvent actionEvent) {
         userController.handleSaveUserButton();
     }
 
-    public void handleUpdateUser(ActionEvent actionEvent) {
+    @FXML
+    private void handleUpdateUser(ActionEvent actionEvent) {
     }
 
-    public void checkAllUsers(ActionEvent actionEvent) {
+    @FXML
+    private void checkAllUsers(ActionEvent actionEvent) {
         userController.checkAllUsers();
     }
 
     // PENDING APPROVAL
-    public void disapprovePending(ActionEvent actionEvent) {
+    @FXML
+    private void disapprovePending(ActionEvent actionEvent) {
         pendingApprovalsController.disapprovePending();
     }
 
-    public void checkAllPending(ActionEvent actionEvent) {
+    @FXML
+    private void checkAllPending(ActionEvent actionEvent) {
         pendingApprovalsController.checkAllPending();
     }
 
-    public void approvePendingUsers(ActionEvent actionEvent) {
+    @FXML
+    private void approvePendingUsers(ActionEvent actionEvent) {
         pendingApprovalsController.approvePendingUsers();
     }
 
-    public void handleSearchPendingUser(KeyEvent keyEvent) {
+    @FXML
+    private void handleSearchPendingUser(KeyEvent keyEvent) {
         pendingApprovalsController.handleSearchPendingUser();
     }
 
     //ANOTHER
-    public void requestMenu(ContextMenuEvent contextMenuEvent) {
+    @FXML
+    private void requestMenu(ContextMenuEvent contextMenuEvent) {
     }
 
-
-    public void fetchUserWithKey(KeyEvent event) {
+    @FXML
+    private void fetchUserWithKey(KeyEvent event) {
     }
 
-    public void fetchUserFeesDetails(MouseEvent mouseEvent) {
+    @FXML
+    private void fetchUserFeesDetails(MouseEvent mouseEvent) {
         userController.fetchUserDetails();
-    }
-
-
-    public void handleCancelRegisterDoc(ActionEvent actionEvent) {
     }
 
     // CATALOG
@@ -652,7 +677,7 @@ public class MainController implements Initializable, properties, GeneralControl
      * Handles the sign-out process for the user.
      */
     @FXML
-    protected void handleSignOutButton(ActionEvent actionEvent) {
+    private void handleSignOutButton(ActionEvent actionEvent) {
         signOutController.handleSignOut(getClass());
         Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();

@@ -202,8 +202,22 @@ public class PendingLoanController {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             list.stream()
                     .filter(loan -> checkBoxStatusList.get(list.indexOf(loan)).get())
-                    .forEach(loan -> LoanDAO.getInstance().approve(loan));
+                    .forEach(loan -> {
+                        int canBorrow = DocumentDAO.getInstance().canBeBorrowed(loan.getIntDocumentId(), loan.getQuantityOfBorrow());
+                        if (canBorrow == Document.NOTAVALABLETOBOROW) {
+                            showAlertInformation("Cannot Approve", "Document not available for loan ID: " + loan.getLoanID());
+                        } else if (canBorrow == Document.NOTENOUGHCOPIES) {
+                            showAlertInformation("Cannot Approve", "Not enough copies for loan ID: " + loan.getLoanID());
+                        } else if (!DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), loan.getQuantityOfBorrow())) {
+                            showAlertInformation("Cannot Approve", "Error updating document copies for loan ID: " + loan.getLoanID());
+                        } else if (LoanDAO.getInstance().approve(loan) <= 0) {
+                            showAlertInformation("Cannot Approve", "Error approving loan for loan ID: " + loan.getLoanID());
+                            // Rollback in case of approval failure
+                            DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), -loan.getQuantityOfBorrow());
+                        }
+                    });
         }
         loadLoanData();
     }
+
 }
