@@ -28,7 +28,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<StackPane prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FullUserController">
+<StackPane prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FullUserController">
    <children>
       <BorderPane prefHeight="806.0" prefWidth="1010.0" StackPane.alignment="CENTER">
          <top>
@@ -122,7 +122,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="userInformationButton" mnemonicParsing="false" onAction="#handleInforButton" prefWidth="200.0" text="User Information" />
+                  <Button fx:id="userInformationButton" mnemonicParsing="false" onAction="#handleInfoButton" prefWidth="200.0" text="User Information" />
                   <Button fx:id="policyButton" onAction="#handlePolicyButton" prefWidth="200" text="Policy">
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -263,7 +263,7 @@
                                     <HBox>
                                        <children>
                                           <HBox HBox.hgrow="ALWAYS" />
-                                          <AutoCompleteTextField fx:id="catalogSearchField" cache="true" depthTest="ENABLE" floatText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30; -fx-border-radius: 30;" HBox.hgrow="ALWAYS" />
+                                          <AutoCompleteTextField fx:id="catalogSearchField" cache="true" depthTest="ENABLE" floatText="Search for Document by Title, Author or ISBN..." onKeyPressed="#handleSearchCatalogPressed" onKeyReleased="#handleSearchCatalog" style="-fx-background-radius: 30; -fx-border-radius: 30;" HBox.hgrow="ALWAYS" />
                                           <HBox HBox.hgrow="ALWAYS">
                                              <children>
                                                 <AnchorPane prefHeight="35.0" prefWidth="33.0">
@@ -271,7 +271,7 @@
                                                       <HBox alignment="CENTER" layoutX="14.0" layoutY="1.0" spacing="10.0">
                                                          <children>
                                                             <HBox HBox.hgrow="ALWAYS" />
-                                                            <CheckComboBox fx:id="issueTypeComboBox1" prefHeight="30.0" prefWidth="83.0" title="Filter" />
+                                                            <CheckComboBox fx:id="searchDocumentFilter" prefHeight="30.0" prefWidth="83.0" title="Filter" />
                                                             <HBox HBox.hgrow="ALWAYS" />
                                                          </children>
                                                          <padding>
@@ -295,7 +295,7 @@
                                              <content>
                                                 <VBox prefHeight="958.0" prefWidth="732.0" translateX="20.0">
                                                    <children>
-                                                      <Label text="Hot" />
+                                                      <Label fx:id="firstLabel" text="Hot" />
                                                       <ScrollPane maxHeight="500.0" minHeight="300.0" prefHeight="300.0" prefWidth="767.0">
                                                          <content>
                                                             <GridPane fx:id="oneGrid" hgap="10.0" maxHeight="400.0" minHeight="300.0" prefHeight="300.0" prefWidth="2195.0" translateY="20.0">
@@ -318,7 +318,7 @@
                                                             </GridPane>
                                                          </content>
                                                       </ScrollPane>
-                                                      <Label layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" text="nvhd" />
+                                                      <Label fx:id="secondLabel" layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" text="nvhd" />
                                                       <ScrollPane layoutX="10.0" layoutY="30.0" maxHeight="500.0" minHeight="300.0" prefHeight="320.0" prefWidth="200.0">
                                                          <content>
                                                             <GridPane fx:id="twoGrid" hgap="10.0" maxHeight="500.0" minHeight="300.0" prefHeight="320.0" prefWidth="2195.0">
@@ -342,7 +342,7 @@
                                                             </GridPane>
                                                          </content>
                                                       </ScrollPane>
-                                                      <Label text="Category" />
+                                                      <Label fx:id="thirdLabel" text="Category" />
                                                       <ScrollPane maxHeight="500.0" minHeight="300.0" prefHeight="300.0" prefWidth="767.0">
                                                          <content>
                                                             <GridPane fx:id="threeGrid" hgap="10.0" maxHeight="400.0" minHeight="300.0" prefHeight="300.0" prefWidth="2195.0" translateY="20.0">
@@ -365,7 +365,7 @@
                                                             </GridPane>
                                                          </content>
                                                       </ScrollPane>
-                                                      <Label text="Category" />
+                                                      <Label fx:id="fourthLabel" text="Category" />
                                                       <ScrollPane maxHeight="500.0" minHeight="300.0" prefHeight="300.0" prefWidth="767.0">
                                                          <content>
                                                             <GridPane fx:id="fourGird" hgap="10.0" maxHeight="400.0" minHeight="300.0" prefHeight="300.0" prefWidth="2195.0" translateY="20.0">
@@ -388,7 +388,7 @@
                                                             </GridPane>
                                                          </content>
                                                       </ScrollPane>
-                                                      <Label text="Category" />
+                                                      <Label fx:id="fifthLabel" text="Category" />
                                                       <ScrollPane maxHeight="500.0" minHeight="300.0" prefHeight="300.0" prefWidth="767.0">
                                                          <content>
                                                             <GridPane fx:id="fiveGrid" hgap="10.0" maxHeight="400.0" minHeight="300.0" prefHeight="300.0" prefWidth="2195.0" translateY="20.0">

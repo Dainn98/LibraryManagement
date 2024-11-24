@@ -4,16 +4,19 @@ import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +28,7 @@ import javafx.stage.Stage;
 import library.management.data.entity.Loan;
 import library.management.data.entity.User;
 import library.management.properties;
+import org.controlsfx.control.CheckComboBox;
 
 public class FullUserController implements Initializable, properties, GeneralController {
 
@@ -33,6 +37,7 @@ public class FullUserController implements Initializable, properties, GeneralCon
   private final ProcessingController processingController = new ProcessingController(this);
   private final HistoryController historyController = new HistoryController(this);
   private final AvatarController2 avatarController = new AvatarController2(this);
+
   private User mainUser;
 
   @FXML
@@ -72,12 +77,37 @@ public class FullUserController implements Initializable, properties, GeneralCon
   @FXML
   protected GridPane twoGrid;
 
+  @FXML
+  protected GridPane threeGrid;
+
+  @FXML
+  protected GridPane fourGird;
+
+  @FXML
+  protected GridPane fiveGrid;
+
+  @FXML
+  protected Label firstLabel;
+
+  @FXML
+  protected Label secondLabel;
+
+  @FXML
+  protected Label thirdLabel;
+
+  @FXML
+  protected Label fourthLabel;
+
+  @FXML
+  protected Label fifthLabel;
+
+  @FXML
+  protected CheckComboBox<String> searchDocumentFilter;
+
+
   // HISTORY
   @FXML
   protected TableView<Loan> docView;
-
-  @FXML
-  protected FontAwesomeIconView filter;
 
   @FXML
   protected TableColumn<Loan, String> docIDDocView;
@@ -171,12 +201,6 @@ public class FullUserController implements Initializable, properties, GeneralCon
     borrowedPane.setVisible(sectionToShow == borrowedPane);
   }
 
-
-  @FXML
-  void handleAdvancedSearch(ActionEvent event) {
-    showSection(catalogBPane);
-  }
-
   @FXML
   void handleAlert(MouseDragEvent event) {
 
@@ -208,13 +232,30 @@ public class FullUserController implements Initializable, properties, GeneralCon
     showSection(docBPane);
   }
 
+  // HOME
   @FXML
   void handleHomeButton(ActionEvent event) {
+    homeController.searchDocument();
     showSection(catalogBPane);
   }
 
   @FXML
-  void handleInforButton(ActionEvent event) {
+  private void handleSearchCatalog(KeyEvent keyEvent) {
+    homeController.searchDocument();
+  }
+
+  @FXML
+  private void handleSearchCatalogPressed(KeyEvent keyEvent) {
+    switch (keyEvent.getCode()) {
+      case ENTER -> {
+        homeController.searchDocument();
+        homeController.addSuggestion();
+      }
+    }
+  }
+
+  @FXML
+  void handleInfoButton(ActionEvent event) {
 
   }
 
