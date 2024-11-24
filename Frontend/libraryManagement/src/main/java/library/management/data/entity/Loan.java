@@ -32,6 +32,11 @@ public class Loan {
         setDocument();
     }
 
+    public Document getDocument() {
+        setDocument();
+        return this.document;
+    }
+
     public String getUserName() {
         return userName;
     }

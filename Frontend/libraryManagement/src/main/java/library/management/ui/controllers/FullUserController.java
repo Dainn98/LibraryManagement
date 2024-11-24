@@ -3,12 +3,11 @@ package library.management.ui.controllers;
 import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -22,16 +21,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import library.management.data.entity.Document;
+import javafx.stage.Stage;
 import library.management.data.entity.Loan;
 import library.management.data.entity.User;
 import library.management.properties;
 
 public class FullUserController implements Initializable, properties, GeneralController {
 
-  private final homeBookController homeController = new homeBookController(this);
-  private final borrowedController borrowedController = new borrowedController(this);
-  private final processingController processingController = new processingController(this);
+  private final HomeController homeController = new HomeController(this);
+  private final BorrowedController borrowedController = new BorrowedController(this);
+  private final ProcessingController processingController = new ProcessingController(this);
   private final HistoryController historyController = new HistoryController(this);
   private final AvatarController2 avatarController = new AvatarController2(this);
   private User mainUser;
@@ -49,9 +48,6 @@ public class FullUserController implements Initializable, properties, GeneralCon
   protected Button borrowButton;
 
   @FXML
-  protected BorderPane catalogBPane;
-
-  @FXML
   protected AutoCompleteTextField<?> catalogSearchField;
 
   @FXML
@@ -65,6 +61,16 @@ public class FullUserController implements Initializable, properties, GeneralCon
 
   @FXML
   protected BorderPane docBPane;
+
+  // HOME
+  @FXML
+  protected BorderPane catalogBPane;
+
+  @FXML
+  protected GridPane oneGrid;
+
+  @FXML
+  protected GridPane twoGrid;
 
   // HISTORY
   @FXML
@@ -116,9 +122,6 @@ public class FullUserController implements Initializable, properties, GeneralCon
   protected VBox infoVBox;
 
   @FXML
-  protected GridPane oneGrid;
-
-  @FXML
   protected Button pendingHistory;
 
   @FXML
@@ -140,15 +143,7 @@ public class FullUserController implements Initializable, properties, GeneralCon
   protected Button signOutButton;
 
   @FXML
-  protected GridPane twoGrid;
-
-  @FXML
   protected Button userInformationButton;
-  private List<Document> documentList;
-
-  public List<Document> getDocumentList() {
-    return documentList;
-  }
 
   public void setMainUser(User mainUser) {
     this.mainUser = mainUser;
@@ -160,8 +155,8 @@ public class FullUserController implements Initializable, properties, GeneralCon
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    homeController.initHomeData();
-    borrowedController.initBorrowed();
+    homeController.initHome();
+    borrowedController.initBorrowedDocuments();
     processingController.initProcess();
     historyController.initIssueDocumentView();
     avatarController.initAvatar(infoVBox);
@@ -189,27 +184,12 @@ public class FullUserController implements Initializable, properties, GeneralCon
 
   @FXML
   void handleBorrowedDocButton(ActionEvent event) {
-    Task<Void> loadHome = new Task<Void>() {
-      @Override
-      protected Void call() throws Exception {
-        borrowedController.initBorrowed();
-        return null;
-      }
-    };
-    Thread thread = new Thread(loadHome);
-    thread.setDaemon(true);
-    thread.start();
+    borrowedController.loadBorrowingDocument();
     showSection(borrowedPane);
   }
 
   @FXML
   void handleClickAvatar(MouseEvent event) {
-
-  }
-
-  @FXML
-  void handleDeleteDocHyperlink(ActionEvent event) {
-
   }
 
   @FXML
@@ -230,16 +210,6 @@ public class FullUserController implements Initializable, properties, GeneralCon
 
   @FXML
   void handleHomeButton(ActionEvent event) {
-    Task<Void> loadHome = new Task<Void>() {
-      @Override
-      protected Void call() throws Exception {
-        homeController.initHomeData();
-        return null;
-      }
-    };
-    Thread thread = new Thread(loadHome);
-    thread.setDaemon(true);
-    thread.start();
     showSection(catalogBPane);
   }
 
@@ -255,16 +225,7 @@ public class FullUserController implements Initializable, properties, GeneralCon
 
   @FXML
   void handleProcessingButton(ActionEvent event) {
-    Task<Void> loadHome = new Task<Void>() {
-      @Override
-      protected Void call() throws Exception {
-        processingController.initProcess();
-        return null;
-      }
-    };
-    Thread thread = new Thread(loadHome);
-    thread.setDaemon(true);
-    thread.start();
+    processingController.loadPendingDocument();
     showSection(processingPane);
   }
 
@@ -280,12 +241,13 @@ public class FullUserController implements Initializable, properties, GeneralCon
 
   @FXML
   void handleSignOutButton(ActionEvent event) {
-
+    SignOutController.handleUserSignOut(getClass());
+    Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    currentStage.close();
   }
 
   @FXML
   void searchBook(KeyEvent event) {
-
   }
 
 }

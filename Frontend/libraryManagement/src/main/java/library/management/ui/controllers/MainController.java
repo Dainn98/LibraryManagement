@@ -678,11 +678,8 @@ public class MainController implements Initializable, properties, GeneralControl
      */
     @FXML
     private void handleSignOutButton(ActionEvent actionEvent) {
-        signOutController.handleSignOut(getClass());
+        SignOutController.handleManagerSignOut(getClass());
         Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
     }
 }
-
-
-
