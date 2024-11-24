@@ -55,7 +55,7 @@ public class Trie {
         while (!pq.isEmpty()) {
             suggestions.add(pq.poll().word);
         }
-        Collections.reverse(suggestions); // Đảo ngược vì PriorityQueue trả theo thứ tự giảm dần
+        Collections.reverse(suggestions);
         return suggestions;
     }
 

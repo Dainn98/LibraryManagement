@@ -8,12 +8,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import jfxtras.scene.layout.HBox?>
 
-<BorderPane stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.DocContainerController">
+<BorderPane stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.UserDocInformationController">
   <center>
     <VBox prefHeight="569.0" prefWidth="802.0" spacing="10.0">
       <children>
@@ -41,13 +40,13 @@
             </HBox>
             <HBox>
               <children>
-                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Category" HBox.hgrow="ALWAYS" />
                 <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Publisher" HBox.hgrow="ALWAYS" />
                 <Label fx:id="publisherInfo" style="-fx-font-size: 14;" text="Nhà xuất bản Trẻ, 2016" wrapText="true" HBox.hgrow="ALWAYS" />
               </children>
             </HBox>
             <HBox fx:id="addDocumentButton">
               <children>
+                <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Category" HBox.hgrow="ALWAYS" />
                 <Label fx:id="categoryInfo" style="-fx-font-size: 14;" text="Mange" wrapText="true" HBox.hgrow="ALWAYS" />
               </children>
             </HBox>
@@ -148,7 +147,7 @@
   <top>
     <HBox BorderPane.alignment="CENTER">
       <children>
-        <Label fx:id="titleHeading" prefHeight="35.0" prefWidth="392.0" style="-fx-font-size: 24;" text="Harry Potter và Phòng Chứa Bí Mật" HBox.hgrow="ALWAYS">
+        <Label fx:id="titleHeading" prefHeight="35.0" prefWidth="392.0" style="-fx-font-size: 24;" text="User doc information" HBox.hgrow="ALWAYS">
           <font>
             <Font name="System Bold" size="12.0" />
           </font>
