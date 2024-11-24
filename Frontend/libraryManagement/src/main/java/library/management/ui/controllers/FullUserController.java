@@ -1,6 +1,7 @@
 package library.management.ui.controllers;
 
 import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
+import com.jfoenix.controls.JFXComboBox;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -140,6 +141,9 @@ public class FullUserController implements Initializable, properties, GeneralCon
   protected TableColumn<Loan, String> statusLoanView;
 
   @FXML
+  protected JFXComboBox<String> historyFilter;
+
+  @FXML
   protected VBox home;
 
   @FXML
@@ -255,6 +259,11 @@ public class FullUserController implements Initializable, properties, GeneralCon
   }
 
   @FXML
+  private void searchHistory(KeyEvent keyEvent) {
+    historyController.handleSearchHistory();
+  }
+
+  @FXML
   void handleInfoButton(ActionEvent event) {
 
   }
@@ -271,11 +280,6 @@ public class FullUserController implements Initializable, properties, GeneralCon
   }
 
   @FXML
-  void handleSearchDocTField(ActionEvent event) {
-
-  }
-
-  @FXML
   void handleSettingButton(ActionEvent event) {
 
   }
@@ -287,8 +291,5 @@ public class FullUserController implements Initializable, properties, GeneralCon
     currentStage.close();
   }
 
-  @FXML
-  void searchBook(KeyEvent event) {
-  }
 
 }
