@@ -441,5 +441,74 @@ public class LoanDAO implements DAOInterface<Loan> {
         return loanList;
     }
 
+    public List<Loan> getPendingLoansByUsername(String userName, int limit) {
+        List<Loan> loanList = new ArrayList<>();
+        String query = "SELECT * FROM loans WHERE userName = ? AND status = 'pending' ORDER BY dateOfBorrow DESC LIMIT ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, userName);
+            stmt.setInt(2, limit);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    loanList.add(mapLoan(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loanList;
+    }
+
+    public List<Loan> getPendingLoansByUsername(String userName) {
+        List<Loan> loanList = new ArrayList<>();
+        String query = "SELECT * FROM loans WHERE userName = ? AND status = 'pending' ORDER BY dateOfBorrow DESC";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, userName);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    loanList.add(mapLoan(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loanList;
+    }
+
+    public List<Loan> getBorrowingLoanByUserName(String userName, int limit) {
+        List<Loan> loanList = new ArrayList<>();
+        String query = "SELECT * FROM loans WHERE userName = ? AND (status = 'borrowing' OR status = 'late') ORDER BY dateOfBorrow DESC LIMIT ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, userName);
+            stmt.setInt(2, limit);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    loanList.add(mapLoan(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loanList;
+    }
+
+    public List<Loan> getBorrowingLoanByUserName(String userName) {
+        List<Loan> loanList = new ArrayList<>();
+        String query = "SELECT * FROM loans WHERE userName = ? AND (status = 'borrowing' OR status = 'late') ORDER BY dateOfBorrow DESC";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, userName);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    loanList.add(mapLoan(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loanList;
+    }
 
 }

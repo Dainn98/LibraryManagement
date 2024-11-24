@@ -102,7 +102,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="borrowButton" onAction="#handleBorrowedDocButton" prefWidth="200" text="Borrowed Book">
+                  <Button fx:id="borrowButton" onAction="#handleBorrowedDocButton" prefWidth="200" text="Borrowing Book">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -112,7 +112,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="pendingHistory" onAction="#handleHistoryButton" prefWidth="200" text="Pending History">
+                  <Button fx:id="pendingHistory" onAction="#handleHistoryButton" prefWidth="200" text="History">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -139,7 +139,7 @@
          <center>
             <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <BorderPane fx:id="docBPane" prefHeight="687.0" prefWidth="919.0">
+                  <BorderPane fx:id="docBPane" prefHeight="687.0" prefWidth="919.0" visible="false">
                      <top>
                         <VBox BorderPane.alignment="CENTER">
                            <children>
@@ -217,7 +217,7 @@
                         </HBox>
                      </bottom>
                   </BorderPane>
-                  <BorderPane fx:id="catalogBPane" visible="false">
+                  <BorderPane fx:id="catalogBPane">
                      <top>
                         <BorderPane fx:id="homePane" maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                            <center>
@@ -324,6 +324,75 @@
 
                                                                <rowConstraints>
                                                                   <RowConstraints minHeight="100.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                            </GridPane>
+                                                         </content>
+                                                      </ScrollPane>
+                                                      <Label text="Category" />
+                                                      <ScrollPane maxHeight="500.0" minHeight="300.0" prefHeight="300.0" prefWidth="767.0">
+                                                         <content>
+                                                            <GridPane fx:id="threeGrid" hgap="10.0" maxHeight="400.0" minHeight="300.0" prefHeight="300.0" prefWidth="2195.0" translateY="20.0">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="100.0" prefHeight="200.0" vgrow="ALWAYS" />
+                                                               </rowConstraints>
+                                                            </GridPane>
+                                                         </content>
+                                                      </ScrollPane>
+                                                      <Label text="Category" />
+                                                      <ScrollPane maxHeight="500.0" minHeight="300.0" prefHeight="300.0" prefWidth="767.0">
+                                                         <content>
+                                                            <GridPane fx:id="fourGird" hgap="10.0" maxHeight="400.0" minHeight="300.0" prefHeight="300.0" prefWidth="2195.0" translateY="20.0">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="100.0" prefHeight="200.0" vgrow="ALWAYS" />
+                                                               </rowConstraints>
+                                                            </GridPane>
+                                                         </content>
+                                                      </ScrollPane>
+                                                      <Label text="Category" />
+                                                      <ScrollPane maxHeight="500.0" minHeight="300.0" prefHeight="300.0" prefWidth="767.0">
+                                                         <content>
+                                                            <GridPane fx:id="fiveGrid" hgap="10.0" maxHeight="400.0" minHeight="300.0" prefHeight="300.0" prefWidth="2195.0" translateY="20.0">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="100.0" prefHeight="200.0" vgrow="ALWAYS" />
                                                                </rowConstraints>
                                                             </GridPane>
                                                          </content>
