@@ -422,22 +422,18 @@ public class LoanDAO implements DAOInterface<Loan> {
 
     public List<Loan> getHistoryLoan(String userName) {
         List<Loan> loanList = new ArrayList<>();
-        String query = "SELECT * FROM loans WHERE status IN ('returned', 'late') AND userName = ?";
-
+        String query = "SELECT * FROM loans WHERE status IN ('returned') AND userName = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setString(1, userName); // Gán giá trị userName vào câu truy vấn
-
+            stmt.setString(1, userName);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    loanList.add(mapLoan(rs)); // Ánh xạ từng bản ghi thành đối tượng Loan
+                    loanList.add(mapLoan(rs));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return loanList;
     }
 
@@ -508,6 +504,75 @@ public class LoanDAO implements DAOInterface<Loan> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return loanList;
+    }
+
+    public List<Loan> getHistoryByLoanID(String loanId, String userName) {
+        List<Loan> loanList = new ArrayList<>();
+        String query = "SELECT * FROM loans WHERE status = 'returned' AND loanID LIKE ? AND userName = ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + loanId + "%");
+            stmt.setString(2, userName);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    loanList.add(mapLoan(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return loanList;
+    }
+
+    public List<Loan> searchHistoryByDocumentId(String documentId, String userName) {
+        List<Loan> loanList = new ArrayList<>();
+        String query = "SELECT * FROM loans WHERE status = 'returned' AND documentId LIKE ? AND userName = ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, "%" + documentId + "%"); // Tìm kiếm documentId chứa chuỗi được nhập
+            stmt.setString(2, userName);              // Điều kiện username chính xác
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    loanList.add(mapLoan(rs));        // Mapping kết quả vào đối tượng Loan
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return loanList;
+    }
+
+    public List<Loan> searchHistoryByKeyWord(String keyword, String userName) {
+        List<Loan> loanList = new ArrayList<>();
+        String query = "SELECT * FROM loans WHERE status = 'returned' AND userName = ? " +
+                "AND (CAST(loanID AS CHAR) LIKE ? OR CAST(documentId AS CHAR) LIKE ?)";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, userName); // Điều kiện chính xác theo username
+            String searchPattern = "%" + keyword + "%";
+            stmt.setString(2, searchPattern); // Tìm kiếm loanID chứa từ khóa
+            stmt.setString(3, searchPattern); // Tìm kiếm documentId chứa từ khóa
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    loanList.add(mapLoan(rs)); // Mapping kết quả vào đối tượng Loan
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return loanList;
     }
 
