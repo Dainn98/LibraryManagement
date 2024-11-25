@@ -33,5 +33,29 @@ public class HistoryController {
         list.clear();
         list.addAll(LoanDAO.getInstance().getHistoryLoan(controller.getMainUserName()));
         controller.docView.setItems(list);
+        initFilterComboBox();
+    }
+
+    private void initFilterComboBox() {
+        ObservableList<String> filters = FXCollections.observableArrayList("All ID", "Loan ID", "Document ID");
+        controller.historyFilter.setItems(filters);
+        controller.historyFilter.setValue("All ID");
+    }
+
+    public void handleSearchHistory() {
+        String filterCriteria = controller.historyFilter.getValue();
+        String searchText = controller.searchDocTField.getText().trim().toLowerCase();
+        list.clear();
+        switch (filterCriteria) {
+            case "Loan ID":
+                list.addAll(LoanDAO.getInstance().getHistoryByLoanID(searchText, controller.getMainUserName()));
+                break;
+            case "Document ID":
+                list.addAll(LoanDAO.getInstance().searchHistoryByDocumentId(searchText, controller.getMainUserName()));
+                break;
+            default:
+                list.addAll(LoanDAO.getInstance().searchHistoryByKeyWord(searchText, controller.getMainUserName()));
+        }
+        controller.docView.setItems(list);
     }
 }

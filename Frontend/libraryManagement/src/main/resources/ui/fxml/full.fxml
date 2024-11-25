@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.gluonhq.charm.glisten.control.AutoCompleteTextField?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
@@ -139,7 +140,7 @@
          <center>
             <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <BorderPane fx:id="docBPane" prefHeight="687.0" prefWidth="919.0" visible="false">
+                  <BorderPane fx:id="docBPane" prefHeight="687.0" prefWidth="919.0">
                      <top>
                         <VBox BorderPane.alignment="CENTER">
                            <children>
@@ -165,7 +166,7 @@
                                                          <children>
                                                             <HBox HBox.hgrow="ALWAYS">
                                                                <children>
-                                                                  <TextField fx:id="searchDocTField" alignment="TOP_LEFT" onAction="#handleSearchDocTField" onKeyTyped="#searchBook" prefHeight="26.0" prefWidth="333.0" promptText="Search for document by title, author or ISBN" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS">
+                                                                  <TextField fx:id="searchDocTField" alignment="TOP_LEFT" onKeyReleased="#searchHistory" prefHeight="26.0" prefWidth="333.0" promptText="Search for document by title, author or ISBN" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS">
                                                                      <font>
                                                                         <Font size="12.1" />
                                                                      </font>
@@ -173,13 +174,13 @@
                                                                   <HBox alignment="CENTER" spacing="10.0">
                                                                      <children>
                                                                         <HBox HBox.hgrow="ALWAYS" />
-                                                                        <CheckComboBox fx:id="issueTypeComboBox" prefWidth="133.0" title="Filter By" />
                                                                         <HBox HBox.hgrow="ALWAYS" />
                                                                      </children>
                                                                      <padding>
                                                                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                                      </padding>
                                                                   </HBox>
+                                                                  <JFXComboBox fx:id="historyFilter" labelFloat="true" promptText="Search by" />
                                                                </children>
                                                             </HBox>
                                                          </children>
@@ -226,7 +227,7 @@
                         </HBox>
                      </bottom>
                   </BorderPane>
-                  <BorderPane fx:id="catalogBPane">
+                  <BorderPane fx:id="catalogBPane" visible="false">
                      <top>
                         <BorderPane fx:id="homePane" maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                            <center>
