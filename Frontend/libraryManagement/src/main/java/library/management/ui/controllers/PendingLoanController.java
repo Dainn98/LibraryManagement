@@ -148,6 +148,8 @@ public class PendingLoanController {
             } else if (loan.getStatus().equals("pendingReturned")) {
                 if (!LoanDAO.getInstance().returnDocument(loan)) {
                     showAlertConfirmation("Cannot Approve", "Error approving pending returned loan for loan ID: " + loan.getLoanID());
+                } else {
+                    loadLoanData();
                 }
             }
         }
@@ -157,10 +159,18 @@ public class PendingLoanController {
         Loan loan = list.get(index);
         Optional<ButtonType> result = showAlertConfirmation("Disapprove Loan", "Are you sure?");
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            if (LoanDAO.getInstance().disapprove(loan) <= 0) {
-                showAlertInformation("Cannot Disapprove", "Error disapproving loan.");
-            } else {
-                loadLoanData();
+            if (loan.getStatus().equals("pending")) {
+                if (LoanDAO.getInstance().disapprove(loan) <= 0) {
+                    showAlertInformation("Cannot Disapprove", "Error disapproving pending loan.");
+                } else {
+                    loadLoanData();
+                }
+            } else if (loan.getStatus().equals("pendingReturned")) {
+                if (LoanDAO.getInstance().disapproveReturn(loan) <= 0) {
+                    showAlertInformation("Cannot Disapprove", "Error disapproving pending returned loan.");
+                } else {
+                    loadLoanData();
+                }
             }
         }
     }

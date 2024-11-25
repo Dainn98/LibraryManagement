@@ -128,8 +128,7 @@ public class UserDocInformationController implements GeneralController {
             borrowingDateLabel.setVisible(false);
             dueDateTitle.setVisible(false);
             dueDateLabel.setVisible(false);
-            quantityTitle.setVisible(false);
-            quantityLabel.setVisible(false);
+            quantityLabel.setText(document.getAvailableCopies() + " copies");
             lastFeeTitle.setVisible(false);
             lateFeeLabel.setVisible(false);
             priceTextField.setText(doc.getPrice() + "$");
@@ -143,8 +142,8 @@ public class UserDocInformationController implements GeneralController {
             mainButton.setOnAction(this::handleReturn);
         } else if (this.type == UserDocContainerController.PROCESSING_DOCUMENT) {
             this.loan = loan;
-            mainButton.setVisible(false);
-            mainButton.setDisable(true);
+            mainButton.setText("Undo");
+            mainButton.setOnAction(this::handleUndo);
             if (loan.getStatus().equals("pending")) {
                 borrowingDateLabel.setText(this.loan.getDateOfBorrowAsString());
                 quantityLabel.setText(String.valueOf(this.loan.getQuantityOfBorrow()));
@@ -211,8 +210,7 @@ public class UserDocInformationController implements GeneralController {
             Loan loan = new Loan(FullUserController.mainUser.getUserName(), document.getIntDocumentID(), number, 0);
             loan.setStatus("pending");
             LoanDAO.getInstance().add(loan);
-            DocumentDAO.getInstance().decreaseAvailableCopies(document.getIntDocumentID(), number);
-            showAlertInformation("", "Borrow successfully!");
+            showAlertInformation("Borrowing successfully", "Please wait for manager's approval!");
         }
     }
 
@@ -241,6 +239,31 @@ public class UserDocInformationController implements GeneralController {
                     showAlertInformation("Return document", "Your document is pending return!");
                 } else {
                     showAlertInformation("Return document fail!", "Document could not be returned!");
+                }
+            }
+        }
+    }
+
+    private void handleUndo(ActionEvent actionEvent) {
+        Optional<ButtonType> result = showAlertConfirmation("Return document", "Are you sure you want to return this document?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if (loan == null) {
+                showAlertInformation("Error", "This document is not available to be undored.");
+                return;
+            }
+            if (loan.getStatus().equals("pending")) {
+                if (LoanDAO.getInstance().undoPending(loan) > 0) {
+                    showAlertInformation("Undo successfully", "Your loan is deleted.");
+                } else {
+                    showAlertInformation("Undo fail!", "Your loan is not deleted.");
+                }
+                return;
+            }
+            if (loan.getStatus().equals("pendingReturned")) {
+                if (LoanDAO.getInstance().undoPendingReturn(loan) > 0) {
+                    showAlertInformation("Undo successfully", "Your loan is continue.");
+                } else {
+                    showAlertInformation("Undo fail!", "Something went wrong!.");
                 }
             }
         }

@@ -423,6 +423,33 @@ public class LoanDAO implements DAOInterface<Loan> {
         return false;
     }
 
+    public int undoPending(Loan loan) {
+        String query = "UPDATE loans SET status = 'removed' WHERE loanID = ? AND status = 'pending'";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, loan.getIntLoanID());
+            return stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int undoPendingReturn(Loan loan) {
+        String query = "UPDATE loans SET status = 'borrowing' WHERE loanID = ? AND status = 'pendingReturned'";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, loan.getIntLoanID());
+            return stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
     public List<Loan> searchReturnLoanByLoanIdAndStatus(String loanId, List<String> statuses) {
         if (statuses == null || statuses.isEmpty()) {
             return new ArrayList<>();
