@@ -5,12 +5,13 @@ import org.vosk.Model;
 import org.vosk.Recognizer;
 
 import javax.sound.sampled.*;
-import java.io.InputStream;
 
 public class SpeechToText {
+    private static volatile boolean stopRecognition = false;
+
     public static void main(String[] args) {
         // Đường dẫn đến mô hình ngôn ngữ
-        String modelPath = "D:/UET/UET2th/OOP/vosk-model-vn-0.4";
+        String modelPath = "D:/UET/UET2th/OOP/vosk-model-en-us-0.22-lgraph";
 
         try (Model model = new Model(modelPath)) {
             // Khởi tạo recognizer
@@ -24,17 +25,34 @@ public class SpeechToText {
                     return;
                 }
 
+                // Khởi chạy luồng xử lý nhấn phím
+                Thread inputThread = new Thread(() -> {
+                    System.out.println("Nhấn 'Enter' để dừng nhận diện giọng nói...");
+                    try {
+                        System.in.read(); // Chờ người dùng nhấn Enter
+                        stopRecognition = true;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                inputThread.start();
+
+                // Bắt đầu nhận diện giọng nói
                 try (TargetDataLine microphone = (TargetDataLine) AudioSystem.getLine(info)) {
                     microphone.open(format);
                     microphone.start();
-                    System.out.println("Bắt đầu nhận diện giọng nói...");
 
-                    byte[] buffer = new byte[8192]; // Tăng buffer
-                    while (true) {
+                    byte[] buffer = new byte[4096];
+
+                    while (!stopRecognition) {
                         int bytesRead = microphone.read(buffer, 0, buffer.length);
 
                         if (recognizer.acceptWaveForm(buffer, bytesRead)) {
-                            System.out.print(recognizer.getResult());
+                            String result = recognizer.getResult();
+                            String text = extractTextFromJson(result);
+                            if (!text.isEmpty()) {
+                                System.out.print(text + " "); // In từng chữ ngay khi nhận diện được
+                            }
                         }
                     }
                 }
@@ -44,5 +62,23 @@ public class SpeechToText {
             e.printStackTrace();
         }
     }
+
+    private static String extractTextFromJson(String json) {
+        // Trích xuất giá trị của "text" trong JSON
+        String textKey = "\"text\" : \"";
+        int startIndex = json.indexOf(textKey);
+        if (startIndex == -1) {
+            return ""; // Không tìm thấy trường "text"
+        }
+
+        startIndex += textKey.length();
+        int endIndex = json.indexOf("\"", startIndex);
+        if (endIndex == -1) {
+            return ""; // Không tìm thấy kết thúc của chuỗi "text"
+        }
+
+        return json.substring(startIndex, endIndex).trim();
+    }
 }
+
 
