@@ -321,7 +321,7 @@
                                                       <Label fx:id="secondLabel" layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" text="nvhd" />
                                                       <ScrollPane layoutX="10.0" layoutY="28.0" maxHeight="500.0" minHeight="400.0" prefHeight="400.0" prefWidth="767.0">
                                                          <content>
-                                                            <GridPane fx:id="oneGrid1" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
+                                                            <GridPane fx:id="twoGrid" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
                                                                <columnConstraints>
                                                                   <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
                                                                   <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
@@ -344,7 +344,7 @@
                                                       <Label fx:id="thirdLabel" text="Category" />
                                                       <ScrollPane layoutX="10.0" layoutY="502.0" maxHeight="500.0" minHeight="400.0" prefHeight="400.0" prefWidth="767.0">
                                                          <content>
-                                                            <GridPane fx:id="oneGrid11" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
+                                                            <GridPane fx:id="threeGrid" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
                                                                <columnConstraints>
                                                                   <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
                                                                   <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
@@ -367,7 +367,7 @@
                                                       <Label fx:id="fourthLabel" text="Category" />
                                                       <ScrollPane layoutX="10.0" layoutY="502.0" maxHeight="500.0" minHeight="400.0" prefHeight="400.0" prefWidth="767.0">
                                                          <content>
-                                                            <GridPane fx:id="oneGrid12" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
+                                                            <GridPane fx:id="fourGrid" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
                                                                <columnConstraints>
                                                                   <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
                                                                   <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
@@ -390,7 +390,7 @@
                                                       <Label fx:id="fifthLabel" text="Category" />
                                                       <ScrollPane layoutX="10.0" layoutY="502.0" maxHeight="500.0" minHeight="400.0" prefHeight="400.0" prefWidth="767.0">
                                                          <content>
-                                                            <GridPane fx:id="oneGrid13" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
+                                                            <GridPane fx:id="fiveGrid" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
                                                                <columnConstraints>
                                                                   <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
                                                                   <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
