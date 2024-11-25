@@ -125,7 +125,6 @@ public class HomeController {
     }
 
     protected void searchDocument() {
-        System.out.println("search");
         for (int i = 0; i < documentList.size(); i++) {
             gridPaneList.get(i).getChildren().clear();
             docContainerControllerList.get(i).clear();
@@ -159,7 +158,7 @@ public class HomeController {
                 Task<Void> loadController = new Task<>() {
                     @Override
                     protected Void call() throws Exception {
-                        docContainerControllerList.get(row).get(col).setData(documentList.get(row).get(col));
+                        docContainerControllerList.get(row).get(col).setDocData(documentList.get(row).get(col), null, UserDocContainerController.HOME_DOCUMENT);
                         return null;
                     }
                 };

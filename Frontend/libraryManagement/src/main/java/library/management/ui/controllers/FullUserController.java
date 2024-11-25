@@ -39,7 +39,7 @@ public class FullUserController implements Initializable, properties, GeneralCon
   private final HistoryController historyController = new HistoryController(this);
   private final AvatarController2 avatarController = new AvatarController2(this);
 
-  private User mainUser;
+  public static User mainUser;
 
   @FXML
   protected GridPane borrowViewGPane;

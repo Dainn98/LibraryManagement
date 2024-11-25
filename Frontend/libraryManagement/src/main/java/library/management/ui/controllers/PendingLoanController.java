@@ -131,18 +131,24 @@ public class PendingLoanController {
         Loan loan = list.get(index);
         Optional<ButtonType> result = showAlertConfirmation("Approve Loan", "Are you sure?");
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            int canBorrow = DocumentDAO.getInstance().canBeBorrowed(loan.getIntDocumentId(), loan.getQuantityOfBorrow());
-            if (canBorrow == Document.NOTAVALABLETOBOROW) {
-                showAlertInformation("Cannot Approve", "Document not available.");
-            } else if (canBorrow == Document.NOTENOUGHCOPIES) {
-                showAlertInformation("Cannot Approve", "Not enough copies.");
-            } else if (!DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), loan.getQuantityOfBorrow())) {
-                showAlertInformation("Cannot Approve", "Error updating document copies.");
-            } else if (LoanDAO.getInstance().approve(loan) <= 0) {
-                showAlertInformation("Cannot Approve", "Error approving loan.");
-                DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), -loan.getQuantityOfBorrow());
-            } else {
-                loadLoanData();
+            if (loan.getStatus().equals("pending")) {
+                int canBorrow = DocumentDAO.getInstance().canBeBorrowed(loan.getIntDocumentId(), loan.getQuantityOfBorrow());
+                if (canBorrow == Document.NOTAVALABLETOBOROW) {
+                    showAlertInformation("Cannot Approve", "Document not available.");
+                } else if (canBorrow == Document.NOTENOUGHCOPIES) {
+                    showAlertInformation("Cannot Approve", "Not enough copies.");
+                } else if (!DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), loan.getQuantityOfBorrow())) {
+                    showAlertInformation("Cannot Approve", "Error updating document copies.");
+                } else if (LoanDAO.getInstance().approve(loan) <= 0) {
+                    showAlertInformation("Cannot Approve", "Error approving loan.");
+                    DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), -loan.getQuantityOfBorrow());
+                } else {
+                    loadLoanData();
+                }
+            } else if (loan.getStatus().equals("pendingReturned")) {
+                if (!LoanDAO.getInstance().returnDocument(loan)) {
+                    showAlertConfirmation("Cannot Approve", "Error approving pending returned loan for loan ID: " + loan.getLoanID());
+                }
             }
         }
     }
@@ -192,7 +198,13 @@ public class PendingLoanController {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             list.stream()
                     .filter(loan -> checkBoxStatusList.get(list.indexOf(loan)).get())
-                    .forEach(loan -> LoanDAO.getInstance().disapprove(loan));
+                    .forEach(loan -> {
+                        if (loan.getStatus().equals("pending")) {
+                            LoanDAO.getInstance().disapprove(loan);
+                        } else if (loan.getStatus().equals("pendingReturned")) {
+                            LoanDAO.getInstance().disapproveReturn(loan);
+                        }
+                    });
         }
         loadLoanData();
     }
@@ -203,17 +215,23 @@ public class PendingLoanController {
             list.stream()
                     .filter(loan -> checkBoxStatusList.get(list.indexOf(loan)).get())
                     .forEach(loan -> {
-                        int canBorrow = DocumentDAO.getInstance().canBeBorrowed(loan.getIntDocumentId(), loan.getQuantityOfBorrow());
-                        if (canBorrow == Document.NOTAVALABLETOBOROW) {
-                            showAlertInformation("Cannot Approve", "Document not available for loan ID: " + loan.getLoanID());
-                        } else if (canBorrow == Document.NOTENOUGHCOPIES) {
-                            showAlertInformation("Cannot Approve", "Not enough copies for loan ID: " + loan.getLoanID());
-                        } else if (!DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), loan.getQuantityOfBorrow())) {
-                            showAlertInformation("Cannot Approve", "Error updating document copies for loan ID: " + loan.getLoanID());
-                        } else if (LoanDAO.getInstance().approve(loan) <= 0) {
-                            showAlertInformation("Cannot Approve", "Error approving loan for loan ID: " + loan.getLoanID());
-                            // Rollback in case of approval failure
-                            DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), -loan.getQuantityOfBorrow());
+                        if (loan.getStatus().equals("pending")) {
+                            int canBorrow = DocumentDAO.getInstance().canBeBorrowed(loan.getIntDocumentId(), loan.getQuantityOfBorrow());
+                            if (canBorrow == Document.NOTAVALABLETOBOROW) {
+                                showAlertInformation("Cannot Approve", "Document not available for loan ID: " + loan.getLoanID());
+                            } else if (canBorrow == Document.NOTENOUGHCOPIES) {
+                                showAlertInformation("Cannot Approve", "Not enough copies for loan ID: " + loan.getLoanID());
+                            } else if (!DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), loan.getQuantityOfBorrow())) {
+                                showAlertInformation("Cannot Approve", "Error updating document copies for loan ID: " + loan.getLoanID());
+                            } else if (LoanDAO.getInstance().approve(loan) <= 0) {
+                                showAlertInformation("Cannot Approve", "Error approving loan for loan ID: " + loan.getLoanID());
+                                // Rollback in case of approval failure
+                                DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), -loan.getQuantityOfBorrow());
+                            }
+                        } else if (loan.getStatus().equals("pendingReturned")) {
+                            if (!LoanDAO.getInstance().returnDocument(loan)) {
+                                showAlertConfirmation("Cannot Approve", "Error approving pending returned loan for loan ID: " + loan.getLoanID());
+                            }
                         }
                     });
         }

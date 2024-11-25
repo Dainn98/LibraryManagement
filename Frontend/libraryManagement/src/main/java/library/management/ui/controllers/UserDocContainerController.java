@@ -16,12 +16,17 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import library.management.data.entity.Document;
+import library.management.data.entity.Loan;
 import library.management.ui.applications.ImageDownloader;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class UserDocContainerController implements GeneralController {
+
+    public static int HOME_DOCUMENT = 100;
+    public static int BORROWING_DOCUMENT = 200;
+    public static int PROCESSING_DOCUMENT = 300;
 
     private final String[] colors = {"D1E8FF", // Light Blue
             "FFF7D1", // Light Yellow
@@ -52,6 +57,8 @@ public class UserDocContainerController implements GeneralController {
     };
     private Image image;
     private Document document;
+    private Loan loan;
+    private int type;
 
     @FXML
     private VBox docInfo;
@@ -64,7 +71,11 @@ public class UserDocContainerController implements GeneralController {
     @FXML
     private Hyperlink docTitleCatalog;
 
-    public void setData(Document doc) {
+    public void setDocData(Document doc, Loan loan, int type) {
+        this.type = type;
+        if (type == BORROWING_DOCUMENT || type == PROCESSING_DOCUMENT) {
+            this.loan = loan;
+        }
         this.document = doc;
         String imageUrl = document.getImage();
         if (Objects.equals(imageUrl, "/ui/sprites/demoDoc.gif")) {
@@ -118,7 +129,7 @@ public class UserDocContainerController implements GeneralController {
             Stage stage = new Stage();
             stage.setTitle("Document Information");
             UserDocInformationController controller = fxmlLoader.getController();
-            controller.loadDocData(document, image);
+            controller.loadDocData(document, image, loan, type);
 
             stage.setResizable(false);
             stage.setScene(new Scene(root));

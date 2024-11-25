@@ -99,7 +99,7 @@ public class LoanDAO implements DAOInterface<Loan> {
 
     public List<Loan> getPendingLoanList() {
         List<Loan> loanList = new ArrayList<>();
-        String query = "SELECT * FROM loans WHERE status = 'pending'";
+        String query = "SELECT * FROM loans WHERE status = 'pending' OR status = 'pendingReturned'";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
@@ -134,7 +134,7 @@ public class LoanDAO implements DAOInterface<Loan> {
     }
 
     public int approve(Loan loan) {
-        String query = "UPDATE loans SET status = 'borrowing' WHERE loanID = ? AND status = 'pending'";
+        String query = "UPDATE loans SET status = 'borrowing' WHERE loanID = ? AND (status = 'pending')";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
@@ -148,7 +148,21 @@ public class LoanDAO implements DAOInterface<Loan> {
     }
 
     public int disapprove(Loan loan) {
-        String query = "UPDATE loans SET status = 'disapproved' WHERE loanID = ? AND status = 'pending'";
+        String query = "UPDATE loans SET status = 'disapproved' WHERE loanID = ? AND (status = 'pending')";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, loan.getIntLoanID());
+
+            return stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int disapproveReturn(Loan loan) {
+        String query = "UPDATE loans SET status = 'borrowing' WHERE loanID = ? AND (status = 'pendingReturned')";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
@@ -163,7 +177,7 @@ public class LoanDAO implements DAOInterface<Loan> {
 
     public List<Loan> searchPendingByUserName(String userName) {
         List<Loan> loanList = new ArrayList<>();
-        String query = "SELECT * FROM loans WHERE status = 'pending' AND userName LIKE ?";
+        String query = "SELECT * FROM loans WHERE (status = 'pending' OR status = 'pendingReturned') AND userName LIKE ?";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -283,7 +297,7 @@ public class LoanDAO implements DAOInterface<Loan> {
     }
 
     public List<Loan> searchPendingByLoanId(String loanId) {
-        String query = "SELECT * FROM loans WHERE status = 'pending' AND CAST(loanID AS CHAR) LIKE ?";
+        String query = "SELECT * FROM loans WHERE (status = 'pending' OR status = 'pendingReturned') AND CAST(loanID AS CHAR) LIKE ?";
         List<Loan> loanList = new ArrayList<>();
 
         try (Connection con = DatabaseConnection.getConnection();
@@ -304,7 +318,7 @@ public class LoanDAO implements DAOInterface<Loan> {
     }
 
     public List<Loan> searchPendingByDocumentId(String documentId) {
-        String query = "SELECT * FROM loans WHERE status = 'pending' AND CAST(documentId AS CHAR) LIKE ?";
+        String query = "SELECT * FROM loans WHERE (status = 'pending' OR status = 'pendingReturned') AND CAST(documentId AS CHAR) LIKE ?";
         List<Loan> loanList = new ArrayList<>();
 
         try (Connection con = DatabaseConnection.getConnection();
@@ -327,7 +341,7 @@ public class LoanDAO implements DAOInterface<Loan> {
     public List<Loan> searchPendingIssueByKeyWord(String keyword) {
         String query = "SELECT * FROM loans l " +
                 "JOIN user u ON l.userId = u.userName " +
-                "WHERE l.status = 'pending' " +
+                "WHERE (l.status = 'pending' OR l.status = 'pendingReturned') " +
                 "AND (CAST(l.loanID AS CHAR) LIKE ? " +
                 "OR CAST(l.documentId AS CHAR) LIKE ? " +
                 "OR u.userName LIKE ?)";
@@ -373,6 +387,25 @@ public class LoanDAO implements DAOInterface<Loan> {
 
     public boolean returnDocument(Loan loan) {
         String query = "UPDATE loans SET status = 'returned', returnDate = ? WHERE loanID = ? AND status NOT IN ('removed', 'disapproved', 'returned', 'pending')";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setInt(2, loan.getIntLoanID());
+
+            if (stmt.executeUpdate() > 0) {
+                if (DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), -loan.getQuantityOfBorrow())) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean userReturnDocument(Loan loan) {
+        String query = "UPDATE loans SET status = 'pendingReturned', returnDate = ? WHERE loanID = ? AND status NOT IN ('removed', 'disapproved', 'returned', 'pending')";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
@@ -457,7 +490,7 @@ public class LoanDAO implements DAOInterface<Loan> {
 
     public List<Loan> getPendingLoansByUsername(String userName) {
         List<Loan> loanList = new ArrayList<>();
-        String query = "SELECT * FROM loans WHERE userName = ? AND status = 'pending' ORDER BY dateOfBorrow DESC";
+        String query = "SELECT * FROM loans WHERE userName = ? AND (status = 'pending' OR status = 'pendingReturned') ORDER BY dateOfBorrow DESC";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, userName);
@@ -474,7 +507,7 @@ public class LoanDAO implements DAOInterface<Loan> {
 
     public List<Loan> getBorrowingLoanByUserName(String userName, int limit) {
         List<Loan> loanList = new ArrayList<>();
-        String query = "SELECT * FROM loans WHERE userName = ? AND (status = 'borrowing' OR status = 'late') ORDER BY dateOfBorrow DESC LIMIT ?";
+        String query = "SELECT * FROM loans WHERE userName = ? AND (status = 'borrowing' OR status = 'late' OR status = 'pendingReturned') ORDER BY dateOfBorrow DESC LIMIT ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, userName);

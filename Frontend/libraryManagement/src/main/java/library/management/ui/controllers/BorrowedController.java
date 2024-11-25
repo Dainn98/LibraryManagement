@@ -35,6 +35,7 @@ public class BorrowedController {
   }
 
   public void loadBorrowingDocument() {
+    controller.borrowViewGPane.getChildren().clear();
     borrowingLoanList.clear();
     borrowingDocumentList.clear();
     docContainerControllerList.clear();
@@ -46,8 +47,10 @@ public class BorrowedController {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
         VBox docContainerVBox = fxmlLoader.load();
+        docContainerVBox.setPrefWidth(188);
+        docContainerVBox.setPrefHeight(350);
         UserDocContainerController docContainerController = fxmlLoader.getController();
-        if (column == BORROWED_COLUMN_MAX) {
+        if (column >= BORROWED_COLUMN_MAX) {
           column = 0;
           ++row;
         }
@@ -71,7 +74,7 @@ public class BorrowedController {
       Task<Void> loadController = new Task<>() {
         @Override
         protected Void call() throws Exception {
-          docContainerControllerList.get(index).setData(borrowingDocumentList.get(index));
+          docContainerControllerList.get(index).setDocData(borrowingDocumentList.get(index), borrowingLoanList.get(index), UserDocContainerController.BORROWING_DOCUMENT);
           return null;
         }
       };
@@ -80,5 +83,7 @@ public class BorrowedController {
     ExecutorService executor = Executors.newFixedThreadPool(6);
     tasks.forEach(executor::execute);
     executor.shutdown();
+    System.out.println(borrowingDocumentList.size());
+    System.out.println(borrowingLoanList.size());
   }
 }
