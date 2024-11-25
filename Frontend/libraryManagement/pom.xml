@@ -162,12 +162,6 @@
       <version>11.2.1</version>
     </dependency>
 
-    <!---->
-    <!--<dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.15.2</version> &lt;!&ndash; Kiểm tra phiên bản mới nhất &ndash;&gt;
-    </dependency>-->
 
 
     <dependency>
@@ -239,9 +233,36 @@
     <!--Google Book API-->
 
     <dependency>
+      <groupId>com.assemblyai</groupId>
+      <artifactId>assemblyai-java</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+
+    <dependency>
       <artifactId>google-api-client</artifactId>
       <groupId>com.google.api-client</groupId>
       <version>1.32.1</version>
+    </dependency>
+
+
+    <!--speech to text-->
+    <dependency>
+      <groupId>com.alphacephei</groupId>
+      <artifactId>vosk</artifactId>
+      <version>0.3.38</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-speech</artifactId>
+      <version>2.2.2</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.13</version>
     </dependency>
 
     <dependency>
@@ -259,6 +280,8 @@
       <groupId>com.google.http-client</groupId>
       <version>1.39.0</version>
     </dependency>
+
+
     <!--GSON-->
     <dependency>
       <artifactId>gson</artifactId>
@@ -271,6 +294,7 @@
       <artifactId>jfoenix</artifactId>
       <version>9.0.10</version> <!-- Hoặc phiên bản mới nhất -->
     </dependency>
+
 
     <!--Charm-listen-->
     <dependency>
