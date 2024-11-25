@@ -19,10 +19,9 @@ public class BorrowedController {
   private final FullUserController controller;
   private final List<Loan> borrowingLoanList = new ArrayList<>();
   private final List<Document> borrowingDocumentList = new ArrayList<>();
-  private final List<DocContainerController> docContainerControllerList = new ArrayList<>();
+  private final List<UserDocContainerController> docContainerControllerList = new ArrayList<>();
   private static final int BORROWED_COLUMN_MAX = 6;
-  private static final String DOCUMENT_CONTAINER_SOURCES = "/ui/fxml/docContainer.fxml";
-  private static final int BORROWED_DOCUMENT_MAX = 18;
+  private static final String DOCUMENT_CONTAINER_SOURCES = "/ui/fxml/userDocContainer.fxml";
 
   public BorrowedController(FullUserController controller) {
     this.controller = controller;
@@ -47,7 +46,7 @@ public class BorrowedController {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
         VBox docContainerVBox = fxmlLoader.load();
-        DocContainerController docContainerController = fxmlLoader.getController();
+        UserDocContainerController docContainerController = fxmlLoader.getController();
         if (column == BORROWED_COLUMN_MAX) {
           column = 0;
           ++row;
