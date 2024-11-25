@@ -37,6 +37,7 @@ public class ProcessingController {
   }
 
   public void loadPendingDocument() {
+    controller.processViewGPane.getChildren().clear();
     pendingLoanList.clear();
     pendingDocumentList.clear();
     pendingDocContainerControllerList.clear();
@@ -73,7 +74,7 @@ public class ProcessingController {
       Task<Void> loadController = new Task<>() {
         @Override
         protected Void call() throws Exception {
-          pendingDocContainerControllerList.get(index).setData(pendingDocumentList.get(index));
+          pendingDocContainerControllerList.get(index).setDocData(pendingDocumentList.get(index), pendingLoanList.get(index), UserDocContainerController.PROCESSING_DOCUMENT);
           return null;
         }
       };

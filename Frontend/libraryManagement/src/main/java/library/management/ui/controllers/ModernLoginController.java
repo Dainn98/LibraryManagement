@@ -103,7 +103,7 @@ public class ModernLoginController  implements Initializable,GeneralController {
             showAlertInformation("Sign Up Failed", "Something went wrong, please try again.");
             return;
         }
-        showAlertInformation("Sign Up Successful", "Sign Up Successful");
+        showAlertInformation("Sign Up Successful", "Your account is pending manager's approval");
         showLoginForm(actionEvent);
     }
 

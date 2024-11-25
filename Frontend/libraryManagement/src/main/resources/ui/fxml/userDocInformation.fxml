@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import jfxtras.scene.layout.HBox?>
 
-<BorderPane stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.UserDocInformationController">
+<BorderPane stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.UserDocInformationController">
   <center>
     <VBox prefHeight="569.0" prefWidth="802.0" spacing="10.0">
       <children>
@@ -81,22 +81,22 @@
           </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="Borrowing Date" />
-                        <Label text="Label" translateX="6.0" />
+                        <Label fx:id="borrowingDateTitle" text="Borrowing Date" />
+                        <Label fx:id="borrowingDateLabel" text="Label" translateX="6.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" translateY="-5.0">
                      <children>
-                        <Label text="Due date" />
-                        <Label text="Label" translateX="45.0" />
+                        <Label fx:id="dueDateTitle" text="Due date" />
+                        <Label fx:id="dueDateLabel" text="Label" translateX="45.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" translateY="-5.0">
                      <children>
-                        <Label text="Quantity" />
-                        <Label text="Label" translateX="48.0" />
-                        <Label text="Late fee" translateX="200.0" />
-                        <Label text="Label" translateX="250.0" />
+                        <Label fx:id="quantityTitle" text="Quantity" />
+                        <Label fx:id="quantityLabel" text="Label" translateX="48.0" />
+                        <Label fx:id="lastFeeTitle" text="Late fee" translateX="200.0" />
+                        <Label fx:id="lateFeeLabel" text="Label" translateX="250.0" />
                      </children>
                   </HBox>
                   <HBox fx:id="numberHBox" translateX="800.0" visible="false">
@@ -108,7 +108,7 @@
                   <HBox fx:id="priceHBox" translateX="-800.0" visible="false">
                      <children>
                         <Label prefWidth="100.0" style="-fx-font-size: 14;" text="Price" HBox.hgrow="ALWAYS" />
-                        <Label text="Label" />
+                        <Label fx:id="priceTextField" text="Label" />
                      </children>
                   </HBox>
           </children>
@@ -137,7 +137,7 @@
             <Image url="@../sprites/ISBN.png" />
           </image>
         </ImageView>
-        <JFXButton onAction="#handleAddDoc" prefWidth="150.0" text="Add Document" VBox.vgrow="ALWAYS" />
+        <JFXButton fx:id="mainButton" onAction="#handleAddDoc" prefWidth="150.0" text="Borrow" VBox.vgrow="ALWAYS" />
       </children>
       <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

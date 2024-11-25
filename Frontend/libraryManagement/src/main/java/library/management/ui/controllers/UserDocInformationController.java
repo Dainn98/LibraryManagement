@@ -11,10 +11,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import library.management.data.DAO.DocumentDAO;
+import library.management.data.DAO.LoanDAO;
 import library.management.data.entity.Document;
+import library.management.data.entity.Loan;
+import library.management.data.entity.User;
 import library.management.ui.applications.CodeGenerator;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static library.management.alert.AlertMaker.showAlertConfirmation;
@@ -33,6 +37,9 @@ public class UserDocInformationController implements GeneralController {
     private Image barcodeImage;
     private Image image;
     private Document document;
+    private Loan loan;
+    private int type;
+    private User user;
 
     @FXML
     private Label titleInfo;
@@ -54,8 +61,6 @@ public class UserDocInformationController implements GeneralController {
     @FXML
     private HBox numberHBox;
     @FXML
-    private TextField priceField;
-    @FXML
     private TextField numberField;
     @FXML
     private ImageView thumbnailImageInfo;
@@ -70,9 +75,38 @@ public class UserDocInformationController implements GeneralController {
     @FXML
     private JFXButton addDocButton;
 
+    @FXML
+    private Label borrowingDateTitle;
 
+    @FXML
+    private Label borrowingDateLabel;
 
-    public void loadDocData(Document doc, Image thumbnail) {
+    @FXML
+    private Label dueDateTitle;
+
+    @FXML
+    private Label dueDateLabel;
+
+    @FXML
+    private Label quantityTitle;
+
+    @FXML
+    private Label quantityLabel;
+
+    @FXML
+    private Label lastFeeTitle;
+
+    @FXML
+    private Label lateFeeLabel;
+
+    @FXML
+    private Label priceTextField;
+
+    @FXML
+    private JFXButton mainButton;
+
+    public void loadDocData(Document doc, Image thumbnail, Loan loan, int type) {
+        this.type = type;
         this.document = doc;
         this.image = thumbnail;
         titleInfo.setText(doc.getTitle());
@@ -87,7 +121,43 @@ public class UserDocInformationController implements GeneralController {
         setCodeImage();
         qrImageInfo.setImage(QRImage);
         isbnImageInfo.imageProperty().set(barcodeImage);
-        addDocButton.setOnAction(event -> handleSave(event, doc));
+        if (this.type == UserDocContainerController.HOME_DOCUMENT) {
+            addDocButton.setText("Confirm");
+            addDocButton.setOnAction(event -> handleBorrow(event, doc));
+            borrowingDateTitle.setVisible(false);
+            borrowingDateLabel.setVisible(false);
+            dueDateTitle.setVisible(false);
+            dueDateLabel.setVisible(false);
+            quantityLabel.setText(document.getAvailableCopies() + " copies");
+            lastFeeTitle.setVisible(false);
+            lateFeeLabel.setVisible(false);
+            priceTextField.setText(doc.getPrice() + "$");
+        } else if (this.type == UserDocContainerController.BORROWING_DOCUMENT) {
+            this.loan = loan;
+            borrowingDateLabel.setText(this.loan.getDateOfBorrowAsString());
+            dueDateLabel.setText(this.loan.getRequiredReturnDateAsString());
+            quantityLabel.setText(String.valueOf(this.loan.getQuantityOfBorrow()));
+            lateFeeLabel.setText(Loan.LATEFEE + "$/day");
+            mainButton.setText("Return");
+            mainButton.setOnAction(this::handleReturn);
+        } else if (this.type == UserDocContainerController.PROCESSING_DOCUMENT) {
+            this.loan = loan;
+            mainButton.setText("Undo");
+            mainButton.setOnAction(this::handleUndo);
+            if (loan.getStatus().equals("pending")) {
+                borrowingDateLabel.setText(this.loan.getDateOfBorrowAsString());
+                quantityLabel.setText(String.valueOf(this.loan.getQuantityOfBorrow()));
+                dueDateTitle.setText("Status");
+                dueDateLabel.setText(this.loan.getStatus());
+                lateFeeLabel.setText(Loan.LATEFEE + "$/day");
+            } else if (loan.getStatus().equals("pendingReturned")) {
+                borrowingDateLabel.setText(this.loan.getDateOfBorrowAsString());
+                quantityLabel.setText(String.valueOf(this.loan.getQuantityOfBorrow()));
+                dueDateTitle.setText("Status");
+                dueDateLabel.setText("Pending Returned");
+                lateFeeLabel.setText(String.valueOf(loan.getDeposit()));
+            }
+        }
     }
 
     private void setCodeImage() {
@@ -116,64 +186,86 @@ public class UserDocInformationController implements GeneralController {
         }
     }
 
-    private void handleSave(ActionEvent actionEvent, Document doc) {
+    private void handleBorrow(ActionEvent actionEvent, Document doc) {
         if (doc == null) {
             System.out.println("null");
+            showAlertInformation("Error", "This book is not available to be borrowed.");
             return;
         }
         if (numberField.textProperty().getValue().isEmpty() || !isStringAnInteger(numberField.textProperty().getValue())) {
             showAlertInformation("Invalid Quantity", "Please enter a valid quantity!");
             return;
         }
+        if (document.getAvailability().equals("Not available")) {
+            showAlertInformation("Invalid Document", "This document is not available!");
+            return;
+        }
         int number = Integer.parseInt(numberField.textProperty().getValue());
-        if (number <= 0) {
-            showAlertInformation("Invalid Quantity", "Please enter a valid number!");
+        if (number <= 0 || number > document.getAvailableCopies()) {
+            showAlertInformation("Invalid Quantity", "Please enter a valid quantity!");
             return;
         }
-        if (priceField.textProperty().getValue().isEmpty() || !isStringAnDouble(priceField.textProperty().getValue())) {
-            showAlertInformation("Invalid Price", "Please enter a valid price!");
-            return;
-        }
-        double price = Double.parseDouble(priceField.textProperty().getValue());
-        if (price <= 0) {
-            showAlertInformation("Invalid Price", "Please enter a valid price!");
-            return;
-        }
-        Optional<ButtonType> result = showAlertConfirmation("Add document", "Are you sure you want to add this document?");
+        Optional<ButtonType> result = showAlertConfirmation("Borrowing document", "Are you sure you want to borrow this document?");
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Document newDoc = new Document(doc);
-            newDoc.setQuantity(number);
-            newDoc.setAvailableCopies(number);
-            newDoc.setPrice(price);
-            newDoc.setAddDate(LocalDateTime.now());
-            newDoc.setAvailability("available");
-            if (newDoc.getIsbn().equals("No ISBN available")) {
-                showAlertInformation("Illegal document!", "The document must have ISBN to add!");
-                return;
-            }
-            Document existingDoc = DocumentDAO.getInstance().getDocumentByIsbn(doc.getIsbn());
-            if (existingDoc == null) {
-                DocumentDAO.getInstance().add(newDoc);
-            } else {
-                showAlertConfirmation("Document exists", "Document already exists!\n" +
-                        "Are you sure you want to update this document:\n"
-                        + "-Update new price:" + price + ".\n"
-                        + "-Add :" + number + " new copies.\n"
-                        + "-Set availability to available.");
-                if (result.isPresent() && result.get() == ButtonType.OK) {
-                    newDoc.setQuantity(existingDoc.getQuantity() + number);
-                    newDoc.setAvailableCopies(existingDoc.getAvailableCopies() + number);
-                    newDoc.setPrice(price);
-                    newDoc.setAvailability("available");
-                    DocumentDAO.getInstance().update(newDoc);
+            Loan loan = new Loan(FullUserController.mainUser.getUserName(), document.getIntDocumentID(), number, 0);
+            loan.setStatus("pending");
+            LoanDAO.getInstance().add(loan);
+            showAlertInformation("Borrowing successfully", "Please wait for manager's approval!");
+        }
+    }
+
+    private void handleReturn(ActionEvent actionEvent) {
+        if (loan == null) {
+            showAlertInformation("Error", "This book is not available to be returned.");
+            return;
+        }
+        if (loan.getStatus().equals("late")) {
+            double lateFee = Loan.LATEFEE * ChronoUnit.DAYS.between(loan.getRequiredReturnDate(), LocalDateTime.now());
+            Optional<ButtonType> result = showAlertConfirmation("Return document", "This document is overdue. You have to pay a late fee of " +
+                                                                lateFee + " $.\n" +
+                                                                "Are you sure you want to return this document?");
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                loan.setDeposit(Integer.parseInt(String.valueOf(lateFee)));
+                if (LoanDAO.getInstance().userReturnDocument(loan)) {
+                    showAlertInformation("Return document", "Your document is pending return!");
                 } else {
-                    return;
+                    showAlertInformation("Return document fail!", "Document could not be returned!");
                 }
             }
-            showAlertInformation("Document Added", "Document added successfully!");
-            priceField.setText("");
-            numberField.setText("");
-            handleAddDoc(actionEvent);
+        } else {
+            Optional<ButtonType> result = showAlertConfirmation("Return document", "Are you sure you want to return this document?");
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (LoanDAO.getInstance().userReturnDocument(loan)) {
+                    showAlertInformation("Return document", "Your document is pending return!");
+                } else {
+                    showAlertInformation("Return document fail!", "Document could not be returned!");
+                }
+            }
+        }
+    }
+
+    private void handleUndo(ActionEvent actionEvent) {
+        Optional<ButtonType> result = showAlertConfirmation("Return document", "Are you sure you want to return this document?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if (loan == null) {
+                showAlertInformation("Error", "This document is not available to be undored.");
+                return;
+            }
+            if (loan.getStatus().equals("pending")) {
+                if (LoanDAO.getInstance().undoPending(loan) > 0) {
+                    showAlertInformation("Undo successfully", "Your loan is deleted.");
+                } else {
+                    showAlertInformation("Undo fail!", "Your loan is not deleted.");
+                }
+                return;
+            }
+            if (loan.getStatus().equals("pendingReturned")) {
+                if (LoanDAO.getInstance().undoPendingReturn(loan) > 0) {
+                    showAlertInformation("Undo successfully", "Your loan is continue.");
+                } else {
+                    showAlertInformation("Undo fail!", "Something went wrong!.");
+                }
+            }
         }
     }
 
@@ -183,18 +275,6 @@ public class UserDocInformationController implements GeneralController {
         }
         try {
             Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    public boolean isStringAnDouble(String str) {
-        if (str == null || str.isEmpty()) {
-            return false;
-        }
-        try {
-            Double.parseDouble(str);
             return true;
         } catch (NumberFormatException e) {
             return false;
