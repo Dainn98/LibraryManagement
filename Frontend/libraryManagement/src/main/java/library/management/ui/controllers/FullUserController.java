@@ -82,7 +82,7 @@ public class FullUserController implements Initializable, properties, GeneralCon
   protected GridPane threeGrid;
 
   @FXML
-  protected GridPane fourGird;
+  protected GridPane fourGrid;
 
   @FXML
   protected GridPane fiveGrid;
