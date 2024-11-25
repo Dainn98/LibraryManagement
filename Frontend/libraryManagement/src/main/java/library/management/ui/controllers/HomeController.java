@@ -49,7 +49,7 @@ public class HomeController {
         gridPaneList.add(controller.oneGrid);
         gridPaneList.add(controller.twoGrid);
         gridPaneList.add(controller.threeGrid);
-        gridPaneList.add(controller.fourGird);
+        gridPaneList.add(controller.fourGrid);
         gridPaneList.add(controller.fiveGrid);
 
         labelList.clear();
