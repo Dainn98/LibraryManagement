@@ -1,12 +1,14 @@
 package library.management.ui.controllers;
 
 
+import static library.management.alert.AlertMaker.showAlertConfirmation;
+import static library.management.alert.AlertMaker.showAlertInformation;
+
+import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
-
-import com.jfoenix.controls.JFXButton;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -28,12 +30,8 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import library.management.data.DAO.DocumentDAO;
 import library.management.data.entity.Document;
-import library.management.ui.applications.ImageDownloader;
 import library.management.ui.applications.CodeGenerator;
-
-
-import static library.management.alert.AlertMaker.showAlertConfirmation;
-import static library.management.alert.AlertMaker.showAlertInformation;
+import library.management.ui.applications.ImageDownloader;
 
 public class DocContainerController implements GeneralController {
 
@@ -71,6 +69,8 @@ public class DocContainerController implements GeneralController {
       "FFECB3", // Light Yellow
       "CFD8DC"  // Light Gray
   };
+  @FXML
+  protected JFXButton addDocButton;
   boolean check = true;
   private Image image;
   private Document document;
@@ -92,7 +92,6 @@ public class DocContainerController implements GeneralController {
   private Label descriptionInfo;
   @FXML
   private HBox priceHBox;
-
   @FXML
   private HBox numberHBox;
   @FXML
@@ -119,40 +118,39 @@ public class DocContainerController implements GeneralController {
   private VBox docCatalogView;
   @FXML
   private Hyperlink docTitleCatalog;
-  @FXML
-  protected JFXButton addDocButton;
 
-    public void setData(Document doc) {
-      this.document = doc;
-      String imageUrl = document.getImage();
-      if (Objects.equals(imageUrl, "/ui/sprites/demoDoc.gif")) {
-        image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imageUrl)));
-      } else {
-        image = ImageDownloader.downloadImage(document.getImage());
-      }
-      try {
-        QRImage = CodeGenerator.generateQRCode(document.getUrl(), QR_WIDTH, QR_HEIGHT);
-        if (!document.getIsbn().equals("No ISBN available")) {
-          barcodeImage = CodeGenerator.generateBarcodeWithText(document.getIsbn(), BARCODE_WIDTH, BARCODE_HEIGHT);
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-
-        Platform.runLater(()-> {
-            docThumbnail.setImage(image);
-            docTitleCatalog.setText(document.getTitle());
-            authorCatalog.setText(document.getAuthor());
-
-            docTitleCatalog.setStyle("-fx-text-fill: #002B5B; -fx-font-size: 14px;");  // Navy Blue
-            authorCatalog.setStyle("-fx-text-fill: #333333; -fx-padding: 5;");    // Dark Gray
-            docCatalogView.setStyle(
-                    "-fx-background-color:#" + colors[(int) (Math.random() * colors.length)] + ";"
-                            + "-fx-background-radius: 15;"
-                            + "-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 10);"
-            );
-        });
+  public void setData(Document doc) {
+    this.document = doc;
+    String imageUrl = document.getImage();
+    if (Objects.equals(imageUrl, "/ui/sprites/demoDoc.gif")) {
+      image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imageUrl)));
+    } else {
+      image = ImageDownloader.downloadImage(document.getImage());
     }
+    try {
+      QRImage = CodeGenerator.generateQRCode(document.getUrl(), QR_WIDTH, QR_HEIGHT);
+      if (!document.getIsbn().equals("No ISBN available")) {
+        barcodeImage = CodeGenerator.generateBarcodeWithText(document.getIsbn(), BARCODE_WIDTH,
+            BARCODE_HEIGHT);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    Platform.runLater(() -> {
+      docThumbnail.setImage(image);
+      docTitleCatalog.setText(document.getTitle());
+      authorCatalog.setText(document.getAuthor());
+
+      docTitleCatalog.setStyle("-fx-text-fill: #002B5B; -fx-font-size: 14px;");  // Navy Blue
+      authorCatalog.setStyle("-fx-text-fill: #333333; -fx-padding: 5;");    // Dark Gray
+      docCatalogView.setStyle(
+          "-fx-background-color:#" + colors[(int) (Math.random() * colors.length)] + ";"
+              + "-fx-background-radius: 15;"
+              + "-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 10);"
+      );
+    });
+  }
 
   @FXML
   private void handleEnterDocThumbnail(MouseEvent mouseEvent) {
@@ -213,11 +211,11 @@ public class DocContainerController implements GeneralController {
   }
 
   public Document getDocument() {
-      return this.document;
+    return this.document;
   }
 
   public Image getImage() {
-      return this.image;
+    return this.image;
   }
 
   @FXML
@@ -240,7 +238,8 @@ public class DocContainerController implements GeneralController {
       System.out.println("null");
       return;
     }
-    if (numberField.textProperty().getValue().isEmpty() || !isStringAnInteger(numberField.textProperty().getValue())) {
+    if (numberField.textProperty().getValue().isEmpty() || !isStringAnInteger(
+        numberField.textProperty().getValue())) {
       showAlertInformation("Invalid Quantity", "Please enter a valid quantity!");
       return;
     }
@@ -249,7 +248,8 @@ public class DocContainerController implements GeneralController {
       showAlertInformation("Invalid Quantity", "Please enter a valid number!");
       return;
     }
-    if (priceField.textProperty().getValue().isEmpty() || !isStringAnDouble(priceField.textProperty().getValue())) {
+    if (priceField.textProperty().getValue().isEmpty() || !isStringAnDouble(
+        priceField.textProperty().getValue())) {
       showAlertInformation("Invalid Price", "Please enter a valid price!");
       return;
     }
@@ -258,7 +258,8 @@ public class DocContainerController implements GeneralController {
       showAlertInformation("Invalid Price", "Please enter a valid price!");
       return;
     }
-    Optional<ButtonType> result = showAlertConfirmation("Add document", "Are you sure you want to add this document?");
+    Optional<ButtonType> result = showAlertConfirmation("Add document",
+        "Are you sure you want to add this document?");
     if (result.isPresent() && result.get() == ButtonType.OK) {
       Document newDoc = new Document(doc);
       newDoc.setQuantity(number);
@@ -275,10 +276,10 @@ public class DocContainerController implements GeneralController {
         DocumentDAO.getInstance().add(newDoc);
       } else {
         showAlertConfirmation("Document exists", "Document already exists!\n" +
-                "Are you sure you want to update this document:\n"
-                + "-Update new price:" + price + ".\n"
-                + "-Add :" + number + " new copies.\n"
-                + "-Set availability to available.");
+            "Are you sure you want to update this document:\n"
+            + "-Update new price:" + price + ".\n"
+            + "-Add :" + number + " new copies.\n"
+            + "-Set availability to available.");
         if (result.isPresent() && result.get() == ButtonType.OK) {
           newDoc.setQuantity(existingDoc.getQuantity() + number);
           newDoc.setAvailableCopies(existingDoc.getAvailableCopies() + number);
