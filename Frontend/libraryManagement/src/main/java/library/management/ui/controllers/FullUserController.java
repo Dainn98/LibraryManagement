@@ -26,6 +26,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import library.management.data.entity.Loan;
 import library.management.data.entity.User;
@@ -40,7 +41,7 @@ public class FullUserController implements Initializable, properties, GeneralCon
   private final BorrowedController borrowedController = new BorrowedController(this);
   private final ProcessingController processingController = new ProcessingController(this);
   private final HistoryController historyController = new HistoryController(this);
-  private final AvatarController2 avatarController = new AvatarController2(this);
+  private final UserAvatarController avatarController = new UserAvatarController(this);
 
   public static User mainUser;
 
@@ -183,7 +184,12 @@ public class FullUserController implements Initializable, properties, GeneralCon
   protected Button userInformationButton;
 
   public void setMainUser(User mainUser) {
-    this.mainUser = mainUser;
+    FullUserController.mainUser = mainUser;
+    avatarController.initAvatar(infoVBox);
+  }
+
+  public User getMainUser() {
+    return mainUser;
   }
 
   public String getMainUserName() {
@@ -196,7 +202,6 @@ public class FullUserController implements Initializable, properties, GeneralCon
     borrowedController.initBorrowedDocuments();
     processingController.initProcess();
     historyController.initIssueDocumentView();
-    avatarController.initAvatar(infoVBox);
   }
 
   // MENU CONTROLLER
@@ -292,11 +297,29 @@ public class FullUserController implements Initializable, properties, GeneralCon
 
   @FXML
   private void handleSettingButton(ActionEvent event) {
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader();
+      fxmlLoader.setLocation(getClass().getResource(SETTINGS_SOURCE));
+      Parent root = fxmlLoader.load();
+      Stage stage = new Stage();
+      stage.setTitle("Settings");
+      SettingsController controller = fxmlLoader.getController();
+      controller.setFullUserControllerController(this);
+      controller.setData();
 
+      stage.setResizable(false);
+      stage.setScene(new Scene(root));
+      stage.setOnCloseRequest((WindowEvent windowEvent) -> {
+        stage.close();
+      });
+      stage.show();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @FXML
-  private void handleSignOutButton(ActionEvent event) {
+  public void handleSignOutButton(ActionEvent event) {
     Optional<ButtonType> result = showAlertConfirmation("Sign Out",
             "Are you sure you want to sign out?");
     if (result.isPresent() && result.get() == ButtonType.OK) {
