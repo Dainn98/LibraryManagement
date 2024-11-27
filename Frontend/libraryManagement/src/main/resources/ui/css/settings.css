@@ -1,0 +1,42 @@
+.root {
+  -fx-background-color: white;
+  -fx-text-fill: #002B5B; /* Navy blue text color */
+  -fx-font-family: Arial, sans-serif;
+  /*-fx-font-family: 'Montserrat', sans-serif; /*/
+}
+
+.button {
+  -fx-background-color: #002B5B; /* Navy blue button background */
+  -fx-background-radius: 15;
+  -fx-text-fill: white; /* White text color */
+  -fx-border-color: transparent; /* No border */
+  -fx-font-size: 16px; /* Font size */
+  -fx-cursor: hand; /* Change cursor to pointer on hover */
+  -fx-background-insets: 0; /* Remove default insets */
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0); /* Optional shadow effect */
+  -fx-transition: background-color 0.3s; /* Background color transition effect */
+}
+
+.button:hover {
+  -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); /* Background color on hover */
+  -fx-scale-x: 1.025;
+  -fx-scale-y: 1.025;
+}
+
+.titled-pane {
+  -fx-background-color: transparent; /* Navy blue background */
+  -fx-text-fill: #002B5B; /* Pale yellow text */
+  -fx-border-color: #002B5B; /* Pale yellow border */
+  -fx-border-radius: 5px; /* Rounded corners */
+  -fx-background-radius: 5px; /* Ensure background follows the border radius */
+}
+
+.titled-pane > .title {
+  -fx-background-color: transparent; /* Dark blue background for title */
+  -fx-text-fill:  #002B5B; /* Pale yellow text for title */
+}
+
+.titled-pane > .content {
+  -fx-background-color: #FFF2D4; /* Light yellow background for content */
+  -fx-text-fill: #002B5B; /* Navy blue text for content */
+}

@@ -21,6 +21,7 @@ module library.management {
     requires jdk.compiler;
     requires com.google.zxing;
     requires com.google.zxing.javase;
+    requires java.mail;
     // Application
     opens library.management.ui.applications to javafx.graphics, javafx.fxml;
     exports library.management.ui.applications to javafx.graphics, javafx.fxml;

@@ -70,6 +70,8 @@ public class UserDocContainerController implements GeneralController {
     private VBox docCatalogView;
     @FXML
     private Hyperlink docTitleCatalog;
+    @FXML
+    private Label desDoc;
 
     public void setDocData(Document doc, Loan loan, int type) {
         this.type = type;
@@ -88,6 +90,7 @@ public class UserDocContainerController implements GeneralController {
             docThumbnail.setImage(image);
             docTitleCatalog.setText(document.getTitle());
             authorCatalog.setText(document.getAuthor());
+            desDoc.setText(document.getDescription());
 
             docTitleCatalog.setStyle("-fx-text-fill: #002B5B; -fx-font-size: 14px;");  // Navy Blue
             authorCatalog.setStyle("-fx-text-fill: #333333; -fx-padding: 5;");    // Dark Gray

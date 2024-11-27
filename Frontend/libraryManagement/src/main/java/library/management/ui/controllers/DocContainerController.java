@@ -65,6 +65,9 @@ public class DocContainerController implements GeneralController {
   private VBox docCatalogView;
   @FXML
   private Hyperlink docTitleCatalog;
+  @FXML
+  private Label desDoc;
+
 
     public void setData(Document doc) {
       this.document = doc;
@@ -76,6 +79,7 @@ public class DocContainerController implements GeneralController {
       }
 
         Platform.runLater(()-> {
+            desDoc.setText(document.getDescription());
             docThumbnail.setImage(image);
             docTitleCatalog.setText(document.getTitle());
             authorCatalog.setText(document.getAuthor());
