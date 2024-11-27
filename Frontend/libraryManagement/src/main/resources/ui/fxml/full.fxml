@@ -227,7 +227,7 @@
                         </HBox>
                      </bottom>
                   </BorderPane>
-                  <BorderPane fx:id="catalogBPane" visible="false">
+                  <BorderPane fx:id="catalogBPane">
                      <top>
                         <BorderPane fx:id="homePane" maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                            <center>
