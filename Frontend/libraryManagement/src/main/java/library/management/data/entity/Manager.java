@@ -6,6 +6,7 @@ public class Manager {
     private String password;
     private String email;
     private int managerID;
+    private String phoneNumber;
 
     public String getManagerName() {
         return managerName;
@@ -49,5 +50,13 @@ public class Manager {
 
     public void setIdentityCard(String identityCard) {
         this.identityCard = identityCard;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

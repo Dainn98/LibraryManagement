@@ -8,16 +8,17 @@ CREATE TABLE manager (
                          managerName VARCHAR(100) UNIQUE,
                          identityCard VARCHAR(20) UNIQUE,
                          password CHAR(12) NOT NULL,
-                         email VARCHAR(100) UNIQUE
+                         email VARCHAR(100) UNIQUE not null,
+                         phoneNumber VARCHAR(15) UNIQUE
 );
 
 ALTER TABLE manager AUTO_INCREMENT = 1;
 
-INSERT INTO manager (managerName, password)
-VALUES ('Tuan Anh', '123'),
-       ('Duc Thien', '123'),
-       ('Duc Anh', '123'),
-       ('Nang Diu', '123');
+INSERT INTO manager (managerName, email, password)
+VALUES ('Tuan Anh', 'a', '123'),
+       ('Duc Thien', 'pdthien4325@gmail.com', '123'),
+       ('Duc Anh', 'b', '123'),
+       ('Nang Diu', 'c', '123');
 
 SELECT * FROM manager;
 
