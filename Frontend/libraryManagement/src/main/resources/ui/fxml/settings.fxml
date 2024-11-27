@@ -285,7 +285,7 @@
                                                                         <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                                                             <children>
                                                                                 <Label prefWidth="150.0" text="Phone Number" />
-                                                                                <CustomPasswordField fx:id="phoneNumberTextField" prefWidth="300.0" promptText="Enter Email Address" style="-fx-background-radius: 30; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 30;" />
+                                                                                <TextField prefWidth="300.0" promptText="Enter Phone Number" style="-fx-background-color: linear-gradient(to left, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20; -fx-background-radius: 20;" />
                                                                                 <SVGPath content="M40,60 C42,48 44,30 25,32" visible="false" />
                                                                             </children>
                                                                         </HBox>
@@ -306,14 +306,14 @@
                                                                         <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                                                             <children>
                                                                                 <Label prefWidth="150.0" text="Phone Number" />
-                                                                                <CustomPasswordField fx:id="emailTextField" prefWidth="300.0" promptText="Enter Phone Number" style="-fx-background-radius: 30; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 30;" />
+                                                                                <TextField prefWidth="300.0" promptText="Enter Email Address" style="-fx-background-color: linear-gradient(to left, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20; -fx-background-radius: 20;" />
                                                                                 <SVGPath content="M40,60 C42,48 44,30 25,32" onMouseEntered="#handleMouseEnter" />
                                                                             </children>
                                                                         </HBox>
                                                                         <HBox alignment="CENTER_LEFT">
                                                                             <children>
                                                                                 <Label prefWidth="150.0" text="Code" />
-                                                                                <CustomPasswordField fx:id="secondCode" onKeyReleased="#handleCheckSecurityCode" prefWidth="300.0" promptText="Enter Code" style="-fx-background-radius: 30; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 30;" />
+                                                                                <TextField prefWidth="300.0" promptText="Enter Code" style="-fx-background-color: linear-gradient(to left, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20; -fx-background-radius: 20;" />
                                                                             </children>
                                                                         </HBox>
                                                                     </children>
