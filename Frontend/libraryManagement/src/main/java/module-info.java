@@ -21,6 +21,11 @@ module library.management {
     requires jdk.compiler;
     requires com.google.zxing;
     requires com.google.zxing.javase;
+    requires java.mail;
+    requires org.junit.jupiter.api;
+    requires org.junit.platform.engine;
+    requires org.junit.platform.commons;
+    requires org.junit.jupiter.engine;
     // Application
     opens library.management.ui.applications to javafx.graphics, javafx.fxml;
     exports library.management.ui.applications to javafx.graphics, javafx.fxml;
@@ -31,8 +36,7 @@ module library.management {
     opens library.management.ui.controllers to javafx.fxml, javafx.graphics;
     exports library.management to javafx.fxml, javafx.graphics;
     opens library.management to javafx.fxml, javafx.graphics;
-//  exports library.management.ui to javafx.fxml, javafx.graphics;
-//  opens library.management.ui to javafx.fxml, javafx.graphics;
     opens library.management.data.entity to javafx.base, javafx.fxml;
     exports library.management.data.entity;
+    exports library.management.data.DataStructure;
 }

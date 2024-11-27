@@ -7,15 +7,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import library.management.data.entity.Manager;
-import library.management.ui.controllers.MainController;
+import library.management.data.entity.User;
+import library.management.ui.controllers.FullUserController;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class main extends Application implements properties {
-    private Manager manager;
+public class UserScreen extends Application implements properties {
+    private User user;
 
-    public void setManager(Manager manager) {
-        this.manager = manager;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public static void main(String[] args) {
@@ -29,9 +29,11 @@ public class main extends Application implements properties {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_SCREEN_SOURCES));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/fxml/full.fxml"));
             StackPane root = loader.load();
             Scene scene = new Scene(root);
+//      scene.getStylesheets()
+//          .add(Objects.requireNonNull(getClass().getResource(MAIN_STYLE_SOURCES)).toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setTitle(MAIN_TITLE);
 
@@ -39,9 +41,9 @@ public class main extends Application implements properties {
             primaryStage.setResizable(true);
             primaryStage.setMinWidth(SCREEN_WIDTH);
             primaryStage.setMinHeight(SCREEN_HEIGHT);
-            
-            MainController controller = loader.getController();
-            controller.setMainManager(manager);
+
+            FullUserController controller = loader.getController();
+            controller.setMainUser(user);
 
             primaryStage.show();
         } catch (IOException e) {

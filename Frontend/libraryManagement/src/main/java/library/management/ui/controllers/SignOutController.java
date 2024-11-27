@@ -11,15 +11,23 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class signOutController {
+public class SignOutController {
 
-  public static void handleSignOut(Class<? extends MainController> aClass) {
+  public static void handleManagerSignOut(Class<? extends MainController> aClass) {
+    handleSignOut();
+  }
+
+  public static void handleUserSignOut(Class<? extends FullUserController> aClass) {
+    handleSignOut();
+  }
+
+  private static void handleSignOut() {
     Optional<ButtonType> result = showAlertConfirmation("Sign Out",
-        "Are you sure you want to sign out?");
+            "Are you sure you want to sign out?");
     if (result.isPresent() && result.get() == ButtonType.OK) {
       try {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(signOutController.class.getResource("/ui/fxml/modernLogin.fxml"));
+        loader.setLocation(SignOutController.class.getResource("/ui/fxml/modernLogin.fxml"));
         Parent root = loader.load();
         Stage stage = new Stage();
         stage.setTitle("Library Management System");

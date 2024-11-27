@@ -7,7 +7,9 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DocumentDAO implements DAOInterface<Document> {
 
@@ -458,4 +460,88 @@ public class DocumentDAO implements DAOInterface<Document> {
         return null; // Trả về null nếu không tìm thấy document
     }
 
+    public List<List<Document>> searchAndGroupDocuments(String query, List<String> filters, int limitCategory, int limitBooksPerCategory) {
+        if (filters.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<List<Document>> groupedDocuments = new ArrayList<>();
+        StringBuilder whereClause = new StringBuilder("WHERE availability != 'removed' ");
+        List<String> filterColumns = new ArrayList<>();
+        for (String filter : filters) {
+            filterColumns.add(filter + " LIKE ?");
+        }
+        if (!filterColumns.isEmpty()) {
+            whereClause.append("AND (").append(String.join(" OR ", filterColumns)).append(") ");
+        }
+        String categoryQuery = "SELECT categoryID, COUNT(*) AS totalBooks " +
+                "FROM document " +
+                whereClause +
+                "GROUP BY categoryID " +
+                "ORDER BY totalBooks DESC " +
+                "LIMIT ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement categoryStmt = con.prepareStatement(categoryQuery)) {
+            int paramIndex = 1;
+            String searchKeyword = "%" + query + "%";
+            for (int i = 0; i < filters.size(); i++) {
+                categoryStmt.setString(paramIndex++, searchKeyword);
+            }
+            categoryStmt.setInt(paramIndex++, limitCategory);
+
+            try (ResultSet categoryRs = categoryStmt.executeQuery()) {
+                while (categoryRs.next()) {
+                    int categoryID = categoryRs.getInt("categoryID");
+                    List<Document> documents = new ArrayList<>();
+
+                    String documentQuery = "SELECT * FROM document " +
+                            whereClause +
+                            "AND categoryID = ? " +
+                            "ORDER BY title ASC " +
+                            "LIMIT ?";
+
+                    try (PreparedStatement documentStmt = con.prepareStatement(documentQuery)) {
+                        int docParamIndex = 1;
+                        for (int i = 0; i < filters.size(); i++) {
+                            documentStmt.setString(docParamIndex++, searchKeyword);
+                        }
+                        documentStmt.setInt(docParamIndex++, categoryID);
+                        documentStmt.setInt(docParamIndex++, limitBooksPerCategory);
+
+                        try (ResultSet documentRs = documentStmt.executeQuery()) {
+                            while (documentRs.next()) {
+                                Document document = new Document();
+                                document.setDocumentID(String.format("DOC%d", documentRs.getInt("documentId")));
+                                document.setCategoryID(String.format("CAT%d", documentRs.getInt("categoryID")));
+                                document.setPublisher(documentRs.getString("publisher"));
+                                document.setLgID(String.format("LANG%d", documentRs.getInt("lgID")));
+                                document.setTitle(documentRs.getString("title"));
+                                document.setAuthor(documentRs.getString("author"));
+                                document.setIsbn(documentRs.getString("isbn"));
+                                document.setQuantity(documentRs.getInt("quantity"));
+                                document.setAvailableCopies(documentRs.getInt("availableCopies"));
+                                document.setAddDate(documentRs.getTimestamp("addDate").toLocalDateTime().toString());
+                                document.setPrice(documentRs.getBigDecimal("price").doubleValue());
+                                document.setDescription(documentRs.getString("description"));
+                                document.setUrl(documentRs.getString("url"));
+                                document.setImage(documentRs.getString("image"));
+                                document.setAvailability(documentRs.getString("availability"));
+
+                                documents.add(document);
+                            }
+                        }
+                    }
+
+                    if (!documents.isEmpty()) {
+                        groupedDocuments.add(documents);
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return groupedDocuments;
+    }
 }
