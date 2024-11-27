@@ -152,7 +152,7 @@
                                         <HBox alignment="CENTER_LEFT" style="-fx-text-fill: #002B5B; -fx-font-size: 16;">
                                             <children>
                                                 <Label prefWidth="150.0" style="-fx-font-size: 18;" text="Code" />
-                                                <TextField fx:id="code" onKeyReleased="#handleCheckCode" promptText="Enter Code" style="-fx-font-size: 13; -fx-background-radius: 20; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20;" />
+                                                <TextField fx:id="code" onKeyTyped="#handleCheckCode" promptText="Enter Code" style="-fx-font-size: 13; -fx-background-radius: 20; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20;" />
                                             </children>
                                         </HBox>
                                         <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
@@ -285,7 +285,7 @@
                                                                         <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                                                             <children>
                                                                                 <Label prefWidth="150.0" text="Phone Number" />
-                                                                                <TextField prefWidth="300.0" promptText="Enter Phone Number" style="-fx-background-color: linear-gradient(to left, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20; -fx-background-radius: 20;" />
+                                                                                <TextField fx:id="phoneNumberTextField" prefWidth="300.0" promptText="Enter Phone Number" style="-fx-background-color: linear-gradient(to left, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20; -fx-background-radius: 20;" />
                                                                                 <SVGPath content="M40,60 C42,48 44,30 25,32" visible="false" />
                                                                             </children>
                                                                         </HBox>
@@ -305,15 +305,15 @@
                                                                     <children>
                                                                         <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                                                             <children>
-                                                                                <Label prefWidth="150.0" text="Phone Number" />
-                                                                                <TextField prefWidth="300.0" promptText="Enter Email Address" style="-fx-background-color: linear-gradient(to left, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20; -fx-background-radius: 20;" />
+                                                                                <Label prefWidth="150.0" text="Email" />
+                                                                                <TextField fx:id="emailTextField" prefWidth="300.0" promptText="Enter Email Address" style="-fx-background-color: linear-gradient(to left, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20; -fx-background-radius: 20;" />
                                                                                 <SVGPath content="M40,60 C42,48 44,30 25,32" onMouseEntered="#handleMouseEnter" />
                                                                             </children>
                                                                         </HBox>
                                                                         <HBox alignment="CENTER_LEFT">
                                                                             <children>
                                                                                 <Label prefWidth="150.0" text="Code" />
-                                                                                <TextField prefWidth="300.0" promptText="Enter Code" style="-fx-background-color: linear-gradient(to left, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20; -fx-background-radius: 20;" />
+                                                                                <TextField fx:id="secondCode" onKeyTyped="#handleCheckSecurityCode" prefWidth="300.0" promptText="Enter Code" style="-fx-background-color: linear-gradient(to left, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20; -fx-background-radius: 20;" />
                                                                             </children>
                                                                         </HBox>
                                                                     </children>
@@ -344,7 +344,7 @@
                             <top>
                                 <HBox alignment="CENTER" BorderPane.alignment="CENTER">
                                     <children>
-                                        <Label style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #002B5B; -fx-font-family: .VnAvant;" text="Privacy Policy">
+                                        <Label style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #002B5B; -fx-font-family: VnAvant;" text="Privacy Policy">
                                             <font>
                                                 <Font name=".VnAvant Bold" size="24.0" />
                                             </font>
