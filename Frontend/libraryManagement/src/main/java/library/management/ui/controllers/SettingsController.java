@@ -4,7 +4,6 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -22,7 +21,7 @@ import static library.management.alert.AlertMaker.showAlertInformation;
 public class SettingsController {
 
     @FXML
-    private CustomPasswordField phoneNumberTextField;
+    private TextField phoneNumberTextField;
     @FXML
     private CustomPasswordField confirmPasswordTextField;
     @FXML
@@ -30,7 +29,7 @@ public class SettingsController {
     @FXML
     private CustomPasswordField currentPassword;
     @FXML
-    private CustomPasswordField secondCode;
+    private TextField secondCode;
     @FXML
     private TextField Phone;
     @FXML
@@ -48,7 +47,7 @@ public class SettingsController {
     @FXML
     private TextField code;
     @FXML
-    private CustomPasswordField emailTextField;
+    private TextField emailTextField;
 
 
 
@@ -67,8 +66,37 @@ public class SettingsController {
         name.setDisable(true);
     }
 
+    public void resetInformation() {
+        String identityCard = manager.getIdentityCard();
+        String email = manager.getEmail();
+        String phone = manager.getPhoneNumber();
+        if (identityCard == null || identityCard.isEmpty()) {
+            this.identityCard.setText("Not set");
+        } else {
+            this.identityCard.setText(identityCard);
+        }
+        if (email == null || email.isEmpty()) {
+            this.email.setText("Not set");
+        } else {
+            this.email.setText(email);
+        }
+        if (phone == null || phone.isEmpty()) {
+            this.Phone.setText("Not set");
+        } else {
+            this.Phone.setText(phone);
+        }
+    }
+
     public void resetCode() {
         securityCode = "Invalid Code";
+    }
+
+    public void resetSecurityInformation() {
+        currentPassword.setText(manager.getPassword());
+        newPasswordTextField.setText("");
+        confirmPasswordTextField.setText("");
+        phoneNumberTextField.setText(manager.getPhoneNumber());
+        emailTextField.setText(manager.getEmail());
     }
 
     private void showSection(Object sectionToShow) {
@@ -80,27 +108,18 @@ public class SettingsController {
     public void setData() {
         this.manager = controller.getMainManager();
         this.name.setText(manager.getManagerName());
-        String identityCard = manager.getIdentityCard();
-        String email = manager.getEmail();
-        if (identityCard == null || identityCard.isEmpty()) {
-            this.identityCard.setText("Not set");
-        } else {
-            this.identityCard.setText(identityCard);
-        }
-        if (email == null || email.isEmpty()) {
-            this.email.setText("Not set");
-        } else {
-            this.email.setText(email);
-        }
+        resetInformation();
     }
 
     @FXML
     private void handleProfileButton(ActionEvent actionEvent) {
+        resetInformation();
         showSection(profileBPane);
     }
 
     @FXML
     private void handleSignInOptionsButton(ActionEvent actionEvent) {
+        resetSecurityInformation();
         showSection(signInOptionsBPane);
     }
 
@@ -156,24 +175,29 @@ public class SettingsController {
         if (phoneNumber == null || phoneNumber.isEmpty()) {
             return false;
         }
-        String phoneNumberPattern = "^\\+?(84)?(\\d{9})$";
+        String phoneNumberPattern = "^(0)(\\d{9})$";
 
         return phoneNumber.matches(phoneNumberPattern);
     }
 
+
     @FXML
     private void handleEditProfile(ActionEvent actionEvent) {
-
+        handleProfileButton(actionEvent);
     }
 
     @FXML
     private void handleSendCode(ActionEvent actionEvent) {
-        sengSecurityCode();
+        sendSecurityCode();
     }
 
     @FXML
     private void handleCheckCode(KeyEvent keyEvent) {
-        if (securityCode.equals("Invalid Code")) {
+        if (code.getText().length() != CODE_LENGTH) {
+            return;
+        }
+        if (securityCode.equals("Invalid Code") || !code.getText().equals(securityCode)) {
+            showAlertInformation("Incorrect code!", "Please check your code and try again.");
             return;
         }
         if (code.getText().equals(securityCode)) {
@@ -185,11 +209,27 @@ public class SettingsController {
         }
     }
 
-    public void handleMouseEnter(MouseEvent mouseEvent) {
-        sengSecurityCode();
+    @FXML
+    private void handleCheckSecurityCode(KeyEvent keyEvent) {
+        if (secondCode.getText().length() != CODE_LENGTH) {
+            return;
+        }
+        if (securityCode.equals("Invalid Code") || !secondCode.getText().equals(securityCode)) {
+            showAlertInformation("Incorrect code!", "Please check your code and try again.");
+            return;
+        }
+        if (secondCode.getText().equals(securityCode)) {
+            showAlertInformation("Correct code!", "You can change your information now.");
+            canChangeSecurity = true;
+            resetCode();
+        }
     }
 
-    private void sengSecurityCode() {
+    public void handleMouseEnter(MouseEvent mouseEvent) {
+        sendSecurityCode();
+    }
+
+    private void sendSecurityCode() {
         if (manager.getEmail().equals("Not set")) {
             showAlertInformation("Error", "Email not available.");
             return;
@@ -214,31 +254,22 @@ public class SettingsController {
     }
 
     @FXML
-    private void handleCheckSecurityCode(KeyEvent keyEvent) {
-        if (securityCode.equals("Invalid Code")) {
-            return;
-        }
-        if (secondCode.getText().equals(securityCode)) {
-            showAlertInformation("Correct code!", "You can change your information now.");
-            canChangeSecurity = true;
-            resetCode();
-        }
-    }
-
-    @FXML
     private void handleChangeSecurity(ActionEvent actionEvent) {
         if (canChangeSecurity) {
             if (ManagerDAO.getInstance().checkManager(manager.getManagerName(), currentPassword.getText()) == null) {
                 showAlertInformation("Error", "Password is incorrect");
                 return;
             }
-            if (!isValidPassword(newPasswordTextField.getText())) {
-                showAlertInformation("Error", "Password is invalid");
-                return;
-            }
-            if (!newPasswordTextField.getText().equals(confirmPasswordTextField.getText())) {
-                showAlertInformation("Error", "Confirm password is not match");
-                return;
+            if (!newPasswordTextField.getText().isEmpty() || !confirmPasswordTextField.getText().isEmpty()) {
+                if (!isValidPassword(newPasswordTextField.getText())) {
+                    showAlertInformation("Error", "Password is invalid");
+                    return;
+                }
+                if (!newPasswordTextField.getText().equals(confirmPasswordTextField.getText())) {
+                    showAlertInformation("Error", "Confirm password is not match");
+                    return;
+                }
+                manager.setPassword(newPasswordTextField.getText());
             }
             if (!isValidPhoneNumber(phoneNumberTextField.getText())) {
                 showAlertInformation("Error", "Phone number is invalid");
@@ -264,7 +295,6 @@ public class SettingsController {
             }
             manager.setPhoneNumber(newPhone);
             manager.setEmail(newEmail);
-            manager.setPassword(newPasswordTextField.getText());
             ManagerDAO.getInstance().update(manager);
             showAlertInformation("Success!", "Your information has been saved");
             canChangeSecurity = false;
