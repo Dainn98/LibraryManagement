@@ -19,7 +19,7 @@ public class SecurityCodeGenerator {
     }
 
     public static void main(String[] args) {
-        String code = generateCode(6);  // Mã xác thực dài 6 ký tự
+        String code = generateCode(6);
         System.out.println("Generated code: " + code);
     }
 }
