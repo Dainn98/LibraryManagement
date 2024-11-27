@@ -3,14 +3,15 @@ package library.management.ui.controllers;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-import library.management.data.DAO.DocumentDAO;
 import library.management.data.DAO.LoanDAO;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
@@ -228,6 +229,8 @@ public class UserDocInformationController implements GeneralController {
                 loan.setDeposit(Integer.parseInt(String.valueOf(lateFee)));
                 if (LoanDAO.getInstance().userReturnDocument(loan)) {
                     showAlertInformation("Return document", "Your document is pending return!");
+                    Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    currentStage.close();
                 } else {
                     showAlertInformation("Return document fail!", "Document could not be returned!");
                 }
@@ -237,6 +240,8 @@ public class UserDocInformationController implements GeneralController {
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 if (LoanDAO.getInstance().userReturnDocument(loan)) {
                     showAlertInformation("Return document", "Your document is pending return!");
+                    Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    currentStage.close();
                 } else {
                     showAlertInformation("Return document fail!", "Document could not be returned!");
                 }
@@ -254,6 +259,8 @@ public class UserDocInformationController implements GeneralController {
             if (loan.getStatus().equals("pending")) {
                 if (LoanDAO.getInstance().undoPending(loan) > 0) {
                     showAlertInformation("Undo successfully", "Your loan is deleted.");
+                    Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    currentStage.close();
                 } else {
                     showAlertInformation("Undo fail!", "Your loan is not deleted.");
                 }
@@ -262,6 +269,8 @@ public class UserDocInformationController implements GeneralController {
             if (loan.getStatus().equals("pendingReturned")) {
                 if (LoanDAO.getInstance().undoPendingReturn(loan) > 0) {
                     showAlertInformation("Undo successfully", "Your loan is continue.");
+                    Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    currentStage.close();
                 } else {
                     showAlertInformation("Undo fail!", "Something went wrong!.");
                 }

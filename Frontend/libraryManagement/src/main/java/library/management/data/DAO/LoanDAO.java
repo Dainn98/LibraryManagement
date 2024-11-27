@@ -83,7 +83,7 @@ public class LoanDAO implements DAOInterface<Loan> {
     }
 
     public int getTotalUsersWhoBorrowedBooks() {
-        String query = "SELECT COUNT(DISTINCT userName) FROM loans WHERE status = 'borrowing'";
+        String query = "SELECT COUNT(DISTINCT userName) FROM loans WHERE (status = 'borrowing' or status = 'pendingReturned')";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -413,9 +413,7 @@ public class LoanDAO implements DAOInterface<Loan> {
             stmt.setInt(2, loan.getIntLoanID());
 
             if (stmt.executeUpdate() > 0) {
-                if (DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), -loan.getQuantityOfBorrow())) {
-                    return true;
-                }
+                return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -482,7 +480,7 @@ public class LoanDAO implements DAOInterface<Loan> {
 
     public List<Loan> getHistoryLoan(String userName) {
         List<Loan> loanList = new ArrayList<>();
-        String query = "SELECT * FROM loans WHERE status IN ('returned') AND userName = ?";
+        String query = "SELECT * FROM loans WHERE status IN ('returned', 'disapproved') AND userName = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, userName);

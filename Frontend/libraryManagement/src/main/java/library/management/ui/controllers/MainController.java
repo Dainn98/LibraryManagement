@@ -286,19 +286,21 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected TableColumn<Loan, String> docIDLoansView;
     @FXML
-    protected TableColumn<Loan, String> docTitleLoansView;
+    protected TableColumn<Loan, String> docStatusLoansView;
     @FXML
     protected TableColumn<Loan, String> userNameLoansView;
     @FXML
     protected TableColumn<Loan, String> issuedDateAndTimeLoansView;
     @FXML
-    protected TableColumn<Loan, String> dueDateIDLoansView;
+    protected TableColumn<Loan, String> returnDateIDLoansView;
     @FXML
-    protected TableColumn<Loan, String> daysLoansView;
+    protected TableColumn<Loan, String> requiredReturnLoansView;
     @FXML
     protected TableColumn<Loan, String> feeIDLoansView;
     @FXML
     protected TableColumn<Loan, Void> approvalLoansView;
+    @FXML
+    protected TableColumn<Loan, Integer> quantityLoansView;
     @FXML
     protected CheckBox checkLoans;
     @FXML

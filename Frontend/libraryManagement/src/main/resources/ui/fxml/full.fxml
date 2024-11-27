@@ -29,7 +29,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<StackPane prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FullUserController">
+<StackPane prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FullUserController">
    <children>
       <BorderPane prefHeight="806.0" prefWidth="1010.0" StackPane.alignment="CENTER">
          <top>
@@ -140,7 +140,7 @@
          <center>
             <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <BorderPane fx:id="docBPane" prefHeight="687.0" prefWidth="919.0">
+                  <BorderPane fx:id="docBPane" prefHeight="687.0" prefWidth="919.0" visible="false">
                      <top>
                         <VBox BorderPane.alignment="CENTER">
                            <children>
@@ -425,14 +425,10 @@
                   </BorderPane>
                   <ScrollPane fx:id="borrowedPane" vbarPolicy="ALWAYS" visible="false">
                      <content>
-                        <GridPane fx:id="borrowViewGPane" hgap="10.0" prefHeight="30.0" prefWidth="207.0" vgap="10.0">
+                        <GridPane fx:id="borrowViewGPane" hgap="10.0" vgap="10.0">
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
-                           <columnConstraints>
-                              <ColumnConstraints />
-                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
                         </GridPane>
                      </content>
                   </ScrollPane>
