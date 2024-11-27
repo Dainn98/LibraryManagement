@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXTextArea;
 
 import java.io.IOException;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -58,16 +59,24 @@ public class FAQsController implements properties {
         String question = controller.faqRequestContainer.getText().trim();
         VBox userInputSection = createFAQsContainer(new Label("User:"), question,
                 faqSPane, RIGHT);
-        String answer = ApiGoogleGemini.sendPostRequest(question);
-
-        VBox responseSection = createFAQsContainer(new Label("Response:"), answer,
-                faqSPane, LEFT);
-
         int rowCount = gPane.getRowCount();
         gPane.add(userInputSection, 0, rowCount);
-        gPane.add(responseSection, 0, rowCount + 1);
-
         faqSPane.setContent(gPane);
-    }
 
+        Task<VBox> getAnswer = new Task<>() {
+            @Override
+            protected VBox call() throws Exception {
+                String answer = ApiGoogleGemini.sendPostRequest(question);
+                return createFAQsContainer(new Label("Response:"), answer,
+                        faqSPane, LEFT);
+            }
+        };
+        getAnswer.setOnSucceeded(event -> {
+            gPane.add(getAnswer.getValue(), 0, rowCount + 1);
+            faqSPane.setContent(gPane);
+        });
+        Thread thread = new Thread(getAnswer);
+        thread.setDaemon(true);
+        thread.start();
+    }
 }
