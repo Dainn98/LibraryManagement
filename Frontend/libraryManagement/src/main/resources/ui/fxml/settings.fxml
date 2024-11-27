@@ -106,7 +106,7 @@
             <center>
                 <StackPane BorderPane.alignment="CENTER">
                     <children>
-                        <BorderPane fx:id="profileBPane" visible="false">
+                        <BorderPane fx:id="profileBPane">
                             <center>
                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                     <children>
@@ -171,7 +171,7 @@
                                 </Label>
                             </top>
                         </BorderPane>
-                        <BorderPane fx:id="signInOptionsBPane">
+                        <BorderPane fx:id="signInOptionsBPane" visible="false">
                             <center>
                                 <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                                     <children>
