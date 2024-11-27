@@ -23,14 +23,14 @@ public class ManagerDAO implements DAOInterface<Manager> {
 
     @Override
     public int add(Manager manager) {
-        String query = "INSERT INTO manager (managerName, password, identityCard, email) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO manager (managerName, password, identityCard, email, phoneNumber) VALUES (?, ?, ?, ?, ?)";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, manager.getManagerName());
             stmt.setString(2, manager.getPassword());
             stmt.setString(3, manager.getIdentityCard());
             stmt.setString(4, manager.getEmail());
-
+            stmt.setString(5, manager.getPhoneNumber());
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted;
         } catch (SQLException e) {
@@ -38,6 +38,7 @@ public class ManagerDAO implements DAOInterface<Manager> {
         }
         return 0;
     }
+
 
     @Override
     public int delete(Manager manager) {
@@ -56,24 +57,26 @@ public class ManagerDAO implements DAOInterface<Manager> {
 
     @Override
     public int update(Manager manager) {
-        String query = "UPDATE manager SET managerName = ?, password = ?, identityCard = ?, email = ? WHERE managerID = ?";
+        String query = "UPDATE manager SET managerName = ?, password = ?, identityCard = ?, email = ?, phoneNumber = ? WHERE managerID = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
+
             stmt.setString(1, manager.getManagerName());
             stmt.setString(2, manager.getPassword());
             stmt.setString(3, manager.getIdentityCard());
             stmt.setString(4, manager.getEmail());
-            stmt.setInt(5, manager.getIntManagerID());
+            stmt.setString(5, manager.getPhoneNumber());
+            stmt.setInt(6, manager.getIntManagerID());
 
-            int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated;
+            return stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
     }
 
-    public boolean checkManager(String managerName, String password) {
+
+    public Manager checkManager(String managerName, String password) {
         String query = "SELECT * FROM manager WHERE managerName = ? AND password = ?";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -82,14 +85,29 @@ public class ManagerDAO implements DAOInterface<Manager> {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return true;
+                    return buildManagerFromResultSet(rs);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+
+        return null;
     }
+
+    private Manager buildManagerFromResultSet(ResultSet rs) throws SQLException {
+        Manager manager = new Manager();
+        manager.setManagerID(rs.getInt("managerID"));
+        manager.setManagerName(rs.getString("managerName"));
+        manager.setPassword(rs.getString("password"));
+        manager.setIdentityCard(rs.getString("identityCard"));
+        manager.setEmail(rs.getString("email"));
+        manager.setPhoneNumber(rs.getString("phoneNumber"));
+        return manager;
+    }
+
+
+
 
     public boolean checkManagerByUserName(String managerName) {
         String query = "SELECT * FROM manager WHERE managerName = ?";
@@ -111,6 +129,21 @@ public class ManagerDAO implements DAOInterface<Manager> {
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, identityCard);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean checkManagerByPhoneNumber(String phoneNumber) {
+        String query = "SELECT * FROM manager WHERE phoneNumber = ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, phoneNumber);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next();

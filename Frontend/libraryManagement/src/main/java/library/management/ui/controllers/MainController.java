@@ -37,6 +37,7 @@ import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
 
+import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.properties;
 import org.controlsfx.control.CheckComboBox;
@@ -55,7 +56,8 @@ public class MainController implements Initializable, properties, GeneralControl
     private final DocumentManagementController documentManagementController = new DocumentManagementController(this);
     private final ReturnDocumentController returnDocumentController = new ReturnDocumentController(this);
     private final FAQsController faqsController = new FAQsController(this);
-  // DASHBOARD PROPERTIES
+    private Manager mainManager;
+    // DASHBOARD PROPERTIES
     @FXML
     protected VBox infoVBox;
     @FXML
@@ -285,19 +287,21 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected TableColumn<Loan, String> docIDLoansView;
     @FXML
-    protected TableColumn<Loan, String> docTitleLoansView;
+    protected TableColumn<Loan, String> docStatusLoansView;
     @FXML
     protected TableColumn<Loan, String> userNameLoansView;
     @FXML
     protected TableColumn<Loan, String> issuedDateAndTimeLoansView;
     @FXML
-    protected TableColumn<Loan, String> dueDateIDLoansView;
+    protected TableColumn<Loan, String> returnDateIDLoansView;
     @FXML
-    protected TableColumn<Loan, String> daysLoansView;
+    protected TableColumn<Loan, String> requiredReturnLoansView;
     @FXML
     protected TableColumn<Loan, String> feeIDLoansView;
     @FXML
     protected TableColumn<Loan, Void> approvalLoansView;
+    @FXML
+    protected TableColumn<Loan, Integer> quantityLoansView;
     @FXML
     protected CheckBox checkLoans;
     @FXML
@@ -317,41 +321,15 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected AutoCompleteTextField<String> catalogSearchField;
 
-    // DOCUMENT INFORMATION PROPERTIES
+    //FAQs
     @FXML
-    protected BorderPane docPropertiesBPane;
+    protected BorderPane FAQsBPane;
     @FXML
-    protected Label titleInfo;
+    protected GridPane FAQsGPane;
     @FXML
-    protected Label authorInfo;
+    protected ScrollPane faqSPane;
     @FXML
-    protected Label publisherInfo;
-    @FXML
-    protected Label categoryInfo;
-    @FXML
-    protected Label languageInfo;
-    @FXML
-    protected Label isbnInfo;
-    @FXML
-    protected Label descriptionInfo;
-    @FXML
-    protected ImageView qrImageInfo;
-    @FXML
-    protected ImageView isbnImageInfo;
-    @FXML
-    protected Label titleHeading;
-    @FXML
-    protected ImageView thumbnailImageInfo;
-
-  //    FAQs
-  @FXML
-  protected BorderPane FAQsBPane;
-  @FXML
-  protected GridPane FAQsGPane;
-  @FXML
-  protected ScrollPane faqSPane;
-  @FXML
-  protected JFXTextArea faqRequestContainer;
+    protected JFXTextArea faqRequestContainer;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -362,9 +340,21 @@ public class MainController implements Initializable, properties, GeneralControl
         pendingLoanController.initPendingLoanView();
         issuedDocument.initIssueDocumentView();
         catalogController.initCatalog();
-        avatarController.initAvatar(infoVBox);
         documentManagementController.initDocumentManagement();
         returnDocumentController.initReturnDocument();
+    }
+
+    public void setMainManager(Manager manager) {
+        this.mainManager = manager;
+        avatarController.initAvatar(infoVBox);
+    }
+
+    public String getManagerName() {
+        return mainManager.getManagerName();
+    }
+
+    public Manager getMainManager() {
+        return this.mainManager;
     }
 
     // MENU CONTROLLER
@@ -691,8 +681,8 @@ public class MainController implements Initializable, properties, GeneralControl
      * Handles the sign-out process for the user.
      */
     @FXML
-    private void handleSignOutButton(ActionEvent actionEvent) {
-        signOutController.handleSignOut(getClass());
+    public void handleSignOutButton(ActionEvent actionEvent) {
+        SignOutController.handleManagerSignOut(getClass());
         Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
     }
@@ -706,6 +696,4 @@ public class MainController implements Initializable, properties, GeneralControl
      faqsController.loadFAQs(FAQsGPane, faqSPane);
   }
 }
-
-
 

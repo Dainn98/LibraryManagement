@@ -43,25 +43,29 @@ public class DashboardController implements GeneralController {
     // load gauge
     if (docQuantity > 0) {
       controller.allDocsGauge.setMaxValue(docQuantity);
+      controller.allDocsGauge.setValue(0);
       controller.allDocsGauge.setValue(docQuantity);
     }
     if (remainingDocQuantity > 0) {
       controller.remainingDocsGauge.setMaxValue(docQuantity);
+      controller.remainingDocsGauge.setValue(0);
       controller.remainingDocsGauge.setValue(remainingDocQuantity);
     }
     if ((docQuantity - remainingDocQuantity) > 0) {
       controller.issuedDocsGauge.setMaxValue(docQuantity);
+      controller.issuedDocsGauge.setValue(0);
       controller.issuedDocsGauge.setValue(docQuantity - remainingDocQuantity);
     }
     if (totalStudent > 0) {
       controller.allUsersGauge.setMaxValue(totalStudent);
+      controller.allUsersGauge.setValue(0);
       controller.allUsersGauge.setValue(approvedStudent);
     }
     if (studentHoldingBook > 0) {
       controller.docHoldersGauge.setMaxValue(totalStudent);
+      controller.docHoldersGauge.setValue(0);
       controller.docHoldersGauge.setValue(studentHoldingBook);
     }
-
   }
 
   protected void handleClickAvatar(ImageView pic, VBox infoVBox) {

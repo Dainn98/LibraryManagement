@@ -178,9 +178,9 @@ public class DocumentManagementController {
             showAlertInformation("Invalid Quantity", "Please enter a valid quantity!");
             return;
         }
-        Loan loan = new Loan(user.getUserName(), document.getIntDocumentID(), borrowedQuantity, borrowedQuantity*document.getPrice());
         Optional<ButtonType> result = showAlertConfirmation("Lend document", "Are you sure you want to lend the document?");
         if (result.isPresent() && result.get() == ButtonType.OK) {
+            Loan loan = new Loan(user.getUserName(), document.getIntDocumentID(), borrowedQuantity, borrowedQuantity*document.getPrice());
             LoanDAO.getInstance().add(loan);
             DocumentDAO.getInstance().decreaseAvailableCopies(document.getIntDocumentID(), borrowedQuantity);
             showAlertInformation("", "Borrow successfully!");

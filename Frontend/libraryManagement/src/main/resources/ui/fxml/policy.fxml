@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import jfxtras.scene.layout.VBox?>
+
+<AnchorPane prefHeight="586.0" prefWidth="714.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane layoutX="34.0" layoutY="14.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <Label alignment="TOP_LEFT" prefHeight="30.0" prefWidth="458.0" text="LIBRARY POLICY" textAlignment="CENTER" translateY="20.0" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </top>
+         <center>
+            <VBox prefHeight="330.0" prefWidth="600.0" spacing="7.0" translateX="30.0" translateY="30.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <graphic>
+                        <VBox prefHeight="76.0" prefWidth="600.0" spacing="8.0">
+                           <children>
+                              <Label text="1. Membership:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Library access is granted to registered members only." translateX="30.0" />
+                              <Label text="Membership requires valid ID and address proof." translateX="30.0" />
+                           </children>
+                        </VBox>
+                     </graphic>
+                  </Label>
+                  <Label>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <graphic>
+                        <VBox prefHeight="69.0" prefWidth="912.0" spacing="8.0">
+                           <children>
+                              <Label text="2. Borrowing Rules:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Members can borrow up to 3 books at a time." translateX="30.0" />
+                              <Label lineSpacing="18.0" text="Loan period: 14 days (can be renewed once if no hold requests)." translateX="30.0" />
+                              <Label text="Late returns will incur a fine of $0.50/day per book." translateX="30.0" />
+                           </children>
+                        </VBox>
+                     </graphic>
+                  </Label>
+                  <Label text="Label">
+                     <graphic>
+                        <Label>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <graphic>
+                              <VBox prefHeight="69.0" prefWidth="912.0" spacing="8.0">
+                                 <children>
+                                    <Label text="3. Library Hours:">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Monday to Friday: 9:00 AM – 6:00 PM" translateX="30.0" />
+                                    <Label lineSpacing="18.0" text="Saturday: 10:00 AM – 4:00 PM" translateX="30.0" />
+                                    <Label text="Closed on Sundays and public holidays." translateX="30.0" />
+                                 </children>
+                              </VBox>
+                           </graphic>
+                        </Label>
+                     </graphic>
+                  </Label>
+                  <Label text="Label">
+                     <graphic>
+                        <Label>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <graphic>
+                              <VBox prefHeight="69.0" prefWidth="912.0" spacing="8.0">
+                                 <children>
+                                    <Label text="4. Conduct:">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Maintain silence and respect others." translateX="30.0" />
+                                    <Label lineSpacing="18.0" text="Use of mobile phones is prohibited." translateX="30.0" />
+                                    <Label text="Eating and drinking are not allowed inside." translateX="30.0" />
+                                 </children>
+                              </VBox>
+                           </graphic>
+                        </Label>
+                     </graphic>
+                  </Label>
+                  <Label>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <graphic>
+                        <VBox prefHeight="61.0" prefWidth="796.0">
+                           <children>
+                              <Label text="5. Penalties">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="18.0" prefWidth="459.0" text="Lost or damaged items must be replaced or compensated by the borrower." translateX="30.0" wrapText="true" />
+                              <Label text="Membership may be suspended for repeated rule violations." translateX="30.0" />
+                           </children>
+                        </VBox>
+                     </graphic>
+                  </Label>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

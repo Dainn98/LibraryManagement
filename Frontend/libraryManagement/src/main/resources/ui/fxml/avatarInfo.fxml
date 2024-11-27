@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="avatarVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="222.0" prefWidth="200.0" spacing="5.0" stylesheets="@../css/theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.AvatarController">
+<VBox fx:id="avatarVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="222.0" prefWidth="200.0" spacing="5.0" stylesheets="@../css/theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.AvatarInfoController">
   <children>
     <Label style="-fx-font-size: 20;" text="Welcome back," VBox.vgrow="ALWAYS">
       <font>
@@ -14,8 +14,8 @@
       </font>
     </Label>
     <Label fx:id="manaName" text="Label" />
-    <JFXButton fx:id="settingsButton" prefWidth="150.0" text="Settings" />
-    <JFXButton fx:id="logOutButton" prefWidth="150.0" text="Log Out" />
+    <JFXButton fx:id="settingsButton" onAction="#handleSettingsButton" prefWidth="150.0" text="Settings" />
+    <JFXButton fx:id="logOutButton" onAction="#handleSignOutButton" prefWidth="150.0" text="Log Out" />
   </children>
   <padding>
     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

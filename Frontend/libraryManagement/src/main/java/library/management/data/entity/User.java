@@ -47,6 +47,9 @@ public class User {
         this.password = password;
         this.status = "pending";
         this.registeredDate = LocalDateTime.now();
+        this.country = "not set";
+        this.state = "not set";
+        this.phoneNumber = "not set";
     }
 
     public String getUserName() {

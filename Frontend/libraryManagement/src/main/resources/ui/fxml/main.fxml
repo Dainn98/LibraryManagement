@@ -57,7 +57,7 @@
             </BorderPane>
          </top>
 
-        <!--          LEFT -->
+         <!--          LEFT -->
          <left>
             <VBox spacing="10" style="-fx-padding: 20;">
                <StackPane>
@@ -108,7 +108,7 @@
             </VBox>
          </left>
 
-        <!--          BOTTOM -->
+         <!--          BOTTOM -->
          <bottom>
             <HBox alignment="CENTER" prefHeight="37.0" prefWidth="1026.0" style="-fx-padding: 10;">
                <Label text="© 2024 TAAD - Library Management System" textFill="WHITE">
@@ -117,7 +117,7 @@
                   </HBox.margin></Label>
             </HBox>
          </bottom>
-        <!--          CENTER-->
+         <!--          CENTER-->
          <center>
             <StackPane BorderPane.alignment="CENTER">
                <children>
@@ -253,7 +253,7 @@
                   </VBox>
 
                   <!--                 DOCUMENT-->
-                 <BorderPane fx:id="docBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                  <BorderPane fx:id="docBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <top>
                         <VBox BorderPane.alignment="CENTER">
                            <children>
@@ -717,7 +717,7 @@
                      </top>
                   </BorderPane>
 
-<!--                  LIBRARY CATALOG-->
+                  <!--                  LIBRARY CATALOG-->
                   <BorderPane fx:id="catalogBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <top>
                         <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
@@ -762,15 +762,15 @@
                                        </children>
                                     </HBox>
                                     <TabPane cache="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-                                      <tabs>
-                                        <Tab fx:id="databaseTab" text="Database">
+                                       <tabs>
+                                          <Tab fx:id="databaseTab" text="Database">
                                              <content>
                                                 <ScrollPane style="-fx-border-color: #002B5B;" vbarPolicy="ALWAYS">
                                                    <content>
                                                       <GridPane fx:id="localViewGPane" hgap="10.0" vgap="10.0">
-                                                        <rowConstraints>
-                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                        </rowConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
                                                       </GridPane>
                                                    </content>
                                                    <padding>
@@ -778,15 +778,15 @@
                                                    </padding>
                                                 </ScrollPane>
                                              </content>
-                                        </Tab>
-                                        <Tab fx:id="onlineTab" text="Online">
+                                          </Tab>
+                                          <Tab fx:id="onlineTab" text="Online">
                                              <content>
                                                 <ScrollPane style="-fx-border-color: #002B5B;" vbarPolicy="ALWAYS">
                                                    <content>
                                                       <GridPane fx:id="apiViewGPane" hgap="10.0" vgap="10.0">
-                                                        <rowConstraints>
-                                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                        </rowConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                         </rowConstraints>
                                                       </GridPane>
                                                    </content>
                                                    <padding>
@@ -794,8 +794,8 @@
                                                    </padding>
                                                 </ScrollPane>
                                              </content>
-                                        </Tab>
-                                      </tabs>
+                                          </Tab>
+                                       </tabs>
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
@@ -1099,7 +1099,7 @@
 
 
                   <!--               PENDING LOANS-->
-                  <BorderPane fx:id="pendingLoansBPane" visible="false" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+                  <BorderPane fx:id="pendingLoansBPane" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
                      <center>
                         <VBox>
                            <children>
@@ -1119,16 +1119,17 @@
                               </HBox>
                               <TableView fx:id="loansView" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #002B5B;" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
                                  <columns>
-                                    <TableColumn fx:id="checkLoan" prefWidth="30.0" />
-                                    <TableColumn fx:id="issuedIDLoansView" prefWidth="92.0" text="Issued ID" />
-                                    <TableColumn fx:id="docIDLoansView" prefWidth="92.0" text="Document ISBN" />
-                                    <TableColumn fx:id="docTitleLoansView" prefWidth="92.0" text="Document Title" />
-                                    <TableColumn fx:id="userNameLoansView" prefWidth="92.0" text="User Name" />
-                                    <TableColumn fx:id="issuedDateAndTimeLoansView" prefWidth="92.0" text="Date borrowed" />
-                                    <TableColumn fx:id="dueDateIDLoansView" prefWidth="92.0" text="Date Returned" />
-                                    <TableColumn fx:id="daysLoansView" prefWidth="92.0" text="Number of Days" />
-                                    <TableColumn fx:id="feeIDLoansView" prefWidth="92.0" text="Late Fee (MWK)" />
-                                    <TableColumn fx:id="approvalLoansView" prefWidth="75.0" text="Approval" />
+                                    <TableColumn fx:id="checkLoan" prefWidth="15.999985456466675" />
+                                    <TableColumn fx:id="issuedIDLoansView" prefWidth="50.399959564208984" text="Issued ID" />
+                                    <TableColumn fx:id="docIDLoansView" prefWidth="79.20001220703125" text="Document ISBN" />
+                                    <TableColumn fx:id="userNameLoansView" prefWidth="74.39996337890625" text="User Name" />
+                                    <TableColumn fx:id="issuedDateAndTimeLoansView" prefWidth="86.39997863769531" text="Date borrowed" />
+                                    <TableColumn fx:id="returnDateIDLoansView" prefWidth="81.5999755859375" text="Date Returned" />
+                                    <TableColumn fx:id="requiredReturnLoansView" prefWidth="85.5999755859375" text="Required date" />
+                                    <TableColumn fx:id="quantityLoansView" prefWidth="51.20001220703125" text="Quantity" />
+                                    <TableColumn fx:id="docStatusLoansView" prefWidth="84.7999267578125" text="Status" />
+                                    <TableColumn fx:id="feeIDLoansView" prefWidth="66.4000244140625" text="Late Fee" />
+                                    <TableColumn fx:id="approvalLoansView" prefWidth="140.0" text="Approval" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
