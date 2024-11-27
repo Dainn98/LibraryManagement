@@ -79,7 +79,6 @@ public class CatalogController {
                     ++row;
                 }
                 controller.localViewGPane.add(docContainerVBox, column++, row);
-
                 GridPane.setMargin(docContainerVBox, new Insets(10));
                 localDocContainerControllerList.add(docContainerController);
             }
@@ -115,7 +114,7 @@ public class CatalogController {
             };
             tasks.add(loadController);
         }
-        ExecutorService executor = Executors.newFixedThreadPool(8);
+        ExecutorService executor = Executors.newFixedThreadPool(6);
         tasks.forEach(executor::execute);
         executor.shutdown();
     }

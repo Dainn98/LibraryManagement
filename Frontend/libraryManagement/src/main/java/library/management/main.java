@@ -1,16 +1,22 @@
 package library.management;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import library.management.data.entity.Manager;
+import library.management.ui.controllers.MainController;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class main extends Application implements properties {
+    private Manager manager;
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
 
     public static void main(String[] args) {
         try {
@@ -33,6 +39,9 @@ public class main extends Application implements properties {
             primaryStage.setResizable(true);
             primaryStage.setMinWidth(SCREEN_WIDTH);
             primaryStage.setMinHeight(SCREEN_HEIGHT);
+            
+            MainController controller = loader.getController();
+            controller.setMainManager(manager);
 
             primaryStage.show();
         } catch (IOException e) {

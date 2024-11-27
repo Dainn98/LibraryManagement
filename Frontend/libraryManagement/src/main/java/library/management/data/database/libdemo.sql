@@ -8,16 +8,17 @@ CREATE TABLE manager (
                          managerName VARCHAR(100) UNIQUE,
                          identityCard VARCHAR(20) UNIQUE,
                          password CHAR(12) NOT NULL,
-                         email VARCHAR(100) UNIQUE
+                         email VARCHAR(100) UNIQUE not null,
+                         phoneNumber VARCHAR(15) UNIQUE
 );
 
 ALTER TABLE manager AUTO_INCREMENT = 1;
 
-INSERT INTO manager (managerName, password)
-VALUES ('Tuan Anh', '123'),
-       ('Duc Thien', '123'),
-       ('Duc Anh', '123'),
-       ('Nang Diu', '123');
+INSERT INTO manager (managerName, email, password)
+VALUES ('Tuan Anh', 'a', '123'),
+       ('Duc Thien', 'pdthien4325@gmail.com', '123'),
+       ('Duc Anh', 'b', '123'),
+       ('Nang Diu', 'c', '123');
 
 SELECT * FROM manager;
 
@@ -98,23 +99,16 @@ CREATE TABLE user (
     identityCard CHAR(12) UNIQUE,
     phoneNumber CHAR(10) UNIQUE,
     email VARCHAR(100) UNIQUE,
-    country VARCHAR(50),
-    state VARCHAR(50),
+    password varchar(100) not null,
+    country VARCHAR(50) default 'notset',
+    state VARCHAR(50) default 'notset',
     status VARCHAR(10) DEFAULT 'pending',
     registeredDate DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO user (userName, identityCard, phoneNumber, email, country, state)
-VALUES ('Nguyen Van A', '012345678901', '0987654321', 'a@example.com', 'Vietnam', 'Hanoi'),
-       ('Tran Thi B', '012345678902', '0987654322', 'b@example.com', 'Vietnam', 'Ho Chi Minh City'),
-       ('Le Van C', '012345678903', '0987654323', 'c@example.com', 'Vietnam', 'Da Nang'),
-       ('Pham Thi D', '012345678904', '0987654324', 'd@example.com', 'Vietnam', 'Hai Phong'),
-       ('Hoang Van E', '012345678905', '0987654325', 'e@example.com', 'Vietnam', 'Can Tho'),
-       ('Do Thi F', '012345678906', '0987654326', 'f@example.com', 'Vietnam', 'Hue'),
-       ('Nguyen Van G', '012345678907', '0987654327', 'g@example.com', 'Vietnam', 'Nha Trang'),
-       ('Tran Thi H', '012345678908', '0987654328', 'h@example.com', 'Vietnam', 'Vung Tau'),
-       ('Le Van I', '012345678909', '0987654329', 'i@example.com', 'Vietnam', 'Bac Ninh'),
-       ('Pham Thi J', '012345678910', '0987654330', 'j@example.com', 'Vietnam', 'Quang Ninh');
+INSERT INTO user (userName, identityCard, phoneNumber, email, password, country, state)
+VALUES ('Nguyen Van A', '012345678901', '0987654321', 'a@example.com', 'password123', 'Vietnam', 'Hanoi'),
+       ('Tran Thi B', '012345678902', '0987654322', 'b@example.com', 'password456', 'Vietnam', 'Ho Chi Minh City');
 
 SELECT * FROM user;
 
@@ -151,7 +145,7 @@ CREATE TABLE loans (
     dateOfBorrow DATETIME DEFAULT CURRENT_TIMESTAMP,
     requiredReturnDate DATETIME NOT NULL,
     returnDate DATETIME DEFAULT NULL,
-    status VARCHAR(20) DEFAULT 'Pending',
+    status VARCHAR(20) DEFAULT 'pending',
     FOREIGN KEY (userName) REFERENCES user(userName),
     FOREIGN KEY (documentId) REFERENCES document(documentId)
 );

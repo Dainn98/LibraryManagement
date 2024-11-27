@@ -36,6 +36,7 @@ import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
 
+import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.properties;
 import org.controlsfx.control.CheckComboBox;
@@ -53,6 +54,7 @@ public class MainController implements Initializable, properties, GeneralControl
     private final IssuedDocument issuedDocument = new IssuedDocument(this);
     private final DocumentManagementController documentManagementController = new DocumentManagementController(this);
     private final ReturnDocumentController returnDocumentController = new ReturnDocumentController(this);
+    private Manager mainManager;
 
     // DASHBOARD PROPERTIES
     @FXML
@@ -316,32 +318,6 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected AutoCompleteTextField<String> catalogSearchField;
 
-    // DOCUMENT INFORMATION PROPERTIES
-    @FXML
-    protected BorderPane docPropertiesBPane;
-    @FXML
-    protected Label titleInfo;
-    @FXML
-    protected Label authorInfo;
-    @FXML
-    protected Label publisherInfo;
-    @FXML
-    protected Label categoryInfo;
-    @FXML
-    protected Label languageInfo;
-    @FXML
-    protected Label isbnInfo;
-    @FXML
-    protected Label descriptionInfo;
-    @FXML
-    protected ImageView qrImageInfo;
-    @FXML
-    protected ImageView isbnImageInfo;
-    @FXML
-    protected Label titleHeading;
-    @FXML
-    protected ImageView thumbnailImageInfo;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dashboardController.loadDashBoardData();
@@ -351,9 +327,21 @@ public class MainController implements Initializable, properties, GeneralControl
         pendingLoanController.initPendingLoanView();
         issuedDocument.initIssueDocumentView();
         catalogController.initCatalog();
-        avatarController.initAvatar(infoVBox);
         documentManagementController.initDocumentManagement();
         returnDocumentController.initReturnDocument();
+    }
+
+    public void setMainManager(Manager manager) {
+        this.mainManager = manager;
+        avatarController.initAvatar(infoVBox);
+    }
+
+    public String getManagerName() {
+        return mainManager.getManagerName();
+    }
+
+    public Manager getMainManager() {
+        return this.mainManager;
     }
 
     // MENU CONTROLLER
@@ -671,14 +659,9 @@ public class MainController implements Initializable, properties, GeneralControl
      * Handles the sign-out process for the user.
      */
     @FXML
-    private void handleSignOutButton(ActionEvent actionEvent) {
-        signOutController.handleSignOut(getClass());
+    public void handleSignOutButton(ActionEvent actionEvent) {
+        SignOutController.handleManagerSignOut(getClass());
         Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
     }
-
-
 }
-
-
-

@@ -45,12 +45,12 @@ public class ReturnDocumentController {
         Loan loan = controller.listInfo.getSelectionModel().getSelectedItem();
         if (loan != null) {
             if (loan.getStatus().equals("late")) {
-                if (controller.lateFeeField.getText().isEmpty() || !isStringAnInteger(controller.quantityDoc.getText())) {
+                if (controller.lateFeeField.getText().isEmpty() || !isStringAnInteger(controller.lateFeeField.getText())) {
                     showAlertInformation("Return late document", "Please enter a valid late fee!");
                 } else {
                     Optional<ButtonType> result = showAlertConfirmation("Return document", "Are you sure you want to return this document?");
                     if (result.isPresent() && result.get() == ButtonType.OK) {
-                        loan.setDeposit(Integer.parseInt(controller.quantityDoc.getText()));
+                        loan.setDeposit(Integer.parseInt(controller.lateFeeField.getText()));
                         if (LoanDAO.getInstance().returnDocument(loan)) {
                             showAlertInformation("Return document", "Document successfully returned!");
                             loadListView();

@@ -6,25 +6,7 @@ public class Manager {
     private String password;
     private String email;
     private int managerID;
-
-    public Manager(String managerName, String password, String identityCard, String email, String managerID) {
-        this.managerName = managerName;
-        this.identityCard = identityCard;
-        this.password = password;
-        this.email = email;
-        this.managerID = Integer.parseInt(managerID.substring(3));
-    }
-
-    public Manager(String managerID) {
-        this.managerID = Integer.parseInt(managerID.substring(3));
-    }
-
-    public Manager(String managerName, String password, String identityCard, String email) {
-        this.password = password;
-        this.identityCard = identityCard;
-        this.managerName = managerName;
-        this.email = email;
-    }
+    private String phoneNumber;
 
     public String getManagerName() {
         return managerName;
@@ -58,8 +40,8 @@ public class Manager {
         return managerID;
     }
 
-    public void setManagerID(String managerID) {
-        this.managerID = Integer.parseInt(managerID.substring(3));
+    public void setManagerID(int managerID) {
+        this.managerID = managerID;
     }
 
     public String getIdentityCard() {
@@ -68,5 +50,13 @@ public class Manager {
 
     public void setIdentityCard(String identityCard) {
         this.identityCard = identityCard;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
