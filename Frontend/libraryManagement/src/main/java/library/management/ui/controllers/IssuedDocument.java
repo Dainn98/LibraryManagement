@@ -72,7 +72,6 @@ public class IssuedDocument {
     }
 
     private void initFilterComboBox() {
-        // Đổi "User ID" thành "User Name" trong danh sách bộ lọc
         ObservableList<String> userFilters = FXCollections.observableArrayList("All ID", "Loan ID", "User Name", "Document ID");
         controller.issueTypeIssuedDoc.setItems(userFilters);
         controller.issueTypeIssuedDoc.setValue("All ID");

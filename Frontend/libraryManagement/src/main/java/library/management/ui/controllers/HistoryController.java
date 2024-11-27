@@ -25,7 +25,13 @@ public class HistoryController {
         controller.categoryDocDocView.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCategory()));
         controller.quantityDocView.setCellValueFactory(new PropertyValueFactory<>("quantityOfBorrow"));
         controller.requestedDateView.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDateOfBorrow().toLocalDate().toString()));
-        controller.returnDateView.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getReturnDate().toLocalDate().toString()));
+        controller.returnDateView.setCellValueFactory(cellData -> {
+            if (cellData.getValue().getReturnDate() != null) {
+                return new SimpleStringProperty(cellData.getValue().getReturnDate().toLocalDate().toString());
+            } else {
+                return new SimpleStringProperty("Not Returned Yet");
+            }
+        });
         controller.statusLoanView.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 

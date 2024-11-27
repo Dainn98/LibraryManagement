@@ -9,8 +9,7 @@ import java.util.concurrent.Executors;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import library.management.data.DAO.LoanDAO;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
@@ -47,8 +46,6 @@ public class BorrowedController {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
         VBox docContainerVBox = fxmlLoader.load();
-        docContainerVBox.setPrefWidth(188);
-        docContainerVBox.setPrefHeight(350);
         UserDocContainerController docContainerController = fxmlLoader.getController();
         if (column >= BORROWED_COLUMN_MAX) {
           column = 0;
@@ -80,10 +77,8 @@ public class BorrowedController {
       };
       tasks.add(loadController);
     }
-    ExecutorService executor = Executors.newFixedThreadPool(6);
+    ExecutorService executor = Executors.newFixedThreadPool(4);
     tasks.forEach(executor::execute);
     executor.shutdown();
-    System.out.println(borrowingDocumentList.size());
-    System.out.println(borrowingLoanList.size());
   }
 }
