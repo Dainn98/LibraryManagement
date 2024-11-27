@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import jfxtras.scene.control.ImageViewButton?>
+
+
+<VBox fx:id="faqVBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FAQsController">
+   <children>
+      <Label fx:id="name" text="Label" />
+      <HBox nodeOrientation="LEFT_TO_RIGHT" VBox.vgrow="ALWAYS">
+         <children>
+            <JFXTextArea fx:id="story" nodeOrientation="LEFT_TO_RIGHT" text="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;?import javafx.scene.image.Image?&gt;&lt;?import jfxtras.scene.control.ImageViewButton?&gt;&lt;ImageViewButton xmlns=&quot;http://javafx.com/javafx/23&quot; xmlns:fx=&quot;http://javafx.com/fxml/1&quot;&gt;   &lt;image&gt;      &lt;Image url=&quot;@../sprites/picker.png&quot; /&gt;   &lt;/image&gt;&lt;/ImageVie&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;?import javafx.scene.control.TextField?&gt;&lt;TextField xmlns=&quot;http://javafx.com/javafx/23&quot; xmlns:fx=&quot;http://javafx.com/fxml/1&quot; /&gt;wButton&gt;&#10;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;?import javafx.scene.image.Image?&gt;&lt;?import jfxtras.scene.control.ImageViewButton?&gt;&lt;ImageViewButton xmlns=&quot;http://javafx.com/javafx/23&quot; xmlns:fx=&quot;http://javafx.com/fxml/1&quot;&gt;   &lt;image&gt;      &lt;Image url=&quot;@../sprites/picker.png&quot; /&gt;   &lt;/image&gt;&lt;/ImageVie&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;?import javafx.scene.control.TextField?&gt;&lt;TextField xmlns=&quot;http://javafx.com/javafx/23&quot; xmlns:fx=&quot;http://javafx.com/fxml/1&quot; /&gt;wButton&gt;&#10;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;?import javafx.scene.image.Image?&gt;&lt;?import jfxtras.scene.control.ImageViewButton?&gt;&lt;ImageViewButton xmlns=&quot;http://javafx.com/javafx/23&quot; xmlns:fx=&quot;http://javafx.com/fxml/1&quot;&gt;   &lt;image&gt;      &lt;Image url=&quot;@../sprites/picker.png&quot; /&gt;   &lt;/image&gt;&lt;/ImageVie&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;?import javafx.scene.control.TextField?&gt;&lt;TextField xmlns=&quot;http://javafx.com/javafx/23&quot; xmlns:fx=&quot;http://javafx.com/fxml/1&quot; /&gt;wButton&gt;&#10;" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <HBox prefHeight="52.0" prefWidth="600.0">
+         <children>
+            <ImageViewButton>
+               <image>
+                  <Image url="@../sprites/picker.png" />
+               </image>
+            </ImageViewButton>
+            <ImageViewButton>
+               <image>
+                  <Image url="@../sprites/picker.png" />
+               </image>
+            </ImageViewButton>
+            <ImageViewButton>
+               <image>
+                  <Image url="@../sprites/picker.png" />
+               </image>
+            </ImageViewButton>
+            <ImageViewButton>
+               <image>
+                  <Image url="@../sprites/picker.png" />
+               </image>
+            </ImageViewButton>
+         </children>
+      </HBox>
+   </children>
+</VBox>

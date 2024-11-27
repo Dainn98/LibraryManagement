@@ -46,27 +46,28 @@ public class PendingLoanController {
         });
         controller.checkLoan.setCellFactory(CheckBoxTableCell.forTableColumn(controller.checkLoan));
         controller.issuedIDLoansView.setCellValueFactory(new PropertyValueFactory<>("loanID"));
+        controller.quantityLoansView.setCellValueFactory(new PropertyValueFactory<>("quantityOfBorrow"));
         controller.docIDLoansView.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getIssuedISBN()));
-        controller.docTitleLoansView.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getIssuedTitle()));
+        controller.docStatusLoansView.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getStatus()));
         controller.userNameLoansView.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getUserName()));
         controller.issuedDateAndTimeLoansView.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getDateOfBorrow().toLocalDate().toString()));
-        controller.dueDateIDLoansView.setCellValueFactory(cellData -> {
+        controller.returnDateIDLoansView.setCellValueFactory(cellData -> {
             if (cellData.getValue().getReturnDate() != null) {
                 return new SimpleStringProperty(cellData.getValue().getReturnDate().toLocalDate().toString());
             } else {
                 return new SimpleStringProperty("Not Returned Yet");
             }
         });
-        controller.daysLoansView.setCellValueFactory(cellData -> {
-            long days = java.time.temporal.ChronoUnit.DAYS.between(
-                    cellData.getValue().getDateOfBorrow(),
-                    cellData.getValue().getRequiredReturnDate()
-            );
-            return new SimpleStringProperty(String.valueOf(days));
+        controller.requiredReturnLoansView.setCellValueFactory(cellData -> {
+            if (cellData.getValue().getRequiredReturnDate() != null) {
+                return new SimpleStringProperty(cellData.getValue().getRequiredReturnDate().toLocalDate().toString());
+            } else {
+                return new SimpleStringProperty("N/A");
+            }
         });
         controller.feeIDLoansView.setCellValueFactory(cellData ->
                 new SimpleStringProperty(String.format("%.2f", cellData.getValue().getDeposit())));
