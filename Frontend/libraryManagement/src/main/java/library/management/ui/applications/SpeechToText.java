@@ -1,15 +1,44 @@
 package library.management.ui.applications;
 
-import org.vosk.LibVosk;
 import org.vosk.Model;
 import org.vosk.Recognizer;
 
 import javax.sound.sampled.*;
+import java.io.IOException;
 
-public class SpeechToText {
-    private static volatile boolean stopRecognition = false;
+public final class SpeechToText {
+    public static volatile boolean stopRecognition = true;
+    private static Model model;
+    public static final AudioFormat format = new AudioFormat(44100, 16, 1, true, false);
+    private static Recognizer recognizer;
+
+    private SpeechToText() {
+    }
+
+    public static synchronized Model getModel() {
+        if (model == null) {
+            try {
+                model = new Model("C:/Users/admin/Downloads/vosk-model-en-us-0.22-lgraph");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return model;
+    }
+
+    public static synchronized Recognizer getRecognizer() {
+        if (recognizer == null) {
+            try {
+                recognizer = new Recognizer(getModel(), 44100);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return recognizer;
+    }
 
     public static void main(String[] args) {
+        stopRecognition = false;
         // Đường dẫn đến mô hình ngôn ngữ
         String modelPath = "C:/Users/admin/Downloads/vosk-model-en-us-0.22-lgraph";
 
@@ -63,7 +92,7 @@ public class SpeechToText {
         }
     }
 
-    private static String extractTextFromJson(String json) {
+    public static String extractTextFromJson(String json) {
         // Trích xuất giá trị của "text" trong JSON
         String textKey = "\"text\" : \"";
         int startIndex = json.indexOf(textKey);

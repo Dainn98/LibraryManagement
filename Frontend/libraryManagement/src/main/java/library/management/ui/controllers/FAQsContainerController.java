@@ -63,7 +63,6 @@ public class FAQsContainerController {
     public JFXTextArea getTextContainer() {
         return textContainer;
     }
-
     public void setFAQsOptionsAlignment(boolean checkAlignment) {
         if (checkAlignment) {
             faqOptions.setAlignment(Pos.CENTER_LEFT);

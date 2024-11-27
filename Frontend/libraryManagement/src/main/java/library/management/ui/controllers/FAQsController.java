@@ -15,6 +15,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import library.management.properties;
 import library.management.ui.applications.ApiGoogleGemini;
+import library.management.ui.applications.SpeechToText;
+import org.vosk.Model;
+import org.vosk.Recognizer;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.TargetDataLine;
 
 public class FAQsController implements properties {
 
@@ -62,6 +70,7 @@ public class FAQsController implements properties {
         int rowCount = gPane.getRowCount();
         gPane.add(userInputSection, 0, rowCount);
         faqSPane.setContent(gPane);
+        controller.faqRequestContainer.clear();
 
         Task<VBox> getAnswer = new Task<>() {
             @Override
@@ -78,5 +87,32 @@ public class FAQsController implements properties {
         Thread thread = new Thread(getAnswer);
         thread.setDaemon(true);
         thread.start();
+    }
+
+    public void record() {
+        Recognizer recognizer = SpeechToText.getRecognizer();
+        DataLine.Info info = new DataLine.Info(TargetDataLine.class, SpeechToText.format);
+        if (!AudioSystem.isLineSupported(info)) {
+            System.err.println("Micro không được hỗ trợ.");
+            return;
+        }
+        try (TargetDataLine microphone = (TargetDataLine) AudioSystem.getLine(info)) {
+            microphone.open(SpeechToText.format);
+            microphone.start();
+            byte[] buffer = new byte[4096];
+            while (!SpeechToText.stopRecognition) {
+                int bytesRead = microphone.read(buffer, 0, buffer.length);
+                if (recognizer.acceptWaveForm(buffer, bytesRead)) {
+                    String result = recognizer.getResult();
+                    String text = SpeechToText.extractTextFromJson(result);
+                    if (!text.isEmpty()) {
+                        controller.faqRequestContainer.setText(controller.faqRequestContainer.getText() + " " + text);
+                        System.out.println(text + " ");
+                    }
+                }
+            }
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
