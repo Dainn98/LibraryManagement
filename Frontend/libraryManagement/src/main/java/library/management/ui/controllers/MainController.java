@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 
+import com.jfoenix.controls.JFXTextArea;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
@@ -53,8 +54,8 @@ public class MainController implements Initializable, properties, GeneralControl
     private final IssuedDocument issuedDocument = new IssuedDocument(this);
     private final DocumentManagementController documentManagementController = new DocumentManagementController(this);
     private final ReturnDocumentController returnDocumentController = new ReturnDocumentController(this);
-
-    // DASHBOARD PROPERTIES
+    private final FAQsController faqsController = new FAQsController(this);
+  // DASHBOARD PROPERTIES
     @FXML
     protected VBox infoVBox;
     @FXML
@@ -342,6 +343,16 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected ImageView thumbnailImageInfo;
 
+  //    FAQs
+  @FXML
+  protected BorderPane FAQsBPane;
+  @FXML
+  protected GridPane FAQsGPane;
+  @FXML
+  protected ScrollPane faqSPane;
+  @FXML
+  protected JFXTextArea faqRequestContainer;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dashboardController.loadDashBoardData();
@@ -368,6 +379,7 @@ public class MainController implements Initializable, properties, GeneralControl
         docManagementBPane.setVisible(sectionToShow == docManagementBPane);
         pendingLoansBPane.setVisible(sectionToShow == pendingLoansBPane);
         pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
+        FAQsBPane.setVisible(sectionToShow == FAQsBPane);
     }
 
     @FXML
@@ -386,6 +398,11 @@ public class MainController implements Initializable, properties, GeneralControl
     private void handleUsersButton(ActionEvent actionEvent) {
         userController.loadUserViewData();
         showSection(usersBPane);
+    }
+
+    @FXML
+    private void handleLibFAQsButton(ActionEvent actionEvent) {
+        showSection(FAQsBPane);
     }
 
     @FXML
@@ -569,6 +586,7 @@ public class MainController implements Initializable, properties, GeneralControl
 
     @FXML
     private void importData(ActionEvent actionEvent) {
+      //To Do
     }
 
     @FXML
@@ -624,10 +642,12 @@ public class MainController implements Initializable, properties, GeneralControl
     //ANOTHER
     @FXML
     private void requestMenu(ContextMenuEvent contextMenuEvent) {
+      //To Do
     }
 
     @FXML
     private void fetchUserWithKey(KeyEvent event) {
+      //To Do
     }
 
     @FXML
@@ -677,7 +697,14 @@ public class MainController implements Initializable, properties, GeneralControl
         currentStage.close();
     }
 
+//    FAQs
+  public void handleRecord(MouseEvent mouseEvent) {
+      //To Do
+  }
 
+  public void handleSendText(MouseEvent mouseEvent) {
+     faqsController.loadFAQs(FAQsGPane, faqSPane);
+  }
 }
 
 
