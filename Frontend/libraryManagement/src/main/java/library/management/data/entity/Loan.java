@@ -3,6 +3,7 @@ package library.management.data.entity;
 import library.management.data.DAO.DocumentDAO;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Loan {
     private int loanID;
@@ -15,6 +16,9 @@ public class Loan {
     private LocalDateTime returnDate;
     private String status;
     private Document document;
+
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final double LATEFEE = 0.5;
 
     public Loan() {
         super();
@@ -30,6 +34,11 @@ public class Loan {
         this.requiredReturnDate = this.dateOfBorrow.plusDays(30);
         this.status = "borrowing";
         setDocument();
+    }
+
+    public Document getDocument() {
+        setDocument();
+        return this.document;
     }
 
     public String getUserName() {
@@ -70,6 +79,14 @@ public class Loan {
 
     public LocalDateTime getDateOfBorrow() {
         return dateOfBorrow;
+    }
+
+    public String getDateOfBorrowAsString() {
+        return dateOfBorrow.format(formatter);
+    }
+
+    public String getRequiredReturnDateAsString() {
+        return requiredReturnDate.format(formatter);
     }
 
     public void setDateOfBorrow(LocalDateTime dateOfBorrow) {

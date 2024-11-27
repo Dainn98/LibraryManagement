@@ -14,9 +14,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import library.management.data.database.DatabaseConnection;
-import library.management.data.DAO.DocumentDAO;
-import com.sun.source.tree.IfTree;
 import library.management.data.DAO.CategoryDAO;
 import library.management.data.DAO.LanguageDAO;
 import library.management.data.entity.Category;
@@ -25,21 +22,6 @@ import library.management.data.entity.Language;
 
 public class GoogleBooksAPI {
     private static final String API_KEY = "AIzaSyA-ISmMzbKBzb24boY2XF6ZzmvQbWpZSt4";
-
-    public static void main(String[] args) {
-        String query = "Sherlock Homes";
-        try {
-            JsonArray books = fetchBooks(query, 30, 0);
-            if (books != null) {
-                testThumbnails(books);
-                //saveBooksToDatabase(books);
-            } else {
-                System.out.println("No books found.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static List<Document> searchDocument(String query, int maxResults, int startIndex) throws Exception {
         if (query == null || query.trim().isEmpty()) {
@@ -156,7 +138,7 @@ public class GoogleBooksAPI {
         return volumeInfo.has("title") ? volumeInfo.get("title").getAsString() : "No title available";
     }
 
-    private static String getAuthors(JsonObject volumeInfo) {
+    public static String getAuthors(JsonObject volumeInfo) {
         if (!volumeInfo.has("authors")) {
             return "Unknown author";
         }

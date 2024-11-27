@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 
+import com.jfoenix.controls.JFXTextArea;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
@@ -54,8 +55,8 @@ public class MainController implements Initializable, properties, GeneralControl
     private final IssuedDocument issuedDocument = new IssuedDocument(this);
     private final DocumentManagementController documentManagementController = new DocumentManagementController(this);
     private final ReturnDocumentController returnDocumentController = new ReturnDocumentController(this);
+    private final FAQsController faqsController = new FAQsController(this);
     private Manager mainManager;
-
     // DASHBOARD PROPERTIES
     @FXML
     protected VBox infoVBox;
@@ -286,19 +287,21 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected TableColumn<Loan, String> docIDLoansView;
     @FXML
-    protected TableColumn<Loan, String> docTitleLoansView;
+    protected TableColumn<Loan, String> docStatusLoansView;
     @FXML
     protected TableColumn<Loan, String> userNameLoansView;
     @FXML
     protected TableColumn<Loan, String> issuedDateAndTimeLoansView;
     @FXML
-    protected TableColumn<Loan, String> dueDateIDLoansView;
+    protected TableColumn<Loan, String> returnDateIDLoansView;
     @FXML
-    protected TableColumn<Loan, String> daysLoansView;
+    protected TableColumn<Loan, String> requiredReturnLoansView;
     @FXML
     protected TableColumn<Loan, String> feeIDLoansView;
     @FXML
     protected TableColumn<Loan, Void> approvalLoansView;
+    @FXML
+    protected TableColumn<Loan, Integer> quantityLoansView;
     @FXML
     protected CheckBox checkLoans;
     @FXML
@@ -318,31 +321,15 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected AutoCompleteTextField<String> catalogSearchField;
 
-    // DOCUMENT INFORMATION PROPERTIES
+    //FAQs
     @FXML
-    protected BorderPane docPropertiesBPane;
+    protected BorderPane FAQsBPane;
     @FXML
-    protected Label titleInfo;
+    protected GridPane FAQsGPane;
     @FXML
-    protected Label authorInfo;
+    protected ScrollPane faqSPane;
     @FXML
-    protected Label publisherInfo;
-    @FXML
-    protected Label categoryInfo;
-    @FXML
-    protected Label languageInfo;
-    @FXML
-    protected Label isbnInfo;
-    @FXML
-    protected Label descriptionInfo;
-    @FXML
-    protected ImageView qrImageInfo;
-    @FXML
-    protected ImageView isbnImageInfo;
-    @FXML
-    protected Label titleHeading;
-    @FXML
-    protected ImageView thumbnailImageInfo;
+    protected JFXTextArea faqRequestContainer;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -353,13 +340,21 @@ public class MainController implements Initializable, properties, GeneralControl
         pendingLoanController.initPendingLoanView();
         issuedDocument.initIssueDocumentView();
         catalogController.initCatalog();
-        avatarController.initAvatar(infoVBox);
         documentManagementController.initDocumentManagement();
         returnDocumentController.initReturnDocument();
     }
 
     public void setMainManager(Manager manager) {
         this.mainManager = manager;
+        avatarController.initAvatar(infoVBox);
+    }
+
+    public String getManagerName() {
+        return mainManager.getManagerName();
+    }
+
+    public Manager getMainManager() {
+        return this.mainManager;
     }
 
     // MENU CONTROLLER
@@ -374,6 +369,7 @@ public class MainController implements Initializable, properties, GeneralControl
         docManagementBPane.setVisible(sectionToShow == docManagementBPane);
         pendingLoansBPane.setVisible(sectionToShow == pendingLoansBPane);
         pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
+        FAQsBPane.setVisible(sectionToShow == FAQsBPane);
     }
 
     @FXML
@@ -392,6 +388,11 @@ public class MainController implements Initializable, properties, GeneralControl
     private void handleUsersButton(ActionEvent actionEvent) {
         userController.loadUserViewData();
         showSection(usersBPane);
+    }
+
+    @FXML
+    private void handleLibFAQsButton(ActionEvent actionEvent) {
+        showSection(FAQsBPane);
     }
 
     @FXML
@@ -575,6 +576,7 @@ public class MainController implements Initializable, properties, GeneralControl
 
     @FXML
     private void importData(ActionEvent actionEvent) {
+      //To Do
     }
 
     @FXML
@@ -630,10 +632,12 @@ public class MainController implements Initializable, properties, GeneralControl
     //ANOTHER
     @FXML
     private void requestMenu(ContextMenuEvent contextMenuEvent) {
+      //To Do
     }
 
     @FXML
     private void fetchUserWithKey(KeyEvent event) {
+      //To Do
     }
 
     @FXML
@@ -677,12 +681,19 @@ public class MainController implements Initializable, properties, GeneralControl
      * Handles the sign-out process for the user.
      */
     @FXML
-    private void handleSignOutButton(ActionEvent actionEvent) {
-        signOutController.handleSignOut(getClass());
+    public void handleSignOutButton(ActionEvent actionEvent) {
+        SignOutController.handleManagerSignOut(getClass());
         Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
     }
+
+//    FAQs
+  public void handleRecord(MouseEvent mouseEvent) {
+      //To Do
+  }
+
+  public void handleSendText(MouseEvent mouseEvent) {
+     faqsController.loadFAQs(FAQsGPane, faqSPane);
+  }
 }
-
-
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import jfxtras.scene.control.ImageViewButton?>
+
+
+<VBox fx:id="faqContainer" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FAQsContainerController">
+   <children>
+      <Label fx:id="name" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Tuan Anh" VBox.vgrow="ALWAYS" />
+      <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+         <children>
+            <JFXTextArea fx:id="textContainer" style="-fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-background-radius: 30;" text="### Kết quả:- `JFXTextArea` sẽ mở rộng tự động theo nội dung, không xuất hiện thanh cuộn.- `VBox` chứa `TextArea` cũng tự động thay đổi kích thước theo.Hãy thử mã này và cho tôi biết nếu bạn cần điều chỉnh thêm! 😊public void setData(Label name, JFXTextArea textContainer) {    this.name.setText(name.getText());    this.textContainer.setText(textContainer.getText());" wrapText="true" VBox.vgrow="ALWAYS">
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </JFXTextArea>
+         </children>
+      </VBox>
+      <HBox fx:id="faqOptions">
+         <children>
+            <ImageViewButton fx:id="copyButton">
+               <image>
+                  <Image url="@../sprites/picker.png" />
+               </image>
+            </ImageViewButton>
+            <ImageViewButton fx:id="restartButton">
+               <image>
+                  <Image url="@../sprites/picker.png" />
+               </image>
+            </ImageViewButton>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>

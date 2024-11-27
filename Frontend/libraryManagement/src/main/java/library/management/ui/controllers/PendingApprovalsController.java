@@ -179,7 +179,7 @@ public class PendingApprovalsController {
 
     public void initializeCheckCountry() {
         ObservableList<String> countries = FXCollections.observableArrayList(UserDAO.getInstance().getAllPendingCountries());
-        countries.add(0, "Check All");
+        countries.addFirst("Check All");
         controller.checkCountry.getItems().clear();
         controller.checkCountry.getItems().addAll(countries);
 
@@ -237,7 +237,7 @@ public class PendingApprovalsController {
 
     public void initializeCheckState() {
         ObservableList<String> states = FXCollections.observableArrayList(UserDAO.getInstance().getAllPendingStates());
-        states.add(0, "Check All");
+        states.addFirst("Check All");
         controller.checkState.getItems().clear();
         controller.checkState.getItems().addAll(states);
 

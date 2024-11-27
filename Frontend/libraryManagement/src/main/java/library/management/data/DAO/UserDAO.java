@@ -354,10 +354,6 @@ public class UserDAO implements DAOInterface<User> {
         return 0;
     }
 
-    /**
-     * Trả về danh sách các người dùng có trạng thái 'pending'.
-     * @return List<User> - Danh sách người dùng đang ở trạng thái pending.
-     */
     public List<User> getPendingUsers() {
         String query = "SELECT * FROM user WHERE status = 'pending'";
         List<User> pendingUsers = new ArrayList<>();
@@ -376,10 +372,6 @@ public class UserDAO implements DAOInterface<User> {
         return pendingUsers;
     }
 
-    /**
-     * Trả về danh sách các quốc gia (country) có người dùng đang ở trạng thái 'pending'.
-     * @return List<String> - Danh sách các quốc gia có trạng thái pending, không trùng lặp.
-     */
     public List<String> getAllPendingCountries() {
         String query = "SELECT DISTINCT country FROM user WHERE status = 'pending'";
         List<String> countries = new ArrayList<>();
