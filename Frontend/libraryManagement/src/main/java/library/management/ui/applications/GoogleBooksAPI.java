@@ -6,11 +6,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import library.management.data.DAO.CategoryDAO;
 import library.management.data.DAO.LanguageDAO;
 import library.management.data.entity.Category;
@@ -18,7 +21,7 @@ import library.management.data.entity.Document;
 import library.management.data.entity.Language;
 
 public class GoogleBooksAPI {
-    private static final String API_KEY = "AIzaSyCdrDSBU0hpgH0ZhEqK4fDaJ_IXvGs6fko";
+    private static final String API_KEY = "AIzaSyA-ISmMzbKBzb24boY2XF6ZzmvQbWpZSt4";
 
     public static List<Document> searchDocument(String query, int maxResults, int startIndex) throws Exception {
         if (query == null || query.trim().isEmpty()) {
@@ -101,6 +104,35 @@ public class GoogleBooksAPI {
         return jsonResponse.has("items") ? jsonResponse.getAsJsonArray("items") : null;
     }
 
+    // Phương thức lưu thông tin sách vào cơ sở dữ liệu
+    /*public static void saveBooksToDatabase(JsonArray books) {
+        for (int i = 0; i < books.size(); i++) {
+            JsonObject book = books.get(i).getAsJsonObject();
+            JsonObject volumeInfo = book.getAsJsonObject("volumeInfo");
+
+            List<String> categoryID = getGenre(volumeInfo);
+            String publisher = volumeInfo.has("publisher") ? volumeInfo.get("publisher").getAsString() : "Unknown Publisher";
+            String lgID = "LANG4";
+            String isbn = getISBN(volumeInfo);
+            int quantity = 12;
+            int availableCopies = 12;
+            String addDate = "2024-10-20 00:00:00"; // Định dạng ngày tháng đầy đủ
+            double price = 12.0;
+            String title = getTitle(volumeInfo);
+            String author = getAuthors(volumeInfo);
+            String description = getDescription(volumeInfo);
+            String url = getInfoLink(volumeInfo);
+            String image = getImageLink(volumeInfo);
+
+            Document document = new Document(String.valueOf(categoryID), publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description, url, image);
+
+            if (DocumentDAO.getInstance().add(document) > 0) {
+                System.out.println("Thêm sách thành công!");
+            } else {
+                System.out.println("Thêm sách thất bại!");
+            }
+        }
+    }*/
 
     private static String getTitle(JsonObject volumeInfo) {
         return volumeInfo.has("title") ? volumeInfo.get("title").getAsString() : "No title available";
@@ -122,6 +154,7 @@ public class GoogleBooksAPI {
     }
 
     // phương thức lấy bìa sách
+
     private static String getImageLink(JsonObject volumeInfo) {
         if (!volumeInfo.has("imageLinks")) {
             return "No thumbnail available";

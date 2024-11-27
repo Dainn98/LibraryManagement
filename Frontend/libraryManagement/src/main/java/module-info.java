@@ -10,22 +10,31 @@ module library.management {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires de.jensd.fx.glyphs.fontawesome;
-    requires java.desktop;
     requires javafx.swing;
     requires com.jfoenix;
     requires com.google.gson;
     requires com.zaxxer.hikari;
-    requires java.sql;
     requires jfxtras.gauge.linear;
     requires com.gluonhq.charm.glisten;
     requires jdk.compiler;
+    requires org.slf4j;
     requires com.google.zxing;
     requires com.google.zxing.javase;
+
+    requires java.net.http;
+    requires com.fasterxml.jackson.databind;
+    requires java.sql;
+    requires assemblyai.java;
+    requires vosk;
+
+    //requires assemblyai;
+
     requires java.mail;
     requires org.junit.jupiter.api;
     requires org.junit.platform.engine;
     requires org.junit.platform.commons;
     requires org.junit.jupiter.engine;
+
     // Application
     opens library.management.ui.applications to javafx.graphics, javafx.fxml;
     exports library.management.ui.applications to javafx.graphics, javafx.fxml;
