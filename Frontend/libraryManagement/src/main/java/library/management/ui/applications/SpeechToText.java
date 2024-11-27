@@ -11,7 +11,7 @@ public class SpeechToText {
 
     public static void main(String[] args) {
         // Đường dẫn đến mô hình ngôn ngữ
-        String modelPath = "D:/UET/UET2th/OOP/vosk-model-en-us-0.22-lgraph";
+        String modelPath = "C:/Users/admin/Downloads/vosk-model-en-us-0.22-lgraph";
 
         try (Model model = new Model(modelPath)) {
             // Khởi tạo recognizer
@@ -80,5 +80,3 @@ public class SpeechToText {
         return json.substring(startIndex, endIndex).trim();
     }
 }
-
-

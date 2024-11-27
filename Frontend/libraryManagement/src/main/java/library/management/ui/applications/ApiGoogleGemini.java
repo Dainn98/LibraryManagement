@@ -15,7 +15,6 @@ public class ApiGoogleGemini {
 
     public static String sendPostRequest(String text) {
         try {
-            // Tạo nội dung body yêu cầu
             String requestBody = """
             {
               "contents": [

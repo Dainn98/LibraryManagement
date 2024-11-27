@@ -24,7 +24,6 @@ module library.management {
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
     requires java.sql;
-    requires assemblyai.java;
     requires vosk;
 
     //requires assemblyai;
