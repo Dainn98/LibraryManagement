@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
@@ -39,14 +40,15 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import jfxtras.scene.control.ImageViewButton?>
 <?import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge?>
 <?import jfxtras.scene.layout.VBox?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<StackPane prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.MainController">
+<StackPane prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.MainController">
    <children>
       <BorderPane prefHeight="806.0" prefWidth="1010.0" style="-fx-background-color: white;" StackPane.alignment="CENTER">
-         <!--          TOP -->
+        <!--          TOP -->
          <top>
             <BorderPane>
                <top>
@@ -94,7 +96,7 @@
                   <cursor>
                      <Cursor fx:constant="HAND" />
                   </cursor></Button>
-               <Button fx:id="FAQsButton" prefWidth="200.0" text="Library FAQs">
+               <Button fx:id="FAQsButton" onAction="#handleLibFAQsButton" prefWidth="200.0" text="Library FAQs">
                   <cursor>
                      <Cursor fx:constant="HAND" />
                   </cursor>
@@ -1252,6 +1254,83 @@
                            </bottom>
                         </BorderPane>
                      </top>
+                  </BorderPane>
+
+                  <!--                  FAQS-->
+                  <BorderPane fx:id="FAQsBPane" prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+                           <center>
+                              <Label style="-fx-font-size: 23; -fx-font-weight: bold;" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font name="Segoe UI Semilight" size="23.0" />
+                                 </font>
+                                 <BorderPane.margin>
+                                    <Insets top="2.0" />
+                                 </BorderPane.margin>
+                              </Label>
+                           </center>
+                           <bottom>
+                              <HBox BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Label style="-fx-text-fill: #002B5B; -fx-font-size: 20; -fx-font-weight: bold;" text="Library FAQs" textFill="#2b579a">
+                                       <font>
+                                          <Font name="Segoe UI Semilight" size="40.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </bottom>
+                        </BorderPane>
+                     </top>
+                     <center>
+                        <BorderPane BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets />
+                           </BorderPane.margin>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                           <center>
+                              <ScrollPane fx:id="faqSPane" hbarPolicy="NEVER" style="-fx-border-color: #002B5B;" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+                                 <content>
+                                    <GridPane fx:id="FAQsGPane" alignment="CENTER" focusTraversable="true" />
+                                 </content>
+                              </ScrollPane>
+                           </center>
+                        </BorderPane>
+                     </center>
+                     <bottom>
+                        <VBox BorderPane.alignment="CENTER">
+                           <children>
+                              <VBox maxHeight="150.0" prefHeight="50.0" style="-fx-border-color: #002B5B; -fx-border-radius: 30;">
+                                 <children>
+                                    <HBox alignment="CENTER" spacing="10.0">
+                                       <children>
+                                          <JFXTextArea fx:id="faqRequestContainer" prefColumnCount="50" HBox.hgrow="ALWAYS" />
+                                          <ImageViewButton fx:id="recordButton" onMousePressed="#handleRecord" HBox.hgrow="ALWAYS">
+                                             <image>
+                                                <Image url="@../sprites/picker.png" />
+                                             </image>
+                                          </ImageViewButton>
+                                          <ImageViewButton fx:id="sendTextButton" onMousePressed="#handleSendText" HBox.hgrow="ALWAYS">
+                                             <image>
+                                                <Image url="@../sprites/picker.png" />
+                                             </image>
+                                          </ImageViewButton>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="20.0" right="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                        </VBox>
+                     </bottom>
                   </BorderPane>
                </children>
             </StackPane>

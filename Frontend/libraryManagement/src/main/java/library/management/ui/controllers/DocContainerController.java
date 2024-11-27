@@ -1,9 +1,13 @@
 package library.management.ui.controllers;
 
 
+import static library.management.alert.AlertMaker.showAlertConfirmation;
+import static library.management.alert.AlertMaker.showAlertInformation;
+
+import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.util.Objects;
-
+import java.util.Optional;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -20,8 +24,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import library.management.data.entity.Document;
+import library.management.ui.applications.CodeGenerator;
 import library.management.ui.applications.ImageDownloader;
-
 
 public class DocContainerController implements GeneralController {
 
@@ -54,7 +58,6 @@ public class DocContainerController implements GeneralController {
   };
   private Image image;
   private Document document;
-
   @FXML
   private VBox docInfo;
   @FXML
@@ -68,7 +71,6 @@ public class DocContainerController implements GeneralController {
   @FXML
   private Label desDoc;
 
-
     public void setData(Document doc) {
       this.document = doc;
       String imageUrl = document.getImage();
@@ -77,22 +79,20 @@ public class DocContainerController implements GeneralController {
       } else {
         image = ImageDownloader.downloadImage(document.getImage());
       }
-
         Platform.runLater(()-> {
             desDoc.setText(document.getDescription());
             docThumbnail.setImage(image);
             docTitleCatalog.setText(document.getTitle());
             authorCatalog.setText(document.getAuthor());
-
-            docTitleCatalog.setStyle("-fx-text-fill: #002B5B; -fx-font-size: 14px;");  // Navy Blue
-            authorCatalog.setStyle("-fx-text-fill: #333333; -fx-padding: 5;");    // Dark Gray
-            docCatalogView.setStyle(
-                    "-fx-background-color:#" + colors[(int) (Math.random() * colors.length)] + ";"
-                            + "-fx-background-radius: 15;"
-                            + "-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 10);"
-            );
-        });
-    }
+      docTitleCatalog.setStyle("-fx-text-fill: #002B5B; -fx-font-size: 14px;");  // Navy Blue
+      authorCatalog.setStyle("-fx-text-fill: #333333; -fx-padding: 5;");    // Dark Gray
+      docCatalogView.setStyle(
+          "-fx-background-color:#" + colors[(int) (Math.random() * colors.length)] + ";"
+              + "-fx-background-radius: 15;"
+              + "-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 10);"
+      );
+    });
+  }
 
   @FXML
   private void handleEnterDocThumbnail(MouseEvent mouseEvent) {
@@ -138,12 +138,11 @@ public class DocContainerController implements GeneralController {
   }
 
   public Document getDocument() {
-      return this.document;
+    return this.document;
   }
 
   public Image getImage() {
-      return this.image;
+    return this.image;
   }
-
 
 }
