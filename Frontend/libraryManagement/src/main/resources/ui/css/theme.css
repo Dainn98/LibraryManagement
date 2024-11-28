@@ -4,20 +4,20 @@
 */
 
 * {
-  -fx-primary: #002B5B; /* Navy blue */
-  -fx-secondary: #FFDD83; /* Pale yellow */
-  -fx-primarytext: #002B5B; /* Navy blue */
+  -fx-primary: /*#FFFFFF; /* White */  linear-gradient(to right,#f0f5ff, #c9d6ff);
+  -fx-secondary:  #5c6bc0; /* Purple */
+  -fx-primarytext: #5c6bc0; /* Purple */
   -fx-blue: #003554; /* Dark blue */
   -fx-red: #E63946; /* Pastel red */
-  -fx-color-1: #003554; /* Dark blue */
+  -fx-color-1:  #5c6bc0; /* Dark purple */
 }
 
 .root {
-  -fx-background-color: #F3F3F3; /* Light gray */
+  -fx-background-color:  linear-gradient(to right,#f0f5ff, #c9d6ff); /* Light gray */
 }
 
 .button {
-  -fx-text-fill: #002B5B; /* Navy blue */
+  -fx-text-fill: #FFFFFF; /* white */
   -fx-background-color: -fx-secondary;
   -fx-border-color: -fx-secondary;
   -fx-border-radius: 20px;
@@ -27,12 +27,12 @@
 
 .button:hover, .button:focused {
   -fx-border-color: -fx-primary;
-  -fx-background-color: -fx-primary;
-  -fx-text-fill: -fx-secondary;
+  -fx-background-color: -fx-secondary;
+  -fx-text-fill: #FFFFFF;
 }
 
 .text-field {
-  -fx-text-fill: #002B5B; /* Purple*/
+  -fx-text-fill: #3921a6; /* Purple*/
 }
 
 /* Các phần khác tương tự có thể được thay đổi */
@@ -48,18 +48,18 @@
 
 /*TablPane styling*/
 .tab {
-  -fx-background-color: linear-gradient(to bottom, #8BAAAD, #A4BCC0);
+  -fx-background-color: #A8DADC;
   -fx-background-radius: 10;
 }
 .tab:hover{
-  -fx-background-color: #FFFFFF;
+  -fx-background-color: linear-gradient(to right, #c9d6ff, #b8c2f0);
   -fx-scale-x: 1.025; /* Scale the tab horizontally */
   -fx-scale-y: 1.025; /* Scale the tab vertically */
   -fx-effect: dropShadow(three-pass-box, rgb(33, 65, 166), 10, 0, 0, 10);
 }
 
 .tab-header-background {
-  -fx-background-color: transparent; /* Dark blue */
+  -fx-background-color:   linear-gradient(to right,#f0f5ff, #5c6bc0);/*linear-gradient(to bottom, #1D3557, #457B9D);  Dark blue */
 }
 
 .tab-label {
@@ -208,7 +208,7 @@
 }
 
 .table-view .column-header-background {
-  -fx-background-color: #002b5b; /* Dark blue */
+  -fx-background-color:  #5c6bc0; /* Dark purple */
 }
 
 .table-view .column-header-background .label {
@@ -225,7 +225,7 @@
 }
 
 .table-row-cell:focused, .table-cell:focused {
-  -fx-text-fill: #002b5b; /* Dark blue */
+  -fx-text-fill:  #5c6bc0; /* Dark purple*/
 }
 
 .table-row-cell {
@@ -289,7 +289,7 @@
 
 /*JFXDialog styling*/
 .jfx-layout-heading {
-  -fx-background-color: -fx-color-1;
+  -fx-background-color: -fx-secondary;
 }
 
 .jfx-layout-heading .label {
@@ -443,4 +443,27 @@
   -fx-opacity: 0.1;
   -fx-pref-width: 0;
   -fx-pref-height: 0;
+}
+.toggle-switch {
+   -fx-text-fill: -fx-primarytext;
+        -fx-background-color: fx-primary;
+        -fx-border-color: -fx-secondary;
+        -fx-border-radius: 20px;
+        -fx-background-radius: 20px;
+        -fx-font-size: 12pt;
+    -fx-cursor: hand;
+}
+
+.toggle-switch:selected {
+    -fx-background-color: #1E3A5F; /* Màu nền của nút khi chọn */
+}
+
+.toggle-switch .thumb {
+    -fx-background-color: white;
+    -fx-background-radius: 50%;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-pref-width: 150px;
+    -fx-pref-height: 80px;
+    -fx-transition: transform 0.3s ease;
 }

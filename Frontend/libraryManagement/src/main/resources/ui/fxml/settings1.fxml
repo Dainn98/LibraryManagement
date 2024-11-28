@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="651.0" prefWidth="1000.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.SettingsController1">
+  <top>
+    <VBox prefHeight="123.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+      <children>
+        <BorderPane prefHeight="67.0" prefWidth="957.0">
+          <center>
+            <Label text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
+              <font>
+                <Font name="Segoe UI Semilight" size="23.0" />
+              </font>
+              <BorderPane.margin>
+                <Insets top="2.0" />
+              </BorderPane.margin>
+            </Label>
+          </center>
+        </BorderPane>
+        <VBox prefHeight="117.0" prefWidth="953.0" style="-fx-background-color: white;">
+          <children>
+            <HBox prefHeight="81.0" prefWidth="957.0" spacing="10.0" style="-fx-background-color: white;">
+              <children>
+                <Label prefHeight="73.0" prefWidth="186.0" style="-fx-text-fill: #2b579a;" text="Settings">
+                  <font>
+                    <Font name="Segoe UI Semilight" size="46.0" />
+                  </font>
+                  <padding>
+                    <Insets left="10.0" />
+                  </padding>
+                </Label>
+              </children>
+            </HBox>
+          </children>
+        </VBox>
+        <HBox prefHeight="35.0" prefWidth="957.0" style="-fx-background-color: #efefef;" />
+      </children>
+    </VBox>
+  </top>
+  <center>
+    <BorderPane fx:id="borderPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+      <left>
+        <VBox prefHeight="528.0" prefWidth="302.0" spacing="10.0" BorderPane.alignment="CENTER">
+          <children>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../sprites/mainScreen.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Tuan Anh" />
+                        <JFXButton text="Edit Profile" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXButton onAction="#handleProfileButton" text="Profile" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <SVGPath content="M18.386,16.009l0.009-0.006l-0.58-0.912c1.654-2.226,1.876-5.319,0.3-7.8c-2.043-3.213-6.303-4.161-9.516-2.118c-3.212,2.042-4.163,6.302-2.12,9.517c1.528,2.402,4.3,3.537,6.944,3.102l0.424,0.669l0.206,0.045l0.779-0.447l-0.305,1.377l2.483,0.552l-0.296,1.325l1.903,0.424l-0.68,3.06l1.406,0.313l-0.424,1.906l4.135,0.918l0.758-3.392L18.386,16.009z M10.996,8.944c-0.685,0.436-1.593,0.233-2.029-0.452C8.532,7.807,8.733,6.898,9.418,6.463s1.594-0.233,2.028,0.452C11.883,7.6,11.68,8.509,10.996,8.944z" />
+                           </graphic>
+                        </JFXButton>
+                  <JFXButton onAction="#handleSignInOptionsButton" text="Sign-in Options" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                      <Insets left="1.0" right="1.0" top="2.0" />
+                    </VBox.margin>
+                    <font>
+                      <Font size="14.0" />
+                    </font>
+                    <graphic>
+                      <SVGPath content="M18.386,16.009l0.009-0.006l-0.58-0.912c1.654-2.226,1.876-5.319,0.3-7.8c-2.043-3.213-6.303-4.161-9.516-2.118c-3.212,2.042-4.163,6.302-2.12,9.517c1.528,2.402,4.3,3.537,6.944,3.102l0.424,0.669l0.206,0.045l0.779-0.447l-0.305,1.377l2.483,0.552l-0.296,1.325l1.903,0.424l-0.68,3.06l1.406,0.313l-0.424,1.906l4.135,0.918l0.758-3.392L18.386,16.009z M10.996,8.944c-0.685,0.436-1.593,0.233-2.029-0.452C8.532,7.807,8.733,6.898,9.418,6.463s1.594-0.233,2.028,0.452C11.883,7.6,11.68,8.509,10.996,8.944z" />
+                    </graphic>
+                  </JFXButton>
+                        <JFXButton onAction="#handleHistory" text="History" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <SVGPath content="M18.386,16.009l0.009-0.006l-0.58-0.912c1.654-2.226,1.876-5.319,0.3-7.8c-2.043-3.213-6.303-4.161-9.516-2.118c-3.212,2.042-4.163,6.302-2.12,9.517c1.528,2.402,4.3,3.537,6.944,3.102l0.424,0.669l0.206,0.045l0.779-0.447l-0.305,1.377l2.483,0.552l-0.296,1.325l1.903,0.424l-0.68,3.06l1.406,0.313l-0.424,1.906l4.135,0.918l0.758-3.392L18.386,16.009z M10.996,8.944c-0.685,0.436-1.593,0.233-2.029-0.452C8.532,7.807,8.733,6.898,9.418,6.463s1.594-0.233,2.028,0.452C11.883,7.6,11.68,8.509,10.996,8.944z" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton onAction="#handlePrivacyPolicy" text="Privacy Policy">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <SVGPath content="M18.386,16.009l0.009-0.006l-0.58-0.912c1.654-2.226,1.876-5.319,0.3-7.8c-2.043-3.213-6.303-4.161-9.516-2.118c-3.212,2.042-4.163,6.302-2.12,9.517c1.528,2.402,4.3,3.537,6.944,3.102l0.424,0.669l0.206,0.045l0.779-0.447l-0.305,1.377l2.483,0.552l-0.296,1.325l1.903,0.424l-0.68,3.06l1.406,0.313l-0.424,1.906l4.135,0.918l0.758-3.392L18.386,16.009z M10.996,8.944c-0.685,0.436-1.593,0.233-2.029-0.452C8.532,7.807,8.733,6.898,9.418,6.463s1.594-0.233,2.028,0.452C11.883,7.6,11.68,8.509,10.996,8.944z" />
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </VBox>
+          </children>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+        </VBox>
+      </left>
+         <center>
+            <StackPane BorderPane.alignment="CENTER">
+               <children>
+                  <BorderPane fx:id="profileBPane">
+                     <center>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <VBox spacing="15.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Profile Details" />
+                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label prefWidth="150.0" text="Name" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="name" prefWidth="300.0" promptText="Name" text="Tuan Anh" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label prefWidth="150.0" text="Identity Card" HBox.hgrow="ALWAYS" />
+                                          <Label fx:id="identityCard" text="04220500xxxx" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label prefWidth="150.0" text="Date of Birth" HBox.hgrow="ALWAYS" />
+                                          <Label fx:id="dob" text="12/07/2005" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox spacing="15.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Contact Information" VBox.vgrow="ALWAYS" />
+                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label prefWidth="150.0" text="Phone number" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="Phone" prefWidth="300.0" text="0987069605" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label prefWidth="150.0" text="Email" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="email" prefWidth="300.0" text="tuananhpham12072005@gmail.com" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <HBox alignment="CENTER_LEFT">
+                                 <children>
+                                    <Label prefWidth="150.0" text="Code" />
+                                    <TextField fx:id="code" promptText="Enter Code" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="50.0">
+                                 <children>
+                                    <JFXButton onAction="#handleSave" text="Save Changes" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </center>
+                     <top>
+                        <Label text="Profile Settings" BorderPane.alignment="TOP_LEFT" />
+                     </top>
+                  </BorderPane>
+                  <BorderPane fx:id="profileBPane1" visible="false">
+                     <center>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <VBox spacing="15.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Profile Details" />
+                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label prefWidth="150.0" text="Name" HBox.hgrow="ALWAYS" />
+                                          <TextField prefWidth="300.0" promptText="Name" text="Tuan Anh" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label prefWidth="150.0" text="Identity Card" HBox.hgrow="ALWAYS" />
+                                          <Label text="04220500xxxx" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label prefWidth="150.0" text="Date of Birth" HBox.hgrow="ALWAYS" />
+                                          <Label text="12/07/2005" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox spacing="15.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Contact Information" VBox.vgrow="ALWAYS" />
+                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label prefWidth="150.0" text="Phone number" HBox.hgrow="ALWAYS" />
+                                          <TextField prefWidth="300.0" text="0987069605" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label prefWidth="150.0" text="Email" HBox.hgrow="ALWAYS" />
+                                          <TextField prefWidth="300.0" text="tuananhpham12072005@gmail.com" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <HBox alignment="CENTER" prefHeight="50.0">
+                                 <children>
+                                    <JFXButton text="Save Changes" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </center>
+                     <top>
+                        <Label BorderPane.alignment="TOP_LEFT" />
+                     </top>
+                  </BorderPane>
+               </children>
+            </StackPane>
+         </center>
+    </BorderPane>
+  </center>
+</BorderPane>
