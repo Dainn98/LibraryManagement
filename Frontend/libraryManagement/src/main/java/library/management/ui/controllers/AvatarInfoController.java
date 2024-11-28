@@ -64,7 +64,7 @@ public class AvatarInfoController implements properties {
         } else {
             System.out.println("Toggle is OFF"); // Khi tắt
             transition.setToX(0); // Di chuyển hình tròn về bên trái
-            controller.path = getClass().getResource("/ui/css/theme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
+            controller.path = getClass().getResource("/ui/css/myTheme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
             controller.mainStackPane.getStylesheets().clear(); // Xóa các stylesheet hiện tại
             controller.mainStackPane.getStylesheets().add(controller.path);
             isOn = false; // Đặt trạng thái là tắt

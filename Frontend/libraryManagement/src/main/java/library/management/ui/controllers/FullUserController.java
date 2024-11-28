@@ -1,13 +1,18 @@
 package library.management.ui.controllers;
 
 import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +21,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
@@ -27,9 +34,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import jfxtras.scene.control.ImageViewButton;
 import library.management.data.entity.Loan;
 import library.management.data.entity.User;
 import library.management.properties;
+import library.management.ui.applications.SpeechToText;
 import org.controlsfx.control.CheckComboBox;
 
 import static library.management.alert.AlertMaker.showAlertConfirmation;
@@ -41,10 +50,30 @@ public class FullUserController extends GeneralController implements Initializab
   private final BorrowedController borrowedController = new BorrowedController(this);
   private final ProcessingController processingController = new ProcessingController(this);
   private final HistoryController historyController = new HistoryController(this);
-  private final AvatarController2 avatarController = new AvatarController2(this);
+  private final UserAvatarController avatarController = new UserAvatarController(this);
+  private final FAQsController faqsController = new FAQsController(this);
+
 
   public static User mainUser;
   public StackPane mainStackPane;
+  @FXML
+  protected BorderPane FAQsBPane;
+  @FXML
+  protected GridPane FAQsGPane;
+  @FXML
+  protected HBox faqContainer;
+  @FXML
+  protected BorderPane chatbotPane;
+  @FXML
+  protected JFXButton newChatButton;
+  @FXML
+  protected ScrollPane faqSPane;
+  @FXML
+  protected ImageViewButton sendTextButton;
+  @FXML
+  protected JFXTextArea faqRequestContainer;
+  @FXML
+  protected ImageViewButton recordButton;
 
   @FXML
   protected GridPane borrowViewGPane;
@@ -176,7 +205,7 @@ public class FullUserController extends GeneralController implements Initializab
   protected TextField searchDocTField;
 
   @FXML
-  protected Button settingButton;
+  protected Button FAQsButton;
 
   @FXML
   protected Button signOutButton;
@@ -213,8 +242,17 @@ public class FullUserController extends GeneralController implements Initializab
     borrowedController.initBorrowedDocuments();
     processingController.initProcess();
     historyController.initIssueDocumentView();
-    //avatarController.initAvatar(infoVBox);
     stackFull.getStylesheets().add(path);
+    faqRequestContainer.setOnKeyPressed(event -> {
+      if (event.getCode() == KeyCode.ENTER) {
+        if (event.isShiftDown()) {
+          faqRequestContainer.appendText("\n");
+        } else {
+          handleSendText();
+          event.consume();
+        }
+      }
+    });
   }
 
   // MENU CONTROLLER
@@ -224,6 +262,7 @@ public class FullUserController extends GeneralController implements Initializab
     docBPane.setVisible(sectionToShow == docBPane);
     processingPane.setVisible(sectionToShow == processingPane);
     borrowedPane.setVisible(sectionToShow == borrowedPane);
+    FAQsBPane.setVisible(sectionToShow == FAQsBPane);
   }
 
   @FXML
@@ -281,11 +320,6 @@ public class FullUserController extends GeneralController implements Initializab
   }
 
   @FXML
-  private void handleInfoButton(ActionEvent event) {
-
-  }
-
-  @FXML
   private void handlePolicyButton(ActionEvent event) {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader();
@@ -309,25 +343,84 @@ public class FullUserController extends GeneralController implements Initializab
   }
 
   @FXML
-  private void handleSettingButton(ActionEvent event) {
-    try {
-      FXMLLoader fxmlLoader = new FXMLLoader();
-      fxmlLoader.setLocation(getClass().getResource(SETTINGS_SOURCE));
-      Parent root = fxmlLoader.load();
-      Stage stage = new Stage();
-      stage.setTitle(SETTINGS_TITLE);
-      SettingsController controller = fxmlLoader.getController();
-      controller.setFullUserControllerController(this);
-      controller.setData();
-    } catch (IOException e) {
-      e.printStackTrace();
+  private void handleSignOutButton(ActionEvent event) {
+    Optional<ButtonType> result = showAlertConfirmation("Sign Out",
+            "Are you sure you want to sign out?");
+    if (result.isPresent() && result.get() == ButtonType.OK) {
+      SignOutController.handleUserSignOut(getClass());
+      Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      currentStage.close();
     }
   }
 
   @FXML
-  private void handleSignOutButton(ActionEvent event) {
-    SignOutController.handleUserSignOut(getClass());
-    Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    currentStage.close();
+  private void handleLibFAQsButton(ActionEvent actionEvent) {
+    showSection(FAQsBPane);
+    if(!newChatButton.isVisible() && !faqSPane.isVisible()) {
+      fade(chatbotPane, 0, 1, Duration.millis(500));
+      fade(faqContainer, 0, 1, Duration.millis(500));
+    }
+  }
+
+  @FXML
+  private void handleResetFAQs(ActionEvent actionEvent) {
+    fade(faqSPane,0.5,0, Duration.millis(500));
+    fade(newChatButton,0.5,0,Duration.millis(500));
+    // CHATBOT BPane
+    fade(chatbotPane,0.5,1,Duration.millis(500));
+    fade(faqContainer,0.5,1,Duration.millis(500));
+    FAQsGPane.getChildren().clear();
+    faqSPane.setContent(FAQsGPane);
+  }
+
+  @FXML
+  private void handleRecord(MouseEvent mouseEvent) {
+    recordButton.setImage(new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream(RECORD_SOURCE))));
+    startShakingAnimation(recordButton);
+
+    SpeechToText.stopRecognition = !SpeechToText.stopRecognition;
+    if (!SpeechToText.stopRecognition) {
+      System.out.println("Start");
+      Task<Void> record = new Task<>() {
+        @Override
+        protected Void call() throws Exception {
+          faqsController.record();
+          return null;
+        }
+      };
+      Thread thread = new Thread(record);
+      thread.setDaemon(true);
+      thread.start();
+    } else {
+      System.out.println("Stop");
+      stopShakingAnimation(recordButton);
+      recordButton.setImage(new Image(
+              Objects.requireNonNull(getClass().getResourceAsStream(MIRCO_SOURCE))));
+    }
+  }
+
+  @FXML
+  private void handleMouseEnterSend(MouseEvent mouseEvent) {
+    sendTextButton.setImage(new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream(SEND_HOVER_SOURCE))));
+  }
+
+  @FXML
+  private void handleMouseExitSend(MouseEvent mouseEvent) {
+    sendTextButton.setImage(new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream(SEND_SOURCE))));
+  }
+
+  @FXML
+  private void handleSendText(MouseEvent mouseEvent) {
+    handleSendText();
+  }
+
+  private void handleSendText(){
+    faqsController.loadFAQs(FAQsGPane, faqSPane);
+    if(!newChatButton.isVisible()) fade(newChatButton,0.5,1,Duration.millis(500));
+    if(!faqSPane.isVisible()) fade(faqSPane,0.5,1,Duration.millis(500));
+    if(chatbotPane.isVisible()) fade(chatbotPane,0.5,0,Duration.millis(500));
   }
 }
