@@ -1,18 +1,20 @@
 package library.management.ui.controllers;
 
 import com.jfoenix.controls.JFXTextArea;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class FAQsContainerController {
 
-  public VBox faqContainer;
-  public Label name;
-  public JFXTextArea textContainer;
+  @FXML
+  private VBox faqContainer;
+  @FXML
+  private Label name;
+  @FXML
+  private JFXTextArea textContainer;
 
   public FAQsContainerController() {
   }

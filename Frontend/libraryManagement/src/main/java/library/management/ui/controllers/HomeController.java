@@ -19,6 +19,7 @@ import library.management.data.DAO.DocumentDAO;
 import library.management.data.DAO.SuggestionDAO;
 import library.management.data.DataStructure.Trie;
 import library.management.data.entity.Document;
+import library.management.properties;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,18 +27,14 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class HomeController extends GeneralController {
+public class HomeController extends GeneralController implements SuggestionSearch, properties {
     private final FullUserController controller;
     private final List<List<Document>> documentList = new ArrayList<>();
     private final List<List<UserDocContainerController>> docContainerControllerList = new ArrayList<>();
     private final List<GridPane> gridPaneList = new ArrayList<>();
     private final List<Label> labelList = new ArrayList<>();
     private final ObservableList<String> documentTitleSuggestions = FXCollections.observableArrayList();
-    private ContextMenu suggestionMenu;
-    private final Trie titleTrie = new Trie();
-    private static final String DOCUMENT_CONTAINER_SOURCES = "/ui/fxml/userDocContainer.fxml";
     private final int MAX_DOCUMENT_ROW = 5;
-    private final int MAX_DOCUMENT_COL = 10;
     ObservableList<String> filterChoices = FXCollections.observableArrayList(
             "title", "author", "publisher", "isbn"
     );
@@ -90,7 +87,6 @@ public class HomeController extends GeneralController {
     }
 
     public void initializeAutoComplete() {
-        suggestionMenu = new ContextMenu();
         suggestionMenu.setAutoHide(true);
         controller.catalogSearchField.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
             String query = controller.catalogSearchField.getText().trim();
@@ -141,7 +137,7 @@ public class HomeController extends GeneralController {
                 });
                 for (int j = 0; j < documentList.get(i).size(); j++) {
                     FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
+                    fxmlLoader.setLocation(getClass().getResource(HOME_DOCUMENT_CONTAINER_SOURCES));
                     VBox docContainerVBox = fxmlLoader.load();
                     UserDocContainerController docContainerController = fxmlLoader.getController();
                     gridPaneList.get(i).add(docContainerVBox, j, 0);
@@ -175,6 +171,7 @@ public class HomeController extends GeneralController {
     private void loadDocument(String query) {
         documentList.clear();
         try {
+            int MAX_DOCUMENT_COL = 10;
             documentList.addAll(DocumentDAO.getInstance().searchAndGroupDocuments(query, controller.searchDocumentFilter.getCheckModel().getCheckedItems(), MAX_DOCUMENT_ROW, MAX_DOCUMENT_COL));
         } catch (Exception e) {
             e.printStackTrace();

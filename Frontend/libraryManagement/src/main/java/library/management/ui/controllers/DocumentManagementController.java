@@ -41,7 +41,7 @@ public class DocumentManagementController {
     private void initializeAutoCompleteUserName() {
         suggestionMenu = new ContextMenu();
         suggestionMenu.setAutoHide(true);
-        controller.userIDIssue.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+        controller.userIDIssue.addEventFilter(KeyEvent.KEY_RELEASED, _ -> {
             String query = controller.userIDIssue.getText().trim();
             if (query.isEmpty()) {
                 suggestionMenu.hide();
@@ -57,7 +57,7 @@ public class DocumentManagementController {
         suggestionMenu.getItems().clear();
         for (String suggestion : suggestions) {
             MenuItem item = new MenuItem(suggestion);
-            item.setOnAction(event -> {
+            item.setOnAction(_ -> {
                 controller.userIDIssue.setText(suggestion);
                 suggestionMenu.hide();
                 handleSearchUserInformation();
@@ -77,7 +77,7 @@ public class DocumentManagementController {
     private void initializeAutoCompleteISBN() {
         suggestionMenu = new ContextMenu();
         suggestionMenu.setAutoHide(true);
-        controller.docISBNIssue.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+        controller.docISBNIssue.addEventFilter(KeyEvent.KEY_RELEASED, _ -> {
             String query = controller.docISBNIssue.getText().trim();
             if (query.isEmpty()) {
                 suggestionMenu.hide();
@@ -93,7 +93,7 @@ public class DocumentManagementController {
         suggestionMenu.getItems().clear();
         for (String suggestion : suggestions) {
             MenuItem item = new MenuItem(suggestion);
-            item.setOnAction(event -> {
+            item.setOnAction(_ -> {
                 controller.docISBNIssue.setText(suggestion);
                 suggestionMenu.hide();
                 handleSearchDocInformation();

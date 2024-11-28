@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import library.management.data.DAO.DocumentDAO;
 import library.management.data.entity.Document;
+import library.management.properties;
 import library.management.ui.applications.CodeGenerator;
 
 import java.time.LocalDateTime;
@@ -21,18 +22,10 @@ import java.util.Optional;
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 import static library.management.alert.AlertMaker.showAlertInformation;
 
-public class ManagerDocInformationController extends GeneralController {
-    private final static double DX = 800;
-    private final static Duration DURATION = Duration.millis(1000);
-    private final static int QR_HEIGHT = 150;
-    private final static int QR_WIDTH = 150;
-    private final static int BARCODE_HEIGHT = 100;
-    private final static int BARCODE_WIDTH = 250;
-
+public class ManagerDocInformationController extends GeneralController implements properties {
     boolean check = true;
     private Image QRImage;
     private Image barcodeImage;
-    private Image image;
     private Document document;
 
     @FXML
@@ -75,7 +68,6 @@ public class ManagerDocInformationController extends GeneralController {
 
     public void loadDocData(Document doc, Image thumbnail) {
         this.document = doc;
-        this.image = thumbnail;
         titleInfo.setText(doc.getTitle());
         authorInfo.setText(doc.getAuthor());
         publisherInfo.setText(doc.getPublisher());
@@ -83,7 +75,7 @@ public class ManagerDocInformationController extends GeneralController {
         languageInfo.setText(doc.getLanguage());
         isbnInfo.setText(doc.getIsbn());
         descriptionInfo.setText(doc.getDescription());
-        thumbnailImageInfo.setImage(image);
+        thumbnailImageInfo.setImage(thumbnail);
         titleHeading.textProperty().set(doc.getTitle());
         setCodeImage();
         qrImageInfo.setImage(QRImage);

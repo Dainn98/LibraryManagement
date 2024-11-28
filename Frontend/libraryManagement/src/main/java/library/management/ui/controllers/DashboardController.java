@@ -18,7 +18,6 @@ public class DashboardController extends GeneralController {
   }
 
   public void loadDashBoardData() {
-    // load docBChart
     controller.docBChart.getData().clear();
     controller.userBChart.getData().clear();
     XYChart.Series<String, Number> documentInformation = new XYChart.Series<>();

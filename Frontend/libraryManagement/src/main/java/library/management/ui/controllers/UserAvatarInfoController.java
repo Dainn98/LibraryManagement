@@ -10,16 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
+import library.management.properties;
 
 import java.io.IOException;
 
-public class UserAvatarInfoController {
-
-    private static final String SETTINGS_SOURCE = "/ui/fxml/settings.fxml";
+public class UserAvatarInfoController implements properties {
 
     @FXML
     public VBox avatarVBox;

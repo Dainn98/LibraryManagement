@@ -16,6 +16,7 @@ import library.management.data.DAO.LoanDAO;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
 import library.management.data.entity.User;
+import library.management.properties;
 import library.management.ui.applications.CodeGenerator;
 
 import java.time.LocalDateTime;
@@ -25,14 +26,7 @@ import java.util.Optional;
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 import static library.management.alert.AlertMaker.showAlertInformation;
 
-public class UserDocInformationController extends GeneralController {
-    private final static double DX = 800;
-    private final static Duration DURATION = Duration.millis(1000);
-    private final static int QR_HEIGHT = 150;
-    private final static int QR_WIDTH = 150;
-    private final static int BARCODE_HEIGHT = 100;
-    private final static int BARCODE_WIDTH = 250;
-
+public class UserDocInformationController extends GeneralController implements properties {
     boolean check = true;
     private Image QRImage;
     private Image barcodeImage;

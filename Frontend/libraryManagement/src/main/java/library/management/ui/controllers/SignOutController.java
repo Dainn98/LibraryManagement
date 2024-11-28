@@ -1,27 +1,14 @@
 package library.management.ui.controllers;
 
-import static library.management.alert.AlertMaker.showAlertConfirmation;
-
 import java.io.IOException;
-import java.util.Optional;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class SignOutController {
-
-  public static void handleManagerSignOut(Class<? extends MainController> aClass) {
-    handleSignOut();
-  }
-
-  public static void handleUserSignOut(Class<? extends FullUserController> aClass) {
-    handleSignOut();
-  }
-
-  private static void handleSignOut() {
+  public static void handleSignOut() {
     try {
       FXMLLoader loader = new FXMLLoader();
       loader.setLocation(SignOutController.class.getResource("/ui/fxml/modernLogin.fxml"));

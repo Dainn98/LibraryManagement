@@ -20,6 +20,7 @@ import library.management.data.entity.User;
 import library.management.main;
 
 import static library.management.alert.AlertMaker.showAlertInformation;
+import static library.management.ui.controllers.SettingsController.checkPassWord;
 
 public class ModernLoginController  extends GeneralController implements Initializable {
 
@@ -257,27 +258,7 @@ public class ModernLoginController  extends GeneralController implements Initial
      * Validates the password format.
      */
     private boolean isValidPassword(String password) {
-        if (password.length() < 6) {
-            showAlertInformation("Invalid Password",
-                    "The password must be at least six characters long.");
-            return false;
-        }
-        if (!password.matches(".*[a-zA-Z].*")) {
-            showAlertInformation("Invalid Password",
-                    "The password must contain at least one alphabetic character.");
-            return false;
-        }
-        if (!password.matches(".*[0-9].*")) {
-            showAlertInformation("Invalid Password",
-                    "The password must contain at least one numeric digit.");
-            return false;
-        }
-        if (!password.matches(".*[!@#$%^&*()_+\\-\\[\\]{};':\"\\\\|,.<>/?].*")) {
-            showAlertInformation("Invalid Password",
-                    "The password must contain at least one special character.");
-            return false;
-        }
-        return true;
+        return checkPassWord(password);
     }
 
 }

@@ -23,15 +23,13 @@ import library.management.data.entity.Document;
 import library.management.properties;
 import library.management.ui.applications.GoogleBooksAPI;
 
-public class CatalogController implements properties {
+public class CatalogController implements properties, SuggestionSearch {
     private final MainController controller;
     private final List<Document> APIdocumentList = new ArrayList<>();
     private final List<Document> localDocumentList = new ArrayList<>();
     private final List<DocContainerController> APIDocContainerControllerList = new ArrayList<>();
     private final List<DocContainerController> localDocContainerControllerList = new ArrayList<>();
     private final ObservableList<String> documentTitleSuggestions = FXCollections.observableArrayList();
-    private ContextMenu suggestionMenu;
-    private final Trie titleTrie = new Trie();
 
     public CatalogController(MainController controller) {
         this.controller = controller;
@@ -66,7 +64,7 @@ public class CatalogController implements properties {
         row = 1;
         try {
             for (int i = 0; i < CatalogController.CATALOG_DOCUMENT_MAX; i++) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
+                var fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
                 VBox docContainerVBox = fxmlLoader.load();
                 DocContainerController docContainerController = fxmlLoader.getController();
@@ -92,7 +90,7 @@ public class CatalogController implements properties {
             final int index = i;
             Task<Void> loadController = new Task<>() {
                 @Override
-                protected Void call() throws Exception {
+                protected Void call() {
                     APIDocContainerControllerList.get(index).setData(APIdocumentList.get(index));
                     return null;
                 }
@@ -103,7 +101,7 @@ public class CatalogController implements properties {
             final int index = i;
             Task<Void> loadController = new Task<>() {
                 @Override
-                protected Void call() throws Exception {
+                protected Void call() {
                     localDocContainerControllerList.get(index).setData(localDocumentList.get(index));
                     return null;
                 }
@@ -127,9 +125,8 @@ public class CatalogController implements properties {
     }
 
     public void initializeAutoComplete() {
-        suggestionMenu = new ContextMenu();
         suggestionMenu.setAutoHide(true);
-        controller.catalogSearchField.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+        controller.catalogSearchField.addEventFilter(KeyEvent.KEY_RELEASED, _ -> {
             String query = controller.catalogSearchField.getText().trim();
             if (query.isEmpty()) {
                 suggestionMenu.hide();
@@ -145,7 +142,7 @@ public class CatalogController implements properties {
         suggestionMenu.getItems().clear();
         for (String suggestion : suggestions) {
             MenuItem item = new MenuItem(suggestion);
-            item.setOnAction(event -> {
+            item.setOnAction(_ -> {
                 controller.catalogSearchField.setText(suggestion);
                 suggestionMenu.hide();
                 titleTrie.incrementFrequency(suggestion);

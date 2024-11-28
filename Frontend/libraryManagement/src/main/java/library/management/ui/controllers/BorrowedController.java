@@ -11,39 +11,25 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import library.management.data.DAO.LoanDAO;
-import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
 import library.management.properties;
 
-public class BorrowedController implements properties {
-
-  private final FullUserController controller;
-  private final List<Loan> borrowingLoanList = new ArrayList<>();
-  private final List<Document> borrowingDocumentList = new ArrayList<>();
-  private final List<UserDocContainerController> docContainerControllerList = new ArrayList<>();
-
-  public BorrowedController(FullUserController controller) {
-    this.controller = controller;
-  }
-
-  public FullUserController getController() {
-    return controller;
-  }
+public record BorrowedController(FullUserController controller) implements properties, UserVBoxDocument {
 
   public void initBorrowedDocuments() {
   }
 
   public void loadBorrowingDocument() {
     controller.borrowViewGPane.getChildren().clear();
-    borrowingLoanList.clear();
-    borrowingDocumentList.clear();
+    loanList.clear();
+    documentList.clear();
     docContainerControllerList.clear();
-    borrowingLoanList.addAll(
-        LoanDAO.getInstance().getBorrowingLoanByUserName(controller.getMainUserName()));
+    loanList.addAll(
+            LoanDAO.getInstance().getBorrowingLoanByUserName(controller.getMainUserName()));
     int column = 0;
     int row = 1;
     try {
-      for (int i = 0; i < borrowingLoanList.size(); i++) {
+      for (int i = 0; i < loanList.size(); i++) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource(DOCUMENT_USER_CONTAINER_SOURCES));
         VBox docContainerVBox = fxmlLoader.load();
@@ -60,21 +46,21 @@ public class BorrowedController implements properties {
       e.printStackTrace();
     }
     try {
-      for (Loan loan : borrowingLoanList) {
-        borrowingDocumentList.add(loan.getDocument());
+      for (Loan loan : loanList) {
+        documentList.add(loan.getDocument());
       }
     } catch (Exception e) {
       e.printStackTrace();
     }
     List<Task<Void>> tasks = new ArrayList<>();
-    for (int i = 0; i < borrowingDocumentList.size(); ++i) {
+    for (int i = 0; i < documentList.size(); ++i) {
       final int index = i;
       Task<Void> loadController = new Task<>() {
         @Override
         protected Void call() throws Exception {
           docContainerControllerList.get(index)
-              .setDocData(borrowingDocumentList.get(index), borrowingLoanList.get(index),
-                  UserDocContainerController.BORROWING_DOCUMENT);
+                  .setDocData(documentList.get(index), loanList.get(index),
+                          UserDocContainerController.BORROWING_DOCUMENT);
           return null;
         }
       };

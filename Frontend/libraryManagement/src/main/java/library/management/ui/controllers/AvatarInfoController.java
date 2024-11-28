@@ -22,8 +22,6 @@ import library.management.properties;
 
 public class AvatarInfoController implements properties {
 
-    private static final String SETTINGS_SOURCE = "/ui/fxml/settings.fxml";
-
     @FXML
     public VBox avatarVBox;
     @FXML

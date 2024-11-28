@@ -7,7 +7,6 @@ import library.management.properties;
 
 
 public class AvatarController implements properties {
-
   private MainController controller;
 
   public AvatarController() {

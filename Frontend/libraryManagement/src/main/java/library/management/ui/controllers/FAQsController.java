@@ -25,7 +25,6 @@ import javax.sound.sampled.TargetDataLine;
 
 public class FAQsController implements properties {
 
-
   private final FullUserController userController;
   private final MainController controller;
   @FXML
@@ -68,99 +67,71 @@ public class FAQsController implements properties {
 
   public void loadFAQs(GridPane gPane, ScrollPane faqSPane) {
     if (controller != null) {
-      String question = controller.faqRequestContainer.getText().trim();
-      VBox userInputSection = createFAQsContainer(new Label("User:"), question,
-              faqSPane, RIGHT);
-      int rowCount = gPane.getRowCount();
-      gPane.add(userInputSection, 0, rowCount);
-      faqSPane.setContent(gPane);
-      controller.faqRequestContainer.clear();
-
-      Task<VBox> getAnswer = new Task<>() {
-        @Override
-        protected VBox call() throws Exception {
-          String answer = ApiGoogleGemini.sendPostRequest(question);
-          return createFAQsContainer(new Label("Response:"), answer,
-                  faqSPane, LEFT);
-        }
-      };
-      getAnswer.setOnSucceeded(event -> {
-        gPane.add(getAnswer.getValue(), 0, rowCount + 1);
-        faqSPane.setContent(gPane);
-      });
-      Thread thread = new Thread(getAnswer);
-      thread.setDaemon(true);
-      thread.start();
+      loadQuestion(gPane, faqSPane, controller.faqRequestContainer);
     } else {
-      String question = userController.faqRequestContainer.getText().trim();
-      VBox userInputSection = createFAQsContainer(new Label("User:"), question,
-              faqSPane, RIGHT);
-      int rowCount = gPane.getRowCount();
-      gPane.add(userInputSection, 0, rowCount);
-      faqSPane.setContent(gPane);
-      userController.faqRequestContainer.clear();
-
-      Task<VBox> getAnswer = new Task<>() {
-        @Override
-        protected VBox call() throws Exception {
-          String answer = ApiGoogleGemini.sendPostRequest(question);
-          return createFAQsContainer(new Label("Response:"), answer,
-                  faqSPane, LEFT);
-        }
-      };
-      getAnswer.setOnSucceeded(event -> {
-        gPane.add(getAnswer.getValue(), 0, rowCount + 1);
-        faqSPane.setContent(gPane);
-      });
-      Thread thread = new Thread(getAnswer);
-      thread.setDaemon(true);
-      thread.start();
+      loadQuestion(gPane, faqSPane, userController.faqRequestContainer);
     }
+  }
+
+  private void loadQuestion(GridPane gPane, ScrollPane faqSPane, JFXTextArea faqRequestContainer) {
+    String question = faqRequestContainer.getText().trim();
+    VBox userInputSection = createFAQsContainer(new Label("User:"), question,
+            faqSPane, RIGHT);
+    int rowCount = gPane.getRowCount();
+    gPane.add(userInputSection, 0, rowCount);
+    faqSPane.setContent(gPane);
+    faqRequestContainer.clear();
+
+    Task<VBox> getAnswer = new Task<>() {
+      @Override
+      protected VBox call() {
+        String answer = ApiGoogleGemini.sendPostRequest(question);
+        return createFAQsContainer(new Label("Response:"), answer,
+                faqSPane, LEFT);
+      }
+    };
+    getAnswer.setOnSucceeded(_ -> {
+      gPane.add(getAnswer.getValue(), 0, rowCount + 1);
+      faqSPane.setContent(gPane);
+    });
+    Thread thread = new Thread(getAnswer);
+    thread.setDaemon(true);
+    thread.start();
   }
 
   public void record() {
     Recognizer recognizer = SpeechToText.getRecognizer();
     DataLine.Info info = new DataLine.Info(TargetDataLine.class, SpeechToText.format);
     if (!AudioSystem.isLineSupported(info)) {
-      System.err.println("Micro không được hỗ trợ.");
+      System.err.println("Micro is not supported.");
       return;
     }
     try (TargetDataLine microphone = (TargetDataLine) AudioSystem.getLine(info)) {
       if (controller != null) {
-        microphone.open(SpeechToText.format);
-        microphone.start();
-        byte[] buffer = new byte[4096];
-        while (!SpeechToText.stopRecognition) {
-          int bytesRead = microphone.read(buffer, 0, buffer.length);
-          if (recognizer.acceptWaveForm(buffer, bytesRead)) {
-            String result = recognizer.getResult();
-            String text = SpeechToText.extractTextFromJson(result);
-            if (!text.isEmpty()) {
-              controller.faqRequestContainer.setText(
-                      controller.faqRequestContainer.getText() + " " + text);
-              System.out.println(text + " ");
-            }
-          }
-        }
+        initMicro(recognizer, microphone, controller.faqRequestContainer);
       } else {
-        microphone.open(SpeechToText.format);
-        microphone.start();
-        byte[] buffer = new byte[4096];
-        while (!SpeechToText.stopRecognition) {
-          int bytesRead = microphone.read(buffer, 0, buffer.length);
-          if (recognizer.acceptWaveForm(buffer, bytesRead)) {
-            String result = recognizer.getResult();
-            String text = SpeechToText.extractTextFromJson(result);
-            if (!text.isEmpty()) {
-              userController.faqRequestContainer.setText(
-                      userController.faqRequestContainer.getText() + " " + text);
-              System.out.println(text + " ");
-            }
-          }
-        }
+        initMicro(recognizer, microphone, userController.faqRequestContainer);
       }
     } catch (LineUnavailableException e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  private void initMicro(Recognizer recognizer, TargetDataLine microphone, JFXTextArea faqRequestContainer) throws LineUnavailableException {
+    microphone.open(SpeechToText.format);
+    microphone.start();
+    byte[] buffer = new byte[4096];
+    while (!SpeechToText.stopRecognition) {
+      int bytesRead = microphone.read(buffer, 0, buffer.length);
+      if (recognizer.acceptWaveForm(buffer, bytesRead)) {
+        String result = recognizer.getResult();
+        String text = SpeechToText.extractTextFromJson(result);
+        if (!text.isEmpty()) {
+          faqRequestContainer.setText(
+                  faqRequestContainer.getText() + " " + text);
+          System.out.println(text + " ");
+        }
+      }
     }
   }
 }

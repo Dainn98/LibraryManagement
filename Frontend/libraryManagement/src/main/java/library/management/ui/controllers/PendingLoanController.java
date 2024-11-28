@@ -236,7 +236,6 @@ public class PendingLoanController {
                                 showAlertInformation("Cannot Approve", "Error updating document copies for loan ID: " + loan.getLoanID());
                             } else if (LoanDAO.getInstance().approve(loan) <= 0) {
                                 showAlertInformation("Cannot Approve", "Error approving loan for loan ID: " + loan.getLoanID());
-                                // Rollback in case of approval failure
                                 DocumentDAO.getInstance().decreaseAvailableCopies(loan.getIntDocumentId(), -loan.getQuantityOfBorrow());
                             }
                         } else if (loan.getStatus().equals("pendingReturned")) {

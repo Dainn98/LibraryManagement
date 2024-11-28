@@ -17,44 +17,13 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
+import library.management.properties;
 import library.management.ui.applications.ImageDownloader;
 
 import java.io.IOException;
 import java.util.Objects;
 
-public class UserDocContainerController extends GeneralController {
-
-    public static int HOME_DOCUMENT = 100;
-    public static int BORROWING_DOCUMENT = 200;
-    public static int PROCESSING_DOCUMENT = 300;
-
-    private final String[] colors = {"D1E8FF", // Light Blue
-            "FFF7D1", // Light Yellow
-            "FFE4E6", // Light Pink
-            "E8F0FE", // Lighter Blue
-            "F0F8E8", // Light Green
-            "FEE8F0", // Light Blush
-            "FFF0E8", // Light Orange
-            "E8FFE8", // Light Greenish
-            "E8F7FF", // Ice Blue
-            "F5E8FF", // Light Purple
-            "FFFBE8", // Cream Yellow
-            "E8FFF5", // Light Jade
-            "F8E8FF", // Pastel Purple
-            "E0BBE4", // Light Purple
-            "957DAD", // Medium Purple
-            "D291BC", // Light Pink
-            "FEC8D8", // Light Coral
-            "FFDFD3", // Light Peach
-            "C8E6C9", // Light Green
-            "B3E5FC", // Light Blue
-            "FFCCBC", // Light Orange
-            "D1C4E9", // Light Lavender
-            "F8BBD0", // Light Pink
-            "DCEDC8", // Light Lime
-            "FFECB3", // Light Yellow
-            "CFD8DC"  // Light Gray
-    };
+public class UserDocContainerController extends GeneralController implements properties {
     private Image image;
     private Document document;
     private Loan loan;

@@ -100,8 +100,6 @@ public class MainController  extends GeneralController implements Initializable,
     @FXML
     protected TextField searchDocTField;
     @FXML
-    protected JFXButton importDataButton;
-    @FXML
     protected TableView<Document> docView;
     @FXML
     protected TableColumn<Document, Boolean> checkDocView;
@@ -731,7 +729,7 @@ public class MainController  extends GeneralController implements Initializable,
         Optional<ButtonType> result = showAlertConfirmation("Sign Out",
                 "Are you sure you want to sign out?");
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            SignOutController.handleManagerSignOut(getClass());
+            SignOutController.handleSignOut();
             Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             currentStage.close();
         }

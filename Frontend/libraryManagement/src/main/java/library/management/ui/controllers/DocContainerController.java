@@ -1,13 +1,7 @@
 package library.management.ui.controllers;
 
-
-import static library.management.alert.AlertMaker.showAlertConfirmation;
-import static library.management.alert.AlertMaker.showAlertInformation;
-
-import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -25,38 +19,9 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import library.management.data.entity.Document;
 import library.management.properties;
-import library.management.ui.applications.CodeGenerator;
 import library.management.ui.applications.ImageDownloader;
 
 public class DocContainerController extends GeneralController implements properties {
-
-  private final String[] colors = {"D1E8FF", // Light Blue
-      "FFF7D1", // Light Yellow
-      "FFE4E6", // Light Pink
-      "E8F0FE", // Lighter Blue
-      "F0F8E8", // Light Green
-      "FEE8F0", // Light Blush
-      "FFF0E8", // Light Orange
-      "E8FFE8", // Light Greenish
-      "E8F7FF", // Ice Blue
-      "F5E8FF", // Light Purple
-      "FFFBE8", // Cream Yellow
-      "E8FFF5", // Light Jade
-      "F8E8FF", // Pastel Purple
-      "E0BBE4", // Light Purple
-      "957DAD", // Medium Purple
-      "D291BC", // Light Pink
-      "FEC8D8", // Light Coral
-      "FFDFD3", // Light Peach
-      "C8E6C9", // Light Green
-      "B3E5FC", // Light Blue
-      "FFCCBC", // Light Orange
-      "D1C4E9", // Light Lavender
-      "F8BBD0", // Light Pink
-      "DCEDC8", // Light Lime
-      "FFECB3", // Light Yellow
-      "CFD8DC"  // Light Gray
-  };
   private Image image;
   private Document document;
   @FXML
@@ -108,7 +73,7 @@ public class DocContainerController extends GeneralController implements propert
 
   private void startAutoRotateBack() {
     PauseTransition pause = new PauseTransition(Duration.seconds(1));
-    pause.setOnFinished(event -> {
+    pause.setOnFinished(_ -> {
       if (!docCatalogView.isHover()) {
         rotate3D(docInfo, 0, 1, docThumbnail, 270, 1, 90, Duration.millis(1000));
       }
@@ -117,7 +82,7 @@ public class DocContainerController extends GeneralController implements propert
   }
 
   @FXML
-  private void handlePressDocInfo(MouseEvent mouseEvent) throws IOException {
+  private void handlePressDocInfo(MouseEvent mouseEvent) {
       if (this.document == null) {
         return;
       }
@@ -128,7 +93,7 @@ public class DocContainerController extends GeneralController implements propert
       Stage stage = new Stage();
       stage.setTitle(DOC_INFORMATION_TITLE);
 
-      Image icon = new Image(getClass().getResourceAsStream(ICON_SOURCE));
+      Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ICON_SOURCE)));
       stage.getIcons().add(icon);
 
       ManagerDocInformationController controller = fxmlLoader.getController();
@@ -136,9 +101,7 @@ public class DocContainerController extends GeneralController implements propert
 
       stage.setResizable(false);
       stage.setScene(new Scene(root));
-      stage.setOnCloseRequest((WindowEvent event) -> {
-        stage.close();
-      });
+      stage.setOnCloseRequest((WindowEvent _) -> stage.close());
       stage.show();
     } catch (IOException e) {
       e.printStackTrace();
