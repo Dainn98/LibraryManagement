@@ -13,5 +13,5 @@ public interface properties {
   static final String FAQS_CONTAINER_SOURCE = "/ui/fxml/faqContainer.fxml";
   static final boolean RIGHT = false;
   static final boolean LEFT = true;
-  
+  static final String SETTINGS_SOURCE = "/ui/fxml/settings.fxml";
 }

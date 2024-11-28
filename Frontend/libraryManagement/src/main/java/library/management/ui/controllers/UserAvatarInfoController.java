@@ -13,7 +13,7 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
-public class AvatarInfoController {
+public class UserAvatarInfoController {
 
     private static final String SETTINGS_SOURCE = "/ui/fxml/settings.fxml";
 
@@ -26,15 +26,15 @@ public class AvatarInfoController {
     @FXML
     public JFXButton settingsButton;
 
-    private MainController controller;
+    private FullUserController controller;
 
-    public void initialize(MainController controller) {
+    public void initialize(FullUserController controller) {
         this.controller = controller;
         setData();
     }
 
     public void setData() {
-        this.manaName.setText(controller.getManagerName());
+        this.manaName.setText(controller.getMainUserName());
     }
 
     @FXML
@@ -51,12 +51,12 @@ public class AvatarInfoController {
             Stage stage = new Stage();
             stage.setTitle("Settings");
             SettingsController controller = fxmlLoader.getController();
-            controller.setMainController(this.controller);
+            controller.setFullUserControllerController(this.controller);
             controller.setData();
 
             stage.setResizable(false);
             stage.setScene(new Scene(root));
-            stage.setOnCloseRequest((WindowEvent event) -> {
+            stage.setOnCloseRequest((WindowEvent windowEvent) -> {
                 stage.close();
             });
             stage.show();

@@ -7,7 +7,9 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 
 import com.jfoenix.controls.JFXTextArea;
+
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -40,7 +42,10 @@ import library.management.data.entity.Loan;
 import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.properties;
+import library.management.ui.applications.SpeechToText;
 import org.controlsfx.control.CheckComboBox;
+
+import static library.management.alert.AlertMaker.showAlertConfirmation;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class MainController implements Initializable, properties, GeneralController {
@@ -576,7 +581,7 @@ public class MainController implements Initializable, properties, GeneralControl
 
     @FXML
     private void importData(ActionEvent actionEvent) {
-      //To Do
+        //To Do
     }
 
     @FXML
@@ -632,12 +637,12 @@ public class MainController implements Initializable, properties, GeneralControl
     //ANOTHER
     @FXML
     private void requestMenu(ContextMenuEvent contextMenuEvent) {
-      //To Do
+        //To Do
     }
 
     @FXML
     private void fetchUserWithKey(KeyEvent event) {
-      //To Do
+        //To Do
     }
 
     @FXML
@@ -682,18 +687,38 @@ public class MainController implements Initializable, properties, GeneralControl
      */
     @FXML
     public void handleSignOutButton(ActionEvent actionEvent) {
-        SignOutController.handleManagerSignOut(getClass());
-        Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        currentStage.close();
+        Optional<ButtonType> result = showAlertConfirmation("Sign Out",
+                "Are you sure you want to sign out?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            SignOutController.handleManagerSignOut(getClass());
+            Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            currentStage.close();
+        }
     }
 
-//    FAQs
-  public void handleRecord(MouseEvent mouseEvent) {
-      //To Do
-  }
+    //    FAQs
+    @FXML
+    private void handleRecord(MouseEvent mouseEvent) {
+        SpeechToText.stopRecognition = !SpeechToText.stopRecognition;
+        if (!SpeechToText.stopRecognition) {
+            System.out.println("Start");
+            Task<Void> record = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    faqsController.record();
+                    return null;
+                }
+            };
+            Thread thread = new Thread(record);
+            thread.setDaemon(true);
+            thread.start();
+        } else {
+            System.out.println("Stop");
+        }
+    }
 
-  public void handleSendText(MouseEvent mouseEvent) {
-     faqsController.loadFAQs(FAQsGPane, faqSPane);
-  }
+    public void handleSendText(MouseEvent mouseEvent) {
+        faqsController.loadFAQs(FAQsGPane, faqSPane);
+    }
 }
 
