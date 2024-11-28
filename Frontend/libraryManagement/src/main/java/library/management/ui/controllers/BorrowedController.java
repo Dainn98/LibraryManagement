@@ -22,7 +22,6 @@ public class BorrowedController implements properties {
   private final List<Document> borrowingDocumentList = new ArrayList<>();
   private final List<UserDocContainerController> docContainerControllerList = new ArrayList<>();
 
-
   public BorrowedController(FullUserController controller) {
     this.controller = controller;
   }

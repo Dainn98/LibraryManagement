@@ -95,6 +95,7 @@ public class ModernLoginController  extends GeneralController implements Initial
         }
         if (UserDAO.getInstance().doesEmailExist(userEmail)) {
             showAlertInformation("Sign Up Failed", "Email is already used by another user.");
+            return;
         }
         if (!validateInputs(userName, userEmail, userIdentityCard, userPassword, confPassword)) {
             return;

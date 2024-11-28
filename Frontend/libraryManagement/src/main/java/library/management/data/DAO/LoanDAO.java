@@ -633,5 +633,4 @@ public class LoanDAO implements DAOInterface<Loan> {
 
         return loanList;
     }
-
 }

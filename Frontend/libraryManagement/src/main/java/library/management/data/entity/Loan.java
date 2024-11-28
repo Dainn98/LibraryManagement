@@ -18,7 +18,7 @@ public class Loan {
     private Document document;
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    public static final double LATEFEE = 0.5;
+    public static final double LATE_FEE = 0.5;
 
     public Loan() {
         super();

@@ -51,47 +51,42 @@ public class AvatarInfoController implements properties {
     private void handleThemeButton(ActionEvent actionEvent) {
         TranslateTransition transition = new TranslateTransition();
         transition.setNode(Circle);
-        transition.setDuration(Duration.millis(500)); // Thời gian chuyển động
+        transition.setDuration(Duration.millis(500));
         transition.setFromX(Circle.getTranslateX());
 
         if (themeButton.isSelected()) {
-            System.out.println("Toggle is ON"); // Khi bật
-            transition.setToX(150- Circle.getRadius() * 2); // Di chuyển hình tròn sang phải
-            controller.path = getClass().getResource("/ui/css/dark-theme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
-            controller.mainStackPane.getStylesheets().clear(); // Xóa các stylesheet hiện tại
+            System.out.println("Toggle is ON");
+            transition.setToX(150- Circle.getRadius() * 2);
+            controller.path = getClass().getResource("/ui/css/dark-theme.css").toExternalForm();
+            controller.mainStackPane.getStylesheets().clear();
             controller.mainStackPane.getStylesheets().add(controller.path);
-            isOn = true; // Đặt trạng thái là bật
+            isOn = true;
         } else {
             System.out.println("Toggle is OFF"); // Khi tắt
-            transition.setToX(0); // Di chuyển hình tròn về bên trái
-            controller.path = getClass().getResource("/ui/css/myTheme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
-            controller.mainStackPane.getStylesheets().clear(); // Xóa các stylesheet hiện tại
+            transition.setToX(0);
+            controller.path = getClass().getResource("/ui/css/myTheme.css").toExternalForm();
+            controller.mainStackPane.getStylesheets().clear();
             controller.mainStackPane.getStylesheets().add(controller.path);
-            isOn = false; // Đặt trạng thái là tắt
+            isOn = false;
         }
-
-        // Chạy hiệu ứng chuyển động
         transition.play();
-        //controller.handleSignOutButton(actionEvent);
     }
 
-  @FXML
-  private void handleSettingsButton(ActionEvent actionEvent) {
-    try {
-      FXMLLoader fxmlLoader = new FXMLLoader();
-      fxmlLoader.setLocation(getClass().getResource(SETTINGS_SOURCE));
-      Parent root = fxmlLoader.load();
-      Stage stage = new Stage();
+    @FXML
+    private void handleSettingsButton(ActionEvent actionEvent) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource(SETTINGS_SOURCE));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
 
-      Image icon = new Image(getClass().getResourceAsStream(ICON_SOURCE));
-      stage.getIcons().add(icon);
+            Image icon = new Image(getClass().getResourceAsStream(ICON_SOURCE));
+            stage.getIcons().add(icon);
 
-      stage.setTitle(SETTINGS_TITLE);
-      SettingsController controller = fxmlLoader.getController();
-      controller.setMainController(this.controller);
-      controller.setData();
-
-
+            stage.setTitle(SETTINGS_TITLE);
+            SettingsController controller = fxmlLoader.getController();
+            controller.setMainController(this.controller);
+            controller.setData();
             stage.setResizable(false);
             stage.setScene(new Scene(root));
             stage.setOnCloseRequest((WindowEvent event) -> {

@@ -24,6 +24,8 @@ import static library.management.alert.AlertMaker.showAlertInformation;
 public class SettingsController {
 
     @FXML
+    private Label nameTitle;
+    @FXML
     private SVGPath sendCode;
     @FXML
     private TextField phoneNumberTextField;
@@ -53,8 +55,6 @@ public class SettingsController {
     private TextField code;
     @FXML
     private TextField emailTextField;
-
-
 
     private MainController mainController;
     private FullUserController fullUserController;
@@ -145,10 +145,12 @@ public class SettingsController {
         if (type == MANAGER_SETTING) {
             this.manager = mainController.getMainManager();
             this.name.setText(manager.getManagerName());
+            this.nameTitle.setText(manager.getManagerName());
             resetInformation();
         } else {
-            this.user = fullUserController.getMainUser();
+            this.user = FullUserController.getMainUser();
             this.name.setText(user.getUserName());
+            this.nameTitle.setText(user.getUserName());
             resetInformation();
         }
     }

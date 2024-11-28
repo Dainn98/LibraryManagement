@@ -138,7 +138,7 @@ public class UserDocInformationController extends GeneralController {
             borrowingDateLabel.setText(this.loan.getDateOfBorrowAsString());
             dueDateLabel.setText(this.loan.getRequiredReturnDateAsString());
             quantityLabel.setText(String.valueOf(this.loan.getQuantityOfBorrow()));
-            lateFeeLabel.setText(Loan.LATEFEE + "$/day");
+            lateFeeLabel.setText(Loan.LATE_FEE + "$/day");
             mainButton.setText("Return");
             mainButton.setOnAction(this::handleReturn);
         } else if (this.type == UserDocContainerController.PROCESSING_DOCUMENT) {
@@ -150,7 +150,7 @@ public class UserDocInformationController extends GeneralController {
                 quantityLabel.setText(String.valueOf(this.loan.getQuantityOfBorrow()));
                 dueDateTitle.setText("Status");
                 dueDateLabel.setText(this.loan.getStatus());
-                lateFeeLabel.setText(Loan.LATEFEE + "$/day");
+                lateFeeLabel.setText(Loan.LATE_FEE + "$/day");
             } else if (loan.getStatus().equals("pendingReturned")) {
                 borrowingDateLabel.setText(this.loan.getDateOfBorrowAsString());
                 quantityLabel.setText(String.valueOf(this.loan.getQuantityOfBorrow()));
@@ -221,7 +221,7 @@ public class UserDocInformationController extends GeneralController {
             return;
         }
         if (loan.getStatus().equals("late")) {
-            double lateFee = Loan.LATEFEE * ChronoUnit.DAYS.between(loan.getRequiredReturnDate(), LocalDateTime.now());
+            double lateFee = Loan.LATE_FEE * ChronoUnit.DAYS.between(loan.getRequiredReturnDate(), LocalDateTime.now());
             Optional<ButtonType> result = showAlertConfirmation("Return document", "This document is overdue. You have to pay a late fee of " +
                                                                 lateFee + " $.\n" +
                                                                 "Are you sure you want to return this document?");
