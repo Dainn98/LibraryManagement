@@ -123,7 +123,7 @@
                <children>
 
                   <!--              DASHBOARD-->
-                  <VBox id="dashboardVBox" fx:id="dashboardVBox" prefHeight="652.0" prefWidth="620.0" visible="false">
+                  <VBox id="dashboardVBox" fx:id="dashboardVBox" prefHeight="652.0" prefWidth="620.0">
                      <children>
                         <VBox alignment="CENTER" spacing="20" styleClass="main-content">
                            <children>
@@ -718,7 +718,7 @@
                   </BorderPane>
 
                   <!--                  LIBRARY CATALOG-->
-                  <BorderPane fx:id="catalogBPane" prefHeight="200.0" prefWidth="200.0">
+                  <BorderPane fx:id="catalogBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <top>
                         <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                            <center>

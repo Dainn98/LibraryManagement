@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import library.management.data.entity.Manager;
@@ -34,6 +35,9 @@ public class main extends Application implements properties {
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle(MAIN_TITLE);
+
+            Image icon = new Image(getClass().getResourceAsStream(ICON_SOURCE));
+            primaryStage.getIcons().add(icon);
 
             primaryStage.setMaximized(true);
             primaryStage.setResizable(true);
