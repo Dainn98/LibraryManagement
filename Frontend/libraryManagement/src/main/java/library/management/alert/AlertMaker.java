@@ -22,7 +22,7 @@ public class AlertMaker {
    */
   public static void showAlertInformation(String title, String message) {
     javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
-        javafx.scene.control.Alert.AlertType.INFORMATION);
+            javafx.scene.control.Alert.AlertType.INFORMATION);
     alert.setTitle(title);
     alert.setHeaderText(null);
     alert.setContentText(message);
@@ -38,7 +38,7 @@ public class AlertMaker {
    */
   public static Optional<ButtonType> showAlertConfirmation(String title, String message) {
     javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
-        javafx.scene.control.Alert.AlertType.CONFIRMATION);
+            javafx.scene.control.Alert.AlertType.CONFIRMATION);
     alert.setTitle(title);
     alert.setHeaderText(null);
     alert.setContentText(message);
@@ -53,7 +53,7 @@ public class AlertMaker {
    */
   public static void showAlertError(String title, String message) {
     javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
-        javafx.scene.control.Alert.AlertType.ERROR);
+            javafx.scene.control.Alert.AlertType.ERROR);
     alert.setTitle(title);
     alert.setHeaderText(null);
     alert.setContentText(message);

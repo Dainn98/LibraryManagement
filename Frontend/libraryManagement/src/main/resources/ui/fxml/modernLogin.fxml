@@ -70,7 +70,7 @@
                   </VBox.margin>
                 </HBox>
                 <Label text="or use your email password" />
-                <TextField fx:id="loginUsername" promptText="Email" styleClass="input-field" />
+                <TextField fx:id="loginUsername" promptText="Username" styleClass="input-field" />
                 <PasswordField fx:id="loginPassword" promptText="Password" styleClass="input-field" />
                 <Hyperlink text="Forget Your Password?" />
                 <Button fx:id="loginButton" onAction="#handleLogin" styleClass="login-button" text="SIGN IN" />

@@ -9,7 +9,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import library.management.data.DAO.ManagerDAO;
+import library.management.data.DAO.UserDAO;
 import library.management.data.entity.Manager;
+import library.management.data.entity.User;
 import library.management.ui.applications.EmailSender;
 import library.management.ui.applications.SecurityCodeGenerator;
 import org.controlsfx.control.textfield.CustomPasswordField;
@@ -51,25 +53,48 @@ public class SettingsController {
 
 
 
-    private MainController controller;
+    private MainController mainController;
+    private FullUserController fullUserController;
     private Manager manager;
+    private User user;
     private String securityCode = "Invalid Code";
     private boolean canChange = false;
     private boolean canChangeSecurity = false;
+    private int type;
 
     private final int CODE_LENGTH = 6;
+    private final int MANAGER_SETTING = 100;
+    private final int USER_SETTING = 200;
 
-    public void setController(MainController controller) {
-        this.controller = controller;
+    public void setMainController(MainController mainController) {
+        type = MANAGER_SETTING;
+        this.mainController = mainController;
+        email.setDisable(true);
+        Phone.setDisable(true);
+        name.setDisable(true);
+    }
+
+    public void setFullUserControllerController(FullUserController controller) {
+        type = USER_SETTING;
+        this.fullUserController = controller;
         email.setDisable(true);
         Phone.setDisable(true);
         name.setDisable(true);
     }
 
     public void resetInformation() {
-        String identityCard = manager.getIdentityCard();
-        String email = manager.getEmail();
-        String phone = manager.getPhoneNumber();
+        String identityCard;
+        String email;
+        String phone;
+        if (this.type == MANAGER_SETTING) {
+            identityCard = manager.getIdentityCard();
+            email = manager.getEmail();
+            phone = manager.getPhoneNumber();
+        } else {
+            identityCard = user.getIdentityCard();
+            email = user.getEmail();
+            phone = user.getPhoneNumber();
+        }
         if (identityCard == null || identityCard.isEmpty()) {
             this.identityCard.setText("Not set");
         } else {
@@ -92,11 +117,19 @@ public class SettingsController {
     }
 
     public void resetSecurityInformation() {
-        currentPassword.setText(manager.getPassword());
-        newPasswordTextField.setText("");
-        confirmPasswordTextField.setText("");
-        phoneNumberTextField.setText(manager.getPhoneNumber());
-        emailTextField.setText(manager.getEmail());
+        if (type == MANAGER_SETTING) {
+            currentPassword.setText(manager.getPassword());
+            newPasswordTextField.setText("");
+            confirmPasswordTextField.setText("");
+            phoneNumberTextField.setText(manager.getPhoneNumber());
+            emailTextField.setText(manager.getEmail());
+        } else {
+            currentPassword.setText(user.getPassword());
+            newPasswordTextField.setText("");
+            confirmPasswordTextField.setText("");
+            phoneNumberTextField.setText(user.getPhoneNumber());
+            emailTextField.setText(user.getEmail());
+        }
     }
 
     private void showSection(Object sectionToShow) {
@@ -106,9 +139,15 @@ public class SettingsController {
     }
 
     public void setData() {
-        this.manager = controller.getMainManager();
-        this.name.setText(manager.getManagerName());
-        resetInformation();
+        if (type == MANAGER_SETTING) {
+            this.manager = mainController.getMainManager();
+            this.name.setText(manager.getManagerName());
+            resetInformation();
+        } else {
+            this.user = fullUserController.getMainUser();
+            this.name.setText(user.getUserName());
+            resetInformation();
+        }
     }
 
     @FXML
@@ -137,25 +176,43 @@ public class SettingsController {
                 showAlertInformation("Error", "Phone number is invalid");
                 return;
             }
-            if (!newPhone.equals(manager.getPhoneNumber())) {
-                if (ManagerDAO.getInstance().checkManagerByPhoneNumber(newPhone)) {
-                    showAlertInformation("Error", "Phone number is already in use");
-                    return;
-                }
-            }
             if (!isValidEmail(newEmail)) {
                 showAlertInformation("Error", "Email is invalid");
                 return;
             }
-            if (!newEmail.equals(manager.getEmail())) {
-                if (ManagerDAO.getInstance().checkManagerByEmail(newEmail)) {
-                    showAlertInformation("Error", "Email is already in use");
-                    return;
+            if (type == MANAGER_SETTING) {
+                if (!newPhone.equals(manager.getPhoneNumber())) {
+                    if (ManagerDAO.getInstance().checkManagerByPhoneNumber(newPhone)) {
+                        showAlertInformation("Error", "Phone number is already in use");
+                        return;
+                    }
                 }
+                if (!newEmail.equals(manager.getEmail())) {
+                    if (ManagerDAO.getInstance().checkManagerByEmail(newEmail)) {
+                        showAlertInformation("Error", "Email is already in use");
+                        return;
+                    }
+                }
+                manager.setPhoneNumber(newPhone);
+                manager.setEmail(newEmail);
+                ManagerDAO.getInstance().update(manager);
+            } else {
+                if (!newPhone.equals(user.getPhoneNumber())) {
+                    if (UserDAO.getInstance().doesPhoneNumberExist(newPhone)) {
+                        showAlertInformation("Error", "Phone number is already in use");
+                        return;
+                    }
+                }
+                if (!newEmail.equals(user.getEmail())) {
+                    if (UserDAO.getInstance().doesEmailExist(newEmail)) {
+                        showAlertInformation("Error", "Email is already in use");
+                        return;
+                    }
+                }
+                user.setPhoneNumber(newPhone);
+                user.setEmail(newEmail);
+                UserDAO.getInstance().update(user);
             }
-            manager.setPhoneNumber(newPhone);
-            manager.setEmail(newEmail);
-            ManagerDAO.getInstance().update(manager);
             showAlertInformation("Success!", "Your information has been saved");
             Phone.setDisable(true);
             email.setDisable(true);
@@ -230,9 +287,16 @@ public class SettingsController {
     }
 
     private void sendSecurityCode() {
-        if (manager.getEmail().equals("Not set")) {
-            showAlertInformation("Error", "Email not available.");
-            return;
+        if (type == MANAGER_SETTING) {
+            if (manager.getEmail().equals("Not set")) {
+                showAlertInformation("Error", "Email not available.");
+                return;
+            }
+        } else {
+            if (user.getEmail().equals("Not set")) {
+                showAlertInformation("Error", "Email not available.");
+                return;
+            }
         }
         securityCode = SecurityCodeGenerator.generateCode(CODE_LENGTH);
         Task<Void> sendEmail = new Task<>() {
@@ -256,46 +320,90 @@ public class SettingsController {
     @FXML
     private void handleChangeSecurity(ActionEvent actionEvent) {
         if (canChangeSecurity) {
-            if (ManagerDAO.getInstance().checkManager(manager.getManagerName(), currentPassword.getText()) == null) {
-                showAlertInformation("Error", "Password is incorrect");
-                return;
-            }
-            if (!newPasswordTextField.getText().isEmpty() || !confirmPasswordTextField.getText().isEmpty()) {
-                if (!isValidPassword(newPasswordTextField.getText())) {
-                    showAlertInformation("Error", "Password is invalid");
+            if (type == MANAGER_SETTING) {
+                if (ManagerDAO.getInstance().checkManager(manager.getManagerName(), currentPassword.getText()) == null) {
+                    showAlertInformation("Error", "Password is incorrect");
                     return;
                 }
-                if (!newPasswordTextField.getText().equals(confirmPasswordTextField.getText())) {
-                    showAlertInformation("Error", "Confirm password is not match");
+                if (!newPasswordTextField.getText().isEmpty() || !confirmPasswordTextField.getText().isEmpty()) {
+                    if (!isValidPassword(newPasswordTextField.getText())) {
+                        showAlertInformation("Error", "Password is invalid");
+                        return;
+                    }
+                    if (!newPasswordTextField.getText().equals(confirmPasswordTextField.getText())) {
+                        showAlertInformation("Error", "Confirm password is not match");
+                        return;
+                    }
+                    manager.setPassword(newPasswordTextField.getText());
+                }
+                if (!isValidPhoneNumber(phoneNumberTextField.getText())) {
+                    showAlertInformation("Error", "Phone number is invalid");
                     return;
                 }
-                manager.setPassword(newPasswordTextField.getText());
-            }
-            if (!isValidPhoneNumber(phoneNumberTextField.getText())) {
-                showAlertInformation("Error", "Phone number is invalid");
-                return;
-            }
-            if (!isValidEmail(emailTextField.getText())) {
-                showAlertInformation("Error", "Email is invalid");
-                return;
-            }
-            String newPhone = phoneNumberTextField.getText();
-            String newEmail = emailTextField.getText();
-            if (!newPhone.equals(manager.getPhoneNumber())) {
-                if (ManagerDAO.getInstance().checkManagerByPhoneNumber(newPhone)) {
-                    showAlertInformation("Error", "Phone number is already in use");
+                if (!isValidEmail(emailTextField.getText())) {
+                    showAlertInformation("Error", "Email is invalid");
                     return;
                 }
-            }
-            if (!newEmail.equals(manager.getEmail())) {
-                if (ManagerDAO.getInstance().checkManagerByEmail(newEmail)) {
-                    showAlertInformation("Error", "Email is already in use");
+                String newPhone = phoneNumberTextField.getText();
+                String newEmail = emailTextField.getText();
+                if (!newPhone.equals(manager.getPhoneNumber())) {
+                    if (ManagerDAO.getInstance().checkManagerByPhoneNumber(newPhone)) {
+                        showAlertInformation("Error", "Phone number is already in use");
+                        return;
+                    }
+                }
+                if (!newEmail.equals(manager.getEmail())) {
+                    if (ManagerDAO.getInstance().checkManagerByEmail(newEmail)) {
+                        showAlertInformation("Error", "Email is already in use");
+                        return;
+                    }
+                }
+                manager.setPhoneNumber(newPhone);
+                manager.setEmail(newEmail);
+                ManagerDAO.getInstance().update(manager);
+            } else {
+                if (UserDAO.getInstance().checkUserLogin(user.getUserName(), currentPassword.getText()) == null) {
+                    showAlertInformation("Error", "Password is incorrect");
                     return;
                 }
+                if (!newPasswordTextField.getText().isEmpty() || !confirmPasswordTextField.getText().isEmpty()) {
+                    if (!isValidPassword(newPasswordTextField.getText())) {
+                        showAlertInformation("Error", "Password is invalid");
+                        return;
+                    }
+                    if (!newPasswordTextField.getText().equals(confirmPasswordTextField.getText())) {
+                        showAlertInformation("Error", "Confirm password is not match");
+                        return;
+                    }
+                    user.setPassword(newPasswordTextField.getText());
+                }
+                if (!isValidPhoneNumber(phoneNumberTextField.getText())) {
+                    showAlertInformation("Error", "Phone number is invalid");
+                    return;
+                }
+                if (!isValidEmail(emailTextField.getText())) {
+                    showAlertInformation("Error", "Email is invalid");
+                    return;
+                }
+                String newPhone = phoneNumberTextField.getText();
+                String newEmail = emailTextField.getText();
+                if (!newPhone.equals(user.getPhoneNumber())) {
+                    if (UserDAO.getInstance().doesPhoneNumberExist(newPhone)) {
+                        showAlertInformation("Error", "Phone number is already in use");
+                        return;
+                    }
+                }
+                if (!newEmail.equals(user.getEmail())) {
+                    if (UserDAO.getInstance().doesEmailExist(newEmail)) {
+                        showAlertInformation("Error", "Email is already in use");
+                        return;
+                    }
+                }
+                user.setPhoneNumber(newPhone);
+                user.setEmail(newEmail);
+                UserDAO.getInstance().update(user);
             }
-            manager.setPhoneNumber(newPhone);
-            manager.setEmail(newEmail);
-            ManagerDAO.getInstance().update(manager);
+
             showAlertInformation("Success!", "Your information has been saved");
             canChangeSecurity = false;
         } else {
