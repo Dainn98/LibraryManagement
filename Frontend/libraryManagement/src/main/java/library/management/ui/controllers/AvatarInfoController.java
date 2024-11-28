@@ -57,7 +57,7 @@ public class AvatarInfoController implements properties {
         if (themeButton.isSelected()) {
             System.out.println("Toggle is ON"); // Khi bật
             transition.setToX(150- Circle.getRadius() * 2); // Di chuyển hình tròn sang phải
-            controller.path = getClass().getResource("/ui/css/dark-theme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
+            controller.path = getClass().getResource("/ui/css/myDarkTheme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
             controller.mainStackPane.getStylesheets().clear(); // Xóa các stylesheet hiện tại
             controller.mainStackPane.getStylesheets().add(controller.path);
             isOn = true; // Đặt trạng thái là bật

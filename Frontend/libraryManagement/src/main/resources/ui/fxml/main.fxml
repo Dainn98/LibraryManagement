@@ -45,9 +45,9 @@
 <?import jfxtras.scene.layout.VBox?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<StackPane fx:id="mainStackPane" prefHeight="833.0" prefWidth="1058.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.MainController">
+<StackPane fx:id="mainStackPane" prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/myTheme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.MainController">
    <children>
-      <BorderPane prefHeight="806.0" prefWidth="1010.0" style="-fx-background-color: white;" StackPane.alignment="CENTER">
+      <BorderPane prefHeight="806.0" prefWidth="1010.0" StackPane.alignment="CENTER">
         <!--          TOP -->
          <top>
             <BorderPane>
@@ -123,29 +123,18 @@
                <children>
 
                   <!--              DASHBOARD-->
-                  <VBox id="dashboardVBox" fx:id="dashboardVBox" prefHeight="652.0" prefWidth="620.0">
+                  <VBox id="dashboardVBox" fx:id="dashboardVBox" prefHeight="652.0" prefWidth="620.0" visible="false">
                      <children>
                         <VBox alignment="CENTER" spacing="20" styleClass="main-content">
                            <children>
-                              <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;">
-
-                                 <center>
-                                    <Label style="-fx-font-size: 23; -fx-font-weight: bold;" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
-                                       <font>
-                                          <Font name="Segoe UI Semilight" size="23.0" />
-                                       </font>
-                                       <BorderPane.margin>
-                                          <Insets top="2.0" />
-                                       </BorderPane.margin>
-                                    </Label>
-                                 </center>
-                                 <bottom>
-                                    <VBox BorderPane.alignment="CENTER" />
-                                 </bottom>
-                              </BorderPane>
+                              <Label styleClass="label-heading-h1" text="Library Management System" textFill="#a1a1a1">
+                                 <font>
+                                    <Font name="Segoe UI Semilight" size="23.0" />
+                                 </font>
+                              </Label>
                               <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Label style="-fx-font-size: 24; -fx-text-fill: white;" text="Dashboard" textFill="#2b579a">
+                                    <Label styleClass="label-heading-h2" text="Dashboard" textFill="#2b579a">
                                        <font>
                                           <Font name="Segoe UI Semilight" size="40.0" />
                                        </font>
@@ -159,7 +148,7 @@
                                        <children>
                                           <SimpleMetroArcGauge fx:id="allDocsGauge" VBox.vgrow="ALWAYS" />
 
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="All Documents">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-t1" text="All Documents">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -170,7 +159,7 @@
                                        <children>
                                           <SimpleMetroArcGauge fx:id="remainingDocsGauge" VBox.vgrow="ALWAYS" />
 
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining Documents">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-t1" text="Remaining Documents">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -181,7 +170,7 @@
                                        <children>
                                           <SimpleMetroArcGauge fx:id="issuedDocsGauge" VBox.vgrow="ALWAYS" />
 
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Issued Documents">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-t1" text="Issued Documents">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -192,7 +181,7 @@
                                        <children>
                                           <SimpleMetroArcGauge fx:id="allUsersGauge" VBox.vgrow="ALWAYS" />
 
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="All Users">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-t1" text="All Users">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -202,7 +191,7 @@
                                     <VBox alignment="CENTER" layoutX="810.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <SimpleMetroArcGauge fx:id="docHoldersGauge" VBox.vgrow="ALWAYS" />
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Users Holding Documents">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-t1" text="Users Holding Documents">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -215,7 +204,7 @@
                               <VBox />
                               <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <BarChart fx:id="docBChart" alternativeColumnFillVisible="true" title="Documents Statistics" HBox.hgrow="ALWAYS">
+                                    <BarChart fx:id="docBChart" alternativeColumnFillVisible="true" styleClass="text-t1" title="Documents Statistics" HBox.hgrow="ALWAYS">
                                        <xAxis>
                                           <CategoryAxis side="LEFT" fx:id="xAxis">
                                              <tickLabelFont>
@@ -231,7 +220,7 @@
                                           </NumberAxis>
                                        </yAxis>
                                     </BarChart>
-                                    <BarChart fx:id="userBChart" alternativeColumnFillVisible="true" title="User Statistics" HBox.hgrow="ALWAYS">
+                                    <BarChart fx:id="userBChart" alternativeColumnFillVisible="true" styleClass="text-t1" title="User Statistics" HBox.hgrow="ALWAYS">
                                        <xAxis>
                                           <CategoryAxis side="BOTTOM" />
                                        </xAxis>
@@ -259,7 +248,7 @@
                            <children>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Label style="-fx-font-size: 23; -fx-font-weight: bold;" text="Library Management System" textFill="#a1a1a1">
+                                    <Label styleClass="label-heading-h1" text="Library Management System" textFill="#a1a1a1">
                                        <font>
                                           <Font name="Segoe UI Semilight" size="23.0" />
                                        </font>
@@ -273,7 +262,7 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label prefHeight="58.0" style="-fx-text-fill: #002B5B; -fx-font-size: 24; -fx-font-weight: bold;" text="Documents" HBox.hgrow="ALWAYS">
+                                          <Label prefHeight="58.0" styleClass="label-heading-h2" text="Documents" HBox.hgrow="ALWAYS">
 
                                              <font>
                                                 <Font name="Segoe UI Semilight" size="46.0" />
@@ -290,13 +279,13 @@
                                                    <children>
                                                       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-text-fill: white;" VBox.vgrow="ALWAYS">
                                                          <children>
-                                                            <Label fx:id="label1" style="-fx-text-fill: #002B5B;" text="All Documents" textFill="#2b579a" HBox.hgrow="ALWAYS">
+                                                            <Label fx:id="label1" text="All Documents" textFill="#2b579a" HBox.hgrow="ALWAYS">
 
                                                                <font>
                                                                   <Font name="System Bold" size="15.0" />
                                                                </font>
                                                             </Label>
-                                                            <Label fx:id="allDocs" layoutX="10.0" layoutY="23.0" style="-fx-text-fill: #002B5B;" text="0" textFill="#2b579a" HBox.hgrow="ALWAYS">
+                                                            <Label fx:id="allDocs" layoutX="10.0" layoutY="23.0" text="0" textFill="#2b579a" HBox.hgrow="ALWAYS">
                                                                <font>
                                                                   <Font name="System Bold" size="15.0" />
                                                                </font>
@@ -307,7 +296,7 @@
                                                                   <Insets left="10.0" />
                                                                </padding>
                                                             </Label>
-                                                            <Label fx:id="label2" layoutX="92.0" layoutY="23.0" style="-fx-text-fill: #002B5B;" text="Remaining Documents" textFill="#2b579a" HBox.hgrow="ALWAYS">
+                                                            <Label fx:id="label2" layoutX="92.0" layoutY="23.0" text="Remaining Documents" textFill="#2b579a" HBox.hgrow="ALWAYS">
 
                                                                <font>
                                                                   <Font name="System Bold" size="15.0" />
@@ -316,7 +305,7 @@
                                                                   <Insets left="60.0" />
                                                                </HBox.margin>
                                                             </Label>
-                                                            <Label fx:id="remainDocs" layoutX="174.0" layoutY="23.0" style="-fx-text-fill: #002B5B;" text="0" textFill="#2b579a" HBox.hgrow="ALWAYS">
+                                                            <Label fx:id="remainDocs" layoutX="174.0" layoutY="23.0" text="0" textFill="#2b579a" HBox.hgrow="ALWAYS">
 
                                                                <font>
                                                                   <Font name="System Bold" size="15.0" />
@@ -331,7 +320,7 @@
                                                          <children>
                                                             <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                                <children>
-                                                                  <TextField fx:id="searchDocTField" alignment="TOP_LEFT" onKeyReleased="#handleSearchDocTField" prefHeight="26.0" prefWidth="333.0" promptText="Search for document by title, author or ISBN" style="-fx-background-radius: 30; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3));" HBox.hgrow="ALWAYS">
+                                                                  <TextField fx:id="searchDocTField" alignment="TOP_LEFT" onKeyReleased="#handleSearchDocTField" prefHeight="26.0" prefWidth="333.0" promptText="Search for document by title, author or ISBN" styleClass="tf-search" HBox.hgrow="ALWAYS">
                                                                      <font>
                                                                         <Font size="12.1" />
                                                                      </font>
@@ -444,7 +433,7 @@
                                        <children>
                                           <HBox>
                                              <children>
-                                                <Label style="-fx-text-fill: #002B5B; -fx-font-size: 24; -fx-font-weight: bold;" text="Document Management">
+                                                <Label styleClass="label-heading-h2" text="Document Management">
 
                                                    <font>
                                                       <Font name="Segoe UI Semilight" size="46.0" />
@@ -482,26 +471,7 @@
                               </BorderPane>
                               <StackPane prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <BorderPane fx:id="returnDocBPane" visible="false">
-                                       <top>
-                                          <VBox BorderPane.alignment="CENTER">
-                                             <children>
-                                                <HBox spacing="10.0" style="-fx-background-color: white;">
-                                                   <children>
-                                                      <Label style="-fx-text-fill: #2b579a; -fx-font-size: 20;" text="Return Document" HBox.hgrow="ALWAYS">
-                                                         <font>
-                                                            <Font name="Segoe UI Semilight" size="46.0" />
-                                                         </font>
-                                                         <padding>
-                                                            <Insets left="10.0" />
-                                                         </padding>
-                                                      </Label>
-                                                   </children>
-
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                       </top>
+                                    <BorderPane fx:id="returnDocBPane">
                                        <center>
                                           <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                              <top>
@@ -510,10 +480,18 @@
                                                       <Insets />
                                                    </BorderPane.margin>
                                                    <children>
+                                                      <Label styleClass="label-heading-h3" text="Return Document">
+                                                         <font>
+                                                            <Font name="Segoe UI Semilight" size="46.0" />
+                                                         </font>
+                                                         <padding>
+                                                            <Insets left="10.0" />
+                                                         </padding>
+                                                      </Label>
                                                       <HBox alignment="CENTER" spacing="10.0">
                                                          <children>
                                                             <HBox HBox.hgrow="ALWAYS" />
-                                                            <TextField fx:id="searchLoanID" onKeyReleased="#searchLoanByID" prefWidth="0.0" promptText="Enter Issue ID" style="-fx-background-radius: 30; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3));" HBox.hgrow="ALWAYS" />
+                                                            <TextField fx:id="searchLoanID" onKeyReleased="#searchLoanByID" prefWidth="0.0" promptText="Enter Issue ID" styleClass="tf-search" HBox.hgrow="ALWAYS" />
                                                             <CheckComboBox fx:id="issueTypeComboBox" prefWidth="133.0" style="-fx-background-color: transparent; -fx-background-radius: 30;" title="Issue Type" />
                                                             <HBox HBox.hgrow="ALWAYS" />
                                                          </children>
@@ -559,12 +537,20 @@
                                        <center>
                                           <VBox spacing="10.0">
                                              <children>
+                                                <Label styleClass="label-heading-h3" text="Issue Document">
+                                                   <font>
+                                                      <Font name="Segoe UI Semilight" size="46.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding>
+                                                </Label>
                                                 <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: #002B5B; -fx-border-radius: 20;" VBox.vgrow="ALWAYS">
                                                    <children>
                                                       <HBox alignment="CENTER">
                                                          <children>
                                                             <SVGPath content="M20.771,12.364c0,0,0.849-3.51,0-4.699c-0.85-1.189-1.189-1.981-3.058-2.548s-1.188-0.454-2.547-0.396c-1.359,0.057-2.492,0.792-2.492,1.188c0,0-0.849,0.057-1.188,0.397c-0.34,0.34-0.906,1.924-0.906,2.321s0.283,3.058,0.566,3.624l-0.337,0.113c-0.283,3.283,1.132,3.68,1.132,3.68c0.509,3.058,1.019,1.756,1.019,2.548s-0.51,0.51-0.51,0.51s-0.452,1.245-1.584,1.698c-1.132,0.452-7.416,2.886-7.927,3.396c-0.511,0.511-0.453,2.888-0.453,2.888h26.947c0,0,0.059-2.377-0.452-2.888c-0.512-0.511-6.796-2.944-7.928-3.396c-1.132-0.453-1.584-1.698-1.584-1.698s-0.51,0.282-0.51-0.51s0.51,0.51,1.02-2.548c0,0,1.414-0.397,1.132-3.68H20.771z" />
-                                                            <Label style="-fx-font-size: 18;" text="User Information" />
+                                                            <Label styleClass="label-heading-h3" text="User Information" />
                                                          </children>
                                                       </HBox>
                                                       <HBox VBox.vgrow="ALWAYS">
@@ -577,15 +563,15 @@
                                                                   <Insets />
                                                                </HBox.margin>
                                                                <children>
-                                                                  <Label style="-fx-font-size: 16;" text="User name: " />
+                                                                  <Label styleClass="label-heading-h4" text="User name: " />
                                                                   <AutoCompleteTextField fx:id="userIDIssue" floatText="Enter user name to search" onKeyReleased="#handleSearchUserInformation" />
                                                                </children>
                                                             </VBox>
                                                             <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
                                                                <children>
-                                                                  <Text fx:id="userNameInfo" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="User Name" />
-                                                                  <Text fx:id="emailInfo" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="Email Address" />
-                                                                  <Text fx:id="phoneNumberInfo" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="Phone Number" />
+                                                                  <Text fx:id="userNameInfo" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-t1" text="User Name" />
+                                                                  <Text fx:id="emailInfo" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-t1" text="Email Address" />
+                                                                  <Text fx:id="phoneNumberInfo" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-t1" text="Phone Number" />
                                                                </children>
                                                                <HBox.margin>
                                                                   <Insets />
@@ -612,7 +598,7 @@
                                                       <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
                                                          <children>
                                                             <SVGPath content="M25.754,4.626c-0.233-0.161-0.536-0.198-0.802-0.097L12.16,9.409c-0.557,0.213-1.253,0.316-1.968,0.316c-0.997,0.002-2.029-0.202-2.747-0.48C7.188,9.148,6.972,9.04,6.821,8.943c0.056-0.024,0.12-0.05,0.193-0.075L18.648,4.43l1.733,0.654V3.172c0-0.284-0.14-0.554-0.374-0.714c-0.233-0.161-0.538-0.198-0.802-0.097L6.414,7.241c-0.395,0.142-0.732,0.312-1.02,0.564C5.111,8.049,4.868,8.45,4.872,8.896c0,0.012,0.004,0.031,0.004,0.031v17.186c0,0.008-0.003,0.015-0.003,0.021c0,0.006,0.003,0.01,0.003,0.016v0.017h0.002c0.028,0.601,0.371,0.983,0.699,1.255c1.034,0.803,2.769,1.252,4.614,1.274c0.874,0,1.761-0.116,2.583-0.427l12.796-4.881c0.337-0.128,0.558-0.448,0.558-0.809V5.341C26.128,5.057,25.988,4.787,25.754,4.626zM5.672,11.736c0.035,0.086,0.064,0.176,0.069,0.273l0.004,0.054c0.016,0.264,0.13,0.406,0.363,0.611c0.783,0.626,2.382,1.08,4.083,1.093c0.669,0,1.326-0.083,1.931-0.264v1.791c-0.647,0.143-1.301,0.206-1.942,0.206c-1.674-0.026-3.266-0.353-4.509-1.053V11.736zM10.181,24.588c-1.674-0.028-3.266-0.354-4.508-1.055v-2.712c0.035,0.086,0.065,0.176,0.07,0.275l0.002,0.053c0.018,0.267,0.13,0.408,0.364,0.613c0.783,0.625,2.381,1.079,4.083,1.091c0.67,0,1.327-0.082,1.932-0.262v1.789C11.476,24.525,10.821,24.588,10.181,24.588z" />
-                                                            <Label style="-fx-font-size: 18;" text="Document Information" />
+                                                            <Label styleClass="label-heading-h3" text="Document Information" />
                                                          </children>
                                                       </HBox>
                                                       <HBox VBox.vgrow="ALWAYS">
@@ -622,19 +608,19 @@
                                                                   <Point3D />
                                                                </rotationAxis>
                                                                <children>
-                                                                  <Label style="-fx-font-size: 16;" text="Document ISBN/ Barcode: " />
+                                                                  <Label styleClass="label-heading-h4" text="Document ISBN/ Barcode: " />
                                                                   <AutoCompleteTextField fx:id="docISBNIssue" floatText="Enter document ISDN/ Barcode to search" onKeyReleased="#handleSearchDocInformation" />
-                                                                  <Label style="-fx-font-size: 16;" text="Quantity:" />
+                                                                  <Label styleClass="label-heading-h4" text="Quantity:" />
                                                                   <AutoCompleteTextField fx:id="quantityDoc" floatText="Enter quantity" />
                                                                </children>
                                                             </VBox>
                                                             <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
                                                                <children>
-                                                                  <Text fx:id="docTitleInfo" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="Document Title" VBox.vgrow="ALWAYS" />
-                                                                  <Text fx:id="docAuthorInfo" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="Document Author" VBox.vgrow="ALWAYS" />
-                                                                  <Text fx:id="docPublisherInfo" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="Document Publisher" VBox.vgrow="ALWAYS" />
-                                                                  <Text fx:id="price" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="Price" VBox.vgrow="ALWAYS" />
-                                                                  <Text fx:id="availability" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="Availablity" VBox.vgrow="ALWAYS" />
+                                                                  <Text fx:id="docTitleInfo" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" styleClass="text-t1" text="Document Title" VBox.vgrow="ALWAYS" />
+                                                                  <Text fx:id="docAuthorInfo" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" styleClass="text-t1" text="Document Author" VBox.vgrow="ALWAYS" />
+                                                                  <Text fx:id="docPublisherInfo" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" styleClass="text-t1" text="Document Publisher" VBox.vgrow="ALWAYS" />
+                                                                  <Text fx:id="price" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" styleClass="text-t1" text="Price" VBox.vgrow="ALWAYS" />
+                                                                  <Text fx:id="availability" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" styleClass="text-t1" text="Availablity" VBox.vgrow="ALWAYS" />
                                                                </children>
                                                                <HBox.margin>
                                                                   <Insets />
@@ -653,14 +639,6 @@
                                        <top>
                                           <HBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                                              <children>
-                                                <Label style="-fx-text-fill: #2b579a; -fx-font-size: 20;" text="Issue Document">
-                                                   <font>
-                                                      <Font name="Segoe UI Semilight" size="46.0" />
-                                                   </font>
-                                                   <padding>
-                                                      <Insets left="10.0" />
-                                                   </padding>
-                                                </Label>
                                                 <Region prefHeight="40.0" HBox.hgrow="ALWAYS" />
                                              </children>
                                           </HBox>
@@ -701,7 +679,7 @@
                      <top>
                         <BorderPane maxHeight="67.0" BorderPane.alignment="CENTER">
                            <center>
-                              <Label style="-fx-font-size: 23; -fx-font-weight: bold;" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
+                              <Label styleClass="label-heading-h1" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font name="Segoe UI Semilight" size="23.0" />
                                  </font>
@@ -722,7 +700,7 @@
                      <top>
                         <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                            <center>
-                              <Label style="-fx-font-size: 23; -fx-font-weight: bold;" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
+                              <Label styleClass="label-heading-h1" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font name="Segoe UI Semilight" size="23.0" />
                                  </font>
@@ -744,7 +722,7 @@
                                     <Insets left="10.0" />
                                  </VBox.margin>
                                  <children>
-                                    <Label style="-fx-text-fill: #002B5B; -fx-font-size: 20; -fx-font-weight: bold;" text="Library Catalog" textFill="#2b579a">
+                                    <Label styleClass="label-heading-h2" text="Library Catalog" textFill="#2b579a">
                                        <font>
                                           <Font name="Segoe UI Semilight" size="40.0" />
                                        </font>
@@ -814,7 +792,7 @@
                            <children>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Label style="-fx-font-size: 23; -fx-font-weight: bold;" text="Library Management System" textFill="#a1a1a1">
+                                    <Label styleClass="label-heading-h1" text="Library Management System" textFill="#a1a1a1">
                                        <font>
                                           <Font name="Segoe UI Semilight" size="23.0" />
                                        </font>
@@ -828,7 +806,7 @@
                                  <children>
                                     <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label prefHeight="73.0" prefWidth="196.0" style="-fx-text-fill: #002B5B; -fx-font-size: 20; -fx-font-weight: bold;" text="Users">
+                                          <Label prefHeight="73.0" prefWidth="196.0" styleClass="label-heading-h2" text="Users">
                                              <font>
                                                 <Font name="Segoe UI Semilight" size="46.0" />
                                              </font>
@@ -839,7 +817,7 @@
                                           <Region prefHeight="81.0" prefWidth="42.0" HBox.hgrow="NEVER" />
                                           <HBox alignment="CENTER_LEFT" prefHeight="81.0" prefWidth="697.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <TextField fx:id="searchUserField" accessibleText="field" maxHeight="26.0" onKeyReleased="#searchUserDetails" prefHeight="25.0" prefWidth="230.0" promptText="Search for User" style="-fx-background-radius: 0;" HBox.hgrow="ALWAYS">
+                                                <TextField fx:id="searchUserField" accessibleText="field" maxHeight="26.0" onKeyReleased="#searchUserDetails" prefHeight="25.0" prefWidth="230.0" promptText="Search for User" HBox.hgrow="ALWAYS">
 
                                                    <font>
                                                       <Font name="Segoe UI Semilight" size="12.0" />
@@ -901,9 +879,9 @@
                         </TableView>
                      </center>
                      <right>
-                        <VBox prefHeight="528.0" prefWidth="352.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+                        <VBox prefHeight="528.0" prefWidth="352.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Label style="-fx-text-fill: #002B5B; -fx-font-size: 18;" text="User information" VBox.vgrow="ALWAYS">
+                              <Label styleClass="label-heading-h3" text="User information" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -911,7 +889,7 @@
                                     <Insets left="17.0" top="5.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="userNameField" layoutX="30.0" layoutY="250.0" promptText="User Name" style="-fx-background-radius: 10; -fx-border-color: #002B5B; -fx-border-radius: 10; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3));">
+                              <TextField fx:id="userNameField" layoutX="30.0" layoutY="250.0" promptText="User Name" styleClass="tf-enter">
                                  <font>
                                     <Font name="Segoe UI Semilight" size="13.0" />
                                  </font>
@@ -919,7 +897,7 @@
                                     <Insets left="20.0" right="20.0" top="15.0" />
                                  </VBox.margin>
                               </TextField>
-                              <TextField fx:id="userEmailField" layoutX="30.0" layoutY="162.0" promptText="User Email Address" style="-fx-background-radius: 10; -fx-border-color: #002B5B; -fx-border-radius: 10; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3));">
+                              <TextField fx:id="userEmailField" layoutX="30.0" layoutY="162.0" promptText="User Email Address" styleClass="tf-enter">
                                  <font>
                                     <Font name="Segoe UI Semilight" size="13.0" />
                                  </font>
@@ -927,7 +905,7 @@
                                     <Insets left="20.0" right="20.0" top="15.0" />
                                  </VBox.margin>
                               </TextField>
-                              <TextField fx:id="userPhoneField" promptText="Phone Number" style="-fx-background-radius: 10; -fx-border-color: #002B5B; -fx-border-radius: 10; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3));">
+                              <TextField fx:id="userPhoneField" promptText="Phone Number" styleClass="tf-enter">
                                  <VBox.margin>
                                     <Insets left="20.0" right="20.0" top="15.0" />
                                  </VBox.margin>
@@ -987,7 +965,7 @@
                      <bottom>
                         <HBox fx:id="controlUserView" prefHeight="32.0" prefWidth="1000.0" spacing="5.0" BorderPane.alignment="CENTER">
                            <children>
-                              <CheckBox fx:id="checkAllUsersView" mnemonicParsing="false" onAction="#checkAllUsers" text="Check all">
+                              <CheckBox fx:id="checkAllUsersView" mnemonicParsing="false" onAction="#checkAllUsers" styleClass="label" text="Check all">
 
                                  <HBox.margin>
                                     <Insets top="5.0" />
@@ -1012,12 +990,21 @@
                      <center>
                         <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                            <children>
-                              <Label style="-fx-font-size: 24; -fx-font-weight: bold;" text="Pending Approvals" />
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Label styleClass="label-heading-h1" text="Library Management System" textAlignment="CENTER" textFill="#a1a1a1">
+                                       <font>
+                                          <Font name="Segoe UI Semilight" size="23.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <Label styleClass="label-heading-h2" text="Pending Approvals" />
                               <VBox />
-                              <Label style="-fx-font-size: 18;" text="Users waiting for their approvals to access library" />
+                              <Label styleClass="label-heading-h3" text="Users waiting for their approvals to access library" />
                               <HBox spacing="10">
                                  <children>
-                                    <Label style="-fx-font-size: 16;" text="Filter Approvals:" />
+                                    <Label styleClass="label-heading-h4" text="Filter Approvals:" />
                                     <ButtonBar>
                                        <buttons>
                                           <AutoCompleteTextField fx:id="checkUsername" onKeyReleased="#handleSearchPendingUser" promptText="Username" />
@@ -1049,20 +1036,6 @@
                            </children>
                         </VBox>
                      </center>
-                     <top>
-                        <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-                           <center>
-                              <Label style="-fx-font-size: 23; -fx-font-weight: bold;" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
-                                 <font>
-                                    <Font name="Segoe UI Semilight" size="23.0" />
-                                 </font>
-                                 <BorderPane.margin>
-                                    <Insets top="2.0" />
-                                 </BorderPane.margin>
-                              </Label>
-                           </center>
-                        </BorderPane>
-                     </top>
                      <bottom>
                         <HBox fx:id="controllApproval" prefHeight="32.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                            <children>
@@ -1103,10 +1076,20 @@
                      <center>
                         <VBox>
                            <children>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Label styleClass="label-heading-h1" text="Library Management System" textFill="#a1a1a1">
+                                       <font>
+                                          <Font name="Segoe UI Semilight" size="23.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <Label styleClass="label-heading-h2" text="Loans Requests" />
                               <HBox alignment="CENTER" spacing="10.0">
                                  <children>
                                     <HBox HBox.hgrow="ALWAYS" />
-                                    <TextField fx:id="loansField" onKeyReleased="#handleSearchPendingIssue" promptText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3));" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="loansField" onKeyReleased="#handleSearchPendingIssue" promptText="Search for Document by Title, Author or ISBN..." styleClass="tf-search" HBox.hgrow="ALWAYS" />
                                     <JFXComboBox fx:id="typeLoans" labelFloat="true" promptText="Select Issue Type" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
                                     <HBox HBox.hgrow="ALWAYS" />
                                  </children>
@@ -1141,27 +1124,6 @@
                            </padding>
                         </VBox>
                      </center>
-                     <top>
-                        <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-                           <center>
-                              <Label style="-fx-font-size: 23; -fx-font-weight: bold;" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
-                                 <font>
-                                    <Font name="Segoe UI Semilight" size="23.0" />
-                                 </font>
-                                 <BorderPane.margin>
-                                    <Insets top="2.0" />
-                                 </BorderPane.margin>
-                              </Label>
-                           </center>
-                           <bottom>
-                              <VBox BorderPane.alignment="CENTER">
-                                 <children>
-                                    <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Loans Requests" />
-                                 </children>
-                              </VBox>
-                           </bottom>
-                        </BorderPane>
-                     </top>
                      <bottom>
                         <HBox fx:id="controllLoans" prefHeight="32.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                            <children>
@@ -1200,10 +1162,20 @@
                      <center>
                         <VBox>
                            <children>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Label styleClass="label-heading-h1" text="Library Management System" textFill="#a1a1a1">
+                                       <font>
+                                          <Font name="Segoe UI Semilight" size="23.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <Label styleClass="label-heading-h2" text="Issued Documents" />
                               <HBox alignment="CENTER" spacing="10.0">
                                  <children>
                                     <HBox HBox.hgrow="ALWAYS" />
-                                    <TextField fx:id="issuedDocField" onKeyReleased="#handleSearchID" promptText="Search for Document by Title, Author or ISBN..." style="-fx-background-radius: 30; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3));" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="issuedDocField" onKeyReleased="#handleSearchID" promptText="Search for Document by Title, Author or ISBN..." styleClass="tf-search" HBox.hgrow="ALWAYS" />
                                     <JFXComboBox fx:id="issueTypeIssuedDoc" labelFloat="true" promptText="Select Issue Type" style="-fx-background-radius: 30;" HBox.hgrow="ALWAYS" />
                                     <HBox HBox.hgrow="ALWAYS" />
                                  </children>
@@ -1233,35 +1205,14 @@
                            </children>
                         </VBox>
                      </center>
-                     <top>
-                        <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-                           <center>
-                              <Label style="-fx-font-size: 23; -fx-font-weight: bold;" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
-                                 <font>
-                                    <Font name="Segoe UI Semilight" size="23.0" />
-                                 </font>
-                                 <BorderPane.margin>
-                                    <Insets top="2.0" />
-                                 </BorderPane.margin>
-                              </Label>
-                           </center>
-                           <bottom>
-                              <VBox BorderPane.alignment="CENTER">
-                                 <children>
-                                    <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Issued Documents" />
-                                 </children>
-                              </VBox>
-                           </bottom>
-                        </BorderPane>
-                     </top>
                   </BorderPane>
 
                   <!--                  FAQS-->
-                  <BorderPane fx:id="FAQsBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                  <BorderPane fx:id="FAQsBPane" prefHeight="200.0" prefWidth="200.0">
                      <top>
                         <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                            <center>
-                              <Label style="-fx-font-size: 23; -fx-font-weight: bold;" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
+                              <Label styleClass="label-heading-h1" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font name="Segoe UI Semilight" size="23.0" />
                                  </font>
@@ -1273,7 +1224,7 @@
                            <bottom>
                               <HBox BorderPane.alignment="CENTER">
                                  <children>
-                                    <Label style="-fx-text-fill: #002B5B; -fx-font-size: 20; -fx-font-weight: bold;" text="Library FAQs" textFill="#2b579a">
+                                    <Label styleClass="label-heading-h2" text="Library FAQs" textFill="#2b579a">
                                        <font>
                                           <Font name="Segoe UI Semilight" size="40.0" />
                                        </font>
@@ -1299,11 +1250,6 @@
                                           <GridPane fx:id="FAQsGPane" alignment="CENTER" focusTraversable="true" />
                                        </content>
                                     </ScrollPane>
-                                    <JFXButton fx:id="newChatButton" onAction="#handleResetFAQs" style="-fx-background-color: transparent; -fx-border-color: #002b5b;" text="New chat" visible="false" StackPane.alignment="TOP_LEFT">
-                                       <StackPane.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </StackPane.margin>
-                                    </JFXButton>
                                     <BorderPane fx:id="chatbotPane" prefHeight="200.0" prefWidth="200.0">
                                        <center>
                                           <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -1315,7 +1261,7 @@
                                                 </ImageView>
                                                 <HBox fx:id="faqContainer" alignment="CENTER">
                                                    <children>
-                                                      <Label style="-fx-font-size: 26; -fx-text-fill: #002B5B; -fx-font-weight: bold;" text="What can I help with?" />
+                                                      <Label styleClass="faq-label" text="What can I help with?" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -1328,8 +1274,9 @@
                         </BorderPane>
                      </center>
                      <bottom>
-                        <VBox BorderPane.alignment="CENTER">
+                        <VBox spacing="2.0" BorderPane.alignment="CENTER">
                            <children>
+                              <JFXButton fx:id="newChatButton" onAction="#handleResetFAQs" styleClass="faq-button" text="New chat" visible="false" />
                               <VBox maxHeight="150.0" prefHeight="50.0" style="-fx-border-color: #002B5B; -fx-border-radius: 30;">
                                  <children>
                                     <HBox alignment="CENTER" spacing="10.0">

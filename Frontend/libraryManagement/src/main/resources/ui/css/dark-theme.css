@@ -339,18 +339,6 @@
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
-.custom-alert:header *.header-panel{
-    -fx-background-color: #FFFFFF;
-}
-.custom-alert:header  .header-panel .label {
-    -fx-font-style: normal;
-    -fx-text-fill: white;
-}
-.custom-alert:header *.header-panel *.label{
-    -fx-font-size: 18px;
-    -fx-font-style: italic;
-    -fx-fill: -fx-primarytext;
-}
 
 /* Context menu */
 
