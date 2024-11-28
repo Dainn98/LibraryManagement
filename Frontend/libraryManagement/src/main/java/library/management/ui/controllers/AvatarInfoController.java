@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -73,17 +74,22 @@ public class AvatarInfoController {
         //controller.handleSignOutButton(actionEvent);
     }
 
-    @FXML
-    private void handleSettingsButton(ActionEvent actionEvent) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource(SETTINGS_SOURCE));
-            Parent root = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Settings");
-            SettingsController controller = fxmlLoader.getController();
-            controller.setMainController(this.controller);
-            controller.setData();
+  @FXML
+  private void handleSettingsButton(ActionEvent actionEvent) {
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader();
+      fxmlLoader.setLocation(getClass().getResource(SETTINGS_SOURCE));
+      Parent root = fxmlLoader.load();
+      Stage stage = new Stage();
+
+      Image icon = new Image(getClass().getResourceAsStream(ICON_SOURCE));
+      stage.getIcons().add(icon);
+
+      stage.setTitle(SETTINGS_TITLE);
+      SettingsController controller = fxmlLoader.getController();
+      controller.setMainController(this.controller);
+      controller.setData();
+
 
             stage.setResizable(false);
             stage.setScene(new Scene(root));

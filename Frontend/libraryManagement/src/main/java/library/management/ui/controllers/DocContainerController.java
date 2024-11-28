@@ -28,7 +28,7 @@ import library.management.properties;
 import library.management.ui.applications.CodeGenerator;
 import library.management.ui.applications.ImageDownloader;
 
-public class DocContainerController implements GeneralController, properties {
+public class DocContainerController extends GeneralController implements properties {
 
   private final String[] colors = {"D1E8FF", // Light Blue
       "FFF7D1", // Light Yellow
@@ -107,7 +107,7 @@ public class DocContainerController implements GeneralController, properties {
   }
 
   private void startAutoRotateBack() {
-    PauseTransition pause = new PauseTransition(Duration.seconds(5));
+    PauseTransition pause = new PauseTransition(Duration.seconds(1));
     pause.setOnFinished(event -> {
       if (!docCatalogView.isHover()) {
         rotate3D(docInfo, 0, 1, docThumbnail, 270, 1, 90, Duration.millis(1000));
@@ -124,6 +124,10 @@ public class DocContainerController implements GeneralController, properties {
       Parent root = fxmlLoader.load();
       Stage stage = new Stage();
       stage.setTitle(DOC_INFORMATION_TITLE);
+
+      Image icon = new Image(getClass().getResourceAsStream(ICON_SOURCE));
+      stage.getIcons().add(icon);
+
       ManagerDocInformationController controller = fxmlLoader.getController();
       controller.loadDocData(document, image);
 

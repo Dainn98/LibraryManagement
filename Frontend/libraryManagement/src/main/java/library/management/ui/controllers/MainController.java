@@ -54,7 +54,7 @@ import org.controlsfx.control.CheckComboBox;
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class MainController implements Initializable, properties, GeneralController {
+public class MainController  extends GeneralController implements Initializable, properties {
 
     private final DashboardController dashboardController = new DashboardController(this);
     private final UserController userController = new UserController(this);

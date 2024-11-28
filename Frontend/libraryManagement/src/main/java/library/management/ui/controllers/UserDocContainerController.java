@@ -22,7 +22,7 @@ import library.management.ui.applications.ImageDownloader;
 import java.io.IOException;
 import java.util.Objects;
 
-public class UserDocContainerController implements GeneralController {
+public class UserDocContainerController extends GeneralController {
 
     public static int HOME_DOCUMENT = 100;
     public static int BORROWING_DOCUMENT = 200;

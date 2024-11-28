@@ -32,7 +32,10 @@ import library.management.data.entity.User;
 import library.management.properties;
 import org.controlsfx.control.CheckComboBox;
 
-public class FullUserController implements Initializable, properties, GeneralController {
+import static library.management.alert.AlertMaker.showAlertConfirmation;
+
+public class FullUserController extends GeneralController implements Initializable, properties {
+
 
   private final HomeController homeController = new HomeController(this);
   private final BorrowedController borrowedController = new BorrowedController(this);
