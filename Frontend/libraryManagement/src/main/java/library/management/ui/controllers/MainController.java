@@ -335,7 +335,7 @@ public class MainController  extends GeneralController implements Initializable,
     @FXML
     protected StackPane mainStackPane;
 
-    protected String path = getClass().getResource("/ui/css/theme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
+    protected String path = getClass().getResource("/ui/css/myTheme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
 
     //FAQs
     @FXML
