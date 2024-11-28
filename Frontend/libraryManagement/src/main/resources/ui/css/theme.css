@@ -4,7 +4,7 @@
 */
 
 * {
-  -fx-primary: /*#FFFFFF; /* White */  linear-gradient(to right,#f0f5ff, #c9d6ff);
+  -fx-primary:linear-gradient(to right,#f0f5ff, #c9d6ff);
   -fx-secondary:  #5c6bc0; /* Purple */
   -fx-primarytext: #5c6bc0; /* Purple */
   -fx-blue: #003554; /* Dark blue */
@@ -13,7 +13,7 @@
 }
 
 .root {
-  -fx-background-color:  linear-gradient(to right,#f0f5ff, #c9d6ff); /* Light gray */
+  -fx-background-color:  linear-gradient(to right,#f0f5ff, #c9d6ff);
 }
 
 .button {
@@ -423,13 +423,12 @@
 
 .menu-item {
   -fx-background-color: linear-gradient(to right,  #D3D3D3,#002B5B);
-  /*-fx-background-color: white; !* Blue background *!*/
-  -fx-text-fill: white; /* Blue text */
+  -fx-text-fill: white;
 }
 
 .menu-item:hover {
   -fx-background-color:linear-gradient(to right,  #002B5B,#D3D3D3);
-  -fx-text-fill: #002B5B; /* Blue text */
+  -fx-text-fill: #002B5B;
 }
 
 .menu-item:focused {
@@ -455,15 +454,42 @@
 }
 
 .toggle-switch:selected {
-    -fx-background-color: #1E3A5F; /* Màu nền của nút khi chọn */
+    -fx-background-color: #1E3A5F;
 }
 
 .toggle-switch .thumb {
     -fx-background-color: white;
-    -fx-background-radius: 50%;
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
     -fx-pref-width: 150px;
     -fx-pref-height: 80px;
     -fx-transition: transform 0.3s ease;
 }
+
+.label-heading-h1 {
+  -fx-font-size: 23px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #002B5B;
+}
+
+.label-heading-h2 {
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #002B5B;
+}
+
+.label-heading-h3 {
+  -fx-font-size: 18px;
+  -fx-text-fill: #002B5B;
+}
+
+.label-heading-h4 {
+  -fx-font-size: 16px;
+  -fx-text-fill: #002B5B;
+}
+
+.label {
+  -fx-text-fill: #002B5B;
+}
+
+
