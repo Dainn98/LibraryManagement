@@ -4,239 +4,545 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.textfield.CustomPasswordField?>
 
-<BorderPane prefHeight="651.0" prefWidth="1000.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.SettingsController">
-  <top>
-    <VBox prefHeight="123.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
-      <children>
-        <BorderPane prefHeight="67.0" prefWidth="957.0">
-          <center>
-            <Label text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
-              <font>
-                <Font name="Segoe UI Semilight" size="23.0" />
-              </font>
-              <BorderPane.margin>
-                <Insets top="2.0" />
-              </BorderPane.margin>
-            </Label>
-          </center>
+<BorderPane prefHeight="651.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../css/settings.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.SettingsController">
+    <top>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <BorderPane>
+                    <center>
+                        <Label style="-fx-font-size: 28; -fx-text-fill: #002B5B; -fx-font-weight: bold;" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
+                            <font>
+                                <Font name="Segoe UI Semilight" size="23.0" />
+                            </font>
+                            <BorderPane.margin>
+                                <Insets top="2.0" />
+                            </BorderPane.margin>
+                        </Label>
+                    </center>
+                </BorderPane>
+                <HBox VBox.vgrow="ALWAYS">
+                    <children>
+                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 26; -fx-font-weight: bold;" text="Settings">
+                            <font>
+                                <Font name="Segoe UI Semilight" size="46.0" />
+                            </font>
+                            <padding>
+                                <Insets left="10.0" />
+                            </padding>
+                        </Label>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <BorderPane fx:id="borderPane" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+            <left>
+                <VBox prefHeight="528.0" prefWidth="302.0" spacing="10.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox alignment="CENTER" spacing="10.0">
+                            <children>
+                                <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../sprites/mainScreen.png" />
+                                    </image>
+                                </ImageView>
+                                <Label style="-fx-font-size: 15; -fx-text-fill: #002B5B;" text="Tuan Anh" />
+                                <JFXButton onAction="#handleEditProfile" text="Edit Profile" />
+                            </children>
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            </padding>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <JFXButton onAction="#handleProfileButton" prefWidth="150.0" text="Profile" VBox.vgrow="ALWAYS">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <graphic>
+                                        <SVGPath content="M18.386,16.009l0.009-0.006l-0.58-0.912c1.654-2.226,1.876-5.319,0.3-7.8c-2.043-3.213-6.303-4.161-9.516-2.118c-3.212,2.042-4.163,6.302-2.12,9.517c1.528,2.402,4.3,3.537,6.944,3.102l0.424,0.669l0.206,0.045l0.779-0.447l-0.305,1.377l2.483,0.552l-0.296,1.325l1.903,0.424l-0.68,3.06l1.406,0.313l-0.424,1.906l4.135,0.918l0.758-3.392L18.386,16.009z M10.996,8.944c-0.685,0.436-1.593,0.233-2.029-0.452C8.532,7.807,8.733,6.898,9.418,6.463s1.594-0.233,2.028,0.452C11.883,7.6,11.68,8.509,10.996,8.944z" />
+                                    </graphic>
+                                </JFXButton>
+                                <JFXButton onAction="#handleSignInOptionsButton" prefWidth="150.0" text="Security" VBox.vgrow="ALWAYS">
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <graphic>
+                                        <SVGPath content="M18.386,16.009l0.009-0.006l-0.58-0.912c1.654-2.226,1.876-5.319,0.3-7.8c-2.043-3.213-6.303-4.161-9.516-2.118c-3.212,2.042-4.163,6.302-2.12,9.517c1.528,2.402,4.3,3.537,6.944,3.102l0.424,0.669l0.206,0.045l0.779-0.447l-0.305,1.377l2.483,0.552l-0.296,1.325l1.903,0.424l-0.68,3.06l1.406,0.313l-0.424,1.906l4.135,0.918l0.758-3.392L18.386,16.009z M10.996,8.944c-0.685,0.436-1.593,0.233-2.029-0.452C8.532,7.807,8.733,6.898,9.418,6.463s1.594-0.233,2.028,0.452C11.883,7.6,11.68,8.509,10.996,8.944z" />
+                                    </graphic>
+                                </JFXButton>
+                                <JFXButton onAction="#handlePrivacyPolicy" prefWidth="150.0" text="Privacy Policy">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <graphic>
+                                        <SVGPath content="M18.386,16.009l0.009-0.006l-0.58-0.912c1.654-2.226,1.876-5.319,0.3-7.8c-2.043-3.213-6.303-4.161-9.516-2.118c-3.212,2.042-4.163,6.302-2.12,9.517c1.528,2.402,4.3,3.537,6.944,3.102l0.424,0.669l0.206,0.045l0.779-0.447l-0.305,1.377l2.483,0.552l-0.296,1.325l1.903,0.424l-0.68,3.06l1.406,0.313l-0.424,1.906l4.135,0.918l0.758-3.392L18.386,16.009z M10.996,8.944c-0.685,0.436-1.593,0.233-2.029-0.452C8.532,7.807,8.733,6.898,9.418,6.463s1.594-0.233,2.028,0.452C11.883,7.6,11.68,8.509,10.996,8.944z" />
+                                    </graphic>
+                                </JFXButton>
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets top="5.0" />
+                    </padding>
+                </VBox>
+            </left>
+            <center>
+                <StackPane BorderPane.alignment="CENTER">
+                    <children>
+                        <BorderPane fx:id="profileBPane">
+                            <center>
+                                <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                                    <children>
+                                        <VBox VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <Label style="-fx-text-fill: #002B5B; -fx-font-size: 16;" text="Profile Details" />
+                                                <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                                    <children>
+                                                        <Label prefWidth="150.0" style="-fx-text-fill: #002B5B; -fx-font-size: 16;" text="Name" HBox.hgrow="ALWAYS" />
+                                                        <TextField fx:id="name" prefWidth="300.0" promptText="Name" style="-fx-font-size: 13; -fx-background-radius: 20; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20;" text="Tuan Anh" />
+                                                    </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                                    <children>
+                                                        <Label prefWidth="150.0" style="-fx-text-fill: #002B5B; -fx-font-size: 16;" text="Identity Card" HBox.hgrow="ALWAYS" />
+                                                        <Label fx:id="identityCard" style="-fx-font-size: 13;" text="04220500xxxx" />
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                        <VBox VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <Label style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #002B5B;" text="Contact Information" VBox.vgrow="ALWAYS">
+                                                    <font>
+                                                        <Font name="System Bold" size="24.0" />
+                                                    </font>
+                                                </Label>
+                                                <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                                    <children>
+                                                        <Label prefWidth="150.0" style="-fx-text-fill: #002B5B; -fx-font-size: 16;" text="Phone number" HBox.hgrow="ALWAYS" />
+                                                        <TextField fx:id="Phone" prefWidth="300.0" style="-fx-font-size: 13; -fx-background-radius: 20; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20;" text="0987069605" />
+                                                    </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                                    <children>
+                                                        <Label prefWidth="150.0" style="-fx-text-fill: #002B5B; -fx-font-size: 16;" text="Email" HBox.hgrow="ALWAYS" />
+                                                        <TextField fx:id="email" prefWidth="300.0" style="-fx-font-size: 13; -fx-background-radius: 20; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20;" text="tuananhpham12072005@gmail.com" />
+                                                        <JFXButton onAction="#handleSendCode" text="Send Code" />
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                        <HBox alignment="CENTER_LEFT" style="-fx-text-fill: #002B5B; -fx-font-size: 16;">
+                                            <children>
+                                                <Label prefWidth="150.0" style="-fx-font-size: 18;" text="Code" />
+                                                <TextField fx:id="code" onKeyTyped="#handleCheckCode" promptText="Enter Code" style="-fx-font-size: 13; -fx-background-radius: 20; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20;" />
+                                            </children>
+                                        </HBox>
+                                        <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <JFXButton onAction="#handleSave" text="Save Changes" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </center>
+                            <top>
+                                <Label style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #002B5B;" text="Profile Settings" BorderPane.alignment="TOP_LEFT">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                            </top>
+                        </BorderPane>
+                        <BorderPane fx:id="signInOptionsBPane" visible="false">
+                            <center>
+                                <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+                                    <children>
+                                        <HBox VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <VBox>
+                                                    <children>
+                                                        <Label alignment="TOP_LEFT" style="-fx-text-fill: #002B5B; -fx-font-weight: bold; -fx-font-size: 26;" text="Signining to Library Management System">
+                                                            <font>
+                                                                <Font name="System Bold" size="24.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 13; -fx-font-style: italic;" text="Ensure it's the legitimate user signing in to the account">
+                                                            <font>
+                                                                <Font name="System Italic" size="14.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 13; -fx-font-style: italic;" text="Reach the user if there's any suspicious activity detected on the account">
+                                                            <font>
+                                                                <Font name="System Italic" size="14.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </VBox>
+                                                <HBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                                            <image>
+                                                                <Image url="@../sprites/password.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </HBox>
+                                        <VBox alignment="CENTER_LEFT" spacing="15.0" VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                                    <children>
+                                                        <Label prefWidth="150.0" style="-fx-text-fill: #002B5B; -fx-font-size: 16;" text="Password" />
+                                                        <TitledPane nodeOrientation="RIGHT_TO_LEFT" text="Last changed 12th July 2005" HBox.hgrow="ALWAYS">
+                                                            <content>
+                                                                <VBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: white;">
+                                                                    <children>
+                                                                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                                                            <children>
+                                                                                <Label prefWidth="150.0" text="Current Password" />
+                                                                                <CustomPasswordField fx:id="currentPassword" prefWidth="300.0" promptText="Enter Current Password" style="-fx-background-radius: 30; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 30;" />
+                                                                                <SVGPath content="M40,60 C42,48 44,30 25,32" visible="false" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                                                            <children>
+                                                                                <Label prefWidth="150.0" text="New Password" />
+                                                                                <CustomPasswordField fx:id="newPasswordTextField" prefWidth="300.0" promptText="Enter New Password" style="-fx-background-radius: 30; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 30;" />
+                                                                                <SVGPath content="M40,60 C42,48 44,30 25,32" visible="false" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                                                            <children>
+                                                                                <Label prefWidth="150.0" text="Confirm New Password" />
+                                                                                <CustomPasswordField fx:id="confirmPasswordTextField" prefWidth="300.0" promptText="Enter New Password" style="-fx-background-radius: 30; -fx-background-color: linear-gradient(to right, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 30;" />
+                                                                                <SVGPath content="M40,60 C42,48 44,30 25,32" visible="false" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                    </children>
+                                                                </VBox>
+                                                            </content>
+                                                        </TitledPane>
+                                                        <Pane HBox.hgrow="ALWAYS" />
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                        <HBox VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <VBox HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <Label style="-fx-text-fill: #002B5B; -fx-font-weight: bold; -fx-font-size: 26;" text="Ways we can verify it's you" wrapText="true">
+                                                            <font>
+                                                                <Font name="System Bold" size="24.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label prefWidth="512.0" style="-fx-text-fill: #002B5B; -fx-font-size: 13; -fx-font-style: italic;" text="These can be used to make sure it's really you signing in to or to reach you if there's suspicious activity in your account." wrapText="true" VBox.vgrow="ALWAYS">
+                                                            <font>
+                                                                <Font name="System Italic" size="14.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </VBox>
+                                                <HBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                                            <image>
+                                                                <Image url="@../sprites/verification.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </HBox>
+                                        <VBox alignment="CENTER_LEFT" spacing="15.0" VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <HBox alignment="CENTER_LEFT">
+                                                    <children>
+                                                        <Label prefWidth="150.0" style="-fx-text-fill: #002B5B; -fx-font-size: 16;" text="Recovery Phone" HBox.hgrow="ALWAYS" />
+                                                        <TitledPane nodeOrientation="RIGHT_TO_LEFT" style="-fx-text-fill: #002B5B; -fx-border-color: #002B5B;" text="Add a mobile phone number" wrapText="true" HBox.hgrow="ALWAYS">
+                                                            <content>
+                                                                <VBox spacing="15.0" style="-fx-background-color: white;">
+                                                                    <children>
+                                                                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                                                            <children>
+                                                                                <Label prefWidth="150.0" text="Phone Number" />
+                                                                                <TextField fx:id="phoneNumberTextField" prefWidth="300.0" promptText="Enter Phone Number" style="-fx-background-color: linear-gradient(to left, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20; -fx-background-radius: 20;" />
+                                                                                <SVGPath content="M40,60 C42,48 44,30 25,32" visible="false" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                    </children>
+                                                                </VBox>
+                                                            </content>
+                                                        </TitledPane>
+                                                        <Pane HBox.hgrow="ALWAYS" />
+                                                    </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT">
+                                                    <children>
+                                                        <Label prefWidth="150.0" style="-fx-text-fill: #002B5B; -fx-font-size: 16;" text="Recovery Email" HBox.hgrow="ALWAYS" />
+                                                        <TitledPane nodeOrientation="RIGHT_TO_LEFT" style="-fx-border-color: #002B5B; -fx-text-fill: #002B5B;" text="Add an email address" wrapText="true" HBox.hgrow="ALWAYS">
+                                                            <content>
+                                                                <VBox spacing="15.0" style="-fx-background-color: white;">
+                                                                    <children>
+                                                                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                                                                            <children>
+                                                                                <Label prefWidth="150.0" text="Email" />
+                                                                                <TextField fx:id="emailTextField" prefWidth="300.0" promptText="Enter Email Address" style="-fx-background-color: linear-gradient(to left, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20; -fx-background-radius: 20;" />
+                                                                                <SVGPath content="M40,60 C42,48 44,30 25,32" onMouseEntered="#handleMouseEnter" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                        <HBox alignment="CENTER_LEFT">
+                                                                            <children>
+                                                                                <Label prefWidth="150.0" text="Code" />
+                                                                                <TextField fx:id="secondCode" onKeyTyped="#handleCheckSecurityCode" prefWidth="300.0" promptText="Enter Code" style="-fx-background-color: linear-gradient(to left, rgba(0, 43, 91, 0.1), rgba(0, 43, 91, 0.3)); -fx-border-color: #002B5B; -fx-border-radius: 20; -fx-background-radius: 20;" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                    </children>
+                                                                </VBox>
+                                                            </content>
+                                                        </TitledPane>
+                                                        <Pane HBox.hgrow="ALWAYS" />
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                        <HBox alignment="CENTER" prefHeight="50.0">
+                                            <children>
+                                                <JFXButton onAction="#handleChangeSecurity" text="Save Changes" />
+                                            </children>
+                                            <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                            </padding>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </center>
+                            <top>
+                                <Label BorderPane.alignment="TOP_LEFT" />
+                            </top>
+                        </BorderPane>
+                        <BorderPane fx:id="privacyPolicyBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                            <top>
+                                <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+                                    <children>
+                                        <Label style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #002B5B; -fx-font-family: VnAvant;" text="Privacy Policy">
+                                            <font>
+                                                <Font name=".VnAvant Bold" size="24.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                            </top>
+                            <center>
+                                <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+                                    <children>
+                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 13; -fx-font-style: italic;" text="At our library management system, we are committed to protecting the privacy and security of your personal information. This privacy policy outlines how we collect, use, and safeguard the data you provide when using our services." wrapText="true" VBox.vgrow="ALWAYS">
+                                            <font>
+                                                <Font name="System Italic" size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 14; -fx-font-weight: bold;" text="Information We Collect" wrapText="true">
+                                            <font>
+                                                <Font name=".VnBodoni" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <VBox>
+                                            <VBox.margin>
+                                                <Insets left="10.0" />
+                                            </VBox.margin>
+                                            <children>
+                                                <Label style="-fx-text-fill: #002B5B; -fx-font-size: 12;" text="When you create an account with our library system, we may collect the following information:" wrapText="true">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                                <VBox>
+                                                    <children>
+                                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 11;" text="Full name" wrapText="true">
+                                                            <VBox.margin>
+                                                                <Insets />
+                                                            </VBox.margin>
+                                                            <font>
+                                                                <Font name="System Italic" size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 11;" text="Contact information (email address, phone number)" wrapText="true">
+                                                            <font>
+                                                                <Font name="System Italic" size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 11;" text="Borrowing history and records" wrapText="true">
+                                                            <font>
+                                                                <Font name="System Italic" size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 11;" text="Payment information (if applicable for fees or fines)" wrapText="true">
+                                                            <font>
+                                                                <Font name="System Italic" size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 11;" text="IP address and device information for account access" wrapText="true">
+                                                            <font>
+                                                                <Font name="System Italic" size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                    <VBox.margin>
+                                                        <Insets left="30.0" />
+                                                    </VBox.margin>
+                                                </VBox>
+                                                <Label style="-fx-text-fill: #002B5B; -fx-font-size: 12;" text="We collect this data to provide you with personalized library services, maintain your account, and ensure the security of your information." wrapText="true">
+                                                    <VBox.margin>
+                                                        <Insets />
+                                                    </VBox.margin>
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </VBox>
+                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 14; -fx-font-weight: bold;" text="Use of Information" wrapText="true">
+                                            <font>
+                                                <Font name=".VnBodoni" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <VBox>
+                                            <children>
+                                                <Label style="-fx-text-fill: #002B5B; -fx-font-size: 12;" text="The information we collect is used for the following purposes:" wrapText="true">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                                <VBox>
+                                                    <children>
+                                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 11;" text="Verifying your identity and providing access to your library account" wrapText="true">
+                                                            <font>
+                                                                <Font name="System Italic" size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 11;" text="Tracking your borrowing history and managing your account" wrapText="true">
+                                                            <font>
+                                                                <Font name="System Italic" size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 11;" text="Communicating with you about library updates, overdue items, or other account-related matters" wrapText="true">
+                                                            <font>
+                                                                <Font name="System Italic" size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 11;" text="Analyzing usage data to improve our library services and system functionality" wrapText="true">
+                                                            <font>
+                                                                <Font name="System Italic" size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Label style="-fx-text-fill: #002B5B;" text="Complying with legal and regulatory requirements" wrapText="true">
+                                                            <font>
+                                                                <Font name="System Italic" size="12.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                    <VBox.margin>
+                                                        <Insets left="30.0" />
+                                                    </VBox.margin>
+                                                </VBox>
+                                                <Label style="-fx-text-fill: #002B5B; -fx-font-size: 12;" text="We do not sell or share your personal information with third parties for marketing or commercial purposes." wrapText="true">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets left="10.0" />
+                                            </VBox.margin>
+                                        </VBox>
+                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 14; -fx-font-weight: bold;" text="Data Security" wrapText="true">
+                                            <font>
+                                                <Font name=".VnBodoni" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <VBox>
+                                            <children>
+                                                <Label style="-fx-text-fill: #002B5B; -fx-font-size: 12;" text="We take reasonable measures to protect your personal information from unauthorized access, disclosure, or misuse. This includes implementing encryption, access controls, and other security protocols to safeguard your data." wrapText="true">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets left="10.0" />
+                                            </VBox.margin>
+                                        </VBox>
+                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 14; -fx-font-weight: bold;" text="Your Rights" wrapText="true">
+                                            <font>
+                                                <Font name=".VnBodoni" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <VBox>
+                                            <children>
+                                                <Label style="-fx-text-fill: #002B5B; -fx-font-size: 12;" text="You have the right to access, update, or delete your personal information stored in our library system. If you have any questions or concerns about our privacy practices, please contact our privacy officer at [tuananhpham12072005@gmail.com]." wrapText="true">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets left="10.0" />
+                                            </VBox.margin>
+                                        </VBox>
+                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 14; -fx-font-weight: bold;" text="Changes to this Policy" wrapText="true">
+                                            <font>
+                                                <Font name=".VnBodoni" size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <VBox>
+                                            <children>
+                                                <Label style="-fx-text-fill: #002B5B; -fx-font-size: 12;" text="We may update this privacy policy from time to time to reflect changes in our practices or applicable laws. We will notify you of any material changes by posting the updated policy on our website." wrapText="true">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets left="10.0" />
+                                            </VBox.margin>
+                                        </VBox>
+                                        <Label style="-fx-text-fill: #002B5B; -fx-font-size: 13; -fx-font-style: italic;" text="By using our library management system, you acknowledge and agree to the terms of this privacy policy." wrapText="true">
+                                            <font>
+                                                <Font name="System Italic" size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                            </center>
+                            <left>
+                                <VBox prefWidth="50.0" BorderPane.alignment="CENTER" />
+                            </left>
+                            <right>
+                                <VBox prefWidth="50.0" BorderPane.alignment="CENTER" />
+                            </right>
+                        </BorderPane>
+                    </children>
+                </StackPane>
+            </center>
         </BorderPane>
-        <VBox prefHeight="117.0" prefWidth="953.0" style="-fx-background-color: white;">
-          <children>
-            <HBox prefHeight="81.0" prefWidth="957.0" spacing="10.0" style="-fx-background-color: white;">
-              <children>
-                <Label prefHeight="73.0" prefWidth="186.0" style="-fx-text-fill: #2b579a;" text="Settings">
-                  <font>
-                    <Font name="Segoe UI Semilight" size="46.0" />
-                  </font>
-                  <padding>
-                    <Insets left="10.0" />
-                  </padding>
-                </Label>
-              </children>
-            </HBox>
-          </children>
-        </VBox>
-        <HBox prefHeight="35.0" prefWidth="957.0" style="-fx-background-color: #efefef;" />
-      </children>
-    </VBox>
-  </top>
-  <center>
-    <BorderPane fx:id="borderPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-      <left>
-        <VBox prefHeight="528.0" prefWidth="302.0" spacing="10.0" BorderPane.alignment="CENTER">
-          <children>
-                  <VBox alignment="CENTER">
-                     <children>
-                        <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../sprites/mainScreen.png" />
-                           </image>
-                        </ImageView>
-                        <Label text="Tuan Anh" />
-                        <JFXButton text="Edit Profile" />
-                     </children>
-                  </VBox>
-                  <VBox spacing="10.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <JFXButton onAction="#handleProfileButton" text="Profile" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <graphic>
-                              <SVGPath content="M18.386,16.009l0.009-0.006l-0.58-0.912c1.654-2.226,1.876-5.319,0.3-7.8c-2.043-3.213-6.303-4.161-9.516-2.118c-3.212,2.042-4.163,6.302-2.12,9.517c1.528,2.402,4.3,3.537,6.944,3.102l0.424,0.669l0.206,0.045l0.779-0.447l-0.305,1.377l2.483,0.552l-0.296,1.325l1.903,0.424l-0.68,3.06l1.406,0.313l-0.424,1.906l4.135,0.918l0.758-3.392L18.386,16.009z M10.996,8.944c-0.685,0.436-1.593,0.233-2.029-0.452C8.532,7.807,8.733,6.898,9.418,6.463s1.594-0.233,2.028,0.452C11.883,7.6,11.68,8.509,10.996,8.944z" />
-                           </graphic>
-                        </JFXButton>
-                  <JFXButton onAction="#handleSignInOptionsButton" text="Sign-in Options" VBox.vgrow="ALWAYS">
-                    <VBox.margin>
-                      <Insets left="1.0" right="1.0" top="2.0" />
-                    </VBox.margin>
-                    <font>
-                      <Font size="14.0" />
-                    </font>
-                    <graphic>
-                      <SVGPath content="M18.386,16.009l0.009-0.006l-0.58-0.912c1.654-2.226,1.876-5.319,0.3-7.8c-2.043-3.213-6.303-4.161-9.516-2.118c-3.212,2.042-4.163,6.302-2.12,9.517c1.528,2.402,4.3,3.537,6.944,3.102l0.424,0.669l0.206,0.045l0.779-0.447l-0.305,1.377l2.483,0.552l-0.296,1.325l1.903,0.424l-0.68,3.06l1.406,0.313l-0.424,1.906l4.135,0.918l0.758-3.392L18.386,16.009z M10.996,8.944c-0.685,0.436-1.593,0.233-2.029-0.452C8.532,7.807,8.733,6.898,9.418,6.463s1.594-0.233,2.028,0.452C11.883,7.6,11.68,8.509,10.996,8.944z" />
-                    </graphic>
-                  </JFXButton>
-                        <JFXButton onAction="#handleHistory" text="History" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <graphic>
-                              <SVGPath content="M18.386,16.009l0.009-0.006l-0.58-0.912c1.654-2.226,1.876-5.319,0.3-7.8c-2.043-3.213-6.303-4.161-9.516-2.118c-3.212,2.042-4.163,6.302-2.12,9.517c1.528,2.402,4.3,3.537,6.944,3.102l0.424,0.669l0.206,0.045l0.779-0.447l-0.305,1.377l2.483,0.552l-0.296,1.325l1.903,0.424l-0.68,3.06l1.406,0.313l-0.424,1.906l4.135,0.918l0.758-3.392L18.386,16.009z M10.996,8.944c-0.685,0.436-1.593,0.233-2.029-0.452C8.532,7.807,8.733,6.898,9.418,6.463s1.594-0.233,2.028,0.452C11.883,7.6,11.68,8.509,10.996,8.944z" />
-                           </graphic>
-                        </JFXButton>
-                        <JFXButton onAction="#handlePrivacyPolicy" text="Privacy Policy">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <graphic>
-                              <SVGPath content="M18.386,16.009l0.009-0.006l-0.58-0.912c1.654-2.226,1.876-5.319,0.3-7.8c-2.043-3.213-6.303-4.161-9.516-2.118c-3.212,2.042-4.163,6.302-2.12,9.517c1.528,2.402,4.3,3.537,6.944,3.102l0.424,0.669l0.206,0.045l0.779-0.447l-0.305,1.377l2.483,0.552l-0.296,1.325l1.903,0.424l-0.68,3.06l1.406,0.313l-0.424,1.906l4.135,0.918l0.758-3.392L18.386,16.009z M10.996,8.944c-0.685,0.436-1.593,0.233-2.029-0.452C8.532,7.807,8.733,6.898,9.418,6.463s1.594-0.233,2.028,0.452C11.883,7.6,11.68,8.509,10.996,8.944z" />
-                           </graphic>
-                        </JFXButton>
-                     </children>
-                     <padding>
-                        <Insets left="30.0" />
-                     </padding>
-                  </VBox>
-          </children>
-               <padding>
-                  <Insets top="5.0" />
-               </padding>
-        </VBox>
-      </left>
-         <center>
-            <StackPane BorderPane.alignment="CENTER">
-               <children>
-                  <BorderPane fx:id="profileBPane">
-                     <center>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <VBox spacing="15.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <Label text="Profile Details" />
-                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label prefWidth="150.0" text="Name" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="name" prefWidth="300.0" promptText="Name" text="Tuan Anh" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label prefWidth="150.0" text="Identity Card" HBox.hgrow="ALWAYS" />
-                                          <Label fx:id="identityCard" text="04220500xxxx" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label prefWidth="150.0" text="Date of Birth" HBox.hgrow="ALWAYS" />
-                                          <Label fx:id="dob" text="12/07/2005" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                              <VBox spacing="15.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <Label text="Contact Information" VBox.vgrow="ALWAYS" />
-                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label prefWidth="150.0" text="Phone number" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="Phone" prefWidth="300.0" text="0987069605" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label prefWidth="150.0" text="Email" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="email" prefWidth="300.0" text="tuananhpham12072005@gmail.com" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                              <HBox alignment="CENTER_LEFT">
-                                 <children>
-                                    <Label prefWidth="150.0" text="Code" />
-                                    <TextField fx:id="code" promptText="Enter Code" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="50.0">
-                                 <children>
-                                    <JFXButton onAction="#handleSave" text="Save Changes" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </center>
-                     <top>
-                        <Label text="Profile Settings" BorderPane.alignment="TOP_LEFT" />
-                     </top>
-                  </BorderPane>
-                  <BorderPane fx:id="profileBPane1" visible="false">
-                     <center>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <VBox spacing="15.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <Label text="Profile Details" />
-                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label prefWidth="150.0" text="Name" HBox.hgrow="ALWAYS" />
-                                          <TextField prefWidth="300.0" promptText="Name" text="Tuan Anh" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label prefWidth="150.0" text="Identity Card" HBox.hgrow="ALWAYS" />
-                                          <Label text="04220500xxxx" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label prefWidth="150.0" text="Date of Birth" HBox.hgrow="ALWAYS" />
-                                          <Label text="12/07/2005" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                              <VBox spacing="15.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <Label text="Contact Information" VBox.vgrow="ALWAYS" />
-                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label prefWidth="150.0" text="Phone number" HBox.hgrow="ALWAYS" />
-                                          <TextField prefWidth="300.0" text="0987069605" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label prefWidth="150.0" text="Email" HBox.hgrow="ALWAYS" />
-                                          <TextField prefWidth="300.0" text="tuananhpham12072005@gmail.com" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                              <HBox alignment="CENTER" prefHeight="50.0">
-                                 <children>
-                                    <JFXButton text="Save Changes" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </center>
-                     <top>
-                        <Label BorderPane.alignment="TOP_LEFT" />
-                     </top>
-                  </BorderPane>
-               </children>
-            </StackPane>
-         </center>
-    </BorderPane>
-  </center>
+    </center>
 </BorderPane>

@@ -13,8 +13,18 @@ public class Category {
     }
 
     public void setCategoryID(String categoryID) {
-        this.categoryID = Integer.parseInt(categoryID.substring(3));
+        if (categoryID != null && categoryID.startsWith("CAT") && categoryID.length() > 3) {
+            try {
+                this.categoryID = Integer.parseInt(categoryID.substring(3));
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid category ID format: " + categoryID);
+                this.categoryID = 0;
+            }
+        } else {
+            this.categoryID = 0;
+        }
     }
+
 
     public String getTag() {
         return tag;

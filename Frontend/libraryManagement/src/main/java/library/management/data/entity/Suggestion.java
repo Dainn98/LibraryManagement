@@ -13,6 +13,11 @@ public class Suggestion {
         this.frequency = frequency;
     }
 
+    public Suggestion(String value, int frequency) {
+        this.value = value;
+        this.frequency = frequency;
+    }
+
     public int getId() {
         return id;
     }

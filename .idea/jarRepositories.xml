@@ -12,6 +12,11 @@
       <option name="url" value="https://nexus.gluonhq.com/nexus/content/repositories/releases/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="google-api" />
+      <option name="name" value="google-api" />
+      <option name="url" value="https://maven.google.com" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Maven Central repository" />
       <option name="url" value="https://repo1.maven.org/maven2" />
@@ -20,6 +25,16 @@
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="google-api" />
+      <option name="name" value="google-api" />
+      <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="google" />
+      <option name="name" value="google" />
+      <option name="url" value="https://maven.google.com" />
     </remote-repository>
   </component>
 </project>

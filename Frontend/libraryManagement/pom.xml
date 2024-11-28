@@ -40,6 +40,11 @@
   </build>
   <dependencies>
     <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.6.2</version>
+    </dependency>
+    <dependency>
       <groupId>com.google.zxing</groupId>
       <artifactId>core</artifactId>
       <version>3.5.2</version>
@@ -136,6 +141,9 @@
       <groupId>org.openjfx</groupId>
       <version>22.0.1</version>
     </dependency>
+
+
+
     <dependency>
       <artifactId>javafx-web</artifactId>
       <groupId>org.openjfx</groupId>
@@ -158,6 +166,8 @@
       <groupId>org.controlsfx</groupId>
       <version>11.2.1</version>
     </dependency>
+
+
 
     <dependency>
       <artifactId>formsfx-core</artifactId>
@@ -228,9 +238,36 @@
     <!--Google Book API-->
 
     <dependency>
+      <groupId>com.assemblyai</groupId>
+      <artifactId>assemblyai-java</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+
+    <dependency>
       <artifactId>google-api-client</artifactId>
       <groupId>com.google.api-client</groupId>
       <version>1.32.1</version>
+    </dependency>
+
+
+    <!--speech to text-->
+    <dependency>
+      <groupId>com.alphacephei</groupId>
+      <artifactId>vosk</artifactId>
+      <version>0.3.38</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-speech</artifactId>
+      <version>2.2.2</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.13</version>
     </dependency>
 
     <dependency>
@@ -248,6 +285,8 @@
       <groupId>com.google.http-client</groupId>
       <version>1.39.0</version>
     </dependency>
+
+
     <!--GSON-->
     <dependency>
       <artifactId>gson</artifactId>
@@ -261,11 +300,30 @@
       <version>9.0.10</version> <!-- Hoặc phiên bản mới nhất -->
     </dependency>
 
+
     <!--Charm-listen-->
     <dependency>
       <artifactId>charm-glisten</artifactId>
       <groupId>com.gluonhq</groupId>
       <version>6.0.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.10.2</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-engine</artifactId>
+      <version>1.10.2</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.10.2</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
   <groupId>library.management</groupId>

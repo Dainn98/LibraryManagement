@@ -9,5 +9,9 @@ public interface properties {
   static final String MAIN_SCREEN_SOURCES = "/ui/fxml/main.fxml";
   static final String MAIN_STYLE_SOURCES = "/ui/css/theme.css";
   static final String MAIN_TITLE = "Library Management System";
-  
+
+  static final String FAQS_CONTAINER_SOURCE = "/ui/fxml/faqContainer.fxml";
+  static final boolean RIGHT = false;
+  static final boolean LEFT = true;
+  static final String SETTINGS_SOURCE = "/ui/fxml/settings.fxml";
 }

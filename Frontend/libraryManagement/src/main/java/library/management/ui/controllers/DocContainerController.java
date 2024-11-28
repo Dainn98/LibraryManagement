@@ -1,9 +1,13 @@
 package library.management.ui.controllers;
 
 
+import static library.management.alert.AlertMaker.showAlertConfirmation;
+import static library.management.alert.AlertMaker.showAlertInformation;
+
+import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.util.Objects;
-
+import java.util.Optional;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -20,8 +24,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import library.management.data.entity.Document;
+import library.management.ui.applications.CodeGenerator;
 import library.management.ui.applications.ImageDownloader;
-
 
 public class DocContainerController implements GeneralController {
 
@@ -54,7 +58,6 @@ public class DocContainerController implements GeneralController {
   };
   private Image image;
   private Document document;
-
   @FXML
   private VBox docInfo;
   @FXML
@@ -65,21 +68,22 @@ public class DocContainerController implements GeneralController {
   private VBox docCatalogView;
   @FXML
   private Hyperlink docTitleCatalog;
+  @FXML
+  private Label desDoc;
 
-  public void setData(Document doc) {
-    this.document = doc;
-    String imageUrl = document.getImage();
-    if (Objects.equals(imageUrl, "/ui/sprites/demoDoc.gif")) {
-      image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imageUrl)));
-    } else {
-      image = ImageDownloader.downloadImage(document.getImage());
-    }
-
-    Platform.runLater(() -> {
-      docThumbnail.setImage(image);
-      docTitleCatalog.setText(document.getTitle());
-      authorCatalog.setText(document.getAuthor());
-
+    public void setData(Document doc) {
+      this.document = doc;
+      String imageUrl = document.getImage();
+      if (Objects.equals(imageUrl, "/ui/sprites/demoDoc.gif")) {
+        image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imageUrl)));
+      } else {
+        image = ImageDownloader.downloadImage(document.getImage());
+      }
+        Platform.runLater(()-> {
+            desDoc.setText(document.getDescription());
+            docThumbnail.setImage(image);
+            docTitleCatalog.setText(document.getTitle());
+            authorCatalog.setText(document.getAuthor());
       docTitleCatalog.setStyle("-fx-text-fill: #002B5B; -fx-font-size: 14px;");  // Navy Blue
       authorCatalog.setStyle("-fx-text-fill: #333333; -fx-padding: 5;");    // Dark Gray
       docCatalogView.setStyle(
@@ -102,7 +106,7 @@ public class DocContainerController implements GeneralController {
   }
 
   private void startAutoRotateBack() {
-    PauseTransition pause = new PauseTransition(Duration.seconds(1)); //
+    PauseTransition pause = new PauseTransition(Duration.seconds(5));
     pause.setOnFinished(event -> {
       if (!docCatalogView.isHover()) {
         rotate3D(docInfo, 0, 1, docThumbnail, 270, 1, 90, Duration.millis(1000));
@@ -140,6 +144,5 @@ public class DocContainerController implements GeneralController {
   public Image getImage() {
     return this.image;
   }
-
 
 }

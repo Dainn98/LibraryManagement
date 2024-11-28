@@ -82,7 +82,7 @@ public class AvatarInfoController {
             Stage stage = new Stage();
             stage.setTitle("Settings");
             SettingsController controller = fxmlLoader.getController();
-            controller.setController(this.controller);
+            controller.setMainController(this.controller);
             controller.setData();
 
             stage.setResizable(false);
