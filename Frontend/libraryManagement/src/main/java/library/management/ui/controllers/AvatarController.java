@@ -1,14 +1,12 @@
 package library.management.ui.controllers;
 
 import java.io.IOException;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
+import library.management.properties;
 
 
-public class AvatarController {
-
-  private static final String AVATAR_INFO_SOURCE = "/ui/fxml/avatarInfo.fxml";
+public class AvatarController implements properties {
 
   private MainController controller;
 
