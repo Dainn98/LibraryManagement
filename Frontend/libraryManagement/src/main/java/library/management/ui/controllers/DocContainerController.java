@@ -118,6 +118,9 @@ public class DocContainerController extends GeneralController implements propert
 
   @FXML
   private void handlePressDocInfo(MouseEvent mouseEvent) throws IOException {
+      if (this.document == null) {
+        return;
+      }
     try {
       FXMLLoader fxmlLoader = new FXMLLoader();
       fxmlLoader.setLocation(getClass().getResource(DOC_INFORMATION_SOURCE));
