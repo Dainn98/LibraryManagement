@@ -35,7 +35,7 @@ import org.controlsfx.control.CheckComboBox;
 
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 
-public class FullUserController implements Initializable, properties, GeneralController {
+public class FullUserController extends GeneralController implements Initializable, properties {
 
   private final HomeController homeController = new HomeController(this);
   private final BorrowedController borrowedController = new BorrowedController(this);
