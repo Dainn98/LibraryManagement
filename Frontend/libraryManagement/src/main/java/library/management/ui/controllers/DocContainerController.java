@@ -66,29 +66,29 @@ public class DocContainerController implements GeneralController {
   @FXML
   private Hyperlink docTitleCatalog;
 
-    public void setData(Document doc) {
-      this.document = doc;
-      String imageUrl = document.getImage();
-      if (Objects.equals(imageUrl, "/ui/sprites/demoDoc.gif")) {
-        image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imageUrl)));
-      } else {
-        image = ImageDownloader.downloadImage(document.getImage());
-      }
-
-        Platform.runLater(()-> {
-            docThumbnail.setImage(image);
-            docTitleCatalog.setText(document.getTitle());
-            authorCatalog.setText(document.getAuthor());
-
-            docTitleCatalog.setStyle("-fx-text-fill: #002B5B; -fx-font-size: 14px;");  // Navy Blue
-            authorCatalog.setStyle("-fx-text-fill: #333333; -fx-padding: 5;");    // Dark Gray
-            docCatalogView.setStyle(
-                    "-fx-background-color:#" + colors[(int) (Math.random() * colors.length)] + ";"
-                            + "-fx-background-radius: 15;"
-                            + "-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 10);"
-            );
-        });
+  public void setData(Document doc) {
+    this.document = doc;
+    String imageUrl = document.getImage();
+    if (Objects.equals(imageUrl, "/ui/sprites/demoDoc.gif")) {
+      image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imageUrl)));
+    } else {
+      image = ImageDownloader.downloadImage(document.getImage());
     }
+
+    Platform.runLater(() -> {
+      docThumbnail.setImage(image);
+      docTitleCatalog.setText(document.getTitle());
+      authorCatalog.setText(document.getAuthor());
+
+      docTitleCatalog.setStyle("-fx-text-fill: #002B5B; -fx-font-size: 14px;");  // Navy Blue
+      authorCatalog.setStyle("-fx-text-fill: #333333; -fx-padding: 5;");    // Dark Gray
+      docCatalogView.setStyle(
+          "-fx-background-color:#" + colors[(int) (Math.random() * colors.length)] + ";"
+              + "-fx-background-radius: 15;"
+              + "-fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 10);"
+      );
+    });
+  }
 
   @FXML
   private void handleEnterDocThumbnail(MouseEvent mouseEvent) {
@@ -102,7 +102,7 @@ public class DocContainerController implements GeneralController {
   }
 
   private void startAutoRotateBack() {
-    PauseTransition pause = new PauseTransition(Duration.seconds(5));
+    PauseTransition pause = new PauseTransition(Duration.seconds(1)); //
     pause.setOnFinished(event -> {
       if (!docCatalogView.isHover()) {
         rotate3D(docInfo, 0, 1, docThumbnail, 270, 1, 90, Duration.millis(1000));
@@ -134,11 +134,11 @@ public class DocContainerController implements GeneralController {
   }
 
   public Document getDocument() {
-      return this.document;
+    return this.document;
   }
 
   public Image getImage() {
-      return this.image;
+    return this.image;
   }
 
 

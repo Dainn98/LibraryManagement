@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import jfxtras.scene.layout.HBox?>
 
-<BorderPane stylesheets="@../css/pastel-theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.UserDocInformationController">
+<BorderPane stylesheets="@../css/theme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.UserDocInformationController">
   <center>
     <VBox prefHeight="569.0" prefWidth="802.0" spacing="10.0">
       <children>
@@ -145,9 +145,9 @@
     </VBox>
   </left>
   <top>
-    <HBox BorderPane.alignment="CENTER">
+    <HBox prefHeight="40.0" prefWidth="1042.0" style="-fx-background-color: linear-gradient(to right,#f0f5ff, #c9d6ff);" BorderPane.alignment="CENTER">
       <children>
-        <Label fx:id="titleHeading" prefHeight="35.0" prefWidth="392.0" style="-fx-font-size: 24;" text="User doc information" HBox.hgrow="ALWAYS">
+        <Label fx:id="titleHeading" prefHeight="35.0" prefWidth="620.0" style="-fx-font-size: 24;" text="User doc information" textAlignment="CENTER" translateX="40.0" translateY="5.0" HBox.hgrow="ALWAYS">
           <font>
             <Font name="System Bold" size="12.0" />
           </font>

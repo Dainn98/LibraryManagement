@@ -6,7 +6,6 @@ public class Manager {
     private String password;
     private String email;
     private int managerID;
-
     public String getManagerName() {
         return managerName;
     }

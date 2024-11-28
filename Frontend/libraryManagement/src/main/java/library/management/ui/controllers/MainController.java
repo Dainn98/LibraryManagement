@@ -29,6 +29,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -317,6 +318,10 @@ public class MainController implements Initializable, properties, GeneralControl
     protected GridPane localViewGPane;
     @FXML
     protected AutoCompleteTextField<String> catalogSearchField;
+    @FXML
+    protected StackPane mainStackPane;
+
+    protected String path = getClass().getResource("/ui/css/theme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -329,6 +334,7 @@ public class MainController implements Initializable, properties, GeneralControl
         catalogController.initCatalog();
         documentManagementController.initDocumentManagement();
         returnDocumentController.initReturnDocument();
+        mainStackPane.getStylesheets().add(path);
     }
 
     public void setMainManager(Manager manager) {

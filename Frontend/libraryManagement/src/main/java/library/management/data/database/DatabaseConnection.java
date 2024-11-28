@@ -12,10 +12,10 @@ public class DatabaseConnection {
     // Khối khởi tạo tĩnh để cấu hình HikariCP
     static {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3306/libdemo?useSSL=false&autoReconnect=true");
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/libdemo?useSSL=false&allowPublicKeyRetrieval=true");
         config.setUsername("root");
 
-        config.setPassword("Pdthien432005~");
+        config.setPassword("822261");
 
 //        config.setJdbcUrl("jdbc:mysql://bhdhbvbnzgx0wns50jsy-mysql.services.clever-cloud.com:3306/bhdhbvbnzgx0wns50jsy?useSSL=false&autoReconnect=true");
 //        config.setUsername("ueqiv7zizvzrfyya");

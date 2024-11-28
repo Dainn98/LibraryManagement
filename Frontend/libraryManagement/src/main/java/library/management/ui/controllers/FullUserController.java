@@ -23,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -40,6 +41,7 @@ public class FullUserController implements Initializable, properties, GeneralCon
   private final AvatarController2 avatarController = new AvatarController2(this);
 
   public static User mainUser;
+  public StackPane mainStackPane;
 
   @FXML
   protected GridPane borrowViewGPane;
@@ -179,12 +181,26 @@ public class FullUserController implements Initializable, properties, GeneralCon
   @FXML
   protected Button userInformationButton;
 
+
+  @FXML
+  protected StackPane stackFull;
+
+
+  @FXML
+  private Button settingsButton;
+  public String path = getClass().getResource("/ui/css/theme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
+
   public void setMainUser(User mainUser) {
     this.mainUser = mainUser;
+    avatarController.initAvatar(infoVBox);
   }
 
   public String getMainUserName() {
     return mainUser.getUserName();
+  }
+
+  public static User getMainUser() {
+    return mainUser;
   }
 
   @Override
@@ -193,7 +209,8 @@ public class FullUserController implements Initializable, properties, GeneralCon
     borrowedController.initBorrowedDocuments();
     processingController.initProcess();
     historyController.initIssueDocumentView();
-    avatarController.initAvatar(infoVBox);
+    //avatarController.initAvatar(infoVBox);
+    stackFull.getStylesheets().add(path);
   }
 
   // MENU CONTROLLER
@@ -217,13 +234,13 @@ public class FullUserController implements Initializable, properties, GeneralCon
   }
 
   @FXML
-  private void handleClickAvatar(MouseEvent event) {
-    rotate3D(pic, 0, 1, infoVBox, 270, 1, 90, Duration.millis(1000));
+  private void handleClickAvatar(MouseEvent mouseEvent) {
+    homeController.handleClickAvatar(pic, infoVBox);
   }
 
   @FXML
-  private void handleExitAvatarInfo(MouseEvent event) {
-
+  private void handleExitAvatarInfo(MouseEvent mouseEvent) {
+    homeController.handleExitAvatarInfo(infoVBox, pic);
   }
 
   @FXML
