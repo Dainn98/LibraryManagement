@@ -8,6 +8,7 @@ public class Manager {
     private int managerID;
     private String phoneNumber;
 
+
     public String getManagerName() {
         return managerName;
     }

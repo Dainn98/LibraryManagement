@@ -10,9 +10,11 @@ import javafx.geometry.Insets;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import library.management.data.DAO.DocumentDAO;
 import library.management.data.DAO.SuggestionDAO;
 import library.management.data.DataStructure.Trie;
@@ -24,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class HomeController {
+public class HomeController extends GeneralController {
     private final FullUserController controller;
     private final List<List<Document>> documentList = new ArrayList<>();
     private final List<List<UserDocContainerController>> docContainerControllerList = new ArrayList<>();
@@ -185,5 +187,13 @@ public class HomeController {
             titleTrie.insert(query, 1);
             titleTrie.incrementFrequency(query);
         }
+    }
+
+    protected void handleClickAvatar(ImageView pic, VBox infoVBox) {
+        rotate3D(pic, 0, 1, infoVBox, 270, 1, 90, Duration.millis(1000));
+    }
+
+    protected void handleExitAvatarInfo(VBox infoVBox, ImageView pic) {
+        rotate3D(infoVBox, 0, 1, pic, 270, 1, 90, Duration.millis(1000));
     }
 }

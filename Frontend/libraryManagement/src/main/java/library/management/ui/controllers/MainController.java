@@ -35,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -331,6 +332,10 @@ public class MainController  extends GeneralController implements Initializable,
     protected GridPane localViewGPane;
     @FXML
     protected AutoCompleteTextField<String> catalogSearchField;
+    @FXML
+    protected StackPane mainStackPane;
+
+    protected String path = getClass().getResource("/ui/css/theme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
 
     //FAQs
     @FXML
@@ -365,7 +370,7 @@ public class MainController  extends GeneralController implements Initializable,
         catalogController.initCatalog();
         documentManagementController.initDocumentManagement();
         returnDocumentController.initReturnDocument();
-
+        mainStackPane.getStylesheets().add(path);
         faqRequestContainer.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 if (event.isShiftDown()) {
