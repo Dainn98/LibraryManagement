@@ -38,6 +38,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import jfxtras.scene.control.ImageViewButton;
 import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
 import library.management.data.entity.Document;
@@ -344,7 +345,14 @@ public class MainController implements Initializable, properties, GeneralControl
     protected ImageViewButton recordButton;
     @FXML
     protected ImageViewButton sendTextButton;
-    private Timeline shakeAnimation;
+//    private Timeline shakeAnimation;
+    @FXML
+    protected BorderPane chatbotPane;
+    @FXML
+    protected HBox faqContainer;
+    @FXML
+    protected JFXButton newChatButton;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -357,6 +365,18 @@ public class MainController implements Initializable, properties, GeneralControl
         catalogController.initCatalog();
         documentManagementController.initDocumentManagement();
         returnDocumentController.initReturnDocument();
+
+        faqRequestContainer.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                if (event.isShiftDown()) {
+                    faqRequestContainer.appendText("\n");
+                } else {
+//                    System.out.println("Phím Enter đã được nhấn!");
+                    handleSendText();
+                    event.consume(); // Ngăn Enter thêm ký tự mới vào TextArea
+                }
+            }
+        });
     }
 
     public void setMainManager(Manager manager) {
@@ -385,6 +405,7 @@ public class MainController implements Initializable, properties, GeneralControl
         pendingLoansBPane.setVisible(sectionToShow == pendingLoansBPane);
         pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
         FAQsBPane.setVisible(sectionToShow == FAQsBPane);
+        chatbotPane.setVisible(sectionToShow == chatbotPane);
     }
 
     @FXML
@@ -408,6 +429,10 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     private void handleLibFAQsButton(ActionEvent actionEvent) {
         showSection(FAQsBPane);
+        if(!newChatButton.isVisible() && !faqSPane.isVisible()) {
+            fade(chatbotPane, 0, 1, Duration.millis(500));
+            fade(faqContainer, 0, 1, Duration.millis(500));
+        }
     }
 
     @FXML
@@ -438,6 +463,8 @@ public class MainController implements Initializable, properties, GeneralControl
         pendingLoanController.loadLoanData();
         showSection(pendingLoansBPane);
     }
+
+    // ALL ISSUED DOCUMENT
 
     @FXML
     private void handleSearchPendingIssue(KeyEvent keyEvent) {
@@ -735,7 +762,7 @@ public class MainController implements Initializable, properties, GeneralControl
     }
 
     public void handleSendText(MouseEvent mouseEvent) {
-        faqsController.loadFAQs(FAQsGPane, faqSPane);
+        handleSendText();
     }
 
     public void handleMouseEnterRecord(MouseEvent mouseEvent) {
@@ -756,6 +783,22 @@ public class MainController implements Initializable, properties, GeneralControl
     public void handleMouseExitSend(MouseEvent mouseEvent) {
         sendTextButton.setImage(new Image(
             Objects.requireNonNull(getClass().getResourceAsStream(SEND_SOURCE))));
+    }
+
+    public void handleResetFAQs(ActionEvent actionEvent) {
+        fade(faqSPane,0.5,0,Duration.millis(500));
+        fade(newChatButton,0.5,0,Duration.millis(500));
+        // CHATBOT BPane
+        fade(chatbotPane,0.5,1,Duration.millis(500));
+        fade(faqContainer,0.5,1,Duration.millis(500));
+        FAQsGPane.getChildren().clear();
+        faqSPane.setContent(FAQsGPane);
+    }
+    private void handleSendText(){
+        faqsController.loadFAQs(FAQsGPane, faqSPane);
+        if(!newChatButton.isVisible()) fade(newChatButton,0.5,1,Duration.millis(500));
+        if(!faqSPane.isVisible()) fade(faqSPane,0.5,1,Duration.millis(500));
+        if(chatbotPane.isVisible()) fade(chatbotPane,0.5,0,Duration.millis(500));
     }
 }
 

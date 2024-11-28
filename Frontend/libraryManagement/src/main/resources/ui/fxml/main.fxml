@@ -1292,11 +1292,38 @@
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </padding>
                            <center>
-                              <ScrollPane fx:id="faqSPane" hbarPolicy="NEVER" style="-fx-border-color: #002B5B;" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
-                                 <content>
-                                    <GridPane fx:id="FAQsGPane" alignment="CENTER" focusTraversable="true" />
-                                 </content>
-                              </ScrollPane>
+                              <StackPane BorderPane.alignment="CENTER">
+                                 <children>
+                                    <ScrollPane fx:id="faqSPane" hbarPolicy="NEVER" style="-fx-border-color: #002B5B;" vbarPolicy="ALWAYS" visible="false">
+                                       <content>
+                                          <GridPane fx:id="FAQsGPane" alignment="CENTER" focusTraversable="true" />
+                                       </content>
+                                    </ScrollPane>
+                                    <JFXButton fx:id="newChatButton" onAction="#handleResetFAQs" style="-fx-background-color: transparent; -fx-border-color: #002b5b;" text="New chat" visible="false" StackPane.alignment="TOP_LEFT">
+                                       <StackPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </StackPane.margin>
+                                    </JFXButton>
+                                    <BorderPane fx:id="chatbotPane" prefHeight="200.0" prefWidth="200.0">
+                                       <center>
+                                          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                             <children>
+                                                <ImageView fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../sprites/qa.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <HBox fx:id="faqContainer" alignment="CENTER">
+                                                   <children>
+                                                      <Label style="-fx-font-size: 26; -fx-text-fill: #002B5B; -fx-font-weight: bold;" text="What can I help with?" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </center>
+                                    </BorderPane>
+                                 </children>
+                              </StackPane>
                            </center>
                         </BorderPane>
                      </center>

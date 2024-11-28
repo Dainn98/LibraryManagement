@@ -1,6 +1,8 @@
 package library.management.ui.controllers;
 
 import com.jfoenix.controls.JFXTextArea;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
