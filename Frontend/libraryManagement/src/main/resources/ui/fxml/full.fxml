@@ -28,7 +28,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<StackPane fx:id="stackFull" prefHeight="833.0" prefWidth="1058.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FullUserController">
+<StackPane fx:id="stackFull" prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/dark-theme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FullUserController">
    <children>
       <BorderPane prefHeight="806.0" prefWidth="1010.0" StackPane.alignment="CENTER">
          <top>
@@ -125,7 +125,7 @@
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label prefHeight="58.0" style="-fx-text-fill: #2b579a;" text="Transaction" HBox.hgrow="ALWAYS">
+                                          <Label prefHeight="58.0" style="-fx-text-fill: #2b579a;" styleClass="label-heading-h1" text="Transaction" HBox.hgrow="ALWAYS">
                                              <font>
                                                 <Font name="Segoe UI Semilight" size="46.0" />
                                              </font>
@@ -208,7 +208,7 @@
                      <top>
                         <BorderPane fx:id="homePane" maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                            <center>
-                              <Label text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
+                              <Label style="-fx-font-weight: bold;" styleClass="label-heading-h1" text="Library Management System" textFill="#a1a1a1" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font name="Segoe UI Semilight" size="23.0" />
                                  </font>
@@ -220,7 +220,7 @@
                            <bottom>
                               <VBox BorderPane.alignment="CENTER">
                                  <children>
-                                    <Label text="Home" textFill="#2b579a">
+                                    <Label styleClass="label-heading-h2" text="Home" textFill="#2b579a">
                                        <font>
                                           <Font name="Times New Roman" size="40.0" />
                                        </font>
@@ -273,7 +273,7 @@
                                              <content>
                                                 <VBox prefHeight="958.0" prefWidth="732.0" translateX="20.0">
                                                    <children>
-                                                      <Label fx:id="firstLabel" text="Hot" />
+                                                      <Label fx:id="firstLabel" styleClass="label-heading-h3" text="Hot" />
                                                       <ScrollPane maxHeight="500.0" minHeight="400.0" prefHeight="400.0" prefWidth="767.0">
                                                          <content>
                                                             <GridPane fx:id="oneGrid" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
@@ -296,7 +296,7 @@
                                                             </GridPane>
                                                          </content>
                                                       </ScrollPane>
-                                                      <Label fx:id="secondLabel" layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" text="nvhd" />
+                                                      <Label fx:id="secondLabel" layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" styleClass="label-heading-h3" text="nvhd" />
                                                       <ScrollPane layoutX="10.0" layoutY="28.0" maxHeight="500.0" minHeight="400.0" prefHeight="400.0" prefWidth="767.0">
                                                          <content>
                                                             <GridPane fx:id="twoGrid" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
@@ -319,7 +319,7 @@
                                                             </GridPane>
                                                          </content>
                                                       </ScrollPane>
-                                                      <Label fx:id="thirdLabel" text="Category" />
+                                                      <Label fx:id="thirdLabel" styleClass="label-heading-h3" text="Category" />
                                                       <ScrollPane layoutX="10.0" layoutY="502.0" maxHeight="500.0" minHeight="400.0" prefHeight="400.0" prefWidth="767.0">
                                                          <content>
                                                             <GridPane fx:id="threeGrid" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
@@ -342,7 +342,7 @@
                                                             </GridPane>
                                                          </content>
                                                       </ScrollPane>
-                                                      <Label fx:id="fourthLabel" text="Category" />
+                                                      <Label fx:id="fourthLabel" styleClass="label-heading-h3" text="Category" />
                                                       <ScrollPane layoutX="10.0" layoutY="502.0" maxHeight="500.0" minHeight="400.0" prefHeight="400.0" prefWidth="767.0">
                                                          <content>
                                                             <GridPane fx:id="fourGrid" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
@@ -365,7 +365,7 @@
                                                             </GridPane>
                                                          </content>
                                                       </ScrollPane>
-                                                      <Label fx:id="fifthLabel" text="Category" />
+                                                      <Label fx:id="fifthLabel" styleClass="label-heading-h3" text="Category" />
                                                       <ScrollPane layoutX="10.0" layoutY="502.0" maxHeight="500.0" minHeight="400.0" prefHeight="400.0" prefWidth="767.0">
                                                          <content>
                                                             <GridPane fx:id="fiveGrid" hgap="10.0" maxHeight="500.0" minHeight="200.0" prefHeight="350.0" prefWidth="2195.0" translateY="20.0">
