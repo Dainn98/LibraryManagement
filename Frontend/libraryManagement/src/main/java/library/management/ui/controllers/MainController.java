@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
@@ -16,6 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 
 import javafx.event.ActionEvent;
@@ -24,6 +26,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCode;
@@ -35,6 +38,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import jfxtras.scene.control.ImageViewButton;
 import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
@@ -61,6 +65,7 @@ public class MainController implements Initializable, properties, GeneralControl
     private final DocumentManagementController documentManagementController = new DocumentManagementController(this);
     private final ReturnDocumentController returnDocumentController = new ReturnDocumentController(this);
     private final FAQsController faqsController = new FAQsController(this);
+
     private Manager mainManager;
     // DASHBOARD PROPERTIES
     @FXML
@@ -335,6 +340,11 @@ public class MainController implements Initializable, properties, GeneralControl
     protected ScrollPane faqSPane;
     @FXML
     protected JFXTextArea faqRequestContainer;
+    @FXML
+    protected ImageViewButton recordButton;
+    @FXML
+    protected ImageViewButton sendTextButton;
+    private Timeline shakeAnimation;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -699,6 +709,10 @@ public class MainController implements Initializable, properties, GeneralControl
     //    FAQs
     @FXML
     private void handleRecord(MouseEvent mouseEvent) {
+        recordButton.setImage(new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream(RECORD_SOURCE))));
+        startShakingAnimation(recordButton);
+
         SpeechToText.stopRecognition = !SpeechToText.stopRecognition;
         if (!SpeechToText.stopRecognition) {
             System.out.println("Start");
@@ -714,11 +728,34 @@ public class MainController implements Initializable, properties, GeneralControl
             thread.start();
         } else {
             System.out.println("Stop");
+            stopShakingAnimation(recordButton);
+            recordButton.setImage(new Image(
+                Objects.requireNonNull(getClass().getResourceAsStream(MIRCO_SOURCE))));
         }
     }
 
     public void handleSendText(MouseEvent mouseEvent) {
         faqsController.loadFAQs(FAQsGPane, faqSPane);
+    }
+
+    public void handleMouseEnterRecord(MouseEvent mouseEvent) {
+        recordButton.setImage(new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream(MIRCO_HOVER_SOURCE))));
+    }
+
+    public void handleMouseEnterSend(MouseEvent mouseEvent) {
+        sendTextButton.setImage(new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream(SEND_HOVER_SOURCE))));
+    }
+
+    public void handleMouseExitRecord(MouseEvent mouseEvent) {
+        recordButton.setImage(new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream(MIRCO_SOURCE))));
+    }
+
+    public void handleMouseExitSend(MouseEvent mouseEvent) {
+        sendTextButton.setImage(new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream(SEND_SOURCE))));
     }
 }
 
