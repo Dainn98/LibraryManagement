@@ -1,5 +1,7 @@
 package library.management;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.RotateTransition;
 import javafx.stage.Stage;
 
 public interface properties {

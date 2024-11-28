@@ -718,7 +718,7 @@
                   </BorderPane>
 
                   <!--                  LIBRARY CATALOG-->
-                  <BorderPane fx:id="catalogBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                  <BorderPane fx:id="catalogBPane" prefHeight="200.0" prefWidth="200.0">
                      <top>
                         <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                            <center>
@@ -1257,7 +1257,7 @@
                   </BorderPane>
 
                   <!--                  FAQS-->
-                  <BorderPane fx:id="FAQsBPane" prefHeight="200.0" prefWidth="200.0">
+                  <BorderPane fx:id="FAQsBPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <top>
                         <BorderPane maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
                            <center>

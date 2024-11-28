@@ -25,7 +25,7 @@ import java.util.Optional;
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 import static library.management.alert.AlertMaker.showAlertInformation;
 
-public class UserDocInformationController implements GeneralController {
+public class UserDocInformationController extends GeneralController {
     private final static double DX = 800;
     private final static Duration DURATION = Duration.millis(1000);
     private final static int QR_HEIGHT = 150;

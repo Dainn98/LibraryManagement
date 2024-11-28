@@ -9,7 +9,7 @@ import library.management.data.DAO.LoanDAO;
 import library.management.data.DAO.UserDAO;
 
 
-public class DashboardController implements GeneralController {
+public class DashboardController extends GeneralController {
 
   private final MainController controller;
 
