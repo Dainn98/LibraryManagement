@@ -26,14 +26,21 @@ import javax.sound.sampled.TargetDataLine;
 public class FAQsController implements properties {
 
 
+  private final FullUserController userController;
   private final MainController controller;
   @FXML
   public VBox faqVBox;
   @FXML
   public Label name;
 
+  public FAQsController(FullUserController userController) {
+    this.userController = userController;
+    this.controller = null;
+  }
+
   public FAQsController(MainController mainController) {
     this.controller = mainController;
+    this.userController = null;
   }
 
   private VBox createFAQsContainer(Label name, String text, ScrollPane scrollPane,
@@ -60,30 +67,55 @@ public class FAQsController implements properties {
   }
 
   public void loadFAQs(GridPane gPane, ScrollPane faqSPane) {
-
-    String question = controller.faqRequestContainer.getText().trim();
-    VBox userInputSection = createFAQsContainer(new Label("User:"), question,
-        faqSPane, RIGHT);
-    int rowCount = gPane.getRowCount();
-    gPane.add(userInputSection, 0, rowCount);
-    faqSPane.setContent(gPane);
-    controller.faqRequestContainer.clear();
-
-    Task<VBox> getAnswer = new Task<>() {
-      @Override
-      protected VBox call() throws Exception {
-        String answer = ApiGoogleGemini.sendPostRequest(question);
-        return createFAQsContainer(new Label("Response:"), answer,
-            faqSPane, LEFT);
-      }
-    };
-    getAnswer.setOnSucceeded(event -> {
-      gPane.add(getAnswer.getValue(), 0, rowCount + 1);
+    if (controller != null) {
+      String question = controller.faqRequestContainer.getText().trim();
+      VBox userInputSection = createFAQsContainer(new Label("User:"), question,
+              faqSPane, RIGHT);
+      int rowCount = gPane.getRowCount();
+      gPane.add(userInputSection, 0, rowCount);
       faqSPane.setContent(gPane);
-    });
-    Thread thread = new Thread(getAnswer);
-    thread.setDaemon(true);
-    thread.start();
+      controller.faqRequestContainer.clear();
+
+      Task<VBox> getAnswer = new Task<>() {
+        @Override
+        protected VBox call() throws Exception {
+          String answer = ApiGoogleGemini.sendPostRequest(question);
+          return createFAQsContainer(new Label("Response:"), answer,
+                  faqSPane, LEFT);
+        }
+      };
+      getAnswer.setOnSucceeded(event -> {
+        gPane.add(getAnswer.getValue(), 0, rowCount + 1);
+        faqSPane.setContent(gPane);
+      });
+      Thread thread = new Thread(getAnswer);
+      thread.setDaemon(true);
+      thread.start();
+    } else {
+      String question = userController.faqRequestContainer.getText().trim();
+      VBox userInputSection = createFAQsContainer(new Label("User:"), question,
+              faqSPane, RIGHT);
+      int rowCount = gPane.getRowCount();
+      gPane.add(userInputSection, 0, rowCount);
+      faqSPane.setContent(gPane);
+      userController.faqRequestContainer.clear();
+
+      Task<VBox> getAnswer = new Task<>() {
+        @Override
+        protected VBox call() throws Exception {
+          String answer = ApiGoogleGemini.sendPostRequest(question);
+          return createFAQsContainer(new Label("Response:"), answer,
+                  faqSPane, LEFT);
+        }
+      };
+      getAnswer.setOnSucceeded(event -> {
+        gPane.add(getAnswer.getValue(), 0, rowCount + 1);
+        faqSPane.setContent(gPane);
+      });
+      Thread thread = new Thread(getAnswer);
+      thread.setDaemon(true);
+      thread.start();
+    }
   }
 
   public void record() {
@@ -94,18 +126,36 @@ public class FAQsController implements properties {
       return;
     }
     try (TargetDataLine microphone = (TargetDataLine) AudioSystem.getLine(info)) {
-      microphone.open(SpeechToText.format);
-      microphone.start();
-      byte[] buffer = new byte[4096];
-      while (!SpeechToText.stopRecognition) {
-        int bytesRead = microphone.read(buffer, 0, buffer.length);
-        if (recognizer.acceptWaveForm(buffer, bytesRead)) {
-          String result = recognizer.getResult();
-          String text = SpeechToText.extractTextFromJson(result);
-          if (!text.isEmpty()) {
-            controller.faqRequestContainer.setText(
-                controller.faqRequestContainer.getText() + " " + text);
-            System.out.println(text + " ");
+      if (controller != null) {
+        microphone.open(SpeechToText.format);
+        microphone.start();
+        byte[] buffer = new byte[4096];
+        while (!SpeechToText.stopRecognition) {
+          int bytesRead = microphone.read(buffer, 0, buffer.length);
+          if (recognizer.acceptWaveForm(buffer, bytesRead)) {
+            String result = recognizer.getResult();
+            String text = SpeechToText.extractTextFromJson(result);
+            if (!text.isEmpty()) {
+              controller.faqRequestContainer.setText(
+                      controller.faqRequestContainer.getText() + " " + text);
+              System.out.println(text + " ");
+            }
+          }
+        }
+      } else {
+        microphone.open(SpeechToText.format);
+        microphone.start();
+        byte[] buffer = new byte[4096];
+        while (!SpeechToText.stopRecognition) {
+          int bytesRead = microphone.read(buffer, 0, buffer.length);
+          if (recognizer.acceptWaveForm(buffer, bytesRead)) {
+            String result = recognizer.getResult();
+            String text = SpeechToText.extractTextFromJson(result);
+            if (!text.isEmpty()) {
+              userController.faqRequestContainer.setText(
+                      userController.faqRequestContainer.getText() + " " + text);
+              System.out.println(text + " ");
+            }
           }
         }
       }

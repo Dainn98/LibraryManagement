@@ -8,14 +8,14 @@ import javafx.scene.layout.VBox;
 
 public class UserAvatarController {
 
-  private static final String AVATAR_INFO_SOURCE = "/ui/fxml/avatarInfo2.fxml";
-
   private FullUserController controller;
+  private static final String AVATAR_INFO_SOURCE = "/ui/fxml/avatarInfo1.fxml";
 
   public UserAvatarController() {
+    // No-argument constructor
   }
 
-  public UserAvatarController(FullUserController controller) {
+  public UserAvatarController(FullUserController controller){
     this.controller = controller;
   }
 
