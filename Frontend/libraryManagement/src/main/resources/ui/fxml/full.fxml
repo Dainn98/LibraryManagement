@@ -28,7 +28,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<StackPane fx:id="stackFull" prefHeight="833.0" prefWidth="1058.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FullUserController">
+<StackPane fx:id="stackFull" prefHeight="833.0" prefWidth="1058.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FullUserController">
    <children>
       <BorderPane prefHeight="806.0" prefWidth="1010.0" StackPane.alignment="CENTER">
          <top>
@@ -73,7 +73,7 @@
                               <Image url="@../sprites/mainScreen.png" />
                            </image>
                         </ImageView>
-                        <VBox fx:id="infoVBox" onMouseExited="#handleExitAvatarInfo" prefHeight="200.0" prefWidth="100.0" />
+                        <VBox fx:id="infoVBox" onMouseExited="#handleExitAvatarInfo" prefHeight="200.0" prefWidth="100.0" visible="false" />
                      </children>
                   </StackPane>
                   <Button fx:id="homeButton" onAction="#handleHomeButton" prefWidth="200.0" text="Home" textFill="WHITE">

@@ -17,9 +17,10 @@ import java.io.IOException;
 import javafx.animation.TranslateTransition;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import library.management.properties;
 
 
-public class AvatarInfoController {
+public class AvatarInfoController implements properties {
 
     private static final String SETTINGS_SOURCE = "/ui/fxml/settings.fxml";
 

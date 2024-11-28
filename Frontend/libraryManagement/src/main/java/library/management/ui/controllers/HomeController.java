@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class HomeController implements GeneralController {
+public class HomeController extends GeneralController {
     private final FullUserController controller;
     private final List<List<Document>> documentList = new ArrayList<>();
     private final List<List<UserDocContainerController>> docContainerControllerList = new ArrayList<>();
