@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.user;
 
 import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import com.jfoenix.controls.JFXButton;
@@ -39,6 +39,9 @@ import library.management.data.entity.Loan;
 import library.management.data.entity.User;
 import library.management.properties;
 import library.management.ui.applications.SpeechToText;
+import library.management.ui.controllers.FAQsController;
+import library.management.ui.controllers.GeneralController;
+import library.management.ui.controllers.SignOutController;
 import org.controlsfx.control.CheckComboBox;
 
 import static library.management.alert.AlertMaker.showAlertConfirmation;
@@ -70,7 +73,7 @@ public class FullUserController extends GeneralController implements Initializab
   @FXML
   protected ImageViewButton sendTextButton;
   @FXML
-  protected JFXTextArea faqRequestContainer;
+  public JFXTextArea faqRequestContainer;
   @FXML
   protected ImageViewButton recordButton;
 

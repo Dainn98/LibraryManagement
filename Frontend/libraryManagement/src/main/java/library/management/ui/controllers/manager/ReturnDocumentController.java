@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.manager;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -12,8 +12,7 @@ import java.util.Optional;
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 import static library.management.alert.AlertMaker.showAlertInformation;
 
-public class ReturnDocumentController {
-    private final MainController controller;
+public class ReturnDocumentController extends ManagerSubController {
     private final ObservableList<Loan> list = FXCollections.observableArrayList();
 
     public ReturnDocumentController(MainController controller) {

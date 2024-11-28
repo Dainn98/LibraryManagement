@@ -57,7 +57,7 @@ SELECT * FROM language;
 CREATE TABLE user (
                       userName VARCHAR(100) PRIMARY KEY,
                       identityCard CHAR(12) UNIQUE,
-                      phoneNumber CHAR(10) UNIQUE,
+                      phoneNumber CHAR(10),
                       email VARCHAR(100) UNIQUE,
                       password varchar(100) not null,
                       country VARCHAR(50) default 'not set',

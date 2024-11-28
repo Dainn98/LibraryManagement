@@ -15,6 +15,8 @@ import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.ui.applications.EmailSender;
 import library.management.ui.applications.SecurityCodeGenerator;
+import library.management.ui.controllers.manager.MainController;
+import library.management.ui.controllers.user.FullUserController;
 import org.controlsfx.control.textfield.CustomPasswordField;
 
 import java.util.regex.Pattern;

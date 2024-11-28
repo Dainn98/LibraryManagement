@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.user;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,12 +16,17 @@ import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
 import library.management.properties;
 
-public class ProcessingController implements UserVBoxDocument, properties {
-
-  private final FullUserController controller;
+public class ProcessingController extends UserSubController implements properties {
+  private final List<Loan> pendingLoanList = new ArrayList<>();
+  private final List<UserDocContainerController> pendingDocContainerControllerList = new ArrayList<>();
+  private final List<Document> pendingDocumentList = new ArrayList<>();
 
   public ProcessingController(FullUserController controller) {
     this.controller = controller;
+  }
+
+  public FullUserController getController() {
+    return controller;
   }
 
   public void initProcess() {
@@ -29,16 +34,16 @@ public class ProcessingController implements UserVBoxDocument, properties {
 
   public void loadPendingDocument() {
     controller.processViewGPane.getChildren().clear();
-    loanList.clear();
-    documentList.clear();
-    docContainerControllerList.clear();
-    loanList.addAll(LoanDAO.getInstance().getPendingLoansByUsername(controller.getMainUserName()));
+    pendingLoanList.clear();
+    pendingDocumentList.clear();
+    pendingDocContainerControllerList.clear();
+    pendingLoanList.addAll(LoanDAO.getInstance().getPendingLoansByUsername(controller.getMainUserName()));
     int column = 0;
     int row = 1;
     try {
-      for (int i = 0; i < loanList.size(); i++) {
+      for (int i = 0; i < pendingLoanList.size(); i++) {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
+        fxmlLoader.setLocation(getClass().getResource(HOME_DOCUMENT_CONTAINER_SOURCES));
         VBox docContainerVBox = fxmlLoader.load();
         UserDocContainerController docContainerController = fxmlLoader.getController();
         if (column == PROCESS_COLUMN_MAX) {
@@ -47,25 +52,25 @@ public class ProcessingController implements UserVBoxDocument, properties {
         }
         controller.processViewGPane.add(docContainerVBox, column++, row);
         GridPane.setMargin(docContainerVBox, new Insets(10));
-        docContainerControllerList.add(docContainerController);
+        pendingDocContainerControllerList.add(docContainerController);
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
     try {
-      for (Loan loan : loanList) {
-        documentList.add(loan.getDocument());
+      for (Loan loan : pendingLoanList) {
+        pendingDocumentList.add(loan.getDocument());
       }
     } catch (Exception e) {
       e.printStackTrace();
     }
     List<Task<Void>> tasks = new ArrayList<>();
-    for (int i = 0; i < documentList.size(); ++i) {
+    for (int i = 0; i < pendingDocumentList.size(); ++i) {
       final int index = i;
       Task<Void> loadController = new Task<>() {
         @Override
-        protected Void call() throws Exception {
-          docContainerControllerList.get(index).setDocData(documentList.get(index), loanList.get(index), UserDocContainerController.PROCESSING_DOCUMENT);
+        protected Void call() {
+          pendingDocContainerControllerList.get(index).setDocData(pendingDocumentList.get(index), pendingLoanList.get(index), UserDocContainerController.PROCESSING_DOCUMENT);
           return null;
         }
       };

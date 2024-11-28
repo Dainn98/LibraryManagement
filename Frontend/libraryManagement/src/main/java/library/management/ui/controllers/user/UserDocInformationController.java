@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.user;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
@@ -11,13 +11,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import library.management.data.DAO.LoanDAO;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
 import library.management.data.entity.User;
 import library.management.properties;
 import library.management.ui.applications.CodeGenerator;
+import library.management.ui.controllers.GeneralController;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -217,8 +217,8 @@ public class UserDocInformationController extends GeneralController implements p
         if (loan.getStatus().equals("late")) {
             double lateFee = Loan.LATE_FEE * ChronoUnit.DAYS.between(loan.getRequiredReturnDate(), LocalDateTime.now());
             Optional<ButtonType> result = showAlertConfirmation("Return document", "This document is overdue. You have to pay a late fee of " +
-                                                                lateFee + " $.\n" +
-                                                                "Are you sure you want to return this document?");
+                    lateFee + " $.\n" +
+                    "Are you sure you want to return this document?");
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 loan.setDeposit(Integer.parseInt(String.valueOf(lateFee)));
                 if (LoanDAO.getInstance().userReturnDocument(loan)) {

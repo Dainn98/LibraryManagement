@@ -16,6 +16,8 @@ import javafx.scene.layout.VBox;
 import library.management.properties;
 import library.management.ui.applications.ApiGoogleGemini;
 import library.management.ui.applications.SpeechToText;
+import library.management.ui.controllers.manager.MainController;
+import library.management.ui.controllers.user.FullUserController;
 import org.vosk.Recognizer;
 
 import javax.sound.sampled.AudioSystem;

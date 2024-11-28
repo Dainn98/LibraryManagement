@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.manager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,20 +11,18 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import library.management.data.DAO.DocumentDAO;
 import library.management.data.DAO.SuggestionDAO;
-import library.management.data.DataStructure.Trie;
 import library.management.data.entity.Document;
 import library.management.properties;
 import library.management.ui.applications.GoogleBooksAPI;
+import library.management.ui.controllers.SuggestionSearch;
 
-public class CatalogController implements properties, SuggestionSearch {
-    private final MainController controller;
+public class CatalogController extends ManagerSubController implements properties, SuggestionSearch {
     private final List<Document> APIdocumentList = new ArrayList<>();
     private final List<Document> localDocumentList = new ArrayList<>();
     private final List<DocContainerController> APIDocContainerControllerList = new ArrayList<>();
@@ -33,10 +31,6 @@ public class CatalogController implements properties, SuggestionSearch {
 
     public CatalogController(MainController controller) {
         this.controller = controller;
-    }
-
-    public MainController getController() {
-        return controller;
     }
 
     protected void initCatalog() {
@@ -48,7 +42,7 @@ public class CatalogController implements properties, SuggestionSearch {
                 fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
                 VBox docContainerVBox = fxmlLoader.load();
                 DocContainerController docContainerController = fxmlLoader.getController();
-                if(column == CATALOG_COLUMN_MAX) {
+                if (column == CATALOG_COLUMN_MAX) {
                     column = 0;
                     ++row;
                 }
@@ -57,7 +51,7 @@ public class CatalogController implements properties, SuggestionSearch {
                 GridPane.setMargin(docContainerVBox, new Insets(10));
                 APIDocContainerControllerList.add(docContainerController);
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         column = 0;
@@ -68,7 +62,7 @@ public class CatalogController implements properties, SuggestionSearch {
                 fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
                 VBox docContainerVBox = fxmlLoader.load();
                 DocContainerController docContainerController = fxmlLoader.getController();
-                if(column == CATALOG_COLUMN_MAX) {
+                if (column == CATALOG_COLUMN_MAX) {
                     column = 0;
                     ++row;
                 }
@@ -76,7 +70,7 @@ public class CatalogController implements properties, SuggestionSearch {
                 GridPane.setMargin(docContainerVBox, new Insets(10));
                 localDocContainerControllerList.add(docContainerController);
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         initializeAutoComplete();

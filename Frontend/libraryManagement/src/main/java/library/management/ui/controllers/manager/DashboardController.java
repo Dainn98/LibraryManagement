@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.manager;
 
 import javafx.scene.chart.XYChart;
 import javafx.scene.image.ImageView;
@@ -7,6 +7,7 @@ import javafx.util.Duration;
 import library.management.data.DAO.DocumentDAO;
 import library.management.data.DAO.LoanDAO;
 import library.management.data.DAO.UserDAO;
+import library.management.ui.controllers.GeneralController;
 
 
 public class DashboardController extends GeneralController {
@@ -20,26 +21,26 @@ public class DashboardController extends GeneralController {
   public void loadDashBoardData() {
     controller.docBChart.getData().clear();
     controller.userBChart.getData().clear();
-    XYChart.Series<String, Number> documentInformation = new XYChart.Series<>();
-    documentInformation.setName("Document information");
+    XYChart.Series<String, Number> docInfo = new XYChart.Series<>();
+    docInfo.setName("Document information");
     int docQuantity = DocumentDAO.getInstance().getTotalQuantity();
     int remainingDocQuantity = DocumentDAO.getInstance().getTotalAvailableCopies();
-    documentInformation.getData().add(new XYChart.Data<>("All Documents", docQuantity));
-    documentInformation.getData()
+    docInfo.getData().add(new XYChart.Data<>("All Documents", docQuantity));
+    docInfo.getData()
         .add(new XYChart.Data<>("Remaining Documents", remainingDocQuantity));
-    documentInformation.getData()
+    docInfo.getData()
         .add(new XYChart.Data<>("Issued Documents", docQuantity - remainingDocQuantity));
-    controller.docBChart.getData().add(documentInformation);
-    XYChart.Series<String, Number> studentInformation = new XYChart.Series<>();
-    studentInformation.setName("Users information");
+    controller.docBChart.getData().add(docInfo);
+    XYChart.Series<String, Number> userInfo = new XYChart.Series<>();
+    userInfo.setName("Users information");
     int totalStudent = UserDAO.getInstance().getAllUsersCount();
     int approvedStudent = UserDAO.getInstance().getApprovedUsersCount();
     int studentHoldingBook = LoanDAO.getInstance().getTotalUsersWhoBorrowedBooks();
-    studentInformation.getData().add(new XYChart.Data<>("All users", totalStudent));
-    studentInformation.getData().add(new XYChart.Data<>("Approved users", approvedStudent));
-    studentInformation.getData()
-        .add(new XYChart.Data<>("Students holding users", studentHoldingBook));
-    controller.userBChart.getData().add(studentInformation);
+    userInfo.getData().add(new XYChart.Data<>("All users", totalStudent));
+    userInfo.getData().add(new XYChart.Data<>("Approved users", approvedStudent));
+    userInfo.getData()
+        .add(new XYChart.Data<>("Users holding documents", studentHoldingBook));
+    controller.userBChart.getData().add(userInfo);
     // load gauge
     if (docQuantity > 0) {
       controller.allDocsGauge.setMaxValue(docQuantity);

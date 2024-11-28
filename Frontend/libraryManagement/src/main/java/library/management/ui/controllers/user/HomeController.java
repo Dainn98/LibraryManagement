@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.user;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
@@ -17,9 +16,10 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import library.management.data.DAO.DocumentDAO;
 import library.management.data.DAO.SuggestionDAO;
-import library.management.data.DataStructure.Trie;
 import library.management.data.entity.Document;
 import library.management.properties;
+import library.management.ui.controllers.GeneralController;
+import library.management.ui.controllers.SuggestionSearch;
 
 import java.io.IOException;
 import java.util.ArrayList;

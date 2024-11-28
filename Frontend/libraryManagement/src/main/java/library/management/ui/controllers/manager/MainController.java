@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.manager;
 
 
 import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
@@ -48,15 +48,18 @@ import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.properties;
 import library.management.ui.applications.SpeechToText;
+import library.management.ui.controllers.FAQsController;
+import library.management.ui.controllers.GeneralController;
+import library.management.ui.controllers.SignOutController;
 import org.controlsfx.control.CheckComboBox;
 
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class MainController  extends GeneralController implements Initializable, properties {
+public class MainController extends GeneralController implements Initializable, properties {
 
     private final DashboardController dashboardController = new DashboardController(this);
-    private final UserController userController = new UserController(this);
+    private final DocumentManagementController.UserController userController = new DocumentManagementController.UserController(this);
     private final DocumentController documentController = new DocumentController(this);
     private final CatalogController catalogController = new CatalogController(this);
     private final PendingApprovalsController pendingApprovalsController = new PendingApprovalsController(this);
@@ -342,12 +345,12 @@ public class MainController  extends GeneralController implements Initializable,
     @FXML
     protected ScrollPane faqSPane;
     @FXML
-    protected JFXTextArea faqRequestContainer;
+    public JFXTextArea faqRequestContainer;
     @FXML
     protected ImageViewButton recordButton;
     @FXML
     protected ImageViewButton sendTextButton;
-//    private Timeline shakeAnimation;
+    //    private Timeline shakeAnimation;
     @FXML
     protected BorderPane chatbotPane;
     @FXML
@@ -431,7 +434,7 @@ public class MainController  extends GeneralController implements Initializable,
     @FXML
     private void handleLibFAQsButton(ActionEvent actionEvent) {
         showSection(FAQsBPane);
-        if(!newChatButton.isVisible() && !faqSPane.isVisible()) {
+        if (!newChatButton.isVisible() && !faqSPane.isVisible()) {
             fade(chatbotPane, 0, 1, Duration.millis(500));
             fade(faqContainer, 0, 1, Duration.millis(500));
         }
@@ -739,7 +742,7 @@ public class MainController  extends GeneralController implements Initializable,
     @FXML
     private void handleRecord(MouseEvent mouseEvent) {
         recordButton.setImage(new Image(
-            Objects.requireNonNull(getClass().getResourceAsStream(RECORD_SOURCE))));
+                Objects.requireNonNull(getClass().getResourceAsStream(RECORD_SOURCE))));
         startShakingAnimation(recordButton);
 
         SpeechToText.stopRecognition = !SpeechToText.stopRecognition;
@@ -759,7 +762,7 @@ public class MainController  extends GeneralController implements Initializable,
             System.out.println("Stop");
             stopShakingAnimation(recordButton);
             recordButton.setImage(new Image(
-                Objects.requireNonNull(getClass().getResourceAsStream(MIRCO_SOURCE))));
+                    Objects.requireNonNull(getClass().getResourceAsStream(MIRCO_SOURCE))));
         }
     }
 
@@ -770,31 +773,31 @@ public class MainController  extends GeneralController implements Initializable,
     @FXML
     private void handleMouseEnterSend(MouseEvent mouseEvent) {
         sendTextButton.setImage(new Image(
-            Objects.requireNonNull(getClass().getResourceAsStream(SEND_HOVER_SOURCE))));
+                Objects.requireNonNull(getClass().getResourceAsStream(SEND_HOVER_SOURCE))));
     }
 
     @FXML
     private void handleMouseExitSend(MouseEvent mouseEvent) {
         sendTextButton.setImage(new Image(
-            Objects.requireNonNull(getClass().getResourceAsStream(SEND_SOURCE))));
+                Objects.requireNonNull(getClass().getResourceAsStream(SEND_SOURCE))));
     }
 
     @FXML
     private void handleResetFAQs(ActionEvent actionEvent) {
-        fade(faqSPane,0.5,0,Duration.millis(500));
-        fade(newChatButton,0.5,0,Duration.millis(500));
+        fade(faqSPane, 0.5, 0, Duration.millis(500));
+        fade(newChatButton, 0.5, 0, Duration.millis(500));
         // CHATBOT BPane
-        fade(chatbotPane,0.5,1,Duration.millis(500));
-        fade(faqContainer,0.5,1,Duration.millis(500));
+        fade(chatbotPane, 0.5, 1, Duration.millis(500));
+        fade(faqContainer, 0.5, 1, Duration.millis(500));
         FAQsGPane.getChildren().clear();
         faqSPane.setContent(FAQsGPane);
     }
 
-    private void handleSendText(){
+    private void handleSendText() {
         faqsController.loadFAQs(FAQsGPane, faqSPane);
-        if(!newChatButton.isVisible()) fade(newChatButton,0.5,1,Duration.millis(500));
-        if(!faqSPane.isVisible()) fade(faqSPane,0.5,1,Duration.millis(500));
-        if(chatbotPane.isVisible()) fade(chatbotPane,0.5,0,Duration.millis(500));
+        if (!newChatButton.isVisible()) fade(newChatButton, 0.5, 1, Duration.millis(500));
+        if (!faqSPane.isVisible()) fade(faqSPane, 0.5, 1, Duration.millis(500));
+        if (chatbotPane.isVisible()) fade(chatbotPane, 0.5, 0, Duration.millis(500));
     }
 }
 

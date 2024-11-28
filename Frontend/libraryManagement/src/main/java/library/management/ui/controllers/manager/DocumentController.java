@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.manager;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -17,8 +17,7 @@ import java.util.Optional;
 
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 
-public class DocumentController {
-    private final MainController controller;
+public class DocumentController extends ManagerSubController {
     private final ObservableList<Document> list = FXCollections.observableArrayList();
     private final ObservableList<BooleanProperty> checkBoxStatusList = FXCollections.observableArrayList();
 

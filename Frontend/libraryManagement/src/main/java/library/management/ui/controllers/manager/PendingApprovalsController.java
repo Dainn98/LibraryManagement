@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.manager;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -19,8 +19,7 @@ import java.util.Optional;
 
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 
-public class PendingApprovalsController {
-    private final MainController controller;
+public class PendingApprovalsController extends ManagerSubController {
     private final ObservableList<User> list = FXCollections.observableArrayList();
     private final ObservableList<BooleanProperty> checkBoxStatusList = FXCollections.observableArrayList();
     private final ObservableList<String> usernameSuggestions = FXCollections.observableArrayList();

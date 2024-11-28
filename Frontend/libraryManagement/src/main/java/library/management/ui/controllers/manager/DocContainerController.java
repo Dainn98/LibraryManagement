@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.manager;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import library.management.data.entity.Document;
 import library.management.properties;
 import library.management.ui.applications.ImageDownloader;
+import library.management.ui.controllers.GeneralController;
 
 public class DocContainerController extends GeneralController implements properties {
   private Image image;

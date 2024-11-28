@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.user;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -19,6 +19,7 @@ import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
 import library.management.properties;
 import library.management.ui.applications.ImageDownloader;
+import library.management.ui.controllers.GeneralController;
 
 import java.io.IOException;
 import java.util.Objects;

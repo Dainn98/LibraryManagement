@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.user;
 
 import java.io.IOException;
 
@@ -7,9 +7,7 @@ import javafx.scene.layout.VBox;
 import library.management.properties;
 
 
-public class UserAvatarController implements properties {
-
-  private FullUserController controller;
+public class UserAvatarController extends UserSubController implements properties {
   public UserAvatarController() {
     // No-argument constructor
   }

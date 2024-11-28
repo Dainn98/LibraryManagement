@@ -45,7 +45,7 @@
 <?import jfxtras.scene.layout.VBox?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<StackPane fx:id="mainStackPane" prefHeight="833.0" prefWidth="1058.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.MainController">
+<StackPane fx:id="mainStackPane" prefHeight="833.0" prefWidth="1058.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.manager.MainController">
    <children>
       <BorderPane prefHeight="806.0" prefWidth="1010.0" style="-fx-background-color: white;" StackPane.alignment="CENTER">
         <!--          TOP -->

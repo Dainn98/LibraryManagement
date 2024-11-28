@@ -1,20 +1,19 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.manager;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.util.Duration;
 import library.management.data.DAO.DocumentDAO;
 import library.management.data.entity.Document;
 import library.management.properties;
 import library.management.ui.applications.CodeGenerator;
+import library.management.ui.controllers.GeneralController;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
