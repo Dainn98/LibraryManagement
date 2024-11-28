@@ -565,4 +565,22 @@ public class UserDAO implements DAOInterface<User> {
         return null;
     }
 
+    public boolean doesPhoneNumberExist(String phoneNumber) {
+        String query = "SELECT COUNT(*) FROM user WHERE phoneNumber = ?";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, phoneNumber);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

@@ -6,7 +6,10 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 
+import com.jfoenix.controls.JFXTextArea;
+
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -39,7 +42,10 @@ import library.management.data.entity.Loan;
 import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.properties;
+import library.management.ui.applications.SpeechToText;
 import org.controlsfx.control.CheckComboBox;
+
+import static library.management.alert.AlertMaker.showAlertConfirmation;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class MainController implements Initializable, properties, GeneralController {
@@ -54,8 +60,8 @@ public class MainController implements Initializable, properties, GeneralControl
     private final IssuedDocument issuedDocument = new IssuedDocument(this);
     private final DocumentManagementController documentManagementController = new DocumentManagementController(this);
     private final ReturnDocumentController returnDocumentController = new ReturnDocumentController(this);
+    private final FAQsController faqsController = new FAQsController(this);
     private Manager mainManager;
-
     // DASHBOARD PROPERTIES
     @FXML
     protected VBox infoVBox;
@@ -320,6 +326,16 @@ public class MainController implements Initializable, properties, GeneralControl
     @FXML
     protected AutoCompleteTextField<String> catalogSearchField;
 
+    //FAQs
+    @FXML
+    protected BorderPane FAQsBPane;
+    @FXML
+    protected GridPane FAQsGPane;
+    @FXML
+    protected ScrollPane faqSPane;
+    @FXML
+    protected JFXTextArea faqRequestContainer;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dashboardController.loadDashBoardData();
@@ -358,6 +374,7 @@ public class MainController implements Initializable, properties, GeneralControl
         docManagementBPane.setVisible(sectionToShow == docManagementBPane);
         pendingLoansBPane.setVisible(sectionToShow == pendingLoansBPane);
         pendingApprovalsBPane.setVisible(sectionToShow == pendingApprovalsBPane);
+        FAQsBPane.setVisible(sectionToShow == FAQsBPane);
     }
 
     @FXML
@@ -376,6 +393,11 @@ public class MainController implements Initializable, properties, GeneralControl
     private void handleUsersButton(ActionEvent actionEvent) {
         userController.loadUserViewData();
         showSection(usersBPane);
+    }
+
+    @FXML
+    private void handleLibFAQsButton(ActionEvent actionEvent) {
+        showSection(FAQsBPane);
     }
 
     @FXML
@@ -559,6 +581,7 @@ public class MainController implements Initializable, properties, GeneralControl
 
     @FXML
     private void importData(ActionEvent actionEvent) {
+        //To Do
     }
 
     @FXML
@@ -614,10 +637,12 @@ public class MainController implements Initializable, properties, GeneralControl
     //ANOTHER
     @FXML
     private void requestMenu(ContextMenuEvent contextMenuEvent) {
+        //To Do
     }
 
     @FXML
     private void fetchUserWithKey(KeyEvent event) {
+        //To Do
     }
 
     @FXML
@@ -662,8 +687,38 @@ public class MainController implements Initializable, properties, GeneralControl
      */
     @FXML
     public void handleSignOutButton(ActionEvent actionEvent) {
-        SignOutController.handleManagerSignOut(getClass());
-        Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        currentStage.close();
+        Optional<ButtonType> result = showAlertConfirmation("Sign Out",
+                "Are you sure you want to sign out?");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            SignOutController.handleManagerSignOut(getClass());
+            Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            currentStage.close();
+        }
+    }
+
+    //    FAQs
+    @FXML
+    private void handleRecord(MouseEvent mouseEvent) {
+        SpeechToText.stopRecognition = !SpeechToText.stopRecognition;
+        if (!SpeechToText.stopRecognition) {
+            System.out.println("Start");
+            Task<Void> record = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    faqsController.record();
+                    return null;
+                }
+            };
+            Thread thread = new Thread(record);
+            thread.setDaemon(true);
+            thread.start();
+        } else {
+            System.out.println("Stop");
+        }
+    }
+
+    public void handleSendText(MouseEvent mouseEvent) {
+        faqsController.loadFAQs(FAQsGPane, faqSPane);
     }
 }
+
