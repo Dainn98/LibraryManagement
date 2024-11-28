@@ -188,7 +188,8 @@ public class FullUserController implements Initializable, properties, GeneralCon
 
   @FXML
   private Button settingsButton;
-  public String path = getClass().getResource("/ui/css/theme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
+  public String path = getClass().getResource("/ui/css/theme.css")
+      .toExternalForm(); // Sử dụng đường dẫn từ resources
 
   public void setMainUser(User mainUser) {
     this.mainUser = mainUser;
@@ -306,7 +307,18 @@ public class FullUserController implements Initializable, properties, GeneralCon
 
   @FXML
   private void handleSettingButton(ActionEvent event) {
-
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader();
+      fxmlLoader.setLocation(getClass().getResource(SETTINGS_SOURCE));
+      Parent root = fxmlLoader.load();
+      Stage stage = new Stage();
+      stage.setTitle(SETTINGS_TITLE);
+      SettingsController controller = fxmlLoader.getController();
+      controller.setFullUserControllerController(this);
+      controller.setData();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @FXML
@@ -315,6 +327,4 @@ public class FullUserController implements Initializable, properties, GeneralCon
     Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     currentStage.close();
   }
-
-
 }

@@ -20,9 +20,10 @@ import library.management.data.DAO.DocumentDAO;
 import library.management.data.DAO.SuggestionDAO;
 import library.management.data.DataStructure.Trie;
 import library.management.data.entity.Document;
+import library.management.properties;
 import library.management.ui.applications.GoogleBooksAPI;
 
-public class CatalogController {
+public class CatalogController implements properties {
     private final MainController controller;
     private final List<Document> APIdocumentList = new ArrayList<>();
     private final List<Document> localDocumentList = new ArrayList<>();
@@ -31,11 +32,6 @@ public class CatalogController {
     private final ObservableList<String> documentTitleSuggestions = FXCollections.observableArrayList();
     private ContextMenu suggestionMenu;
     private final Trie titleTrie = new Trie();
-
-
-    private static final int CATALOG_COLUMN_MAX = 6;
-    private static final String DOCUMENT_CONTAINER_SOURCES = "/ui/fxml/docContainer.fxml";
-    private static final int CATALOG_DOCUMENT_MAX = 18;
 
     public CatalogController(MainController controller) {
         this.controller = controller;

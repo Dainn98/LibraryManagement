@@ -24,10 +24,11 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import library.management.data.entity.Document;
+import library.management.properties;
 import library.management.ui.applications.CodeGenerator;
 import library.management.ui.applications.ImageDownloader;
 
-public class DocContainerController implements GeneralController {
+public class DocContainerController implements GeneralController, properties {
 
   private final String[] colors = {"D1E8FF", // Light Blue
       "FFF7D1", // Light Yellow
@@ -74,7 +75,7 @@ public class DocContainerController implements GeneralController {
     public void setData(Document doc) {
       this.document = doc;
       String imageUrl = document.getImage();
-      if (Objects.equals(imageUrl, "/ui/sprites/demoDoc.gif")) {
+      if (Objects.equals(imageUrl, DEMO_IMAGE_SOURCE)) {
         image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imageUrl)));
       } else {
         image = ImageDownloader.downloadImage(document.getImage());
@@ -119,10 +120,10 @@ public class DocContainerController implements GeneralController {
   private void handlePressDocInfo(MouseEvent mouseEvent) throws IOException {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader();
-      fxmlLoader.setLocation(getClass().getResource("/ui/fxml/docInformation.fxml"));
+      fxmlLoader.setLocation(getClass().getResource(DOC_INFORMATION_SOURCE));
       Parent root = fxmlLoader.load();
       Stage stage = new Stage();
-      stage.setTitle("Document Information");
+      stage.setTitle(DOC_INFORMATION_TITLE);
       ManagerDocInformationController controller = fxmlLoader.getController();
       controller.loadDocData(document, image);
 

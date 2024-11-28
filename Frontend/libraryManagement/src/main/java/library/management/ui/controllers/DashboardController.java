@@ -17,8 +17,6 @@ public class DashboardController implements GeneralController {
     this.controller = controller;
   }
 
-  ;
-
   public void loadDashBoardData() {
     // load docBChart
     controller.docBChart.getData().clear();
@@ -28,8 +26,10 @@ public class DashboardController implements GeneralController {
     int docQuantity = DocumentDAO.getInstance().getTotalQuantity();
     int remainingDocQuantity = DocumentDAO.getInstance().getTotalAvailableCopies();
     documentInformation.getData().add(new XYChart.Data<>("All Documents", docQuantity));
-    documentInformation.getData().add(new XYChart.Data<>("Remaining Documents", remainingDocQuantity));
-    documentInformation.getData().add(new XYChart.Data<>("Issued Documents", docQuantity - remainingDocQuantity));
+    documentInformation.getData()
+        .add(new XYChart.Data<>("Remaining Documents", remainingDocQuantity));
+    documentInformation.getData()
+        .add(new XYChart.Data<>("Issued Documents", docQuantity - remainingDocQuantity));
     controller.docBChart.getData().add(documentInformation);
     XYChart.Series<String, Number> studentInformation = new XYChart.Series<>();
     studentInformation.setName("Users information");
@@ -38,7 +38,8 @@ public class DashboardController implements GeneralController {
     int studentHoldingBook = LoanDAO.getInstance().getTotalUsersWhoBorrowedBooks();
     studentInformation.getData().add(new XYChart.Data<>("All users", totalStudent));
     studentInformation.getData().add(new XYChart.Data<>("Approved users", approvedStudent));
-    studentInformation.getData().add(new XYChart.Data<>("Students holding users", studentHoldingBook));
+    studentInformation.getData()
+        .add(new XYChart.Data<>("Students holding users", studentHoldingBook));
     controller.userBChart.getData().add(studentInformation);
     // load gauge
     if (docQuantity > 0) {
