@@ -15,6 +15,8 @@ import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.ui.applications.EmailSender;
 import library.management.ui.applications.SecurityCodeGenerator;
+import library.management.ui.controllers.manager.MainController;
+import library.management.ui.controllers.user.FullUserController;
 import org.controlsfx.control.textfield.CustomPasswordField;
 
 import java.util.regex.Pattern;
@@ -23,6 +25,8 @@ import static library.management.alert.AlertMaker.showAlertInformation;
 
 public class SettingsController {
 
+    @FXML
+    private Label nameTitle;
     @FXML
     private SVGPath sendCode;
     @FXML
@@ -54,10 +58,7 @@ public class SettingsController {
     @FXML
     private TextField emailTextField;
 
-
-
     private MainController mainController;
-    private FullUserController fullUserController;
     private Manager manager;
     private User user;
     private String securityCode = "Invalid Code";
@@ -67,7 +68,6 @@ public class SettingsController {
 
     private final int CODE_LENGTH = 6;
     private final int MANAGER_SETTING = 100;
-    private final int USER_SETTING = 200;
 
     public void setMainController(MainController mainController) {
         type = MANAGER_SETTING;
@@ -78,8 +78,7 @@ public class SettingsController {
     }
 
     public void setFullUserControllerController(FullUserController controller) {
-        type = USER_SETTING;
-        this.fullUserController = controller;
+        type = 200;
         email.setDisable(true);
         Phone.setDisable(true);
         name.setDisable(true);
@@ -121,13 +120,13 @@ public class SettingsController {
 
     public void resetSecurityInformation() {
         if (type == MANAGER_SETTING) {
-            currentPassword.setText(manager.getPassword());
+            currentPassword.setText("");
             newPasswordTextField.setText("");
             confirmPasswordTextField.setText("");
             phoneNumberTextField.setText(manager.getPhoneNumber());
             emailTextField.setText(manager.getEmail());
         } else {
-            currentPassword.setText(user.getPassword());
+            currentPassword.setText("");
             newPasswordTextField.setText("");
             confirmPasswordTextField.setText("");
             phoneNumberTextField.setText(user.getPhoneNumber());
@@ -145,10 +144,12 @@ public class SettingsController {
         if (type == MANAGER_SETTING) {
             this.manager = mainController.getMainManager();
             this.name.setText(manager.getManagerName());
+            this.nameTitle.setText(manager.getManagerName());
             resetInformation();
         } else {
-            this.user = fullUserController.getMainUser();
+            this.user = FullUserController.getMainUser();
             this.name.setText(user.getUserName());
+            this.nameTitle.setText(user.getUserName());
             resetInformation();
         }
     }
@@ -175,11 +176,11 @@ public class SettingsController {
         if (canChange) {
             String newPhone = Phone.getText();
             String newEmail = email.getText();
-            if (!isValidPhoneNumber(newPhone)) {
+            if (isValidPhoneNumber(newPhone)) {
                 showAlertInformation("Error", "Phone number is invalid");
                 return;
             }
-            if (!isValidEmail(newEmail)) {
+            if (isValidEmail(newEmail)) {
                 showAlertInformation("Error", "Email is invalid");
                 return;
             }
@@ -200,21 +201,7 @@ public class SettingsController {
                 manager.setEmail(newEmail);
                 ManagerDAO.getInstance().update(manager);
             } else {
-                if (!newPhone.equals(user.getPhoneNumber())) {
-                    if (UserDAO.getInstance().doesPhoneNumberExist(newPhone)) {
-                        showAlertInformation("Error", "Phone number is already in use");
-                        return;
-                    }
-                }
-                if (!newEmail.equals(user.getEmail())) {
-                    if (UserDAO.getInstance().doesEmailExist(newEmail)) {
-                        showAlertInformation("Error", "Email is already in use");
-                        return;
-                    }
-                }
-                user.setPhoneNumber(newPhone);
-                user.setEmail(newEmail);
-                UserDAO.getInstance().update(user);
+                if (checkUserRegisterInformation(newPhone, newEmail)) return;
             }
             showAlertInformation("Success!", "Your information has been saved");
             Phone.setDisable(true);
@@ -225,19 +212,38 @@ public class SettingsController {
         }
     }
 
+    private boolean checkUserRegisterInformation(String newPhone, String newEmail) {
+        if (!newPhone.equals(user.getPhoneNumber())) {
+            if (UserDAO.getInstance().doesPhoneNumberExist(newPhone)) {
+                showAlertInformation("Error", "Phone number is already in use");
+                return true;
+            }
+        }
+        if (!newEmail.equals(user.getEmail())) {
+            if (UserDAO.getInstance().doesEmailExist(newEmail)) {
+                showAlertInformation("Error", "Email is already in use");
+                return true;
+            }
+        }
+        user.setPhoneNumber(newPhone);
+        user.setEmail(newEmail);
+        UserDAO.getInstance().update(user);
+        return false;
+    }
+
     private boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(gmail\\.com|vnu\\.edu\\.vn)$";
         Pattern pattern = Pattern.compile(emailRegex);
-        return pattern.matcher(email).matches();
+        return !pattern.matcher(email).matches();
     }
 
     private boolean isValidPhoneNumber(String phoneNumber) {
         if (phoneNumber == null || phoneNumber.isEmpty()) {
-            return false;
+            return true;
         }
         String phoneNumberPattern = "^(0)(\\d{9})$";
 
-        return phoneNumber.matches(phoneNumberPattern);
+        return !phoneNumber.matches(phoneNumberPattern);
     }
 
 
@@ -329,7 +335,7 @@ public class SettingsController {
                     return;
                 }
                 if (!newPasswordTextField.getText().isEmpty() || !confirmPasswordTextField.getText().isEmpty()) {
-                    if (!isValidPassword(newPasswordTextField.getText())) {
+                    if (isValidPassword(newPasswordTextField.getText())) {
                         showAlertInformation("Error", "Password is invalid");
                         return;
                     }
@@ -339,11 +345,11 @@ public class SettingsController {
                     }
                     manager.setPassword(newPasswordTextField.getText());
                 }
-                if (!isValidPhoneNumber(phoneNumberTextField.getText())) {
+                if (isValidPhoneNumber(phoneNumberTextField.getText())) {
                     showAlertInformation("Error", "Phone number is invalid");
                     return;
                 }
-                if (!isValidEmail(emailTextField.getText())) {
+                if (isValidEmail(emailTextField.getText())) {
                     showAlertInformation("Error", "Email is invalid");
                     return;
                 }
@@ -370,7 +376,7 @@ public class SettingsController {
                     return;
                 }
                 if (!newPasswordTextField.getText().isEmpty() || !confirmPasswordTextField.getText().isEmpty()) {
-                    if (!isValidPassword(newPasswordTextField.getText())) {
+                    if (isValidPassword(newPasswordTextField.getText())) {
                         showAlertInformation("Error", "Password is invalid");
                         return;
                     }
@@ -380,31 +386,17 @@ public class SettingsController {
                     }
                     user.setPassword(newPasswordTextField.getText());
                 }
-                if (!isValidPhoneNumber(phoneNumberTextField.getText())) {
+                if (isValidPhoneNumber(phoneNumberTextField.getText())) {
                     showAlertInformation("Error", "Phone number is invalid");
                     return;
                 }
-                if (!isValidEmail(emailTextField.getText())) {
+                if (isValidEmail(emailTextField.getText())) {
                     showAlertInformation("Error", "Email is invalid");
                     return;
                 }
                 String newPhone = phoneNumberTextField.getText();
                 String newEmail = emailTextField.getText();
-                if (!newPhone.equals(user.getPhoneNumber())) {
-                    if (UserDAO.getInstance().doesPhoneNumberExist(newPhone)) {
-                        showAlertInformation("Error", "Phone number is already in use");
-                        return;
-                    }
-                }
-                if (!newEmail.equals(user.getEmail())) {
-                    if (UserDAO.getInstance().doesEmailExist(newEmail)) {
-                        showAlertInformation("Error", "Email is already in use");
-                        return;
-                    }
-                }
-                user.setPhoneNumber(newPhone);
-                user.setEmail(newEmail);
-                UserDAO.getInstance().update(user);
+                if (checkUserRegisterInformation(newPhone, newEmail)) return;
             }
 
             showAlertInformation("Success!", "Your information has been saved");
@@ -415,6 +407,10 @@ public class SettingsController {
     }
 
     private boolean isValidPassword(String password) {
+        return !checkPassWord(password);
+    }
+
+    static boolean checkPassWord(String password) {
         if (password.length() < 6) {
             showAlertInformation("Invalid Password",
                     "The password must be at least six characters long.");

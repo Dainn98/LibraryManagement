@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane stylesheets="@../css/myTheme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.ManagerDocInformationController">
+<BorderPane stylesheets="@../css/myTheme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.manager.ManagerDocInformationController">
   <center>
     <VBox prefHeight="569.0" prefWidth="802.0" spacing="10.0">
       <children>

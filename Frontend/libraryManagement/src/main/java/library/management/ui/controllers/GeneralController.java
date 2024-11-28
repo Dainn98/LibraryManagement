@@ -17,8 +17,7 @@ import library.management.properties;
 abstract public class GeneralController implements properties {
 
   Timeline shakeAnimation = new Timeline();
-  Timeline currentRotationAnimation = new Timeline();
-  boolean isRotating = true;
+    boolean isRotating = true;
 
   protected void translate(Node node, double x, Duration duration) {
     TranslateTransition transition = new TranslateTransition(duration, node);
@@ -36,7 +35,7 @@ abstract public class GeneralController implements properties {
     fade.setFromValue(fromValue);
     fade.setToValue(toValue);
     fade.setInterpolator(Interpolator.EASE_BOTH);
-    fade.setOnFinished(e -> {
+    fade.setOnFinished(_ -> {
       if (toValue == 0.0) {
         node.setVisible(false);
       }
@@ -115,11 +114,11 @@ abstract public class GeneralController implements properties {
       });
 
       roE.setOnFinished(event -> {
-        isRotating = true; // Quá trình quay hoàn tất
-        checkVisible(nodeE); // Đảm bảo nodeE được hiển thị
+        isRotating = true;
+        checkVisible(nodeE);
       });
 
-      roS.play(); // Bắt đầu quay nodeS
+      roS.play();
   }
 
   private void checkVisible(Node node) {

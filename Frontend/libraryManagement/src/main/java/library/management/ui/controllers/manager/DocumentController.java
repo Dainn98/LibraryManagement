@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.manager;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -17,8 +17,7 @@ import java.util.Optional;
 
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 
-public class DocumentController {
-    private final MainController controller;
+public class DocumentController extends ManagerSubController {
     private final ObservableList<Document> list = FXCollections.observableArrayList();
     private final ObservableList<BooleanProperty> checkBoxStatusList = FXCollections.observableArrayList();
 
@@ -27,7 +26,6 @@ public class DocumentController {
     }
 
     public void initDocumentView() {
-        // todo: xu ly logic cho availability
         controller.checkDocView.setCellValueFactory(cellData -> {
             int index = controller.docView.getItems().indexOf(cellData.getValue());
             return checkBoxStatusList.get(index);
@@ -45,7 +43,7 @@ public class DocumentController {
         controller.remainingDocsDocView.setCellValueFactory(new PropertyValueFactory<>("availableCopies"));
         controller.availabilityDocView.setCellValueFactory(new PropertyValueFactory<>("availability"));
         controller.availabilityDocView.setCellValueFactory(new PropertyValueFactory<>("availability"));
-        controller.availabilityDocView.setCellFactory(column -> new TableCell<Document, String>() {
+        controller.availabilityDocView.setCellFactory(_ -> new TableCell<>() {
             private final Button button = new Button();
 
             @Override
@@ -59,7 +57,7 @@ public class DocumentController {
                     button.setText(availability.equals("available") ? "Available" : "Unavailable");
                     button.setStyle("-fx-background-color: " + (availability.equals("available") ? "green" : "red") + "; -fx-text-fill: white;");
 
-                    button.setOnAction(event -> {
+                    button.setOnAction(_ -> {
                         Document document = getTableRow().getItem();
                         Optional<ButtonType> result = showAlertConfirmation(
                                 "Change availability of document",
@@ -75,8 +73,6 @@ public class DocumentController {
                 }
             }
         });
-
-        // label
         controller.allDocs.setText(String.valueOf(DocumentDAO.getInstance().getTotalQuantity()));
         controller.remainDocs.setText(String.valueOf(DocumentDAO.getInstance().getTotalAvailableCopies()));
     }
@@ -101,7 +97,7 @@ public class DocumentController {
             this.checkBoxStatusList.add(new SimpleBooleanProperty(false));
         }
         for (BooleanProperty checkBoxStatus : checkBoxStatusList) {
-            checkBoxStatus.addListener((observable, oldValue, newValue) -> {
+            checkBoxStatus.addListener((_, _, newValue) -> {
                 if (!newValue) {
                     controller.checkAllDocsView.setSelected(false);
                 }

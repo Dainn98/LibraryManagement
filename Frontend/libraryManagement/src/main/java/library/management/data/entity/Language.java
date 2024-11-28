@@ -1,46 +1,41 @@
 package library.management.data.entity;
 
-public class Language {
-    private int lgID;
-    private String lgName;
+public class Language extends Detail {
 
-    public Language() {
-    }
+    public Language() {}
 
     public Language(String lgID, String lgName) {
-        this.lgID = Integer.parseInt(lgID.substring(4));
-        this.lgName = lgName;
+        this.ID = Integer.parseInt(lgID.substring(4));
+        this.tag = lgName;
     }
 
     public Language(String lgID) {
-        this.lgID = Integer.parseInt(lgID.substring(4));
+        this.ID = Integer.parseInt(lgID.substring(4));
     }
 
     public String getStringLgID() {
-        return String.format("LANG%d", lgID);
+        return String.format("LANG%d", ID);
     }
 
     public int getIntLgID() {
-
-        return lgID;
+        return ID;
     }
 
     public void setLgID(String lgID) {
-        this.lgID = Integer.parseInt(lgID.substring(4));
+        this.ID = Integer.parseInt(lgID.substring(4));
     }
 
-
     public String getLgName() {
-        return lgName;
+        return tag;
     }
 
     public void setLgName(String lgName) {
-        this.lgName = lgName;
+        this.tag = lgName;
     }
 
     @Override
     public String toString() {
-        return lgName;
+        return tag;
     }
 
 }

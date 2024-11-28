@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.manager;
 
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
@@ -6,10 +6,7 @@ import javafx.scene.layout.VBox;
 import library.management.properties;
 
 
-public class AvatarController implements properties {
-
-  private MainController controller;
-
+public class AvatarController extends ManagerSubController implements properties {
   public AvatarController() {
   }
 

@@ -1,16 +1,13 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.user;
 
 import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
+import library.management.properties;
 
 
-public class UserAvatarController {
-
-  private FullUserController controller;
-  private static final String AVATAR_INFO_SOURCE = "/ui/fxml/avatarInfo1.fxml";
-
+public class UserAvatarController extends UserSubController implements properties {
   public UserAvatarController() {
     // No-argument constructor
   }
@@ -22,7 +19,7 @@ public class UserAvatarController {
   public void initAvatar(VBox vBox) {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader();
-      fxmlLoader.setLocation(getClass().getResource(AVATAR_INFO_SOURCE));
+      fxmlLoader.setLocation(getClass().getResource(USER_AVATAR_INFO_SOURCE));
       VBox vboxLoad = fxmlLoader.load();
       UserAvatarInfoController userAvatarInfoController = fxmlLoader.getController();
       userAvatarInfoController.initialize(controller);

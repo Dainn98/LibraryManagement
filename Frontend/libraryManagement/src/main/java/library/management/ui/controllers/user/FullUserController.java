@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.user;
 
 import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import com.jfoenix.controls.JFXButton;
@@ -39,6 +39,9 @@ import library.management.data.entity.Loan;
 import library.management.data.entity.User;
 import library.management.properties;
 import library.management.ui.applications.SpeechToText;
+import library.management.ui.controllers.FAQsController;
+import library.management.ui.controllers.GeneralController;
+import library.management.ui.controllers.SignOutController;
 import org.controlsfx.control.CheckComboBox;
 
 import static library.management.alert.AlertMaker.showAlertConfirmation;
@@ -55,7 +58,6 @@ public class FullUserController extends GeneralController implements Initializab
 
 
   public static User mainUser;
-  public StackPane mainStackPane;
   @FXML
   protected BorderPane FAQsBPane;
   @FXML
@@ -71,7 +73,7 @@ public class FullUserController extends GeneralController implements Initializab
   @FXML
   protected ImageViewButton sendTextButton;
   @FXML
-  protected JFXTextArea faqRequestContainer;
+  public JFXTextArea faqRequestContainer;
   @FXML
   protected ImageViewButton recordButton;
 
@@ -211,17 +213,10 @@ public class FullUserController extends GeneralController implements Initializab
   protected Button signOutButton;
 
   @FXML
-  protected Button userInformationButton;
-
-
-  @FXML
   protected StackPane stackFull;
 
-
-  @FXML
-  private Button settingsButton;
-  public String path = getClass().getResource("/ui/css/theme.css")
-      .toExternalForm(); // Sử dụng đường dẫn từ resources
+  public String path = Objects.requireNonNull(getClass().getResource("/ui/css/theme.css"))
+      .toExternalForm();
 
   public void setMainUser(User mainUser) {
     this.mainUser = mainUser;
@@ -306,12 +301,10 @@ public class FullUserController extends GeneralController implements Initializab
 
   @FXML
   private void handleSearchCatalogPressed(KeyEvent keyEvent) {
-    switch (keyEvent.getCode()) {
-      case ENTER -> {
-        homeController.searchDocument();
-        homeController.addSuggestion();
+      if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.ENTER) {
+          homeController.searchDocument();
+          homeController.addSuggestion();
       }
-    }
   }
 
   @FXML
@@ -347,7 +340,7 @@ public class FullUserController extends GeneralController implements Initializab
     Optional<ButtonType> result = showAlertConfirmation("Sign Out",
             "Are you sure you want to sign out?");
     if (result.isPresent() && result.get() == ButtonType.OK) {
-      SignOutController.handleUserSignOut(getClass());
+      SignOutController.handleSignOut();
       Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       currentStage.close();
     }
@@ -384,7 +377,7 @@ public class FullUserController extends GeneralController implements Initializab
       System.out.println("Start");
       Task<Void> record = new Task<>() {
         @Override
-        protected Void call() throws Exception {
+        protected Void call() {
           faqsController.record();
           return null;
         }

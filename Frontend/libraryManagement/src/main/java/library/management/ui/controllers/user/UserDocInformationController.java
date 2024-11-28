@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.user;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
@@ -11,12 +11,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import library.management.data.DAO.LoanDAO;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
 import library.management.data.entity.User;
+import library.management.properties;
 import library.management.ui.applications.CodeGenerator;
+import library.management.ui.controllers.GeneralController;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -25,14 +26,7 @@ import java.util.Optional;
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 import static library.management.alert.AlertMaker.showAlertInformation;
 
-public class UserDocInformationController extends GeneralController {
-    private final static double DX = 800;
-    private final static Duration DURATION = Duration.millis(1000);
-    private final static int QR_HEIGHT = 150;
-    private final static int QR_WIDTH = 150;
-    private final static int BARCODE_HEIGHT = 100;
-    private final static int BARCODE_WIDTH = 250;
-
+public class UserDocInformationController extends GeneralController implements properties {
     boolean check = true;
     private Image QRImage;
     private Image barcodeImage;
@@ -138,7 +132,7 @@ public class UserDocInformationController extends GeneralController {
             borrowingDateLabel.setText(this.loan.getDateOfBorrowAsString());
             dueDateLabel.setText(this.loan.getRequiredReturnDateAsString());
             quantityLabel.setText(String.valueOf(this.loan.getQuantityOfBorrow()));
-            lateFeeLabel.setText(Loan.LATEFEE + "$/day");
+            lateFeeLabel.setText(Loan.LATE_FEE + "$/day");
             mainButton.setText("Return");
             mainButton.setOnAction(this::handleReturn);
         } else if (this.type == UserDocContainerController.PROCESSING_DOCUMENT) {
@@ -150,7 +144,7 @@ public class UserDocInformationController extends GeneralController {
                 quantityLabel.setText(String.valueOf(this.loan.getQuantityOfBorrow()));
                 dueDateTitle.setText("Status");
                 dueDateLabel.setText(this.loan.getStatus());
-                lateFeeLabel.setText(Loan.LATEFEE + "$/day");
+                lateFeeLabel.setText(Loan.LATE_FEE + "$/day");
             } else if (loan.getStatus().equals("pendingReturned")) {
                 borrowingDateLabel.setText(this.loan.getDateOfBorrowAsString());
                 quantityLabel.setText(String.valueOf(this.loan.getQuantityOfBorrow()));
@@ -221,10 +215,10 @@ public class UserDocInformationController extends GeneralController {
             return;
         }
         if (loan.getStatus().equals("late")) {
-            double lateFee = Loan.LATEFEE * ChronoUnit.DAYS.between(loan.getRequiredReturnDate(), LocalDateTime.now());
+            double lateFee = Loan.LATE_FEE * ChronoUnit.DAYS.between(loan.getRequiredReturnDate(), LocalDateTime.now());
             Optional<ButtonType> result = showAlertConfirmation("Return document", "This document is overdue. You have to pay a late fee of " +
-                                                                lateFee + " $.\n" +
-                                                                "Are you sure you want to return this document?");
+                    lateFee + " $.\n" +
+                    "Are you sure you want to return this document?");
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 loan.setDeposit(Integer.parseInt(String.valueOf(lateFee)));
                 if (LoanDAO.getInstance().userReturnDocument(loan)) {

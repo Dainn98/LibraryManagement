@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.manager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,34 +11,26 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import library.management.data.DAO.DocumentDAO;
 import library.management.data.DAO.SuggestionDAO;
-import library.management.data.DataStructure.Trie;
 import library.management.data.entity.Document;
 import library.management.properties;
 import library.management.ui.applications.GoogleBooksAPI;
+import library.management.ui.controllers.SuggestionSearch;
 
-public class CatalogController implements properties {
-    private final MainController controller;
+public class CatalogController extends ManagerSubController implements properties, SuggestionSearch {
     private final List<Document> APIdocumentList = new ArrayList<>();
     private final List<Document> localDocumentList = new ArrayList<>();
     private final List<DocContainerController> APIDocContainerControllerList = new ArrayList<>();
     private final List<DocContainerController> localDocContainerControllerList = new ArrayList<>();
     private final ObservableList<String> documentTitleSuggestions = FXCollections.observableArrayList();
-    private ContextMenu suggestionMenu;
-    private final Trie titleTrie = new Trie();
 
     public CatalogController(MainController controller) {
         this.controller = controller;
-    }
-
-    public MainController getController() {
-        return controller;
     }
 
     protected void initCatalog() {
@@ -50,7 +42,7 @@ public class CatalogController implements properties {
                 fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
                 VBox docContainerVBox = fxmlLoader.load();
                 DocContainerController docContainerController = fxmlLoader.getController();
-                if(column == CATALOG_COLUMN_MAX) {
+                if (column == CATALOG_COLUMN_MAX) {
                     column = 0;
                     ++row;
                 }
@@ -59,18 +51,18 @@ public class CatalogController implements properties {
                 GridPane.setMargin(docContainerVBox, new Insets(10));
                 APIDocContainerControllerList.add(docContainerController);
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         column = 0;
         row = 1;
         try {
             for (int i = 0; i < CatalogController.CATALOG_DOCUMENT_MAX; i++) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
+                var fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
                 VBox docContainerVBox = fxmlLoader.load();
                 DocContainerController docContainerController = fxmlLoader.getController();
-                if(column == CATALOG_COLUMN_MAX) {
+                if (column == CATALOG_COLUMN_MAX) {
                     column = 0;
                     ++row;
                 }
@@ -78,7 +70,7 @@ public class CatalogController implements properties {
                 GridPane.setMargin(docContainerVBox, new Insets(10));
                 localDocContainerControllerList.add(docContainerController);
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         initializeAutoComplete();
@@ -92,7 +84,7 @@ public class CatalogController implements properties {
             final int index = i;
             Task<Void> loadController = new Task<>() {
                 @Override
-                protected Void call() throws Exception {
+                protected Void call() {
                     APIDocContainerControllerList.get(index).setData(APIdocumentList.get(index));
                     return null;
                 }
@@ -103,7 +95,7 @@ public class CatalogController implements properties {
             final int index = i;
             Task<Void> loadController = new Task<>() {
                 @Override
-                protected Void call() throws Exception {
+                protected Void call() {
                     localDocContainerControllerList.get(index).setData(localDocumentList.get(index));
                     return null;
                 }
@@ -127,9 +119,8 @@ public class CatalogController implements properties {
     }
 
     public void initializeAutoComplete() {
-        suggestionMenu = new ContextMenu();
         suggestionMenu.setAutoHide(true);
-        controller.catalogSearchField.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+        controller.catalogSearchField.addEventFilter(KeyEvent.KEY_RELEASED, _ -> {
             String query = controller.catalogSearchField.getText().trim();
             if (query.isEmpty()) {
                 suggestionMenu.hide();
@@ -145,7 +136,7 @@ public class CatalogController implements properties {
         suggestionMenu.getItems().clear();
         for (String suggestion : suggestions) {
             MenuItem item = new MenuItem(suggestion);
-            item.setOnAction(event -> {
+            item.setOnAction(_ -> {
                 controller.catalogSearchField.setText(suggestion);
                 suggestionMenu.hide();
                 titleTrie.incrementFrequency(suggestion);
