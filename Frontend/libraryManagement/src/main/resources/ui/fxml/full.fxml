@@ -9,7 +9,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -29,7 +28,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<StackPane prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FullUserController">
+<StackPane fx:id="stackFull" prefHeight="833.0" prefWidth="1058.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.FullUserController">
    <children>
       <BorderPane prefHeight="806.0" prefWidth="1010.0" StackPane.alignment="CENTER">
          <top>
@@ -40,17 +39,7 @@
                <top>
                   <MenuBar BorderPane.alignment="CENTER">
                      <menus>
-                        <Menu mnemonicParsing="false" text="File">
-                           <items>
-                              <MenuItem mnemonicParsing="false" text="Close" />
-                           </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Edit">
-                           <items>
-                              <MenuItem mnemonicParsing="false" text="Delete" />
-                           </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Help">
+                        <Menu disable="true" mnemonicParsing="false">
                            <items>
                               <MenuItem mnemonicParsing="false" text="About" />
                            </items>
@@ -58,17 +47,6 @@
                      </menus>
                   </MenuBar>
                </top>
-               <right>
-                  <MenuButton prefHeight="30.0" text="" BorderPane.alignment="CENTER">
-                     <graphic>
-                        <ImageView fitHeight="30" fitWidth="30" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../sprites/user.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </MenuButton>
-               </right>
             </BorderPane>
          </top>
          <bottom>
@@ -95,36 +73,35 @@
                               <Image url="@../sprites/mainScreen.png" />
                            </image>
                         </ImageView>
-                        <VBox fx:id="infoVBox" onMouseExited="#handleExitAvatarInfo" prefHeight="200.0" prefWidth="100.0" visible="false" />
+                        <VBox fx:id="infoVBox" onMouseExited="#handleExitAvatarInfo" prefHeight="200.0" prefWidth="100.0" />
                      </children>
                   </StackPane>
-                  <Button fx:id="homeButton" onAction="#handleHomeButton" prefWidth="200.0" text="Home">
+                  <Button fx:id="homeButton" onAction="#handleHomeButton" prefWidth="200.0" text="Home" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="borrowButton" onAction="#handleBorrowedDocButton" prefWidth="200" text="Borrowing Book">
+                  <Button fx:id="borrowButton" onAction="#handleBorrowedDocButton" prefWidth="200" text="Borrowing Book" textAlignment="CENTER" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="processingButton" onAction="#handleProcessingButton" prefWidth="200" text="Processing">
+                  <Button fx:id="processingButton" onAction="#handleProcessingButton" prefWidth="200" text="Processing" textFill="#fff3f3">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="pendingHistory" onAction="#handleHistoryButton" prefWidth="200" text="History">
+                  <Button fx:id="pendingHistory" onAction="#handleHistoryButton" prefWidth="200" text="History" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="settingButton" onAction="#handleSettingButton" prefWidth="200" text="Settings">
+                  <Button fx:id="settingButton" onAction="#handleSettingButton" prefWidth="200" text="Settings" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="userInformationButton" mnemonicParsing="false" onAction="#handleInfoButton" prefWidth="200.0" text="User Information" />
-                  <Button fx:id="policyButton" onAction="#handlePolicyButton" prefWidth="200" text="Policy">
+                  <Button fx:id="policyButton" onAction="#handlePolicyButton" prefWidth="200" text="Policy" textFill="#eceaea">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -423,16 +400,20 @@
                         </VBox>
                      </center>
                   </BorderPane>
-                  <ScrollPane fx:id="borrowedPane" vbarPolicy="ALWAYS" visible="false">
+                  <ScrollPane fx:id="borrowedPane" style="-fx-background-color: #c9d6ff;" vbarPolicy="ALWAYS" visible="false">
                      <content>
-                        <GridPane fx:id="borrowViewGPane" hgap="10.0" vgap="10.0">
+                        <GridPane fx:id="borrowViewGPane" hgap="10.0" prefHeight="30.0" prefWidth="207.0" vgap="10.0">
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
+                           <columnConstraints>
+                              <ColumnConstraints />
+                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
                         </GridPane>
                      </content>
                   </ScrollPane>
-                  <ScrollPane fx:id="processingPane" vbarPolicy="ALWAYS" visible="false">
+                  <ScrollPane fx:id="processingPane" style="-fx-background-color: #c9d6ff;" vbarPolicy="ALWAYS" visible="false">
                      <content>
                         <GridPane fx:id="processViewGPane" hgap="10.0" vgap="10.0">
                            <rowConstraints>

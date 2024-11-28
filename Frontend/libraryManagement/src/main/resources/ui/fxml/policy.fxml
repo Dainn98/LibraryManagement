@@ -6,13 +6,13 @@
 <?import javafx.scene.text.Font?>
 <?import jfxtras.scene.layout.VBox?>
 
-<AnchorPane prefHeight="586.0" prefWidth="714.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="586.0" prefWidth="714.0" stylesheets="@../css/theme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="34.0" layoutY="14.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <Label alignment="TOP_LEFT" prefHeight="30.0" prefWidth="458.0" text="LIBRARY POLICY" textAlignment="CENTER" translateY="20.0" BorderPane.alignment="CENTER">
                <font>
-                  <Font size="20.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
          </top>

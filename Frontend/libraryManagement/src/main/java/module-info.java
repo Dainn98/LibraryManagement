@@ -1,6 +1,5 @@
 module library.management {
-    requires javafx.fxml;
-    requires javafx.web;
+  requires javafx.web;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
@@ -33,8 +32,9 @@ module library.management {
     requires org.junit.platform.engine;
     requires org.junit.platform.commons;
     requires org.junit.jupiter.engine;
+  requires jfxtras.controls;
 
-    // Application
+  // Application
     opens library.management.ui.applications to javafx.graphics, javafx.fxml;
     exports library.management.ui.applications to javafx.graphics, javafx.fxml;
     //main

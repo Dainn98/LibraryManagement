@@ -2,15 +2,21 @@ package library.management.ui.controllers;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
+import library.management.properties;
 
 
-public interface GeneralController {
+public interface GeneralController extends properties {
+
+  Timeline shakeAnimation = new Timeline();
 
   default void translate(Node node, double x, Duration duration) {
     TranslateTransition transition = new TranslateTransition(duration, node);
@@ -21,21 +27,20 @@ public interface GeneralController {
 
   default void fade(Node node, double fromValue, double toValue, Duration duration) {
 
-    if(toValue != 0.0) {
+    if (toValue != 0.0) {
       node.setVisible(true);
     }
     FadeTransition fade = new FadeTransition(duration, node);
     fade.setFromValue(fromValue);
     fade.setToValue(toValue);
     fade.setInterpolator(Interpolator.EASE_BOTH);
-    fade.setOnFinished(e->{
-      if(toValue == 0.0) {
+    fade.setOnFinished(e -> {
+      if (toValue == 0.0) {
         node.setVisible(false);
       }
     });
     fade.play();
   }
-
 
   default void transFade(Node node, double translateX, double fromValue, double toValue,
       Duration duration) {
@@ -141,5 +146,23 @@ public interface GeneralController {
   default void onMouseExit(Button button) {
     button.setScaleX(1.0);
     button.setScaleY(1.0);
+  }
+
+  default void startShakingAnimation(Node node) {
+    shakeAnimation.getKeyFrames().setAll(
+        new KeyFrame(Duration.ZERO, new KeyValue(node.translateXProperty(), 0)),
+        new KeyFrame(Duration.millis(50), new KeyValue(node.translateXProperty(), -SHAKING_ANIMATION_DX)),
+        new KeyFrame(Duration.millis(100), new KeyValue(node.translateXProperty(), SHAKING_ANIMATION_DX)),
+        new KeyFrame(Duration.millis(150), new KeyValue(node.translateXProperty(), -SHAKING_ANIMATION_DX)),
+        new KeyFrame(Duration.millis(200), new KeyValue(node.translateXProperty(), SHAKING_ANIMATION_DX)),
+        new KeyFrame(Duration.millis(250), new KeyValue(node.translateXProperty(), 0))
+    );
+    shakeAnimation.setCycleCount(Timeline.INDEFINITE);
+    shakeAnimation.play();
+  }
+
+  default void stopShakingAnimation(Node node) {
+      shakeAnimation.stop();
+      node.setTranslateX(0);
   }
 }

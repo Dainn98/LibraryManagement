@@ -6,7 +6,6 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -24,16 +23,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import library.management.data.entity.Loan;
 import library.management.data.entity.User;
 import library.management.properties;
 import org.controlsfx.control.CheckComboBox;
-
-import static library.management.alert.AlertMaker.showAlertConfirmation;
 
 public class FullUserController implements Initializable, properties, GeneralController {
 
@@ -41,9 +38,10 @@ public class FullUserController implements Initializable, properties, GeneralCon
   private final BorrowedController borrowedController = new BorrowedController(this);
   private final ProcessingController processingController = new ProcessingController(this);
   private final HistoryController historyController = new HistoryController(this);
-  private final UserAvatarController avatarController = new UserAvatarController(this);
+  private final AvatarController2 avatarController = new AvatarController2(this);
 
   public static User mainUser;
+  public StackPane mainStackPane;
 
   @FXML
   protected GridPane borrowViewGPane;
@@ -183,17 +181,27 @@ public class FullUserController implements Initializable, properties, GeneralCon
   @FXML
   protected Button userInformationButton;
 
-  public void setMainUser(User mainUser) {
-    FullUserController.mainUser = mainUser;
-    avatarController.initAvatar(infoVBox);
-  }
 
-  public User getMainUser() {
-    return mainUser;
+  @FXML
+  protected StackPane stackFull;
+
+
+  @FXML
+  private Button settingsButton;
+  public String path = getClass().getResource("/ui/css/theme.css")
+      .toExternalForm(); // Sử dụng đường dẫn từ resources
+
+  public void setMainUser(User mainUser) {
+    this.mainUser = mainUser;
+    avatarController.initAvatar(infoVBox);
   }
 
   public String getMainUserName() {
     return mainUser.getUserName();
+  }
+
+  public static User getMainUser() {
+    return mainUser;
   }
 
   @Override
@@ -202,6 +210,8 @@ public class FullUserController implements Initializable, properties, GeneralCon
     borrowedController.initBorrowedDocuments();
     processingController.initProcess();
     historyController.initIssueDocumentView();
+    //avatarController.initAvatar(infoVBox);
+    stackFull.getStylesheets().add(path);
   }
 
   // MENU CONTROLLER
@@ -225,13 +235,13 @@ public class FullUserController implements Initializable, properties, GeneralCon
   }
 
   @FXML
-  private void handleClickAvatar(MouseEvent event) {
-    rotate3D(pic, 0, 1, infoVBox, 270, 1, 90, Duration.millis(1000));
+  private void handleClickAvatar(MouseEvent mouseEvent) {
+    homeController.handleClickAvatar(pic, infoVBox);
   }
 
   @FXML
-  private void handleExitAvatarInfo(MouseEvent event) {
-
+  private void handleExitAvatarInfo(MouseEvent mouseEvent) {
+    homeController.handleExitAvatarInfo(infoVBox, pic);
   }
 
   @FXML
@@ -302,30 +312,19 @@ public class FullUserController implements Initializable, properties, GeneralCon
       fxmlLoader.setLocation(getClass().getResource(SETTINGS_SOURCE));
       Parent root = fxmlLoader.load();
       Stage stage = new Stage();
-      stage.setTitle("Settings");
+      stage.setTitle(SETTINGS_TITLE);
       SettingsController controller = fxmlLoader.getController();
       controller.setFullUserControllerController(this);
       controller.setData();
-
-      stage.setResizable(false);
-      stage.setScene(new Scene(root));
-      stage.setOnCloseRequest((WindowEvent windowEvent) -> {
-        stage.close();
-      });
-      stage.show();
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
   @FXML
-  public void handleSignOutButton(ActionEvent event) {
-    Optional<ButtonType> result = showAlertConfirmation("Sign Out",
-            "Are you sure you want to sign out?");
-    if (result.isPresent() && result.get() == ButtonType.OK) {
-      SignOutController.handleUserSignOut(getClass());
-      Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-      currentStage.close();
-    }
+  private void handleSignOutButton(ActionEvent event) {
+    SignOutController.handleUserSignOut(getClass());
+    Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    currentStage.close();
   }
 }
