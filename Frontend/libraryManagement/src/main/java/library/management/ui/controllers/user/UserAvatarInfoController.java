@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.user;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.TranslateTransition;
@@ -10,17 +10,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
+import library.management.properties;
+import library.management.ui.controllers.SettingsController;
 
 import java.io.IOException;
 
-public class UserAvatarInfoController {
-
-    private static final String SETTINGS_SOURCE = "/ui/fxml/settings.fxml";
-
+public class UserAvatarInfoController extends UserSubController implements properties {
     @FXML
     public VBox avatarVBox;
     @FXML
@@ -31,8 +29,6 @@ public class UserAvatarInfoController {
     public ToggleButton themeButton;
     @FXML
     private javafx.scene.shape.Circle Circle;
-
-    private FullUserController controller;
 
     public void initialize(FullUserController controller) {
         this.controller = controller;

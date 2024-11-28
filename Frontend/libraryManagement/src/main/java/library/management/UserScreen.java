@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import library.management.data.entity.User;
-import library.management.ui.controllers.FullUserController;
+import library.management.ui.controllers.user.FullUserController;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class UserScreen extends Application implements properties {

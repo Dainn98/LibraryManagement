@@ -1,36 +1,14 @@
 package library.management.data.entity;
 
-public class Manager {
-    private String managerName;
-    private String identityCard;
-    private String password;
-    private String email;
+public final class Manager extends Client {
     private int managerID;
-    private String phoneNumber;
-
 
     public String getManagerName() {
-        return managerName;
+        return name;
     }
 
     public void setManagerName(String managerName) {
-        this.managerName = managerName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        this.name = managerName;
     }
 
     public String getManagerID() {
@@ -45,19 +23,4 @@ public class Manager {
         this.managerID = managerID;
     }
 
-    public String getIdentityCard() {
-        return identityCard;
-    }
-
-    public void setIdentityCard(String identityCard) {
-        this.identityCard = identityCard;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 }

@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.user;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,16 +14,12 @@ import javafx.scene.layout.VBox;
 import library.management.data.DAO.LoanDAO;
 import library.management.data.entity.Document;
 import library.management.data.entity.Loan;
+import library.management.properties;
 
-public class ProcessingController {
-
-  private final FullUserController controller;
+public class ProcessingController extends UserSubController implements properties {
   private final List<Loan> pendingLoanList = new ArrayList<>();
   private final List<UserDocContainerController> pendingDocContainerControllerList = new ArrayList<>();
   private final List<Document> pendingDocumentList = new ArrayList<>();
-  private static final int PROCESS_COLUMN_MAX = 6;
-  private static final String DOCUMENT_CONTAINER_SOURCES = "/ui/fxml/userDocContainer.fxml";
-
 
   public ProcessingController(FullUserController controller) {
     this.controller = controller;
@@ -47,7 +43,7 @@ public class ProcessingController {
     try {
       for (int i = 0; i < pendingLoanList.size(); i++) {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource(DOCUMENT_CONTAINER_SOURCES));
+        fxmlLoader.setLocation(getClass().getResource(HOME_DOCUMENT_CONTAINER_SOURCES));
         VBox docContainerVBox = fxmlLoader.load();
         UserDocContainerController docContainerController = fxmlLoader.getController();
         if (column == PROCESS_COLUMN_MAX) {
@@ -73,7 +69,7 @@ public class ProcessingController {
       final int index = i;
       Task<Void> loadController = new Task<>() {
         @Override
-        protected Void call() throws Exception {
+        protected Void call() {
           pendingDocContainerControllerList.get(index).setDocData(pendingDocumentList.get(index), pendingLoanList.get(index), UserDocContainerController.PROCESSING_DOCUMENT);
           return null;
         }

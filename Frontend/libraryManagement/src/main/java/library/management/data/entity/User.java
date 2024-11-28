@@ -2,12 +2,7 @@ package library.management.data.entity;
 
 import java.time.LocalDateTime;
 
-public class User {
-    private String userName;
-    private String identityCard;
-    private String phoneNumber;
-    private String email;
-    private String password;
+public final class User extends Client {
     private String country;
     private String state;
     private String status;
@@ -17,7 +12,7 @@ public class User {
     }
 
     public User(User user) {
-        this.userName = user.userName;
+        this.name = user.name;
         this.identityCard = user.identityCard;
         this.phoneNumber = user.phoneNumber;
         this.email = user.email;
@@ -30,7 +25,7 @@ public class User {
 
     public User(String userName, String identityCard, String phoneNumber,
                 String email, String country, String state, String status, LocalDateTime registeredDate) {
-        this.userName = userName;
+        this.name = userName;
         this.identityCard = identityCard;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -41,7 +36,7 @@ public class User {
     }
 
     public User(String userName, String identityCard, String email, String password) {
-        this.userName = userName;
+        this.name = userName;
         this.identityCard = identityCard;
         this.email = email;
         this.password = password;
@@ -53,43 +48,11 @@ public class User {
     }
 
     public String getUserName() {
-        return userName;
+        return name;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getIdentityCard() {
-        return identityCard;
-    }
-
-    public void setIdentityCard(String identityCard) {
-        this.identityCard = identityCard;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+        this.name = userName;
     }
 
     public String getCountry() {
@@ -132,7 +95,7 @@ public class User {
     public String toString() {
         return String.format(
                 "User[userName='%s', identityCard='%s', phoneNumber='%s', email='%s', password='%s', country='%s', state='%s', status='%s', registeredDate='%s']",
-                userName, identityCard, phoneNumber, email, password, country, state, status, registeredDate
+                name, identityCard, phoneNumber, email, password, country, state, status, registeredDate
         );
     }
 }

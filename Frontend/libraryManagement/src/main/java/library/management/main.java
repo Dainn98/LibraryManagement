@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import library.management.data.entity.Manager;
-import library.management.ui.controllers.MainController;
+import library.management.ui.controllers.manager.MainController;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class main extends Application implements properties {

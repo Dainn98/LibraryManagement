@@ -59,7 +59,7 @@
                                         <Image url="@../sprites/mainScreen.png" />
                                     </image>
                                 </ImageView>
-                                <Label style="-fx-font-size: 15; -fx-text-fill: #002B5B;" text="Tuan Anh" />
+                                <Label fx:id="nameTitle" style="-fx-font-size: 15; -fx-text-fill: #002B5B;" text="Tuan Anh" />
                                 <JFXButton onAction="#handleEditProfile" text="Edit Profile" />
                             </children>
                             <padding>

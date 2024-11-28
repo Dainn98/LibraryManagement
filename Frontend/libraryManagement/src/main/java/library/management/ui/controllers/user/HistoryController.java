@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.user;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -6,9 +6,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
 import library.management.data.DAO.LoanDAO;
 import library.management.data.entity.Loan;
+import library.management.data.entity.User;
 
-public class HistoryController {
-    private final FullUserController controller;
+public class HistoryController extends UserSubController {
     private final ObservableList<Loan> list = FXCollections.observableArrayList();
 
     public HistoryController(FullUserController controller) {

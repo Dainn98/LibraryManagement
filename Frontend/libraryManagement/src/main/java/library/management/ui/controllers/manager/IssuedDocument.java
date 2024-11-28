@@ -1,4 +1,4 @@
-package library.management.ui.controllers;
+package library.management.ui.controllers.manager;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -7,8 +7,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import library.management.data.DAO.LoanDAO;
 import library.management.data.entity.Loan;
 
-public class IssuedDocument {
-    private final MainController controller;
+public class IssuedDocument extends ManagerSubController {
     private final ObservableList<Loan> list = FXCollections.observableArrayList();
 
     public IssuedDocument(MainController controller) {

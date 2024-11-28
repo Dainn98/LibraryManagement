@@ -47,4 +47,8 @@ module library.management {
     opens library.management.data.entity to javafx.base, javafx.fxml;
     exports library.management.data.entity;
     exports library.management.data.DataStructure;
+    exports library.management.ui.controllers.manager to javafx.fxml, javafx.graphics;
+    opens library.management.ui.controllers.manager to javafx.fxml, javafx.graphics;
+  exports library.management.ui.controllers.user to javafx.fxml, javafx.graphics;
+  opens library.management.ui.controllers.user to javafx.fxml, javafx.graphics;
 }
