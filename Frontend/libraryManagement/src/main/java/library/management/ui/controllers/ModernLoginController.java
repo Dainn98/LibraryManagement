@@ -139,6 +139,49 @@ public class ModernLoginController  implements Initializable,GeneralController {
 
         loginSwitch.setLayoutX((double) -WIDTH / 2);
         registerSwitch.setLayoutX((double) WIDTH / 2);
+
+        loginUsername.setOnKeyPressed(e ->{
+            if(e.getCode().toString().equals("ENTER")){
+                handleLogin(new ActionEvent(loginUsername, null));
+            }
+        });
+
+        loginPassword.setOnKeyPressed(e ->{
+            if(e.getCode().toString().equals("ENTER")){
+                handleLogin(new ActionEvent(loginPassword, null));
+            }
+        });
+
+        registerUsername.setOnKeyPressed(e ->{
+            if(e.getCode().toString().equals("ENTER")){
+                handleRegister(new ActionEvent(registerUsername, null));
+            }
+        });
+
+        registerEmail.setOnKeyPressed(e ->{
+            if(e.getCode().toString().equals("ENTER")){
+                handleRegister(new ActionEvent(registerEmail, null));
+            }
+        });
+
+        registerIdentityCard.setOnKeyPressed(e ->{
+            if(e.getCode().toString().equals("ENTER")){
+                handleRegister(new ActionEvent(registerIdentityCard, null));
+            }
+        });
+
+        registerPassword.setOnKeyPressed(e ->{
+            if(e.getCode().toString().equals("ENTER")){
+                handleRegister(new ActionEvent(registerPassword, null));
+            }
+        });
+
+        confirmPassword.setOnKeyPressed(e ->{
+            if(e.getCode().toString().equals("ENTER")){
+                handleRegister(new ActionEvent(confirmPassword, null));
+            }
+        });
+
     }
 
     /**

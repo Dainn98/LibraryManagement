@@ -302,7 +302,7 @@ public class FullUserController implements Initializable, properties, GeneralCon
       fxmlLoader.setLocation(getClass().getResource(SETTINGS_SOURCE));
       Parent root = fxmlLoader.load();
       Stage stage = new Stage();
-      stage.setTitle("Settings");
+      stage.setTitle(SETTINGS_TITLE);
       SettingsController controller = fxmlLoader.getController();
       controller.setFullUserControllerController(this);
       controller.setData();
