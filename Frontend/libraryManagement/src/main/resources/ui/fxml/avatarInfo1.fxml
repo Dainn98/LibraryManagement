@@ -10,14 +10,14 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="avatarVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="222.0" prefWidth="200.0" spacing="5.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.AvatarInfoController2">
+<VBox fx:id="avatarVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="222.0" prefWidth="200.0" spacing="5.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.UserAvatarInfoController">
   <children>
-    <Label style="-fx-font-size: 20;" text="Welcome back," textFill="WHITE" VBox.vgrow="ALWAYS">
+    <Label style="-fx-font-size: 20;" styleClass="label-heading-h2" text="Welcome back," textFill="#1b0b0b" VBox.vgrow="ALWAYS">
       <font>
         <Font name="System Bold" size="14.0" />
       </font>
     </Label>
-    <Label fx:id="manaName" text="Label" textFill="WHITE" />
+    <Label fx:id="manaName" styleClass="label-heading-h3" text="Label" textFill="#261515" />
     <JFXButton fx:id="settingsButton" onAction="#handleSettingsButton" prefWidth="150.0" text="Settings" textFill="#fcfcfc" />
       <AnchorPane prefHeight="47.0" prefWidth="159.0">
          <children>

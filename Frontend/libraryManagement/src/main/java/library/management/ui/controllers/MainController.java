@@ -17,7 +17,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 
 import javafx.event.ActionEvent;
@@ -770,27 +769,20 @@ public class MainController  extends GeneralController implements Initializable,
         handleSendText();
     }
 
-    public void handleMouseEnterRecord(MouseEvent mouseEvent) {
-        recordButton.setImage(new Image(
-            Objects.requireNonNull(getClass().getResourceAsStream(MIRCO_HOVER_SOURCE))));
-    }
-
-    public void handleMouseEnterSend(MouseEvent mouseEvent) {
+    @FXML
+    private void handleMouseEnterSend(MouseEvent mouseEvent) {
         sendTextButton.setImage(new Image(
             Objects.requireNonNull(getClass().getResourceAsStream(SEND_HOVER_SOURCE))));
     }
 
-    public void handleMouseExitRecord(MouseEvent mouseEvent) {
-        recordButton.setImage(new Image(
-            Objects.requireNonNull(getClass().getResourceAsStream(MIRCO_SOURCE))));
-    }
-
-    public void handleMouseExitSend(MouseEvent mouseEvent) {
+    @FXML
+    private void handleMouseExitSend(MouseEvent mouseEvent) {
         sendTextButton.setImage(new Image(
             Objects.requireNonNull(getClass().getResourceAsStream(SEND_SOURCE))));
     }
 
-    public void handleResetFAQs(ActionEvent actionEvent) {
+    @FXML
+    private void handleResetFAQs(ActionEvent actionEvent) {
         fade(faqSPane,0.5,0,Duration.millis(500));
         fade(newChatButton,0.5,0,Duration.millis(500));
         // CHATBOT BPane
@@ -799,6 +791,7 @@ public class MainController  extends GeneralController implements Initializable,
         FAQsGPane.getChildren().clear();
         faqSPane.setContent(FAQsGPane);
     }
+
     private void handleSendText(){
         faqsController.loadFAQs(FAQsGPane, faqSPane);
         if(!newChatButton.isVisible()) fade(newChatButton,0.5,1,Duration.millis(500));

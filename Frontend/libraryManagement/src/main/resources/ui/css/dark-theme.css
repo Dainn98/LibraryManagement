@@ -4,12 +4,12 @@
 */
 
 * {
-    -fx-primary : /*#1E3A5F*/#12121E;
-    -fx-secondary :  /*#1E3A5F;*/#FFFFFF;
-    -fx-primarytext : /*#B2B2B2*/#FFFFFF;
+    -fx-primary : #12121E;
+    -fx-secondary :  #FFFFFF;
+    -fx-primarytext : #FFFFFF;
     -fx-blue: #1976D2;
     -fx-red: #FF0000;
-    -fx-color-1:/*#1976D2*/#FFFFFF;
+    -fx-color-1:#FFFFFF;
 }
 
 .root{
@@ -23,7 +23,7 @@
 
 .button{
     -fx-text-fill: -fx-primarytext;
-    -fx-background-color: fx-primary;
+    -fx-background-color: -fx-primary;
     -fx-border-color: -fx-secondary;
     -fx-border-radius: 20px;
     -fx-background-radius: 20px;
@@ -192,7 +192,7 @@
 
 /*Custom window background*/
 .custom-pane{
-    -fx-background-color:  /*#1E3A5F*/#FFFFFF;/*derive(-fx-primary, 5%);*/
+    -fx-background-color:#FFFFFF;
 }
 
 /*TableView Default*/
@@ -340,7 +340,6 @@
     -fx-text-fill: white;
 }
 
-
 /* Context menu */
 
 .colored-context-menu .menu-item:focused {
@@ -354,12 +353,12 @@
 
 .toggle-switch {
    -fx-text-fill: -fx-primarytext;
-        -fx-background-color: fx-primary;
-        -fx-border-color: -fx-secondary;
-        -fx-border-radius: 20px;
-        -fx-background-radius: 20px;
-        -fx-font-size: 12pt;
-    -fx-cursor: hand;
+   -fx-background-color: -fx-primary;
+   -fx-border-color: -fx-secondary;
+   -fx-border-radius: 20px;
+   -fx-background-radius: 20px;
+   -fx-font-size: 12pt;
+   -fx-cursor: hand;
 }
 
 .toggle-switch:selected {
@@ -373,4 +372,33 @@
     -fx-pref-width: 150px;
     -fx-pref-height: 80px;
     -fx-transition: transform 0.3s ease;
+}
+
+.label-heading-h1 {
+  -fx-font-size: 23px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #002B5B;
+}
+
+.label-heading-h2 {
+  -fx-font-white: color;
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #002B5B;
+}
+
+.label-heading-h3 {
+  -fx-font-color: white;
+  -fx-font-size: 18px;
+  -fx-text-fill: #002B5B;
+}
+
+.label-heading-h4 {
+  -fx-font-color: white
+  -fx-font-size: 16px;
+  -fx-text-fill: #002B5B;
+}
+
+.label {
+  -fx-text-fill: #002B5B;
 }
