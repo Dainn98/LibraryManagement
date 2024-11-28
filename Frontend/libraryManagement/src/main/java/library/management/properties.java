@@ -1,5 +1,7 @@
 package library.management;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.RotateTransition;
 import javafx.stage.Stage;
 
 public interface properties {
@@ -45,4 +47,6 @@ public interface properties {
   String DEMO_IMAGE_SOURCE = "/ui/sprites/demoDoc.gif";
   String DOC_INFORMATION_SOURCE = "/ui/fxml/docInformation.fxml";
   String DOC_INFORMATION_TITLE = "Document Information";
+
+  String ICON_SOURCE = "/ui/sprites/icon.png";
 }

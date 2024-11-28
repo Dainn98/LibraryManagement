@@ -14,18 +14,20 @@ import javafx.util.Duration;
 import library.management.properties;
 
 
-public interface GeneralController extends properties {
+abstract public class GeneralController implements properties {
 
   Timeline shakeAnimation = new Timeline();
+  Timeline currentRotationAnimation = new Timeline();
+  boolean isRotating = true;
 
-  default void translate(Node node, double x, Duration duration) {
+  protected void translate(Node node, double x, Duration duration) {
     TranslateTransition transition = new TranslateTransition(duration, node);
     transition.setByX(x);
     transition.setInterpolator(Interpolator.EASE_BOTH);
     transition.play();
   }
 
-  default void fade(Node node, double fromValue, double toValue, Duration duration) {
+  protected void fade(Node node, double fromValue, double toValue, Duration duration) {
 
     if (toValue != 0.0) {
       node.setVisible(true);
@@ -42,13 +44,13 @@ public interface GeneralController extends properties {
     fade.play();
   }
 
-  default void transFade(Node node, double translateX, double fromValue, double toValue,
+  protected void transFade(Node node, double translateX, double fromValue, double toValue,
       Duration duration) {
     translate(node, translateX, duration);
     fade(node, fromValue, toValue, duration);
   }
 
-  default void transFade(Node pane, double translateX, double fromValue, double toValue,
+  protected void transFade(Node pane, double translateX, double fromValue, double toValue,
       Duration duration, String style) {
     translate(pane, translateX, duration);
     fade(pane, fromValue, toValue, duration);
@@ -66,55 +68,58 @@ public interface GeneralController extends properties {
    * @param angle    the angle by which to rotate the nodes
    * @param duration the duration of the transitions
    */
-  default void rotate3D(Node nodeS, double rotateS, int cycleS,
+  protected void rotate3D(Node nodeS, double rotateS, int cycleS,
       Node nodeE, double rotateE, int cycleE,
       double angle, Duration duration) {
-    // Create a RotateTransition for nodeS,nodeE.
-    RotateTransition roS, roE;
+      // Define a rotation axis and set the initial rotation angle for nodeS
+      nodeS.setRotationAxis(Rotate.Y_AXIS); // Rotate around the Y axis
+      nodeS.setRotate(rotateS); //  Set the initial rotation angle
 
-    nodeS.setRotationAxis(Rotate.Y_AXIS); // Rotate around the Y axis
-    nodeS.setRotate(rotateS); //  Set the initial rotation angle
+      RotateTransition roS = new RotateTransition(duration, nodeS);
+      roS.setByAngle(angle); // Rotate by the specified angle
+      roS.setCycleCount(cycleS); // Set the number of cycles
+      roS.setInterpolator(Interpolator.EASE_BOTH);
 
-    roS = new RotateTransition(duration, nodeS);
-    roS.setByAngle(angle); // Rotate by the specified angle
-    roS.setCycleCount(cycleS); // Set the number of cycles
-    roS.setInterpolator(Interpolator.EASE_BOTH);
+      // Create a FadeTransition for nodeS.
+      FadeTransition fOutS = new FadeTransition(duration, nodeS);
+      fOutS.setFromValue(1.0); // Set the initial opacity
+      fOutS.setToValue(0.0); // Set the final opacity
+      fOutS.setInterpolator(Interpolator.EASE_BOTH);
 
-    // Create a FadeTransition for nodeS.
-    FadeTransition fOutS = new FadeTransition(duration, nodeS);
-    fOutS.setFromValue(1.0); // Set the initial opacity
-    fOutS.setToValue(0.0); // Set the final opacity
-    fOutS.setInterpolator(Interpolator.EASE_BOTH);
+      nodeE.setRotationAxis(Rotate.Y_AXIS);
+      nodeE.setRotate(rotateE);
 
-    nodeE.setRotationAxis(Rotate.Y_AXIS);
-    nodeE.setRotate(rotateE);
+      RotateTransition roE = new RotateTransition(duration, nodeE);
+      roE.setByAngle(angle);
+      roE.setCycleCount(cycleE);
+      roE.setInterpolator(Interpolator.EASE_BOTH);
 
-    roE = new RotateTransition(duration, nodeE);
-    roE.setByAngle(angle);
-    roE.setCycleCount(cycleE);
-    roE.setInterpolator(Interpolator.EASE_BOTH);
-
-// Ensure the ImageView is visible before starting the transition
-    checkVisible(nodeE);
-
-    // Create a FadeTransition for nodeE
-    FadeTransition fInE = new FadeTransition(duration, nodeE);
-    fInE.setFromValue(0.0);
-    fInE.setToValue(1.0);
-    fInE.setInterpolator(Interpolator.EASE_BOTH);
-
-    // Play the transitions sequentially
-    roS.setOnFinished(event -> {
-      fOutS.play();
-      fOutS.setOnFinished(event2 -> {
-        nodeS.setVisible(false);
-        checkVisible(nodeE);
-      });
-      roE.play();
+      // Ensure the ImageView is visible before starting the transition
       checkVisible(nodeE);
 
-    });
-    roS.play();
+      // Create a FadeTransition for nodeE
+      FadeTransition fInE = new FadeTransition(duration, nodeE);
+      fInE.setFromValue(0.0);
+      fInE.setToValue(1.0);
+      fInE.setInterpolator(Interpolator.EASE_BOTH);
+
+      // Play the transitions sequentially
+      roS.setOnFinished(event -> {
+        fOutS.play();
+        fOutS.setOnFinished(event2 -> {
+          nodeS.setVisible(false);
+          checkVisible(nodeE);
+        });
+        roE.play();
+        checkVisible(nodeE);
+      });
+
+      roE.setOnFinished(event -> {
+        isRotating = true; // Quá trình quay hoàn tất
+        checkVisible(nodeE); // Đảm bảo nodeE được hiển thị
+      });
+
+      roS.play(); // Bắt đầu quay nodeS
   }
 
   private void checkVisible(Node node) {
@@ -127,7 +132,7 @@ public interface GeneralController extends properties {
   /**
    * Adds zoom effects to a button when hovered.
    */
-  default void addZoomEffects(Button button) {
+  protected void addZoomEffects(Button button) {
     button.setOnMouseEntered(event -> onMouseHover(button));
     button.setOnMouseExited(event -> onMouseExit(button));
   }
@@ -135,7 +140,7 @@ public interface GeneralController extends properties {
   /**
    * Handles the mouse hover event to zoom in the button.
    */
-  default void onMouseHover(Button button) {
+  protected void onMouseHover(Button button) {
     button.setScaleX(1.2);
     button.setScaleY(1.2);
   }
@@ -143,26 +148,30 @@ public interface GeneralController extends properties {
   /**
    * Handles the mouse exit event to zoom out the button.
    */
-  default void onMouseExit(Button button) {
+  protected void onMouseExit(Button button) {
     button.setScaleX(1.0);
     button.setScaleY(1.0);
   }
 
-  default void startShakingAnimation(Node node) {
+  protected void startShakingAnimation(Node node) {
     shakeAnimation.getKeyFrames().setAll(
         new KeyFrame(Duration.ZERO, new KeyValue(node.translateXProperty(), 0)),
-        new KeyFrame(Duration.millis(50), new KeyValue(node.translateXProperty(), -SHAKING_ANIMATION_DX)),
-        new KeyFrame(Duration.millis(100), new KeyValue(node.translateXProperty(), SHAKING_ANIMATION_DX)),
-        new KeyFrame(Duration.millis(150), new KeyValue(node.translateXProperty(), -SHAKING_ANIMATION_DX)),
-        new KeyFrame(Duration.millis(200), new KeyValue(node.translateXProperty(), SHAKING_ANIMATION_DX)),
+        new KeyFrame(Duration.millis(50),
+            new KeyValue(node.translateXProperty(), -SHAKING_ANIMATION_DX)),
+        new KeyFrame(Duration.millis(100),
+            new KeyValue(node.translateXProperty(), SHAKING_ANIMATION_DX)),
+        new KeyFrame(Duration.millis(150),
+            new KeyValue(node.translateXProperty(), -SHAKING_ANIMATION_DX)),
+        new KeyFrame(Duration.millis(200),
+            new KeyValue(node.translateXProperty(), SHAKING_ANIMATION_DX)),
         new KeyFrame(Duration.millis(250), new KeyValue(node.translateXProperty(), 0))
     );
     shakeAnimation.setCycleCount(Timeline.INDEFINITE);
     shakeAnimation.play();
   }
 
-  default void stopShakingAnimation(Node node) {
-      shakeAnimation.stop();
-      node.setTranslateX(0);
+  protected void stopShakingAnimation(Node node) {
+    shakeAnimation.stop();
+    node.setTranslateX(0);
   }
 }
