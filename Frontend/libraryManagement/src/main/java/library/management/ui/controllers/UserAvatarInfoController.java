@@ -37,10 +37,6 @@ public class UserAvatarInfoController {
         this.manaName.setText(controller.getMainUserName());
     }
 
-    @FXML
-    private void handleSignOutButton(ActionEvent actionEvent) {
-        controller.handleSignOutButton(actionEvent);
-    }
 
     @FXML
     private void handleSettingsButton(ActionEvent actionEvent) {
