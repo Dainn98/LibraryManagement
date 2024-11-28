@@ -1,7 +1,10 @@
 package library.management.ui.controllers;
 
 import com.jfoenix.controls.JFXTextArea;
+
 import java.io.IOException;
+
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -9,78 +12,107 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import library.management.properties;
+import library.management.ui.applications.ApiGoogleGemini;
+import library.management.ui.applications.SpeechToText;
+import org.vosk.Model;
+import org.vosk.Recognizer;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.TargetDataLine;
 
 public class FAQsController implements properties {
 
-//  private static final String FAQS_CONTAINER_SOURCE = "/ui/fxml/faqContainer.fxml";
-//  private static final boolean RIGHT = false;
-//  private static final boolean LEFT = true;
-  @FXML
-  public VBox faqVBox;
-  @FXML
-  public Label name;
-  String response =
-          "### Kết quả:\n"
-          + "- `JFXTextArea` sẽ mở rộng tự động theo nội dung, không xuất hiện thanh cuộn.\n"
-          + "- `VBox` chứa `TextArea` cũng tự động thay đổi kích thước theo.\n"
-          + "\n"
-          + "Hãy thử mã này và cho tôi biết nếu bạn cần điều chỉnh thêm! \uD83D\uDE0A"
-              + "public void setData(Label name, JFXTextArea textContainer) {\n"
-          ;
-  @FXML
-  private MainController mainController;
-  public FAQsController(MainController mainController) {
-    this.mainController = mainController;
-  }
 
-  private VBox createFAQsContainer(Label name, JFXTextArea textContainer, ScrollPane scrollPane,
-      boolean checkAlignment) {
-    try {
-      //Load faqContainer.fxml
-      FXMLLoader fxmlLoader = new FXMLLoader();
-      fxmlLoader.setLocation(getClass().getResource(FAQS_CONTAINER_SOURCE));
-      VBox faqContainer = fxmlLoader.load();
+    @FXML
+    public VBox faqVBox;
+    @FXML
+    public Label name;
+    private final MainController controller;
 
-      // Load FAQsContainerController
-      FAQsContainerController faqsContainerController = fxmlLoader.getController();
-      faqContainer.prefWidthProperty().bind(scrollPane.widthProperty());
-
-      if (checkAlignment) {
-        faqContainer.setPadding(new Insets(0, 200, 0, 10));
-
-        faqContainer.setAlignment(Pos.CENTER_LEFT);
-        faqsContainerController.setFAQsOptionsAlignment(LEFT);
-      } else {
-        faqContainer.setPadding(new Insets(0, 30, 0, 200));
-        faqContainer.setAlignment(Pos.CENTER_RIGHT);
-        faqsContainerController.setFAQsOptionsAlignment(RIGHT);
-      }
-
-      // Set data
-      faqsContainerController.setData(name, textContainer);
-      return faqContainer;
-    } catch (IOException e) {
-      e.printStackTrace();
+    public FAQsController(MainController mainController) {
+        this.controller = mainController;
     }
-    return null;
-  }
 
-  public void loadFAQs(GridPane gPane, ScrollPane faqSPane) {
+    private VBox createFAQsContainer(Label name, String text, ScrollPane scrollPane,
+                                     boolean checkAlignment) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource(FAQS_CONTAINER_SOURCE));
+            VBox faqContainer = fxmlLoader.load();
+            FAQsContainerController faqsContainerController = fxmlLoader.getController();
+            faqContainer.prefWidthProperty().bind(scrollPane.widthProperty());
+            if (checkAlignment) {
+                faqContainer.setPadding(new Insets(0, 200, 0, 10));
+                faqContainer.setAlignment(Pos.CENTER_LEFT);
+                faqsContainerController.setFAQsOptionsAlignment(LEFT);
+            } else {
+                faqContainer.setPadding(new Insets(0, 30, 0, 200));
+                faqContainer.setAlignment(Pos.CENTER_RIGHT);
+                faqsContainerController.setFAQsOptionsAlignment(RIGHT);
+            }
+            faqsContainerController.setData(name, new JFXTextArea(text));
+            return faqContainer;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-    VBox userInputSection = createFAQsContainer(new Label("User:"), new JFXTextArea(response),
-        faqSPane, RIGHT);
+    public void loadFAQs(GridPane gPane, ScrollPane faqSPane) {
 
-    VBox responseSection = createFAQsContainer(new Label("Response:"), new JFXTextArea(response),
-        faqSPane, LEFT);
+        String question = controller.faqRequestContainer.getText().trim();
+        VBox userInputSection = createFAQsContainer(new Label("User:"), question,
+                faqSPane, RIGHT);
+        int rowCount = gPane.getRowCount();
+        gPane.add(userInputSection, 0, rowCount);
+        faqSPane.setContent(gPane);
+        controller.faqRequestContainer.clear();
 
-    int rowCount = gPane.getRowCount();
-    gPane.add(userInputSection, 0, rowCount);
-    gPane.add(responseSection, 0, rowCount + 1);
+        Task<VBox> getAnswer = new Task<>() {
+            @Override
+            protected VBox call() throws Exception {
+                String answer = ApiGoogleGemini.sendPostRequest(question);
+                return createFAQsContainer(new Label("Response:"), answer,
+                        faqSPane, LEFT);
+            }
+        };
+        getAnswer.setOnSucceeded(event -> {
+            gPane.add(getAnswer.getValue(), 0, rowCount + 1);
+            faqSPane.setContent(gPane);
+        });
+        Thread thread = new Thread(getAnswer);
+        thread.setDaemon(true);
+        thread.start();
+    }
 
-    faqSPane.setContent(gPane);
-  }
-
+    public void record() {
+        Recognizer recognizer = SpeechToText.getRecognizer();
+        DataLine.Info info = new DataLine.Info(TargetDataLine.class, SpeechToText.format);
+        if (!AudioSystem.isLineSupported(info)) {
+            System.err.println("Micro không được hỗ trợ.");
+            return;
+        }
+        try (TargetDataLine microphone = (TargetDataLine) AudioSystem.getLine(info)) {
+            microphone.open(SpeechToText.format);
+            microphone.start();
+            byte[] buffer = new byte[4096];
+            while (!SpeechToText.stopRecognition) {
+                int bytesRead = microphone.read(buffer, 0, buffer.length);
+                if (recognizer.acceptWaveForm(buffer, bytesRead)) {
+                    String result = recognizer.getResult();
+                    String text = SpeechToText.extractTextFromJson(result);
+                    if (!text.isEmpty()) {
+                        controller.faqRequestContainer.setText(controller.faqRequestContainer.getText() + " " + text);
+                        System.out.println(text + " ");
+                    }
+                }
+            }
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
