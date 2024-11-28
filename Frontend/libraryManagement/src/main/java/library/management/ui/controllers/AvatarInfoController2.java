@@ -1,27 +1,25 @@
 package library.management.ui.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import java.io.IOException;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import java.io.IOException;
-import javafx.animation.TranslateTransition;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 
-public class AvatarInfoController {
+public class AvatarInfoController2 {
 
-    private static final String SETTINGS_SOURCE = "/ui/fxml/settings.fxml";
+    private static final String SETTINGS_SOURCE = "/ui/fxml/settings1.fxml";
 
     @FXML
     public VBox avatarVBox;
@@ -34,15 +32,15 @@ public class AvatarInfoController {
     @FXML
     private Circle Circle;
 
-    private MainController controller;
+    private FullUserController controller;
 
-    public void initialize(MainController controller) {
+    public void initialize(FullUserController controller) {
         this.controller = controller;
         setData();
     }
 
     public void setData() {
-        this.manaName.setText(controller.getManagerName());
+        this.manaName.setText(controller.getMainUserName());
     }
 
     private boolean isOn = false;
@@ -57,15 +55,15 @@ public class AvatarInfoController {
             System.out.println("Toggle is ON"); // Khi bật
             transition.setToX(150- Circle.getRadius() * 2); // Di chuyển hình tròn sang phải
             controller.path = getClass().getResource("/ui/css/dark-theme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
-            controller.mainStackPane.getStylesheets().clear(); // Xóa các stylesheet hiện tại
-            controller.mainStackPane.getStylesheets().add(controller.path);
+            controller.stackFull.getStylesheets().clear(); // Xóa các stylesheet hiện tại
+            controller.stackFull.getStylesheets().add(controller.path);
             isOn = true; // Đặt trạng thái là bật
         } else {
             System.out.println("Toggle is OFF"); // Khi tắt
             transition.setToX(0); // Di chuyển hình tròn về bên trái
             controller.path = getClass().getResource("/ui/css/theme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
-            controller.mainStackPane.getStylesheets().clear(); // Xóa các stylesheet hiện tại
-            controller.mainStackPane.getStylesheets().add(controller.path);
+            controller.stackFull.getStylesheets().clear(); // Xóa các stylesheet hiện tại
+            controller.stackFull.getStylesheets().add(controller.path);
             isOn = false; // Đặt trạng thái là tắt
         }
 
@@ -74,22 +72,17 @@ public class AvatarInfoController {
         //controller.handleSignOutButton(actionEvent);
     }
 
-  @FXML
-  private void handleSettingsButton(ActionEvent actionEvent) {
-    try {
-      FXMLLoader fxmlLoader = new FXMLLoader();
-      fxmlLoader.setLocation(getClass().getResource(SETTINGS_SOURCE));
-      Parent root = fxmlLoader.load();
-      Stage stage = new Stage();
-
-      Image icon = new Image(getClass().getResourceAsStream(ICON_SOURCE));
-      stage.getIcons().add(icon);
-
-      stage.setTitle(SETTINGS_TITLE);
-      SettingsController controller = fxmlLoader.getController();
-      controller.setMainController(this.controller);
-      controller.setData();
-
+    @FXML
+    private void handleSettingsButton(ActionEvent actionEvent) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource(SETTINGS_SOURCE));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Settings");
+            SettingsController1 controller = fxmlLoader.getController();
+            controller.setController(this.controller);
+            controller.setData();
 
             stage.setResizable(false);
             stage.setScene(new Scene(root));
