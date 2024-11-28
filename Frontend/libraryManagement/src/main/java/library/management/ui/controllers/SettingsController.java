@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.SVGPath;
 import library.management.data.DAO.ManagerDAO;
 import library.management.data.DAO.UserDAO;
 import library.management.data.entity.Manager;
@@ -22,6 +23,8 @@ import static library.management.alert.AlertMaker.showAlertInformation;
 
 public class SettingsController {
 
+    @FXML
+    private SVGPath sendCode;
     @FXML
     private TextField phoneNumberTextField;
     @FXML

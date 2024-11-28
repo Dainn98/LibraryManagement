@@ -124,6 +124,10 @@ public class DocContainerController extends GeneralController implements propert
       Parent root = fxmlLoader.load();
       Stage stage = new Stage();
       stage.setTitle(DOC_INFORMATION_TITLE);
+
+      Image icon = new Image(getClass().getResourceAsStream(ICON_SOURCE));
+      stage.getIcons().add(icon);
+
       ManagerDocInformationController controller = fxmlLoader.getController();
       controller.loadDocData(document, image);
 
