@@ -405,12 +405,11 @@ public class LoanDAO implements DAOInterface<Loan> {
     }
 
     public boolean userReturnDocument(Loan loan) {
-        String query = "UPDATE loans SET status = 'pendingReturned', returnDate = ? WHERE loanID = ? AND status NOT IN ('removed', 'disapproved', 'returned', 'pending')";
+        String query = "UPDATE loans SET status = 'pendingReturned' WHERE loanID = ? AND status NOT IN ('removed', 'disapproved', 'returned', 'pending')";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
-            stmt.setInt(2, loan.getIntLoanID());
+            stmt.setInt(1, loan.getIntLoanID());
 
             if (stmt.executeUpdate() > 0) {
                 return true;
@@ -435,7 +434,13 @@ public class LoanDAO implements DAOInterface<Loan> {
     }
 
     public int undoPendingReturn(Loan loan) {
-        String query = "UPDATE loans SET status = 'borrowing' WHERE loanID = ? AND status = 'pendingReturned'";
+        String query;
+        if (loan != null && loan.getRequiredReturnDate() != null
+                && loan.getRequiredReturnDate().isBefore(LocalDateTime.now())) {
+            query = "UPDATE loans SET status = 'late' WHERE loanID = ? AND status = 'pendingReturned'";
+        } else {
+            query = "UPDATE loans SET status = 'borrowing' WHERE loanID = ? AND status = 'pendingReturned'";
+        }
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
@@ -633,4 +638,32 @@ public class LoanDAO implements DAOInterface<Loan> {
 
         return loanList;
     }
+
+    public void updateLateLoans() {
+        System.out.println("late");
+        String query = "SELECT * FROM loans WHERE status = 'borrowing'";
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Loan loan = mapLoan(rs);
+                if (loan != null && loan.getRequiredReturnDate() != null
+                        && loan.getRequiredReturnDate().isBefore(LocalDateTime.now())) {
+                    String updateQuery = "UPDATE loans SET status = 'late' WHERE loanID = ?";
+                    try (PreparedStatement updateStmt = con.prepareStatement(updateQuery)) {
+                        updateStmt.setInt(1, rs.getInt("loanID"));
+                        int rowsUpdated = updateStmt.executeUpdate();
+                        if (rowsUpdated > 0) {
+                            System.out.println("Loan ID " + rs.getInt("loanID") + " updated to 'late'.");
+                        } else {
+                            System.out.println("Loan ID " + rs.getInt("loanID") + " was already 'late'.");
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

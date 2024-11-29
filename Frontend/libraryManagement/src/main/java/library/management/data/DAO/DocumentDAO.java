@@ -132,7 +132,6 @@ public class DocumentDAO implements DAOInterface<Document> {
         document.setQuantity(rs.getInt("quantity"));
         document.setAvailableCopies(rs.getInt("availableCopies"));
 
-        // Xử lý addDate
         Timestamp timestamp = rs.getTimestamp("addDate");
         if (timestamp != null) {
             LocalDateTime addDate = timestamp.toLocalDateTime();
@@ -182,8 +181,6 @@ public class DocumentDAO implements DAOInterface<Document> {
         }
         return bookList;
     }
-
-
 
     public int getTotalQuantity() {
         String query = "SELECT SUM(quantity) FROM document";
@@ -264,7 +261,6 @@ public class DocumentDAO implements DAOInterface<Document> {
 
         return searchResults;
     }
-
 
     public Document searchDocumentById(int documentId) {
         String query = "SELECT * FROM document WHERE documentId = ? AND availability != 'removed'";
@@ -366,12 +362,12 @@ public class DocumentDAO implements DAOInterface<Document> {
              PreparedStatement stmt = con.prepareStatement(sqlQuery)) {
 
             String searchKeyword = "%" + query + "%";
-            stmt.setString(1, searchKeyword); // title
-            stmt.setString(2, searchKeyword); // author
-            stmt.setString(3, searchKeyword); // isbn
-            stmt.setString(4, searchKeyword); // publisher
-            stmt.setInt(5, maxResults);       // max results
-            stmt.setInt(6, startIndex);       // offset
+            stmt.setString(1, searchKeyword);
+            stmt.setString(2, searchKeyword);
+            stmt.setString(3, searchKeyword);
+            stmt.setString(4, searchKeyword);
+            stmt.setInt(5, maxResults);
+            stmt.setInt(6, startIndex);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -405,33 +401,27 @@ public class DocumentDAO implements DAOInterface<Document> {
     public List<String> searchISBNByKeyword(String query, int limit) {
         List<String> isbns = new ArrayList<>();
         String sqlQuery = "SELECT isbn FROM document WHERE isbn LIKE ? AND availability != 'removed' LIMIT ?";
-
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(sqlQuery)) {
-
-            String searchKeyword = "%" + query + "%"; // Sử dụng LIKE để tìm kiếm
+            String searchKeyword = "%" + query + "%";
             stmt.setString(1, searchKeyword);
-            stmt.setInt(2, limit); // Thêm giới hạn số kết quả trả về
-
+            stmt.setInt(2, limit);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    isbns.add(rs.getString("isbn")); // Thêm ISBN vào danh sách
+                    isbns.add(rs.getString("isbn"));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return isbns; // Trả về danh sách ISBN tìm được
+        return isbns;
     }
 
     public Document searchDocumentByISBN(String isbn) {
         String query = "SELECT * FROM document WHERE isbn = ? AND availability != 'removed'";
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
-
             stmt.setString(1, isbn);
-
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     Document document = new Document();
@@ -450,14 +440,13 @@ public class DocumentDAO implements DAOInterface<Document> {
                     document.setUrl(rs.getString("url"));
                     document.setImage(rs.getString("image"));
                     document.setAvailability(rs.getString("availability"));
-
                     return document;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // Trả về null nếu không tìm thấy document
+        return null;
     }
 
     public List<List<Document>> searchAndGroupDocuments(String query, List<String> filters, int limitCategory, int limitBooksPerCategory) {
@@ -537,11 +526,9 @@ public class DocumentDAO implements DAOInterface<Document> {
                     }
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return groupedDocuments;
     }
 }

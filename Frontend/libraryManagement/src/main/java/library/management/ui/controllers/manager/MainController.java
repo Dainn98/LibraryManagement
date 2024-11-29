@@ -335,7 +335,7 @@ public class MainController extends GeneralController implements Initializable, 
     @FXML
     protected StackPane mainStackPane;
 
-    protected String path = getClass().getResource("/ui/css/myTheme.css").toExternalForm(); // Sử dụng đường dẫn từ resources
+    protected String path = getClass().getResource("/ui/css/myTheme.css").toExternalForm();
 
     //FAQs
     @FXML
@@ -376,9 +376,8 @@ public class MainController extends GeneralController implements Initializable, 
                 if (event.isShiftDown()) {
                     faqRequestContainer.appendText("\n");
                 } else {
-//                    System.out.println("Phím Enter đã được nhấn!");
                     handleSendText();
-                    event.consume(); // Ngăn Enter thêm ký tự mới vào TextArea
+                    event.consume();
                 }
             }
         });
@@ -533,11 +532,6 @@ public class MainController extends GeneralController implements Initializable, 
     @FXML
     private void handleAdvancedSearch(ActionEvent actionEvent) {
         showSection(catalogBPane);
-    }
-
-    @FXML
-    private void handleImportDataButton(ActionEvent actionEvent) {
-        //To Do
     }
 
     @FXML

@@ -220,7 +220,8 @@ public class UserDocInformationController extends GeneralController implements p
                     lateFee + " $.\n" +
                     "Are you sure you want to return this document?");
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                loan.setDeposit(Integer.parseInt(String.valueOf(lateFee)));
+                loan.setDeposit(Double.parseDouble(String.valueOf(lateFee)));
+                LoanDAO.getInstance().update(loan);
                 if (LoanDAO.getInstance().userReturnDocument(loan)) {
                     showAlertInformation("Return document", "Your document is pending return!");
                     Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
