@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import library.management.UserScreen;
+import library.management.data.DAO.LoanDAO;
 import library.management.data.DAO.ManagerDAO;
 import library.management.data.DAO.UserDAO;
 import library.management.data.entity.Manager;
@@ -54,6 +55,7 @@ public class ModernLoginController  extends GeneralController implements Initial
     protected TextField confirmPassword;
 
     public void handleLogin(ActionEvent actionEvent) {
+        LoanDAO.getInstance().updateLateLoans();
         String userName = loginUsername.getText();
         String password = loginPassword.getText();
         Manager mainManager = ManagerDAO.getInstance().checkManager(userName, password);
@@ -183,7 +185,6 @@ public class ModernLoginController  extends GeneralController implements Initial
                 handleRegister(new ActionEvent(confirmPassword, null));
             }
         });
-
     }
 
     /**
@@ -243,7 +244,6 @@ public class ModernLoginController  extends GeneralController implements Initial
         }
         return true;
     }
-
 
     /**
      * Validates the email format.

@@ -29,7 +29,7 @@
 <?import jfxtras.scene.control.ImageViewButton?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<StackPane fx:id="stackFull" prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/dark-theme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.user.FullUserController">
+<StackPane fx:id="stackFull" prefHeight="833.0" prefWidth="1058.0" stylesheets="@../css/dark-theme.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.management.ui.controllers.user.FullUserController">
    <children>
       <BorderPane prefHeight="806.0" prefWidth="1010.0" StackPane.alignment="CENTER">
          <top>
@@ -197,7 +197,7 @@
                         </HBox>
                      </bottom>
                   </BorderPane>
-                  <BorderPane fx:id="catalogBPane" visible="false">
+                  <BorderPane fx:id="catalogBPane">
                      <top>
                         <BorderPane fx:id="homePane" maxHeight="67.0" prefHeight="34.0" prefWidth="1000.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                            <center>

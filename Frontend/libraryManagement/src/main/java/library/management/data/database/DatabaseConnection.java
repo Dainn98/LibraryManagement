@@ -6,19 +6,23 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * This class is responsible for managing the connection to a MySQL database using HikariCP,
+ * a high-performance JDBC connection pool library for Java.
+ *
+ * <p> The class follows the singleton pattern to maintain a single connection object for the entire application.
+ * It configures the connection parameters including URL, username, password, and pool settings.
+ * </p>
+ */
 public class DatabaseConnection {
+
     private static HikariDataSource dataSource;
 
-    // Khối khởi tạo tĩnh để cấu hình HikariCP
     static {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:mysql://localhost:3306/libdemo?useSSL=false&autoReconnect=true");
         config.setUsername("root");
         config.setPassword("Pdthien432005~");
-
-//        config.setJdbcUrl("jdbc:mysql://bhdhbvbnzgx0wns50jsy-mysql.services.clever-cloud.com:3306/bhdhbvbnzgx0wns50jsy?useSSL=false&autoReconnect=true");
-//        config.setUsername("ueqiv7zizvzrfyya");
-//        config.setPassword("lhzioZP31QXOKAZNuVFM");
 
         config.setMaximumPoolSize(10);
         config.setMinimumIdle(5);
@@ -29,10 +33,20 @@ public class DatabaseConnection {
         dataSource = new HikariDataSource(config);
     }
 
+    /**
+     * Retrieves a connection from the connection pool.
+     *
+     * @return a {@link Connection} object connected to the database.
+     * @throws SQLException if a connection to the database cannot be established.
+     */
     public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 
+    /**
+     * Closes the connection pool if it is not already closed.
+     * This method should be called when the application no longer needs a connection to the database.
+     */
     public static void close() {
         if (dataSource != null && !dataSource.isClosed()) {
             dataSource.close();

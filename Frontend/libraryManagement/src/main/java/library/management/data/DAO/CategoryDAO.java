@@ -10,12 +10,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data Access Object (DAO) class responsible for performing CRUD operations on the "category" table in the database.
+ * This class provides methods for adding, deleting, updating, and retrieving categories.
+ * It also provides utility methods to retrieve category tags and their corresponding IDs.
+ */
 public class CategoryDAO implements DAOInterface<Category> {
+
     private static CategoryDAO instance;
 
+    /**
+     * Private constructor to prevent instantiation from outside the class.
+     */
     private CategoryDAO() {
     }
 
+    /**
+     * Retrieves the singleton instance of the CategoryDAO class.
+     *
+     * @return the singleton instance of CategoryDAO.
+     */
     public static synchronized CategoryDAO getInstance() {
         if (instance == null) {
             instance = new CategoryDAO();
@@ -23,6 +37,12 @@ public class CategoryDAO implements DAOInterface<Category> {
         return instance;
     }
 
+    /**
+     * Adds a new category to the database.
+     *
+     * @param category the {@link Category} object to be added.
+     * @return the number of rows inserted (1 if successful, 0 if failed).
+     */
     @Override
     public int add(Category category) {
         String query = "INSERT INTO category (tag) VALUES (?)";
@@ -38,6 +58,12 @@ public class CategoryDAO implements DAOInterface<Category> {
         return 0;
     }
 
+    /**
+     * Deletes a category from the database.
+     *
+     * @param category the {@link Category} object to be deleted.
+     * @return the number of rows deleted (1 if successful, 0 if failed).
+     */
     @Override
     public int delete(Category category) {
         String query = "DELETE FROM category WHERE categoryID = ?";
@@ -53,6 +79,12 @@ public class CategoryDAO implements DAOInterface<Category> {
         return 0;
     }
 
+    /**
+     * Updates an existing category in the database.
+     *
+     * @param category the {@link Category} object containing the updated information.
+     * @return the number of rows updated (1 if successful, 0 if failed).
+     */
     @Override
     public int update(Category category) {
         String query = "UPDATE category SET tag = ? WHERE categoryID = ?";
@@ -69,6 +101,11 @@ public class CategoryDAO implements DAOInterface<Category> {
         return 0;
     }
 
+    /**
+     * Retrieves a list of all category tags from the database.
+     *
+     * @return a list of category tags.
+     */
     public List<String> getAllTags() {
         List<String> tags = new ArrayList<>();
         String query = "SELECT tag FROM category";
@@ -87,6 +124,11 @@ public class CategoryDAO implements DAOInterface<Category> {
         return tags;
     }
 
+    /**
+     * Retrieves a list of all categories from the database.
+     *
+     * @return a list of {@link Category} objects.
+     */
     public List<Category> getCategoryList() {
         List<Category> categories = new ArrayList<>();
         String query = "SELECT categoryID, tag FROM category";
@@ -108,6 +150,12 @@ public class CategoryDAO implements DAOInterface<Category> {
         return categories;
     }
 
+    /**
+     * Retrieves the category tag for a given category ID.
+     *
+     * @param categoryID the ID of the category.
+     * @return the tag associated with the given category ID, or null if not found.
+     */
     public String getTagByID(int categoryID) {
         String tag = null;
         String query = "SELECT tag FROM category WHERE categoryID = ?";
@@ -128,6 +176,12 @@ public class CategoryDAO implements DAOInterface<Category> {
         return tag;
     }
 
+    /**
+     * Retrieves the category ID associated with a given category tag.
+     *
+     * @param tag the tag of the category.
+     * @return the category ID associated with the given tag, or -1 if not found.
+     */
     public int getTagId(String tag) {
         String query = "SELECT categoryID FROM category WHERE tag = ?";
         try (Connection con = DatabaseConnection.getConnection();
@@ -144,7 +198,4 @@ public class CategoryDAO implements DAOInterface<Category> {
         }
         return -1;
     }
-
-
-
 }
