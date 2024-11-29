@@ -42,6 +42,27 @@ Choose Maven > Plugins > javafx > javafx:run and double click.
 
 - Note:
 
+*Password Rules*
++ Minimum Length: At least 6 characters.
++ Must Contain At Least One Letter: Can be uppercase or lowercase.
++ Must Contain At Least One Number: The password must include a numeric digit.
++ Must Contain At Least One Special Character: For example, !@#$%^&*()_+-=[]{};':",.<>?/.
++ No Spaces Allowed: Passwords cannot include spaces.
+
+*Phone Number Rules*
++ Format: The phone number must have exactly 10 digits.
++ Must Start With 0: For example, 0123456789.
++ Digits Only: No letters or special characters are allowed.
++ Cannot Be Empty: The phone number is a required field.
+
+*Email Rules*
++ Standard Format: Email must follow the format <username>@<domain>.<extension>. For example, example@gmail.com.
++ Allowed Domains Only: gmail.com, vnu.edu.vn
++ Cannot Be Empty: Email is a mandatory field.
+*Security Code Rules*
++ Fixed Length: Exactly 6 digits.
++ Digits Only: No letters or special characters are allowed.
++ One-Time Use: The security code is sent via email and is valid for a single verification attempt.
 
 ## Manager
 ### Dashboard
