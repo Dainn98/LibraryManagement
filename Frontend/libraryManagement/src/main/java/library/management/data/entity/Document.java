@@ -37,6 +37,25 @@ public class Document {
     this.documentID = parseId(documentID, "DOC");
   }
 
+  /**
+   * Constructor with all fields.
+   *
+   * @param documentID      the document ID.
+   * @param categoryID      the category ID.
+   * @param publisher       the publisher.
+   * @param lgId            the language ID.
+   * @param title           the title.
+   * @param author          the author.
+   * @param isbn            the ISBN.
+   * @param quantity        the quantity.
+   * @param availableCopies the available copies.
+   * @param addDate         the add date.
+   * @param price           the price.
+   * @param description     the description.
+   * @param url             the URL.
+   * @param image           the image.
+   * @param availability    the availability.
+   */
   public Document(String documentID, String categoryID, String publisher, String lgId, String title,
       String author, String isbn, int quantity, int availableCopies, String addDate, double price,
       String description, String url, String image, String availability) {
@@ -57,8 +76,21 @@ public class Document {
     this.availability = availability;
   }
 
-  public Document(int categoryID, String publisher, int lgId, String title,
-      String author, String isbn, String description, String url, String image) {
+  /**
+   * Constructor with selected fields.
+   *
+   * @param categoryID  the category ID.
+   * @param publisher   the publisher.
+   * @param lgId        the language ID.
+   * @param title       the title.
+   * @param author      the author.
+   * @param isbn        the ISBN.
+   * @param description the description.
+   * @param url         the URL.
+   * @param image       the image.
+   */
+  public Document(int categoryID, String publisher, int lgId, String title, String author,
+      String isbn, String description, String url, String image) {
     this.categoryID = categoryID;
     this.publisher = publisher;
     this.lgID = lgId;
@@ -70,8 +102,26 @@ public class Document {
     this.image = image;
   }
 
-  public Document(String categoryID, String publisher, String lgID, String title,
-      String author, String isbn, int quantity, int availableCopies, String addDate, double price,
+  /**
+   * Constructor with all fields except document ID.
+   *
+   * @param categoryID      the category ID.
+   * @param publisher       the publisher.
+   * @param lgID            the language ID.
+   * @param title           the title.
+   * @param author          the author.
+   * @param isbn            the ISBN.
+   * @param quantity        the quantity.
+   * @param availableCopies the available copies.
+   * @param addDate         the add date.
+   * @param price           the price.
+   * @param description     the description.
+   * @param url             the URL.
+   * @param image           the image.
+   * @param availability    the availability.
+   */
+  public Document(String categoryID, String publisher, String lgID, String title, String author,
+      String isbn, int quantity, int availableCopies, String addDate, double price,
       String description, String url, String image, String availability) {
     super();
     this.categoryID = parseId(categoryID, "CAT");
@@ -90,6 +140,11 @@ public class Document {
     this.availability = availability;
   }
 
+  /**
+   * Copy constructor.
+   *
+   * @param document the document to copy.
+   */
   public Document(Document document) {
     super();
     this.documentID = document.documentID;
@@ -109,6 +164,14 @@ public class Document {
     this.availability = document.availability;
   }
 
+  /**
+   * Parses an ID from a string with a given prefix.
+   *
+   * @param input  the input string.
+   * @param prefix the prefix.
+   * @return the parsed ID.
+   * @throws IllegalArgumentException if the input format is invalid.
+   */
   private int parseId(String input, String prefix) {
     if (input != null && input.startsWith(prefix)) {
       return Integer.parseInt(input.substring(prefix.length()));
@@ -205,6 +268,12 @@ public class Document {
     return addDate;
   }
 
+  /**
+   * Sets the add date from a string.
+   *
+   * @param addDate the add date.
+   * @throws IllegalArgumentException if the add date is null, empty, or in an invalid format.
+   */
   public void setAddDate(String addDate) {
     if (addDate == null || addDate.isEmpty()) {
       throw new IllegalArgumentException("addDate cannot be null or empty");

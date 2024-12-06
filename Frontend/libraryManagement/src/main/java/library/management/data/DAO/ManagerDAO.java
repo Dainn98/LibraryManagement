@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.Manager;
 
+/**
+ * Singleton class responsible for performing CRUD operations on the "manager" table in the
+ * database. This class provides methods for adding, deleting, updating, and retrieving managers.
+ */
 public class ManagerDAO implements DAOInterface<Manager> {
 
   private static ManagerDAO instance;
@@ -14,6 +18,11 @@ public class ManagerDAO implements DAOInterface<Manager> {
   private ManagerDAO() {
   }
 
+  /**
+   * Retrieves the singleton instance of the ManagerDAO class.
+   *
+   * @return the singleton instance of ManagerDAO.
+   */
   public static ManagerDAO getInstance() {
     if (instance == null) {
       instance = new ManagerDAO();
@@ -75,7 +84,13 @@ public class ManagerDAO implements DAOInterface<Manager> {
     return 0;
   }
 
-
+  /**
+   * Checks if a manager exists in the database with the given manager name and password.
+   *
+   * @param managerName the manager name to check.
+   * @param password    the password to check.
+   * @return the {@link Manager} object if found, null otherwise.
+   */
   public Manager checkManager(String managerName, String password) {
     String query = "SELECT * FROM manager WHERE managerName = ? AND password = ?";
     try (Connection con = DatabaseConnection.getConnection();
@@ -95,6 +110,13 @@ public class ManagerDAO implements DAOInterface<Manager> {
     return null;
   }
 
+  /**
+   * Builds a {@link Manager} object from a {@link ResultSet}.
+   *
+   * @param rs the {@link ResultSet} to build the manager from.
+   * @return the {@link Manager} object.
+   * @throws SQLException if a database access error occurs.
+   */
   private Manager buildManagerFromResultSet(ResultSet rs) throws SQLException {
     Manager manager = new Manager();
     manager.setManagerID(rs.getInt("managerID"));
@@ -106,7 +128,12 @@ public class ManagerDAO implements DAOInterface<Manager> {
     return manager;
   }
 
-
+  /**
+   * Checks if a manager exists in the database with the given manager name.
+   *
+   * @param managerName the manager name to check.
+   * @return true if the manager exists, false otherwise.
+   */
   public boolean checkManagerByUserName(String managerName) {
     String query = "SELECT * FROM manager WHERE managerName = ?";
     try (Connection con = DatabaseConnection.getConnection();
@@ -122,6 +149,12 @@ public class ManagerDAO implements DAOInterface<Manager> {
     return false;
   }
 
+  /**
+   * Checks if a manager exists in the database with the given identity card.
+   *
+   * @param identityCard the identity card to check.
+   * @return true if the manager exists, false otherwise.
+   */
   public boolean checkManagerByIdentityCard(String identityCard) {
     String query = "SELECT * FROM manager WHERE identityCard = ?";
     try (Connection con = DatabaseConnection.getConnection();
@@ -137,6 +170,12 @@ public class ManagerDAO implements DAOInterface<Manager> {
     return false;
   }
 
+  /**
+   * Checks if a manager exists in the database with the given phone number.
+   *
+   * @param phoneNumber the phone number to check.
+   * @return true if the manager exists, false otherwise.
+   */
   public boolean checkManagerByPhoneNumber(String phoneNumber) {
     String query = "SELECT * FROM manager WHERE phoneNumber = ?";
     try (Connection con = DatabaseConnection.getConnection();
@@ -152,6 +191,12 @@ public class ManagerDAO implements DAOInterface<Manager> {
     return false;
   }
 
+  /**
+   * Checks if a manager exists in the database with the given email.
+   *
+   * @param email the email to check.
+   * @return true if the manager exists, false otherwise.
+   */
   public boolean checkManagerByEmail(String email) {
     String query = "SELECT * FROM manager WHERE email = ?";
     try (Connection con = DatabaseConnection.getConnection();

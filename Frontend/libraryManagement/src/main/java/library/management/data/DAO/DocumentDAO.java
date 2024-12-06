@@ -12,6 +12,11 @@ import java.util.List;
 import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.Document;
 
+/**
+ * Singleton class responsible for performing CRUD operations on the "document" table in the
+ * database. This class provides methods for adding, deleting, updating, and retrieving documents.
+ * It also provides utility methods to search and group documents.
+ */
 public class DocumentDAO implements DAOInterface<Document> {
 
   private static DocumentDAO instance;
@@ -19,6 +24,11 @@ public class DocumentDAO implements DAOInterface<Document> {
   private DocumentDAO() {
   }
 
+  /**
+   * Retrieves the singleton instance of the DocumentDAO class.
+   *
+   * @return the singleton instance of DocumentDAO.
+   */
   public static synchronized DocumentDAO getInstance() {
     if (instance == null) {
       instance = new DocumentDAO();
@@ -99,6 +109,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return 0;
   }
 
+  /**
+   * Retrieves a document by its ISBN.
+   */
   public Document getDocumentByIsbn(String isbn) {
     String query = "SELECT * FROM document WHERE isbn = ? AND availability != 'removed'";
 
@@ -120,6 +133,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return null;
   }
 
+  /**
+   * Maps a {@link ResultSet} to a {@link Document} object.
+   */
   private Document mapResultSetToDocument(ResultSet rs) throws SQLException {
     Document document = new Document();
 
@@ -148,7 +164,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return document;
   }
 
-
+  /**
+   * Retrieves a list of all available documents.
+   */
   public List<Document> getBookList() {
     List<Document> bookList = new ArrayList<>();
     String query = "SELECT * FROM document WHERE availability != 'removed'";
@@ -183,6 +201,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return bookList;
   }
 
+  /**
+   * Retrieves the total quantity of all documents.
+   */
   public int getTotalQuantity() {
     String query = "SELECT SUM(quantity) FROM document";
     try (Connection con = DatabaseConnection.getConnection();
@@ -198,6 +219,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return 0;
   }
 
+  /**
+   * Retrieves the total number of available copies of all documents.
+   */
   public int getTotalAvailableCopies() {
     String query = "SELECT SUM(availableCopies) FROM document WHERE availability = 'available'";
     try (Connection con = DatabaseConnection.getConnection();
@@ -213,6 +237,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return 0;
   }
 
+  /**
+   * Searches for documents based on a keyword.
+   */
   public List<Document> searchDocuments(String keyword) {
     List<Document> searchResults = new ArrayList<>();
     String query = "SELECT * FROM document WHERE " +
@@ -263,6 +290,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return searchResults;
   }
 
+  /**
+   * Searches for a document by its ID.
+   */
   public Document searchDocumentById(int documentId) {
     String query = "SELECT * FROM document WHERE documentId = ? AND availability != 'removed'";
     try (Connection con = DatabaseConnection.getConnection();
@@ -298,6 +328,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return null;
   }
 
+  /**
+   * Checks if a document can be borrowed.
+   */
   public int canBeBorrowed(int documentId, int borrowQuantity) {
     String query = "SELECT availableCopies, availability FROM document WHERE documentId = ? AND availability = 'available'";
     try (Connection con = DatabaseConnection.getConnection();
@@ -323,6 +356,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return Document.NOTAVALABLETOBOROW;
   }
 
+  /**
+   * Decreases the available copies of a document.
+   */
   public boolean decreaseAvailableCopies(int documentId, int decrementQuantity) {
     String queryCheck = "SELECT availableCopies FROM document WHERE documentId = ?";
     String queryUpdate = "UPDATE document SET availableCopies = availableCopies - ? WHERE documentId = ? AND availableCopies >= ?";
@@ -353,6 +389,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return false;
   }
 
+  /**
+   * Searches for documents in the database with pagination.
+   */
   public List<Document> searchDocumentInDatabase(String query, int maxResults, int startIndex) {
     List<Document> documents = new ArrayList<>();
     String sqlQuery = "SELECT * FROM document WHERE " +
@@ -399,6 +438,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return documents;
   }
 
+  /**
+   * Searches for ISBNs by a keyword with a limit on the number of results.
+   */
   public List<String> searchISBNByKeyword(String query, int limit) {
     List<String> isbns = new ArrayList<>();
     String sqlQuery = "SELECT isbn FROM document WHERE isbn LIKE ? AND availability != 'removed' LIMIT ?";
@@ -418,6 +460,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return isbns;
   }
 
+  /**
+   * Searches for a document by its ISBN.
+   */
   public Document searchDocumentByISBN(String isbn) {
     String query = "SELECT * FROM document WHERE isbn = ? AND availability != 'removed'";
     try (Connection con = DatabaseConnection.getConnection();
@@ -450,6 +495,9 @@ public class DocumentDAO implements DAOInterface<Document> {
     return null;
   }
 
+  /**
+   * Searches and groups documents based on a query and filters.
+   */
   public List<List<Document>> searchAndGroupDocuments(String query, List<String> filters,
       int limitCategory, int limitBooksPerCategory) {
     if (filters.isEmpty()) {

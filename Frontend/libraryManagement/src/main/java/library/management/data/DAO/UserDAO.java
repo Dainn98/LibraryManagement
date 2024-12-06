@@ -18,6 +18,11 @@ public class UserDAO implements DAOInterface<User> {
   private UserDAO() {
   }
 
+  /**
+   * Retrieves the singleton instance of the UserDAO class.
+   *
+   * @return the singleton instance of UserDAO.
+   */
   public static UserDAO getInstance() {
     if (instance == null) {
       instance = new UserDAO();
@@ -87,6 +92,11 @@ public class UserDAO implements DAOInterface<User> {
     return 0;
   }
 
+  /**
+   * Retrieves all approved users from the database.
+   *
+   * @return a list of {@link User} objects with a status of 'approved'.
+   */
   public List<User> getAllApprovedUsers() {
     String query = "SELECT * FROM user WHERE status = 'approved'";
     List<User> users = new ArrayList<>();
@@ -288,7 +298,12 @@ public class UserDAO implements DAOInterface<User> {
     return user;
   }
 
-
+  /**
+   * Approves a pending user.
+   *
+   * @param user the {@link User} object to be approved.
+   * @return the number of rows updated (1 if successful, 0 if failed).
+   */
   public int approve(User user) {
     String query = "UPDATE user SET status = 'approved' WHERE userName = ? AND status = 'pending'";
     try (Connection con = DatabaseConnection.getConnection();
@@ -302,6 +317,12 @@ public class UserDAO implements DAOInterface<User> {
     return 0;
   }
 
+  /**
+   * Disapproves a pending user.
+   *
+   * @param user the {@link User} object to be disapproved.
+   * @return the number of rows updated (1 if successful, 0 if failed).
+   */
   public int disapprove(User user) {
     String query = "UPDATE user SET status = 'disapproved' WHERE userName = ? AND status = 'pending'";
     try (Connection con = DatabaseConnection.getConnection();
@@ -357,6 +378,11 @@ public class UserDAO implements DAOInterface<User> {
     return 0;
   }
 
+  /**
+   * Retrieves all pending users from the database.
+   *
+   * @return a list of {@link User} objects with a status of 'pending'.
+   */
   public List<User> getPendingUsers() {
     String query = "SELECT * FROM user WHERE status = 'pending'";
     List<User> pendingUsers = new ArrayList<>();
@@ -375,6 +401,11 @@ public class UserDAO implements DAOInterface<User> {
     return pendingUsers;
   }
 
+  /**
+   * Retrieves all distinct countries of pending users.
+   *
+   * @return a list of distinct countries of pending users.
+   */
   public List<String> getAllPendingCountries() {
     String query = "SELECT DISTINCT country FROM user WHERE status = 'pending'";
     List<String> countries = new ArrayList<>();
@@ -466,6 +497,12 @@ public class UserDAO implements DAOInterface<User> {
     return userNames;
   }
 
+  /**
+   * Searches approved user names by a query.
+   *
+   * @param query the query to search for.
+   * @return a list of approved user names matching the query.
+   */
   public List<String> searchApprovedUserNames(String query) {
     List<String> approvedUserNames = new ArrayList<>();
     String sqlQuery = "SELECT userName FROM user WHERE status = 'approved' AND " +
@@ -488,6 +525,12 @@ public class UserDAO implements DAOInterface<User> {
     return approvedUserNames;
   }
 
+  /**
+   * Searches for an approved user by exact name.
+   *
+   * @param name the exact name to search for.
+   * @return the {@link User} object if found, null otherwise.
+   */
   public User searchApprovedUserByExactName(String name) {
     String query = "SELECT * FROM user WHERE status = 'approved' AND userName = ?";
     try (Connection con = DatabaseConnection.getConnection();
@@ -504,6 +547,12 @@ public class UserDAO implements DAOInterface<User> {
     return null;
   }
 
+  /**
+   * Checks if a user exists in the database with the given user name.
+   *
+   * @param userName the user name to check.
+   * @return true if the user exists, false otherwise.
+   */
   public boolean doesUserNameExist(String userName) {
     String query = "SELECT COUNT(*) FROM user WHERE userName = ?";
     try (Connection con = DatabaseConnection.getConnection();
@@ -520,6 +569,12 @@ public class UserDAO implements DAOInterface<User> {
     return false;
   }
 
+  /**
+   * Checks if a user exists in the database with the given identity card.
+   *
+   * @param identityCard the identity card to check.
+   * @return true if the user exists, false otherwise.
+   */
   public boolean doesIdentityCardExist(String identityCard) {
     String query = "SELECT COUNT(*) FROM user WHERE identityCard = ?";
     try (Connection con = DatabaseConnection.getConnection();
@@ -536,6 +591,12 @@ public class UserDAO implements DAOInterface<User> {
     return false;
   }
 
+  /**
+   * Checks if a user exists in the database with the given email.
+   *
+   * @param email the email to check.
+   * @return true if the user exists, false otherwise.
+   */
   public boolean doesEmailExist(String email) {
     String query = "SELECT COUNT(*) FROM user WHERE email = ?";
     try (Connection con = DatabaseConnection.getConnection();
@@ -552,6 +613,14 @@ public class UserDAO implements DAOInterface<User> {
     return false;
   }
 
+  /**
+   * Checks if a user exists in the database with the given username and password, and if the user
+   * is approved.
+   *
+   * @param username the username to check.
+   * @param password the password to check.
+   * @return the {@link User} object if found, null otherwise.
+   */
   public User checkUserLogin(String username, String password) {
     String query = "SELECT * FROM user WHERE userName = ? AND password = ? AND status = 'approved'";
     try (Connection con = DatabaseConnection.getConnection();
@@ -571,6 +640,12 @@ public class UserDAO implements DAOInterface<User> {
     return null;
   }
 
+  /**
+   * Checks if a user exists in the database with the given phone number.
+   *
+   * @param phoneNumber the phone number to check.
+   * @return true if the user exists, false otherwise.
+   */
   public boolean doesPhoneNumberExist(String phoneNumber) {
     String query = "SELECT COUNT(*) FROM user WHERE phoneNumber = ?";
     try (Connection con = DatabaseConnection.getConnection();

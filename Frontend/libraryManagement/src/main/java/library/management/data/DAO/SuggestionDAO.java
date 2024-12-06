@@ -10,6 +10,11 @@ import java.util.List;
 import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.Suggestion;
 
+/**
+ * Singleton class responsible for performing CRUD operations on the "suggestion" table in the
+ * database. This class provides methods for adding, deleting, updating, and retrieving
+ * suggestions.
+ */
 public class SuggestionDAO implements DAOInterface<Suggestion> {
 
   private static SuggestionDAO instance;
@@ -17,6 +22,11 @@ public class SuggestionDAO implements DAOInterface<Suggestion> {
   private SuggestionDAO() {
   }
 
+  /**
+   * Retrieves the singleton instance of the SuggestionDAO class.
+   *
+   * @return the singleton instance of SuggestionDAO.
+   */
   public static synchronized SuggestionDAO getInstance() {
     if (instance == null) {
       instance = new SuggestionDAO();
@@ -87,6 +97,11 @@ public class SuggestionDAO implements DAOInterface<Suggestion> {
     return 0;
   }
 
+  /**
+   * Retrieves all suggestions from the database.
+   *
+   * @return a list of {@link Suggestion} objects.
+   */
   public List<Suggestion> getAll() {
     List<Suggestion> suggestions = new ArrayList<>();
     String query = "SELECT id, value, frequency FROM suggestion";
@@ -109,6 +124,12 @@ public class SuggestionDAO implements DAOInterface<Suggestion> {
     return suggestions;
   }
 
+  /**
+   * Increments the frequency of a suggestion by its value. If the suggestion does not exist, it is
+   * added with a frequency of 1.
+   *
+   * @param value the value of the suggestion.
+   */
   public void incrementFrequencyByValue(String value) {
     String query = """
         INSERT INTO suggestion (value, frequency) 

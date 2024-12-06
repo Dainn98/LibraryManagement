@@ -12,6 +12,11 @@ public final class User extends Client {
   public User() {
   }
 
+  /**
+   * Copy constructor.
+   *
+   * @param user the user to copy.
+   */
   public User(User user) {
     this.name = user.name;
     this.identityCard = user.identityCard;
@@ -24,6 +29,18 @@ public final class User extends Client {
     this.registeredDate = user.registeredDate;
   }
 
+  /**
+   * Constructor with all fields.
+   *
+   * @param userName       the user name.
+   * @param identityCard   the identity card.
+   * @param phoneNumber    the phone number.
+   * @param email          the email.
+   * @param country        the country.
+   * @param state          the state.
+   * @param status         the status.
+   * @param registeredDate the registered date.
+   */
   public User(String userName, String identityCard, String phoneNumber,
       String email, String country, String state, String status, LocalDateTime registeredDate) {
     this.name = userName;
@@ -36,6 +53,14 @@ public final class User extends Client {
     this.registeredDate = registeredDate != null ? registeredDate : LocalDateTime.now();
   }
 
+  /**
+   * Constructor with essential fields.
+   *
+   * @param userName     the user name.
+   * @param identityCard the identity card.
+   * @param email        the email.
+   * @param password     the password.
+   */
   public User(String userName, String identityCard, String email, String password) {
     this.name = userName;
     this.identityCard = identityCard;
@@ -88,6 +113,11 @@ public final class User extends Client {
     this.registeredDate = registeredDate;
   }
 
+  /**
+   * Gets the registered year.
+   *
+   * @return the registered year.
+   */
   public String getRegisteredYear() {
     return this.registeredDate != null ? String.valueOf(this.registeredDate.getYear())
         : "Registered date is not set.";
