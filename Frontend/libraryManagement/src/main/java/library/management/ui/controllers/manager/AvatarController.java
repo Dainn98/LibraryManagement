@@ -7,6 +7,7 @@ import library.management.properties;
 
 
 public class AvatarController extends ManagerSubController implements properties {
+
   public AvatarController() {
   }
 

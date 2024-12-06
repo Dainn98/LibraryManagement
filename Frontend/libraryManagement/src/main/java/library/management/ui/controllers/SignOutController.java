@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class SignOutController {
+
   public static void handleSignOut() {
     try {
       FXMLLoader loader = new FXMLLoader();

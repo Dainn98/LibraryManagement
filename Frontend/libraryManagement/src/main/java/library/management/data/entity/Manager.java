@@ -1,26 +1,27 @@
 package library.management.data.entity;
 
 public final class Manager extends Client {
-    private int managerID;
 
-    public String getManagerName() {
-        return name;
-    }
+  private int managerID;
 
-    public void setManagerName(String managerName) {
-        this.name = managerName;
-    }
+  public String getManagerName() {
+    return name;
+  }
 
-    public String getManagerID() {
-        return String.format("MNG%d", managerID);
-    }
+  public void setManagerName(String managerName) {
+    this.name = managerName;
+  }
 
-    public int getIntManagerID() {
-        return managerID;
-    }
+  public String getManagerID() {
+    return String.format("MNG%d", managerID);
+  }
 
-    public void setManagerID(int managerID) {
-        this.managerID = managerID;
-    }
+  public void setManagerID(int managerID) {
+    this.managerID = managerID;
+  }
+
+  public int getIntManagerID() {
+    return managerID;
+  }
 
 }

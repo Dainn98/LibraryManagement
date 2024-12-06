@@ -17,7 +17,7 @@ import library.management.properties;
 abstract public class GeneralController implements properties {
 
   Timeline shakeAnimation = new Timeline();
-    boolean isRotating = true;
+  boolean isRotating = true;
 
   protected void translate(Node node, double x, Duration duration) {
     TranslateTransition transition = new TranslateTransition(duration, node);
@@ -70,55 +70,55 @@ abstract public class GeneralController implements properties {
   protected void rotate3D(Node nodeS, double rotateS, int cycleS,
       Node nodeE, double rotateE, int cycleE,
       double angle, Duration duration) {
-      // Define a rotation axis and set the initial rotation angle for nodeS
-      nodeS.setRotationAxis(Rotate.Y_AXIS); // Rotate around the Y axis
-      nodeS.setRotate(rotateS); //  Set the initial rotation angle
+    // Define a rotation axis and set the initial rotation angle for nodeS
+    nodeS.setRotationAxis(Rotate.Y_AXIS); // Rotate around the Y axis
+    nodeS.setRotate(rotateS); //  Set the initial rotation angle
 
-      RotateTransition roS = new RotateTransition(duration, nodeS);
-      roS.setByAngle(angle); // Rotate by the specified angle
-      roS.setCycleCount(cycleS); // Set the number of cycles
-      roS.setInterpolator(Interpolator.EASE_BOTH);
+    RotateTransition roS = new RotateTransition(duration, nodeS);
+    roS.setByAngle(angle); // Rotate by the specified angle
+    roS.setCycleCount(cycleS); // Set the number of cycles
+    roS.setInterpolator(Interpolator.EASE_BOTH);
 
-      // Create a FadeTransition for nodeS.
-      FadeTransition fOutS = new FadeTransition(duration, nodeS);
-      fOutS.setFromValue(1.0); // Set the initial opacity
-      fOutS.setToValue(0.0); // Set the final opacity
-      fOutS.setInterpolator(Interpolator.EASE_BOTH);
+    // Create a FadeTransition for nodeS.
+    FadeTransition fOutS = new FadeTransition(duration, nodeS);
+    fOutS.setFromValue(1.0); // Set the initial opacity
+    fOutS.setToValue(0.0); // Set the final opacity
+    fOutS.setInterpolator(Interpolator.EASE_BOTH);
 
-      nodeE.setRotationAxis(Rotate.Y_AXIS);
-      nodeE.setRotate(rotateE);
+    nodeE.setRotationAxis(Rotate.Y_AXIS);
+    nodeE.setRotate(rotateE);
 
-      RotateTransition roE = new RotateTransition(duration, nodeE);
-      roE.setByAngle(angle);
-      roE.setCycleCount(cycleE);
-      roE.setInterpolator(Interpolator.EASE_BOTH);
+    RotateTransition roE = new RotateTransition(duration, nodeE);
+    roE.setByAngle(angle);
+    roE.setCycleCount(cycleE);
+    roE.setInterpolator(Interpolator.EASE_BOTH);
 
-      // Ensure the ImageView is visible before starting the transition
+    // Ensure the ImageView is visible before starting the transition
+    checkVisible(nodeE);
+
+    // Create a FadeTransition for nodeE
+    FadeTransition fInE = new FadeTransition(duration, nodeE);
+    fInE.setFromValue(0.0);
+    fInE.setToValue(1.0);
+    fInE.setInterpolator(Interpolator.EASE_BOTH);
+
+    // Play the transitions sequentially
+    roS.setOnFinished(event -> {
+      fOutS.play();
+      fOutS.setOnFinished(event2 -> {
+        nodeS.setVisible(false);
+        checkVisible(nodeE);
+      });
+      roE.play();
       checkVisible(nodeE);
+    });
 
-      // Create a FadeTransition for nodeE
-      FadeTransition fInE = new FadeTransition(duration, nodeE);
-      fInE.setFromValue(0.0);
-      fInE.setToValue(1.0);
-      fInE.setInterpolator(Interpolator.EASE_BOTH);
+    roE.setOnFinished(event -> {
+      isRotating = true;
+      checkVisible(nodeE);
+    });
 
-      // Play the transitions sequentially
-      roS.setOnFinished(event -> {
-        fOutS.play();
-        fOutS.setOnFinished(event2 -> {
-          nodeS.setVisible(false);
-          checkVisible(nodeE);
-        });
-        roE.play();
-        checkVisible(nodeE);
-      });
-
-      roE.setOnFinished(event -> {
-        isRotating = true;
-        checkVisible(nodeE);
-      });
-
-      roS.play();
+    roS.play();
   }
 
   private void checkVisible(Node node) {

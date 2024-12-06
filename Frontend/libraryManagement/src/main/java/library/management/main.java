@@ -1,7 +1,6 @@
 package library.management;
 
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,50 +12,51 @@ import library.management.ui.controllers.manager.MainController;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class main extends Application implements properties {
-    private Manager manager;
 
-    public void setManager(Manager manager) {
-        this.manager = manager;
+  private Manager manager;
+
+  public static void main(String[] args) {
+    try {
+      launch(args);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 
-    public static void main(String[] args) {
-        try {
-            launch(args);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+  public void setManager(Manager manager) {
+    this.manager = manager;
+  }
 
-    @Override
-    public void start(Stage primaryStage) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_SCREEN_SOURCES));
-            StackPane root = loader.load();
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.setTitle(MAIN_TITLE);
+  @Override
+  public void start(Stage primaryStage) {
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(MAIN_SCREEN_SOURCES));
+      StackPane root = loader.load();
+      Scene scene = new Scene(root);
+      primaryStage.setScene(scene);
+      primaryStage.setTitle(MAIN_TITLE);
 
-            Image icon = new Image(getClass().getResourceAsStream(ICON_SOURCE));
-            primaryStage.getIcons().add(icon);
+      Image icon = new Image(getClass().getResourceAsStream(ICON_SOURCE));
+      primaryStage.getIcons().add(icon);
 
-            primaryStage.setMaximized(true);
-            primaryStage.setResizable(true);
-            primaryStage.setMinWidth(SCREEN_WIDTH);
-            primaryStage.setMinHeight(SCREEN_HEIGHT);
-            
-            MainController controller = loader.getController();
-            controller.setMainManager(manager);
+      primaryStage.setMaximized(true);
+      primaryStage.setResizable(true);
+      primaryStage.setMinWidth(SCREEN_WIDTH);
+      primaryStage.setMinHeight(SCREEN_HEIGHT);
 
-            primaryStage.show();
-        } catch (IOException e) {
+      MainController controller = loader.getController();
+      controller.setMainManager(manager);
+
+      primaryStage.show();
+    } catch (IOException e) {
 //      System.err.println("Failed to load FXML file.");
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+      System.out.println(e.getMessage());
+      e.printStackTrace();
 
-        } catch (Exception e) {
+    } catch (Exception e) {
 //      System.err.println("An unexpected error occurred.");
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
+      System.out.println(e.getMessage());
+      e.printStackTrace();
     }
+  }
 }

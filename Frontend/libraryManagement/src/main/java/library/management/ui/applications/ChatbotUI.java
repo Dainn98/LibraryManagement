@@ -12,6 +12,10 @@ import javafx.stage.Stage;
 
 public class ChatbotUI extends Application {
 
+  public static void main(String[] args) {
+    launch(args);
+  }
+
   @Override
   public void start(Stage primaryStage) {
     primaryStage.setTitle("Chatbot");
@@ -48,9 +52,5 @@ public class ChatbotUI extends Application {
     Scene scene = new Scene(layout, 400, 300);
     primaryStage.setScene(scene);
     primaryStage.show();
-  }
-
-  public static void main(String[] args) {
-    launch(args);
   }
 }

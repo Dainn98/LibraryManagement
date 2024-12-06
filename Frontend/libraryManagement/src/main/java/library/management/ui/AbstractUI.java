@@ -1,12 +1,9 @@
 package library.management.ui;
 
-import java.util.Optional;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 
 public interface AbstractUI {
+
   /**
    * Adds zoom effects to a button when hovered.
    */

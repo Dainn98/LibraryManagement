@@ -23,6 +23,7 @@ import library.management.ui.applications.ImageDownloader;
 import library.management.ui.controllers.GeneralController;
 
 public class DocContainerController extends GeneralController implements properties {
+
   private Image image;
   private Document document;
   @FXML
@@ -38,19 +39,19 @@ public class DocContainerController extends GeneralController implements propert
   @FXML
   private Label desDoc;
 
-    public void setData(Document doc) {
-      this.document = doc;
-      String imageUrl = document.getImage();
-      if (Objects.equals(imageUrl, DEMO_IMAGE_SOURCE)) {
-        image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imageUrl)));
-      } else {
-        image = ImageDownloader.downloadImage(document.getImage());
-      }
-        Platform.runLater(()-> {
-            desDoc.setText(document.getDescription());
-            docThumbnail.setImage(image);
-            docTitleCatalog.setText(document.getTitle());
-            authorCatalog.setText(document.getAuthor());
+  public void setData(Document doc) {
+    this.document = doc;
+    String imageUrl = document.getImage();
+    if (Objects.equals(imageUrl, DEMO_IMAGE_SOURCE)) {
+      image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imageUrl)));
+    } else {
+      image = ImageDownloader.downloadImage(document.getImage());
+    }
+    Platform.runLater(() -> {
+      desDoc.setText(document.getDescription());
+      docThumbnail.setImage(image);
+      docTitleCatalog.setText(document.getTitle());
+      authorCatalog.setText(document.getAuthor());
       docTitleCatalog.setStyle("-fx-text-fill: #002B5B; -fx-font-size: 14px;");  // Navy Blue
       authorCatalog.setStyle("-fx-text-fill: #333333; -fx-padding: 5;");    // Dark Gray
       docCatalogView.setStyle(
@@ -84,9 +85,9 @@ public class DocContainerController extends GeneralController implements propert
 
   @FXML
   private void handlePressDocInfo(MouseEvent mouseEvent) {
-      if (this.document == null) {
-        return;
-      }
+    if (this.document == null) {
+      return;
+    }
     try {
       FXMLLoader fxmlLoader = new FXMLLoader();
       fxmlLoader.setLocation(getClass().getResource(DOC_INFORMATION_SOURCE));

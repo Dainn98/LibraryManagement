@@ -1,9 +1,7 @@
 package library.management.ui.controllers;
 
 import com.jfoenix.controls.JFXTextArea;
-
 import java.io.IOException;
-
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,17 +11,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.TargetDataLine;
 import library.management.properties;
 import library.management.ui.applications.ApiGoogleGemini;
 import library.management.ui.applications.SpeechToText;
 import library.management.ui.controllers.manager.MainController;
 import library.management.ui.controllers.user.FullUserController;
 import org.vosk.Recognizer;
-
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.TargetDataLine;
 
 public class FAQsController implements properties {
 
@@ -78,7 +75,7 @@ public class FAQsController implements properties {
   private void loadQuestion(GridPane gPane, ScrollPane faqSPane, JFXTextArea faqRequestContainer) {
     String question = faqRequestContainer.getText().trim();
     VBox userInputSection = createFAQsContainer(new Label("User:"), question,
-            faqSPane, RIGHT);
+        faqSPane, RIGHT);
     int rowCount = gPane.getRowCount();
     gPane.add(userInputSection, 0, rowCount);
     faqSPane.setContent(gPane);
@@ -89,7 +86,7 @@ public class FAQsController implements properties {
       protected VBox call() {
         String answer = ApiGoogleGemini.sendPostRequest(question);
         return createFAQsContainer(new Label("Response:"), answer,
-                faqSPane, LEFT);
+            faqSPane, LEFT);
       }
     };
     getAnswer.setOnSucceeded(_ -> {
@@ -119,7 +116,8 @@ public class FAQsController implements properties {
     }
   }
 
-  private void initMicro(Recognizer recognizer, TargetDataLine microphone, JFXTextArea faqRequestContainer) throws LineUnavailableException {
+  private void initMicro(Recognizer recognizer, TargetDataLine microphone,
+      JFXTextArea faqRequestContainer) throws LineUnavailableException {
     microphone.open(SpeechToText.format);
     microphone.start();
     byte[] buffer = new byte[4096];
@@ -130,7 +128,7 @@ public class FAQsController implements properties {
         String text = SpeechToText.extractTextFromJson(result);
         if (!text.isEmpty()) {
           faqRequestContainer.setText(
-                  faqRequestContainer.getText() + " " + text);
+              faqRequestContainer.getText() + " " + text);
           System.out.println(text + " ");
         }
       }
