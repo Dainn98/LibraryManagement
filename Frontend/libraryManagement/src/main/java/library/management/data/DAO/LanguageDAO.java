@@ -9,6 +9,10 @@ import java.util.List;
 import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.Language;
 
+/**
+ * Singleton class responsible for performing CRUD operations on the "language" table in the
+ * database. This class provides methods for adding, deleting, updating, and retrieving languages.
+ */
 public class LanguageDAO implements DAOInterface<Language> {
 
   private static LanguageDAO instance;
@@ -16,6 +20,11 @@ public class LanguageDAO implements DAOInterface<Language> {
   private LanguageDAO() {
   }
 
+  /**
+   * Retrieves the singleton instance of the LanguageDAO class.
+   *
+   * @return the singleton instance of LanguageDAO.
+   */
   public static synchronized LanguageDAO getInstance() {
     if (instance == null) {
       instance = new LanguageDAO();
@@ -69,6 +78,11 @@ public class LanguageDAO implements DAOInterface<Language> {
     return 0;
   }
 
+  /**
+   * Retrieves a list of all language names.
+   *
+   * @return a list of language names.
+   */
   public List<String> getAllLanguages() {
     List<String> languages = new ArrayList<>();
     String query = "SELECT lgName FROM language";
@@ -87,6 +101,11 @@ public class LanguageDAO implements DAOInterface<Language> {
     return languages;
   }
 
+  /**
+   * Retrieves a list of all languages.
+   *
+   * @return a list of {@link Language} objects.
+   */
   public List<Language> getLanguageList() {
     List<Language> languageList = new ArrayList<>();
     String query = "SELECT lgID, lgName FROM language";
@@ -108,6 +127,11 @@ public class LanguageDAO implements DAOInterface<Language> {
     return languageList;
   }
 
+  /**
+   * Retrieves a list of all languages.
+   *
+   * @return a list of {@link Language} objects.
+   */
   public int getLanguageId(String lgName) {
     String query = "SELECT lgID FROM language WHERE lgName = ?";
     try (Connection con = DatabaseConnection.getConnection();
@@ -125,6 +149,12 @@ public class LanguageDAO implements DAOInterface<Language> {
     return -1;
   }
 
+  /**
+   * Retrieves the name of a language by its ID.
+   *
+   * @param lgID the ID of the language.
+   * @return the name of the language, or null if not found.
+   */
   public String getLanguageName(int lgID) {
     String query = "SELECT lgName FROM language WHERE lgID = ?";
     try (Connection con = DatabaseConnection.getConnection();

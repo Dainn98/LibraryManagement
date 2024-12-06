@@ -25,6 +25,14 @@ public class Loan {
     setDocument();
   }
 
+  /**
+   * Constructor with user name, document ID, quantity of borrow, and deposit.
+   *
+   * @param userName         the user name.
+   * @param documentId       the document ID.
+   * @param quantityOfBorrow the quantity of borrow.
+   * @param deposit          the deposit.
+   */
   public Loan(String userName, int documentId, int quantityOfBorrow, double deposit) {
     this.userName = userName;
     this.documentId = documentId;
@@ -150,12 +158,20 @@ public class Loan {
         getStatus());
   }
 
+  /**
+   * Sets the document associated with the loan.
+   */
   public void setDocument() {
     if (document == null) {
       this.document = DocumentDAO.getInstance().searchDocumentById(this.documentId);
     }
   }
 
+  /**
+   * Gets the ISBN of the document.
+   *
+   * @return the ISBN.
+   */
   public String getISBN() {
     if (document != null) {
       return document.getIsbn();
@@ -169,6 +185,11 @@ public class Loan {
     }
   }
 
+  /**
+   * Gets the title of the document.
+   *
+   * @return the title.
+   */
   public String getTitle() {
     if (document != null) {
       return document.getTitle();
@@ -182,6 +203,11 @@ public class Loan {
     }
   }
 
+  /**
+   * Gets the author of the document.
+   *
+   * @return the author.
+   */
   public String getAuthor() {
     if (document != null) {
       return document.getAuthor();
@@ -195,6 +221,11 @@ public class Loan {
     }
   }
 
+  /**
+   * Gets the publisher of the document.
+   *
+   * @return the publisher.
+   */
   public String getPublisher() {
     if (document != null) {
       return document.getPublisher();
@@ -208,6 +239,11 @@ public class Loan {
     }
   }
 
+  /**
+   * Gets the category of the document.
+   *
+   * @return the category.
+   */
   public String getCategory() {
     if (document != null) {
       return document.getCategory();
