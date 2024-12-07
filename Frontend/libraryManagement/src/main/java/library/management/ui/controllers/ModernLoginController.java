@@ -23,6 +23,14 @@ import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.main;
 
+/**
+ * Controller for the modern login and registration interface.
+ * This class handles user interactions, including login, registration,
+ * form switching animations, and validation of user inputs.
+ * <p>
+ * It supports both managers and regular users, providing role-specific access
+ * to the application.
+ */
 public class ModernLoginController extends GeneralController implements Initializable {
 
     private static final int WIDTH = 780;
@@ -88,8 +96,8 @@ public class ModernLoginController extends GeneralController implements Initiali
     }
 
     /**
-     * Handles user registration by validating inputs, checking for duplicate entries in the
-     * database, and adding the user if all validations pass.
+     * Handles user registration by validating inputs, checking for duplicate entries in the database,
+     * and adding the user if all validations pass.
      *
      * @param actionEvent the action event triggered by clicking the register button
      */
@@ -127,7 +135,8 @@ public class ModernLoginController extends GeneralController implements Initiali
     /**
      * Displays the registration form with a smooth animation effect.
      *
-     * @param ignoredActionEvent the action event triggered by clicking the switch to register form button
+     * @param ignoredActionEvent the action event triggered by clicking the switch to register form
+     *                           button
      */
     public void showRegisterForm(ActionEvent ignoredActionEvent) {
         registerPane.setVisible(true);
@@ -142,7 +151,8 @@ public class ModernLoginController extends GeneralController implements Initiali
     /**
      * Displays the login form with a smooth animation effect.
      *
-     * @param ignoredActionEvent the action event triggered by clicking the switch to login form button
+     * @param ignoredActionEvent the action event triggered by clicking the switch to login form
+     *                           button
      */
     public void showLoginForm(ActionEvent ignoredActionEvent) {
         loginPane.setVisible(true);
@@ -155,8 +165,8 @@ public class ModernLoginController extends GeneralController implements Initiali
     }
 
     /**
-     * Initializes the login and registration panes, sets up visibility and layout properties,
-     * and binds keyboard shortcuts (Enter key) to login and register actions.
+     * Initializes the login and registration panes, sets up visibility and layout properties, and
+     * binds keyboard shortcuts (Enter key) to login and register actions.
      *
      * @param location  the location used to resolve relative paths for the root object
      * @param resources the resources used to localize the root object
@@ -260,7 +270,8 @@ public class ModernLoginController extends GeneralController implements Initiali
     }
 
     /**
-     * Validates the identity card by checking its length and ensuring it contains only numeric digits.
+     * Validates the identity card by checking its length and ensuring it contains only numeric
+     * digits.
      *
      * @param identityCard the identity card to validate
      * @return true if the identity card is valid, false otherwise

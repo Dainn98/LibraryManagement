@@ -1,3 +1,10 @@
+/**
+ * The FAQsController class is responsible for managing the Frequently Asked Questions (FAQ) interface,
+ * including handling user input, loading questions and answers, and integrating speech-to-text functionality.
+ * This controller supports two modes:
+ * 1. User-specific FAQs (handled via {@link FullUserController}).
+ * 2. Main application FAQs (handled via {@link MainController}).
+ */
 package library.management.ui.controllers;
 
 import com.jfoenix.controls.JFXTextArea;
@@ -56,8 +63,8 @@ public class FAQsController implements properties {
     }
 
     /**
-     * Creates and returns a VBox containing the FAQ question and its corresponding answer.
-     * The VBox is used to display the question and answer in the FAQ interface.
+     * Creates and returns a VBox containing the FAQ question and its corresponding answer. The VBox
+     * is used to display the question and answer in the FAQ interface.
      *
      * @param name           The label for the FAQ (either "User" or "Response").
      * @param text           The text content for the FAQ (either user question or answer).
@@ -89,8 +96,8 @@ public class FAQsController implements properties {
     }
 
     /**
-     * Loads the FAQs into a GridPane and binds them to the provided ScrollPane.
-     * This method will load either user-specific FAQs or main controller FAQs.
+     * Loads the FAQs into a GridPane and binds them to the provided ScrollPane. This method will load
+     * either user-specific FAQs or main controller FAQs.
      *
      * @param gPane    The GridPane that will hold the FAQ content.
      * @param faqSPane The ScrollPane that holds the FAQ content.
@@ -105,8 +112,8 @@ public class FAQsController implements properties {
 
 
     /**
-     * Loads a question into the FAQ container and sends the question to the Google Gemini API
-     * to retrieve an answer. The question and answer are displayed in the FAQ section.
+     * Loads a question into the FAQ container and sends the question to the Google Gemini API to
+     * retrieve an answer. The question and answer are displayed in the FAQ section.
      *
      * @param gPane               The GridPane that holds the FAQ content.
      * @param faqSPane            The ScrollPane that contains the FAQ section.
@@ -139,8 +146,8 @@ public class FAQsController implements properties {
     }
 
     /**
-     * Records audio from the user's microphone and converts the speech to text using the Vosk recognizer.
-     * The converted text is then placed in the FAQ request container.
+     * Records audio from the user's microphone and converts the speech to text using the Vosk
+     * recognizer. The converted text is then placed in the FAQ request container.
      */
     public void record() {
         Recognizer recognizer = SpeechToText.getRecognizer();
@@ -161,8 +168,8 @@ public class FAQsController implements properties {
     }
 
     /**
-     * Initializes the microphone for speech recognition and continuously records audio.
-     * It processes the audio and updates the FAQ request container with recognized text.
+     * Initializes the microphone for speech recognition and continuously records audio. It processes
+     * the audio and updates the FAQ request container with recognized text.
      *
      * @param recognizer          The speech recognizer instance.
      * @param microphone          The microphone that captures the audio.

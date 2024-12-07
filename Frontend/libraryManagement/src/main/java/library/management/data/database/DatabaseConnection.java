@@ -2,6 +2,7 @@ package library.management.data.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -16,40 +17,39 @@ import java.sql.SQLException;
  */
 public class DatabaseConnection {
 
-  private static HikariDataSource dataSource;
+    private static HikariDataSource dataSource;
 
-  static {
-    HikariConfig config = new HikariConfig();
-    config.setJdbcUrl("jdbc:mysql://localhost:3307/libdemo?useSSL=false&autoReconnect=true");
-    config.setUsername("root");
-    config.setPassword("@Tuananh1275");
+    static {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl("jdbc:mysql://localhost:3307/libdemo?useSSL=false&autoReconnect=true");
+        config.setUsername("root");
+        config.setPassword("@Tuananh1275");
+        config.setMaximumPoolSize(10);
+        config.setMinimumIdle(5);
+        config.setIdleTimeout(300000);
+        config.setMaxLifetime(1800000);
+        config.setConnectionTimeout(30000);
 
-    config.setMaximumPoolSize(10);
-    config.setMinimumIdle(5);
-    config.setIdleTimeout(300000);
-    config.setMaxLifetime(1800000);
-    config.setConnectionTimeout(30000);
-
-    dataSource = new HikariDataSource(config);
-  }
-
-  /**
-   * Retrieves a connection from the connection pool.
-   *
-   * @return a {@link Connection} object connected to the database.
-   * @throws SQLException if a connection to the database cannot be established.
-   */
-  public static Connection getConnection() throws SQLException {
-    return dataSource.getConnection();
-  }
-
-  /**
-   * Closes the connection pool if it is not already closed. This method should be called when the
-   * application no longer needs a connection to the database.
-   */
-  public static void close() {
-    if (dataSource != null && !dataSource.isClosed()) {
-      dataSource.close();
+        dataSource = new HikariDataSource(config);
     }
-  }
+
+    /**
+     * Retrieves a connection from the connection pool.
+     *
+     * @return a {@link Connection} object connected to the database.
+     * @throws SQLException if a connection to the database cannot be established.
+     */
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    /**
+     * Closes the connection pool if it is not already closed. This method should be called when the
+     * application no longer needs a connection to the database.
+     */
+    public static void close() {
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
+        }
+    }
 }

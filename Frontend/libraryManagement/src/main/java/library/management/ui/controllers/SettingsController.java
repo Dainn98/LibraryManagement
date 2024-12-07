@@ -23,6 +23,11 @@ import library.management.ui.controllers.manager.MainController;
 import library.management.ui.controllers.user.FullUserController;
 import org.controlsfx.control.textfield.CustomPasswordField;
 
+/**
+ * Controller for the settings page of the library management system.
+ * It handles actions related to user and manager settings, including updating profile information, changing passwords,
+ * and verifying security codes via email.
+ */
 public class SettingsController {
 
     /**
@@ -105,8 +110,8 @@ public class SettingsController {
     }
 
     /**
-     * Sets the MainController instance for this controller.
-     * Used when the settings are for a manager.
+     * Sets the MainController instance for this controller. Used when the settings are for a
+     * manager.
      *
      * @param mainController the main controller instance
      */
@@ -119,8 +124,8 @@ public class SettingsController {
     }
 
     /**
-     * Sets the FullUserController instance for this controller.
-     * Used when the settings are for a user.
+     * Sets the FullUserController instance for this controller. Used when the settings are for a
+     * user.
      *
      * @param controller the FullUserController instance
      */

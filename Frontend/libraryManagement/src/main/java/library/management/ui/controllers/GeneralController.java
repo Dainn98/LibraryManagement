@@ -1,3 +1,11 @@
+/**
+ * The GeneralController class provides a collection of utility methods for animating JavaFX nodes.
+ * It includes features such as translations, fades, rotations, 3D effects, zoom interactions,
+ * and shaking animations to enhance user interface elements.
+ *
+ * <p>This class is designed to be extended by specific controllers that require advanced animation
+ * effects. It implements shared behaviors defined in the {@link library.management.properties} interface.
+ */
 package library.management.ui.controllers;
 
 import javafx.animation.FadeTransition;
@@ -34,7 +42,8 @@ abstract public class GeneralController implements properties {
     }
 
     /**
-     * Applies a fade transition to a node, changing its opacity from a starting value to an ending value.
+     * Applies a fade transition to a node, changing its opacity from a starting value to an ending
+     * value.
      *
      * @param node      the node to animate
      * @param fromValue the starting opacity value
@@ -193,8 +202,8 @@ abstract public class GeneralController implements properties {
     }
 
     /**
-     * Starts the shaking animation on a node, simulating a shaking effect.
-     * The node shakes back and forth along the X-axis.
+     * Starts the shaking animation on a node, simulating a shaking effect. The node shakes back and
+     * forth along the X-axis.
      *
      * @param node the node to shake
      */

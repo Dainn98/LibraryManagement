@@ -8,12 +8,17 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * Controller for handling the sign-out action in the Library Management System.
+ * This class is responsible for loading the login screen and closing the current window
+ * when a user signs out of the application.
+ */
 public class SignOutController {
 
     /**
-     * Handles the sign-out action by loading the login screen and closing the current window.
-     * It creates a new stage (window) for the login screen and displays it.
-     * If an error occurs during loading the FXML file, it prints the error message to the console.
+     * Handles the sign-out action by loading the login screen and closing the current window. It
+     * creates a new stage (window) for the login screen and displays it. If an error occurs during
+     * loading the FXML file, it prints the error message to the console.
      */
     public static void handleSignOut() {
         try {
