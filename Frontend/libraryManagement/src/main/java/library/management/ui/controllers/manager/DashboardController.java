@@ -10,14 +10,43 @@ import library.management.data.DAO.UserDAO;
 import library.management.ui.controllers.GeneralController;
 
 
+/**
+ * The DashboardController class is responsible for controlling the dashboard view of the application.
+ * It extends the GeneralController and interacts with the MainController to update and display information
+ * about documents and users using charts and gauges.
+ */
 public class DashboardController extends GeneralController {
 
+  /**
+   * The controller responsible for managing the main operations and interactions related
+   * to the dashboard's functionality. It acts as a central point for controlling the
+   * flow of the application and managing communication between different components
+   * within the dashboard.
+   */
   private final MainController controller;
 
+  /**
+   * Constructs a new DashboardController with a specified MainController.
+   *
+   * @param controller the MainController to be used by this DashboardController
+   */
   public DashboardController(MainController controller) {
     this.controller = controller;
   }
 
+  /**
+   * Loads and updates the dashboard data for document and user statistics.
+   * This method clears existing data in document and user bar charts,
+   * retrieves updated information regarding document quantities,
+   * user statistics, and updates the respective graphical components on the dashboard.
+   *
+   * The data includes:
+   * - Total number of documents and their availability status.
+   * - Total number of users, approved users, and users currently holding documents.
+   *
+   * Additionally, it updates the gauges on the dashboard to reflect the current
+   * statistics of documents and users.
+   */
   public void loadDashBoardData() {
     controller.docBChart.getData().clear();
     controller.userBChart.getData().clear();
@@ -69,10 +98,25 @@ public class DashboardController extends GeneralController {
     }
   }
 
+  /**
+   * Handles the click event on the avatar image. This method triggers a 3D rotation
+   * and fade transition effect between the given image and a VBox containing information.
+   *
+   * @param pic      the ImageView representing the avatar picture that will undergo the
+   *                 rotation and fade-out effect
+   * @param infoVBox the VBox containing additional information to be displayed, which will
+   *                 undergo a rotation and fade-in effect
+   */
   protected void handleClickAvatar(ImageView pic, VBox infoVBox) {
     rotate3D(pic, 0, 1, infoVBox, 270, 1, 90, Duration.millis(1000));
   }
 
+  /**
+   * Handles the exit animation effect on avatar information display components.
+   *
+   * @param infoVBox The VBox component containing avatar information to which the rotation effect is applied.
+   * @param pic      The ImageView avatar image to which the rotation and fade effect is applied.
+   */
   protected void handleExitAvatarInfo(VBox infoVBox, ImageView pic) {
     rotate3D(infoVBox, 0, 1, pic, 270, 1, 90, Duration.millis(1000));
   }

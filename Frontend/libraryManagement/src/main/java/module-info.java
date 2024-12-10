@@ -1,6 +1,5 @@
 module library.management {
   requires javafx.web;
-
   requires org.controlsfx.controls;
   requires com.dlsc.formsfx;
   requires net.synedra.validatorfx;
@@ -19,19 +18,16 @@ module library.management {
   requires org.slf4j;
   requires com.google.zxing;
   requires com.google.zxing.javase;
-
   requires java.net.http;
   requires com.fasterxml.jackson.databind;
   requires java.sql;
   requires vosk;
-
-  //requires assemblyai;
-
   requires java.mail;
-  requires org.junit.jupiter.api;
-  requires org.junit.platform.engine;
-  requires org.junit.platform.commons;
-  requires org.junit.jupiter.engine;
+  // removed the test-related requires
+  // requires org.junit.jupiter.api;
+  // requires org.junit.platform.engine;
+  // requires org.junit.platform.commons;
+  // requires org.junit.jupiter.engine;
   requires jfxtras.controls;
 
   // Application
