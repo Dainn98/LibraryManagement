@@ -27,6 +27,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Controller class for the home screen that manages document search, suggestions, and displays documents
+ * grouped by categories in a grid view.
+ */
 public class HomeController extends GeneralController implements SuggestionSearch, properties {
     private final FullUserController controller;
     private final List<List<Document>> documentList = new ArrayList<>();
@@ -43,6 +47,10 @@ public class HomeController extends GeneralController implements SuggestionSearc
         this.controller = controller;
     }
 
+    /**
+     * Initializes the home screen with document grids, labels, and auto-completion functionality.
+     * Sets up the filter options and loads the initial document search results.
+     */
     public void initHome() {
         gridPaneList.clear();
         gridPaneList.add(controller.oneGrid);
@@ -73,6 +81,9 @@ public class HomeController extends GeneralController implements SuggestionSearc
         searchDocument();
     }
 
+    /**
+     * Initializes the filter options for document search, allowing the user to filter by title, author, publisher, or ISBN.
+     */
     private void initFilter() {
         controller.searchDocumentFilter.getItems().clear();
         controller.searchDocumentFilter.getItems().addAll(filterChoices);
@@ -86,6 +97,10 @@ public class HomeController extends GeneralController implements SuggestionSearc
         });
     }
 
+    /**
+     * Initializes the auto-complete functionality for the document search field.
+     * Displays suggestions as the user types in the search field.
+     */
     public void initializeAutoComplete() {
         suggestionMenu.setAutoHide(true);
         controller.catalogSearchField.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
@@ -98,6 +113,12 @@ public class HomeController extends GeneralController implements SuggestionSearc
         });
     }
 
+    /**
+     * Updates the list of suggestions based on the user's query in the search field.
+     * Displays the suggestions in a menu.
+     *
+     * @param query The search query entered by the user.
+     */
     private void updateSuggestions(String query) {
         List<String> suggestions = titleTrie.searchSuggestions(query);
         documentTitleSuggestions.setAll(suggestions);
@@ -122,6 +143,10 @@ public class HomeController extends GeneralController implements SuggestionSearc
         }
     }
 
+    /**
+     * Searches for documents based on the user's input and displays them in categorized grid panes.
+     * The method also manages the loading of document data and populating grid views asynchronously.
+     */
     protected void searchDocument() {
         for (int i = 0; i < documentList.size(); i++) {
             gridPaneList.get(i).getChildren().clear();
@@ -132,7 +157,7 @@ public class HomeController extends GeneralController implements SuggestionSearc
         try {
             for (int i = 0; i < documentList.size(); i++) {
                 final int index = i;
-                Platform.runLater(()-> {
+                Platform.runLater(() -> {
                     labelList.get(index).setText(documentList.get(index).getFirst().getCategory());
                 });
                 for (int j = 0; j < documentList.get(i).size(); j++) {
@@ -145,7 +170,7 @@ public class HomeController extends GeneralController implements SuggestionSearc
                     docContainerControllerList.get(i).add(docContainerController);
                 }
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         List<Task<Void>> tasks = new ArrayList<>();
@@ -168,6 +193,11 @@ public class HomeController extends GeneralController implements SuggestionSearc
         executor.shutdown();
     }
 
+    /**
+     * Loads documents based on the given search query and selected filter options.
+     *
+     * @param query The search query entered by the user.
+     */
     private void loadDocument(String query) {
         documentList.clear();
         try {
@@ -178,6 +208,9 @@ public class HomeController extends GeneralController implements SuggestionSearc
         }
     }
 
+    /**
+     * Adds the current query from the search field as a suggestion.
+     */
     public void addSuggestion() {
         String query = controller.catalogSearchField.getText().trim();
         if (!query.isEmpty()) {
@@ -186,10 +219,24 @@ public class HomeController extends GeneralController implements SuggestionSearc
         }
     }
 
+    /**
+     * Handles the event when the user clicks on their avatar image.
+     * Triggers a 3D rotation animation for the avatar and related information.
+     *
+     * @param pic      The avatar image view.
+     * @param infoVBox The VBox containing additional information about the user.
+     */
     protected void handleClickAvatar(ImageView pic, VBox infoVBox) {
         rotate3D(pic, 0, 1, infoVBox, 270, 1, 90, Duration.millis(1000));
     }
 
+    /**
+     * Handles the event when the user exits the avatar info area.
+     * Reverses the 3D rotation animation.
+     *
+     * @param infoVBox The VBox containing additional information about the user.
+     * @param pic      The avatar image view.
+     */
     protected void handleExitAvatarInfo(VBox infoVBox, ImageView pic) {
         rotate3D(infoVBox, 0, 1, pic, 270, 1, 90, Duration.millis(1000));
     }

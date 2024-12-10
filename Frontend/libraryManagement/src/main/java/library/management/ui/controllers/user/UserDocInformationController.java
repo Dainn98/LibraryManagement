@@ -26,6 +26,11 @@ import java.util.Optional;
 import static library.management.alert.AlertMaker.showAlertConfirmation;
 import static library.management.alert.AlertMaker.showAlertInformation;
 
+/**
+ * Controller for managing document information in the user interface.
+ * Handles displaying document details, generating QR codes, and managing
+ * borrowing and returning actions for documents.
+ */
 public class UserDocInformationController extends GeneralController implements properties {
     boolean check = true;
     private Image QRImage;
@@ -100,6 +105,15 @@ public class UserDocInformationController extends GeneralController implements p
     @FXML
     private JFXButton mainButton;
 
+    /**
+     * Loads the document data and updates the UI components based on the document type.
+     *
+     * @param doc       The document to be displayed.
+     * @param thumbnail The thumbnail image for the document.
+     * @param loan      The loan details associated with the document.
+     * @param type      The type of the document (e.g., home, borrowed, or processing).
+     */
+
     public void loadDocData(Document doc, Image thumbnail, Loan loan, int type) {
         this.type = type;
         this.document = doc;
@@ -155,6 +169,9 @@ public class UserDocInformationController extends GeneralController implements p
         }
     }
 
+    /**
+     * Generates QR code and barcode images for the document.
+     */
     private void setCodeImage() {
         try {
             QRImage = CodeGenerator.generateQRCode(document.getUrl(), QR_WIDTH, QR_HEIGHT);
@@ -166,6 +183,11 @@ public class UserDocInformationController extends GeneralController implements p
         }
     }
 
+    /**
+     * Toggles the visibility of document borrow inputs.
+     *
+     * @param actionEvent The action event triggered when the button is clicked.
+     */
     @FXML
     private void handleAddDoc(ActionEvent actionEvent) {
         if (check) {
@@ -181,6 +203,12 @@ public class UserDocInformationController extends GeneralController implements p
         }
     }
 
+    /**
+     * Handles the borrowing of a document by the user.
+     *
+     * @param actionEvent The action event triggered by the "Borrow" button.
+     * @param doc         The document to be borrowed.
+     */
     private void handleBorrow(ActionEvent actionEvent, Document doc) {
         if (doc == null) {
             System.out.println("null");
@@ -209,6 +237,11 @@ public class UserDocInformationController extends GeneralController implements p
         }
     }
 
+    /**
+     * Handles returning a borrowed document.
+     *
+     * @param actionEvent The action event triggered by the "Return" button.
+     */
     private void handleReturn(ActionEvent actionEvent) {
         if (loan == null) {
             showAlertInformation("Error", "This book is not available to be returned.");
@@ -244,6 +277,11 @@ public class UserDocInformationController extends GeneralController implements p
         }
     }
 
+    /**
+     * Handles undoing a document borrowing or return action.
+     *
+     * @param actionEvent The action event triggered by the "Undo" button.
+     */
     private void handleUndo(ActionEvent actionEvent) {
         Optional<ButtonType> result = showAlertConfirmation("Return document", "Are you sure you want to return this document?");
         if (result.isPresent() && result.get() == ButtonType.OK) {

@@ -17,7 +17,12 @@ import library.management.properties;
 import library.management.ui.controllers.SettingsController;
 
 import java.io.IOException;
-
+/**
+ * The {@code UserAvatarInfoController} class handles the user avatar information UI,
+ * including displaying user details and managing the theme toggle and settings button actions.
+ * <p>
+ * It allows the user to toggle between light and dark themes and open the settings window.
+ */
 public class UserAvatarInfoController extends UserSubController implements properties {
     @FXML
     public VBox avatarVBox;
@@ -29,7 +34,12 @@ public class UserAvatarInfoController extends UserSubController implements prope
     public ToggleButton themeButton;
     @FXML
     private javafx.scene.shape.Circle Circle;
-
+    /**
+     * Initializes the {@code UserAvatarInfoController} with the specified {@code FullUserController}.
+     * This method sets up the user details and UI components based on the provided controller.
+     *
+     * @param controller the {@code FullUserController} to initialize with.
+     */
     public void initialize(FullUserController controller) {
         this.controller = controller;
         setData();
@@ -40,7 +50,12 @@ public class UserAvatarInfoController extends UserSubController implements prope
     }
 
     private boolean isOn = false;
-
+    /**
+     * Handles the theme toggle button action.
+     * When the toggle button is clicked, the UI theme is switched between light and dark mode.
+     *
+     * @param actionEvent the action event triggered by the toggle button.
+     */
     @FXML
     private void handleThemeButton(ActionEvent actionEvent) {
         TranslateTransition transition = new TranslateTransition();
@@ -65,6 +80,12 @@ public class UserAvatarInfoController extends UserSubController implements prope
         transition.play();
     }
 
+    /**
+     * Handles the settings button action.
+     * Opens the settings window where the user can modify application settings.
+     *
+     * @param actionEvent the action event triggered by the settings button.
+     */
     @FXML
     private void handleSettingsButton(ActionEvent actionEvent) {
         try {

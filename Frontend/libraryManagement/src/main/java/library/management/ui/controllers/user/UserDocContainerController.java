@@ -24,6 +24,10 @@ import library.management.ui.controllers.GeneralController;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * The {@code UserDocContainerController} class handles the display and interaction with document containers in the user interface.
+ * It shows document information such as title, author, and description, and allows the user to interact with the document thumbnail.
+ */
 public class UserDocContainerController extends GeneralController implements properties {
     private Image image;
     private Document document;
@@ -43,6 +47,14 @@ public class UserDocContainerController extends GeneralController implements pro
     @FXML
     private Label desDoc;
 
+    /**
+     * Sets the data for the document container.
+     * This includes the document's thumbnail, title, author, description, and the loan (if applicable).
+     *
+     * @param doc  the document to display
+     * @param loan the loan associated with the document (if applicable)
+     * @param type the type of the document (e.g., borrowing or processing)
+     */
     public void setDocData(Document doc, Loan loan, int type) {
         this.type = type;
         if (type == BORROWING_DOCUMENT || type == PROCESSING_DOCUMENT) {
@@ -56,7 +68,7 @@ public class UserDocContainerController extends GeneralController implements pro
             image = ImageDownloader.downloadImage(document.getImage());
         }
 
-        Platform.runLater(()-> {
+        Platform.runLater(() -> {
             docThumbnail.setImage(image);
             docTitleCatalog.setText(document.getTitle());
             authorCatalog.setText(document.getAuthor());
@@ -72,17 +84,32 @@ public class UserDocContainerController extends GeneralController implements pro
         });
     }
 
+    /**
+     * Handles mouse enter event on the document thumbnail.
+     * Rotates the document thumbnail and starts an auto-rotate back after a pause.
+     *
+     * @param mouseEvent the mouse event triggered by entering the thumbnail
+     */
     @FXML
     private void handleEnterDocThumbnail(MouseEvent mouseEvent) {
         rotate3D(docThumbnail, 0, 1, docInfo, 270, 1, 90, Duration.millis(1000));
         startAutoRotateBack();
     }
 
+    /**
+     * Handles mouse exit event on the document description.
+     * Rotates the document information back to its original state.
+     *
+     * @param mouseEvent the mouse event triggered by exiting the description
+     */
     @FXML
     private void handleExitDesDoc(MouseEvent mouseEvent) {
         rotate3D(docInfo, 0, 1, docThumbnail, 270, 1, 90, Duration.millis(1000));
     }
 
+    /**
+     * Starts a pause transition to auto-rotate the document back if the user stops hovering.
+     */
     private void startAutoRotateBack() {
         PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(event -> {
@@ -93,6 +120,13 @@ public class UserDocContainerController extends GeneralController implements pro
         pause.play();
     }
 
+    /**
+     * Handles the press event on the document container.
+     * Opens a new window displaying detailed information about the document.
+     *
+     * @param mouseEvent the mouse event triggered by clicking on the document container
+     * @throws IOException if an error occurs while loading the document information view
+     */
     @FXML
     private void handlePressDocInfo(MouseEvent mouseEvent) throws IOException {
         try {
