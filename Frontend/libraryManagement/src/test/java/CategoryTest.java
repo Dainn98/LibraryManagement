@@ -1,5 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import library.management.data.entity.Category;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,5 +79,80 @@ public class CategoryTest {
     category.setCategoryID(invalidCategoryID);
 
     assertEquals(0, category.getIntCategoryID(), "Category ID should remain 0 for invalid format.");
+  }
+
+  @Test
+  public void testSetCategoryIDNull() {
+    category.setCategoryID(null);
+    assertEquals(0, category.getIntCategoryID(), "Category ID should be 0 if set to null.");
+    assertNull(category.getStringCategoryID(), "String Category ID should be null if set to null.");
+  }
+
+  @Test
+  public void testSetTagNull() {
+    category.setTag(null);
+    assertNull(category.getTag(), "Tag should be null if set to null.");
+  }
+
+  @Test
+  public void testSetTagEmptyString() {
+    category.setTag("");
+    assertEquals("", category.getTag(), "Tag should be empty string.");
+  }
+
+  @Test
+  public void testEqualsSameObject() {
+    assertEquals(category, category, "A category should be equal to itself.");
+  }
+
+  @Test
+  public void testEqualsDifferentObject() {
+    Category cat2 = new Category("CAT001", "Books");
+    assertNotEquals(category, cat2, "Different categories should not be equal.");
+  }
+
+  @Test
+  public void testEqualsNull() {
+    assertNotEquals(category, null, "Category should not be equal to null.");
+  }
+
+  @Test
+  public void testEqualsDifferentType() {
+    assertNotEquals(category, "some string", "Category should not be equal to a different type.");
+  }
+
+  @Test
+  public void testResetCategoryID() {
+    category.setCategoryID("CAT123");
+    category.setCategoryID(null);
+    assertEquals(0, category.getIntCategoryID(), "Category ID should reset to 0 when null is set.");
+  }
+
+  @Test
+  public void testMultipleCategoryIDFormats() {
+    category.setCategoryID("CAT001");
+    assertEquals(1, category.getIntCategoryID());
+
+    category.setCategoryID("CAT099");
+    assertEquals(99, category.getIntCategoryID());
+
+    category.setCategoryID("CAT000");
+    assertEquals(0, category.getIntCategoryID());
+  }
+
+  @Test
+  public void testToStringWithNullTag() {
+    category.setTag(null);
+    assertNull(category.toString(), "toString() should return null if tag is null.");
+  }
+
+  @Test
+  public void testChainedSetters() {
+    category.setCategoryID("CAT555");
+    category.setTag("Stationery");
+
+    assertEquals(555, category.getIntCategoryID());
+    assertEquals("CAT555", category.getStringCategoryID());
+    assertEquals("Stationery", category.getTag());
   }
 }

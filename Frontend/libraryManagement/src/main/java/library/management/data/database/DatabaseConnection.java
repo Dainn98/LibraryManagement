@@ -42,7 +42,6 @@ public class DatabaseConnection {
     public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
-
     /**
      * Closes the connection pool if it is not already closed. This method should be called when the
      * application no longer needs a connection to the database.

@@ -1,6 +1,9 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import library.management.data.entity.Document;
 import org.junit.jupiter.api.BeforeEach;
@@ -127,5 +130,103 @@ public class DocumentTest {
     document.setAvailability("Available");
     assertEquals("Available", document.getAvailability(),
         "Availability should be correctly set and retrieved.");
+  }
+
+  @Test
+  public void testSetDocumentIDNull() {
+    document.setDocumentID(null);
+    assertEquals(0, document.getIntDocumentID(), "Int ID should be 0 if set to null.");
+    assertNull(document.getDocumentID(), "DocumentID string should be null if set to null.");
+  }
+
+  @Test
+  public void testSetCategoryIDNull() {
+    document.setCategoryID(null);
+    assertEquals(0, document.getIntCategoryID(), "Int CategoryID should be 0 if null.");
+    assertNull(document.getStringCategoryID(), "CategoryID string should be null if null.");
+  }
+
+  @Test
+  public void testSetLgIDNull() {
+    document.setLgID(null);
+    assertEquals(0, document.getIntLgID(), "Int LgID should be 0 if null.");
+    assertNull(document.getStringLgID(), "LgID string should be null if null.");
+  }
+
+  @Test
+  public void testEqualsSameObject() {
+    assertEquals(document, document, "Document should be equal to itself.");
+  }
+
+  @Test
+  public void testEqualsDifferentObject() {
+    Document doc2 = new Document();
+    doc2.setDocumentID("DOC001");
+    document.setDocumentID("DOC002");
+    assertNotEquals(document, doc2, "Different Document IDs should not be equal.");
+  }
+
+  @Test
+  public void testEqualsNull() {
+    assertNotEquals(document, null, "Document should not be equal to null.");
+  }
+
+  @Test
+  public void testEqualsDifferentType() {
+    assertNotEquals(document, "string", "Document should not be equal to a different type.");
+  }
+
+  @Test
+  public void testHashCodeConsistency() {
+    document.setDocumentID("DOC100");
+    int hash1 = document.hashCode();
+    int hash2 = document.hashCode();
+    assertEquals(hash1, hash2, "hashCode should be consistent.");
+  }
+
+  @Test
+  public void testTitleEmptyString() {
+    document.setTitle("");
+    assertEquals("", document.getTitle(), "Title can be empty string.");
+  }
+
+  @Test
+  public void testDescriptionEmptyString() {
+    document.setDescription("");
+    assertEquals("", document.getDescription(), "Description can be empty string.");
+  }
+
+  @Test
+  public void testAvailabilityCaseInsensitive() {
+    document.setAvailability("available");
+    assertTrue(document.getAvailability().equalsIgnoreCase("Available"));
+    document.setAvailability("UNAVAILABLE");
+    assertTrue(document.getAvailability().equalsIgnoreCase("Unavailable"));
+  }
+
+  @Test
+  public void testPriceZero() {
+    document.setPrice(0.0);
+    assertEquals(0.0, document.getPrice(), "Price can be 0.0");
+  }
+
+  @Test
+  public void testAvailableCopiesMoreThanQuantity() {
+    document.setQuantity(5);
+    document.setAvailableCopies(10);
+    assertEquals(10, document.getAvailableCopies(),
+        "Available copies can be greater than total quantity (no validation).");
+  }
+
+  @Test
+  public void testSetAndGetUrlEmpty() {
+    document.setUrl("");
+    assertEquals("", document.getUrl(), "URL can be empty string.");
+  }
+
+  @Test
+  public void testSetAndGetImageEmpty() {
+    document.setImage("");
+    assertEquals("", document.getImage(), "Image can be empty string.");
   }
 }

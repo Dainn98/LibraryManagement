@@ -43,6 +43,9 @@ public class UserScreen extends Application implements properties {
       primaryStage.setMinHeight(SCREEN_HEIGHT);
 
       FullUserController controller = loader.getController();
+      if (user == null) {
+        user = new User();
+      }
       controller.setMainUser(user);
 
       primaryStage.show();

@@ -45,6 +45,9 @@ public class main extends Application implements properties {
       primaryStage.setMinHeight(SCREEN_HEIGHT);
 
       MainController controller = loader.getController();
+      if (manager == null) {
+        manager = new Manager();
+      }
       controller.setMainManager(manager);
 
       primaryStage.show();
