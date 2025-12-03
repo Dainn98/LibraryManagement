@@ -25,44 +25,41 @@ import library.management.data.entity.User;
 /**
  * The PendingApprovalsController class manages the pending approvals view within the application.
  * It extends the ManagerSubController and interacts with a main controller to initialize and manage
- * user interface components related to pending user approvals, such as checkboxes, approval buttons,
- * and various user information columns.
- *
- * It facilitates functionalities like loading pending approval data, setting up various table columns,
- * providing approval/disapproval options, and enabling filtering and searching capabilities based on
- * different criteria such as country or state.
+ * user interface components related to pending user approvals, such as checkboxes, approval
+ * buttons, and various user information columns.
+ * <p>
+ * It facilitates functionalities like loading pending approval data, setting up various table
+ * columns, providing approval/disapproval options, and enabling filtering and searching
+ * capabilities based on different criteria such as country or state.
  */
 public class PendingApprovalsController extends ManagerSubController {
 
   /**
-   * A list that holds users pending approval. This list is observable which
-   * means it can be used in UI components that automatically update when
-   * the contents of the list change.
+   * A list that holds users pending approval. This list is observable which means it can be used in
+   * UI components that automatically update when the contents of the list change.
    */
   private final ObservableList<User> list = FXCollections.observableArrayList();
   /**
-   * Represents an observable list of BooleanProperty objects used for managing the status
-   * of checkboxes within the PendingApprovalsController. This list is intended to be observed
-   * for changes in state, allowing for dynamic updates and interactions with the checkbox
-   * elements in the user interface. It is initialized as an ObservableList using
+   * Represents an observable list of BooleanProperty objects used for managing the status of
+   * checkboxes within the PendingApprovalsController. This list is intended to be observed for
+   * changes in state, allowing for dynamic updates and interactions with the checkbox elements in
+   * the user interface. It is initialized as an ObservableList using
    * FXCollections.observableArrayList().
    */
   private final ObservableList<BooleanProperty> checkBoxStatusList = FXCollections.observableArrayList();
   /**
    * Represents a list of username suggestions for user input fields within the
-   * PendingApprovalsController class. This list is observable and can dynamically
-   * update the user interface components that subscribe to changes in the contained
-   * data. It is used to provide a set of suggested usernames for auto-completion
-   * or search purposes, helping improve user experience by offering relevant options
-   * based on the current input context.
+   * PendingApprovalsController class. This list is observable and can dynamically update the user
+   * interface components that subscribe to changes in the contained data. It is used to provide a
+   * set of suggested usernames for auto-completion or search purposes, helping improve user
+   * experience by offering relevant options based on the current input context.
    */
   private final ObservableList<String> usernameSuggestions = FXCollections.observableArrayList();
   /**
    * Represents a context menu for providing suggestion features within the
-   * PendingApprovalsController. This menu facilitates user interaction by
-   * offering suggestions based on the current context, enhancing user
-   * experience through dynamic and context-sensitive options. It is utilized
-   * primarily in scenarios like auto-completion or offering related actions
+   * PendingApprovalsController. This menu facilitates user interaction by offering suggestions
+   * based on the current context, enhancing user experience through dynamic and context-sensitive
+   * options. It is utilized primarily in scenarios like auto-completion or offering related actions
    * to improve efficiency in user operations.
    */
   private ContextMenu suggestionMenu;
@@ -97,9 +94,8 @@ public class PendingApprovalsController extends ManagerSubController {
     controller.emailApprovals.setCellValueFactory(new PropertyValueFactory<>("email"));
     controller.countryApprovals.setCellValueFactory(new PropertyValueFactory<>("country"));
     controller.stateApprovals.setCellValueFactory(new PropertyValueFactory<>("state"));
-    controller.yearApprovals.setCellValueFactory(cellData ->
-        new SimpleStringProperty(cellData.getValue().getRegisteredYear())
-    );
+    controller.yearApprovals.setCellValueFactory(
+        cellData -> new SimpleStringProperty(cellData.getValue().getRegisteredYear()));
     initApproveButtonsColumn();
     initializeCheckCountry();
     initializeCheckState();
@@ -110,15 +106,15 @@ public class PendingApprovalsController extends ManagerSubController {
   /**
    * Initializes the approve buttons column in a table view.
    * <p>
-   * This method sets up a cell factory for the approval buttons column,
-   * adding "Approve" and "Disapprove" buttons to each cell. The buttons
-   * allow users to approve or disapprove user account requests.
+   * This method sets up a cell factory for the approval buttons column, adding "Approve" and
+   * "Disapprove" buttons to each cell. The buttons allow users to approve or disapprove user
+   * account requests.
    * <p>
-   * Each button has its own event handler:
-   * If the "Approve" button is clicked, it prompts the user with a confirmation dialog.
-   * Upon confirmation, it invokes the UserDAO to approve the user and reloads the approvals data.
-   * If the "Disapprove" button is clicked, it similarly prompts for confirmation
-   * and then invokes the UserDAO to disapprove the user followed by reloading the approvals data.
+   * Each button has its own event handler: If the "Approve" button is clicked, it prompts the user
+   * with a confirmation dialog. Upon confirmation, it invokes the UserDAO to approve the user and
+   * reloads the approvals data. If the "Disapprove" button is clicked, it similarly prompts for
+   * confirmation and then invokes the UserDAO to disapprove the user followed by reloading the
+   * approvals data.
    */
   private void initApproveButtonsColumn() {
     controller.approvalApprovals.setCellFactory(column -> new TableCell<User, Void>() {
@@ -132,8 +128,7 @@ public class PendingApprovalsController extends ManagerSubController {
 
         approveButton.setOnAction(event -> {
           User user = getTableView().getItems().get(getIndex());
-          Optional<ButtonType> result = showAlertConfirmation(
-              "Approve pending account",
+          Optional<ButtonType> result = showAlertConfirmation("Approve pending account",
               "Are you sure you want to approve this account?");
           if (result.isPresent() && result.get() == ButtonType.OK) {
             if (UserDAO.getInstance().approve(user) > 0) {
@@ -146,8 +141,7 @@ public class PendingApprovalsController extends ManagerSubController {
 
         disapproveButton.setOnAction(event -> {
           User user = getTableView().getItems().get(getIndex());
-          Optional<ButtonType> result = showAlertConfirmation(
-              "Disapprove pending account",
+          Optional<ButtonType> result = showAlertConfirmation("Disapprove pending account",
               "Are you sure you want to disapprove this account?");
           if (result.isPresent() && result.get() == ButtonType.OK) {
             if (UserDAO.getInstance().disapprove(user) > 0) {
@@ -173,13 +167,12 @@ public class PendingApprovalsController extends ManagerSubController {
 
   /**
    * Loads the data of pending user approvals into the corresponding view component.
-   *
-   * Clears the current list of approvals and retrieves the latest list of
-   * pending users from the data source. Updates the TableView component
-   * with this new list and initializes the state of the CheckBox controls
-   * for filtering options. Resets the text in the username search field, and
-   * ensures that the filter checkboxes for country, state, and year are set
-   * to their default "Check All" status.
+   * <p>
+   * Clears the current list of approvals and retrieves the latest list of pending users from the
+   * data source. Updates the TableView component with this new list and initializes the state of
+   * the CheckBox controls for filtering options. Resets the text in the username search field, and
+   * ensures that the filter checkboxes for country, state, and year are set to their default "Check
+   * All" status.
    */
   public void loadApprovalsData() {
     list.clear();
@@ -193,15 +186,14 @@ public class PendingApprovalsController extends ManagerSubController {
   }
 
   /**
-   * Initializes the state of checkboxes associated with a list of items and sets up
-   * a listener on each checkbox to update a controller's selection state.
-   *
-   * This method clears the existing list of checkbox statuses and reinitializes
-   * it with new SimpleBooleanProperty objects, each set to false. It then adds
-   * a listener to each of these properties that updates the `checkApprovals` checkbox
-   * in the controller based on the checked state of all individual checkboxes.
-   * If any checkbox is unchecked, `checkApprovals` is set to false.
-   * If all are checked, it is set to true.
+   * Initializes the state of checkboxes associated with a list of items and sets up a listener on
+   * each checkbox to update a controller's selection state.
+   * <p>
+   * This method clears the existing list of checkbox statuses and reinitializes it with new
+   * SimpleBooleanProperty objects, each set to false. It then adds a listener to each of these
+   * properties that updates the `checkApprovals` checkbox in the controller based on the checked
+   * state of all individual checkboxes. If any checkbox is unchecked, `checkApprovals` is set to
+   * false. If all are checked, it is set to true.
    */
   private void initializeCheckBox() {
     this.checkBoxStatusList.clear();
@@ -226,15 +218,13 @@ public class PendingApprovalsController extends ManagerSubController {
 
   /**
    * Toggles the selection status of all pending approval checkboxes.
-   *
-   * This method retrieves the selection status from the `checkApprovals`
-   * checkbox in the controller. It then iterates over the list of checkbox
-   * statuses (`checkBoxStatusList`) and updates each status to match the
-   * selection state of `checkApprovals`.
-   *
-   * This is useful for batch operating on pending approval items where all
-   * items need to be either selected or deselected based on a single master
-   * control element.
+   * <p>
+   * This method retrieves the selection status from the `checkApprovals` checkbox in the
+   * controller. It then iterates over the list of checkbox statuses (`checkBoxStatusList`) and
+   * updates each status to match the selection state of `checkApprovals`.
+   * <p>
+   * This is useful for batch operating on pending approval items where all items need to be either
+   * selected or deselected based on a single master control element.
    */
   public void checkAllPending() {
     boolean isSelected = controller.checkApprovals.isSelected();
@@ -244,16 +234,14 @@ public class PendingApprovalsController extends ManagerSubController {
   }
 
   /**
-   * Disapproves pending user accounts that have been selected by the user.
-   * This method displays a confirmation dialog to the user, asking for confirmation to proceed.
-   * If the user confirms, it iterates through a list of user accounts paired with
-   * their corresponding checkbox statuses. It then attempts to disapprove each selected account
-   * through the UserDAO instance. If the disapproval fails, an error message is printed.
-   * Finally, it refreshes the approval data.
+   * Disapproves pending user accounts that have been selected by the user. This method displays a
+   * confirmation dialog to the user, asking for confirmation to proceed. If the user confirms, it
+   * iterates through a list of user accounts paired with their corresponding checkbox statuses. It
+   * then attempts to disapprove each selected account through the UserDAO instance. If the
+   * disapproval fails, an error message is printed. Finally, it refreshes the approval data.
    */
   public void disapprovePending() {
-    Optional<ButtonType> result = showAlertConfirmation(
-        "Disapprove pending accounts",
+    Optional<ButtonType> result = showAlertConfirmation("Disapprove pending accounts",
         "Are you sure you want to disapprove these accounts?");
     if (result.isPresent() && result.get() == ButtonType.OK) {
       for (int i = 0; i < list.size(); i++) {
@@ -268,18 +256,16 @@ public class PendingApprovalsController extends ManagerSubController {
   }
 
   /**
-   * Approves pending user accounts if confirmed by the user. This method first
-   * prompts the user with a confirmation dialog to approve pending accounts.
-   * If the user confirms the action, the method iterates through a list of
-   * user accounts and approves each one that is selected via a corresponding
-   * checkbox. After attempting to approve each selected user account, it reloads
-   * the approvals data to reflect any changes.
-   *
+   * Approves pending user accounts if confirmed by the user. This method first prompts the user
+   * with a confirmation dialog to approve pending accounts. If the user confirms the action, the
+   * method iterates through a list of user accounts and approves each one that is selected via a
+   * corresponding checkbox. After attempting to approve each selected user account, it reloads the
+   * approvals data to reflect any changes.
+   * <p>
    * If an approval operation fails, the method logs an error message to the console.
    */
   public void approvePendingUsers() {
-    Optional<ButtonType> result = showAlertConfirmation(
-        "Approve pending accounts",
+    Optional<ButtonType> result = showAlertConfirmation("Approve pending accounts",
         "Are you sure you want to approve these accounts?");
     if (result.isPresent() && result.get() == ButtonType.OK) {
       for (int i = 0; i < list.size(); i++) {
@@ -295,18 +281,17 @@ public class PendingApprovalsController extends ManagerSubController {
 
 
   /**
-   * Initializes the country checklist used for filtering pending approvals.
-   * The checklist is populated with a list of countries fetched from the database
-   * via the UserDAO. An additional "Check All" option allows for bulk selection.
-   *
-   * The method sets up a change listener on the checklist to handle user
-   * interactions. When "Check All" is selected, all other countries are checked;
-   * when it is deselected, all are unchecked. If individual countries are
-   * manually selected or deselected, the "Check All" option is automatically
-   * updated to reflect whether all countries are currently selected.
-   *
-   * This setup ensures that the displayed list of pending approvals is updated
-   * in response to changes in the checklist selection.
+   * Initializes the country checklist used for filtering pending approvals. The checklist is
+   * populated with a list of countries fetched from the database via the UserDAO. An additional
+   * "Check All" option allows for bulk selection.
+   * <p>
+   * The method sets up a change listener on the checklist to handle user interactions. When "Check
+   * All" is selected, all other countries are checked; when it is deselected, all are unchecked. If
+   * individual countries are manually selected or deselected, the "Check All" option is
+   * automatically updated to reflect whether all countries are currently selected.
+   * <p>
+   * This setup ensures that the displayed list of pending approvals is updated in response to
+   * changes in the checklist selection.
    */
   public void initializeCheckCountry() {
     ObservableList<String> countries = FXCollections.observableArrayList(
@@ -319,9 +304,9 @@ public class PendingApprovalsController extends ManagerSubController {
 
     controller.checkCountry.getCheckModel().getCheckedItems()
         .addListener((ListChangeListener<String>) change -> {
-            if (isProgrammaticallyChanging[0]) {
-                return;
-            }
+          if (isProgrammaticallyChanging[0]) {
+            return;
+          }
 
           while (change.next()) {
             if (change.wasAdded() && change.getAddedSubList().contains("Check All")) {
@@ -361,12 +346,12 @@ public class PendingApprovalsController extends ManagerSubController {
 
   /**
    * Checks or unchecks all countries in a toggle selection based on the provided parameter.
-   * Iterates through all the country items in the controller's check model and updates
-   * their checked state. If the parameter is true, all countries will be checked;
-   * if false, all will be unchecked.
+   * Iterates through all the country items in the controller's check model and updates their
+   * checked state. If the parameter is true, all countries will be checked; if false, all will be
+   * unchecked.
    *
-   * @param check a boolean value indicating whether to check or clear the check
-   *              on all countries. True to check all, false to uncheck all.
+   * @param check a boolean value indicating whether to check or clear the check on all countries.
+   *              True to check all, false to uncheck all.
    */
   private void checkAllCountries(boolean check) {
     for (int i = 1; i < controller.checkCountry.getItems().size(); i++) {
@@ -380,11 +365,10 @@ public class PendingApprovalsController extends ManagerSubController {
   }
 
   /**
-   * Initializes the check state options by populating the checkable state list
-   * with pending state items retrieved from the data source and a "Check All" option.
-   * Adds a change listener to handle checking and unchecking operations which
-   * automatically selects or deselects all state entries when "Check All" is toggled.
-   * Updates the UI and internal state according to user interactions.
+   * Initializes the check state options by populating the checkable state list with pending state
+   * items retrieved from the data source and a "Check All" option. Adds a change listener to handle
+   * checking and unchecking operations which automatically selects or deselects all state entries
+   * when "Check All" is toggled. Updates the UI and internal state according to user interactions.
    */
   public void initializeCheckState() {
     ObservableList<String> states = FXCollections.observableArrayList(
@@ -397,9 +381,9 @@ public class PendingApprovalsController extends ManagerSubController {
 
     controller.checkState.getCheckModel().getCheckedItems()
         .addListener((ListChangeListener<String>) change -> {
-            if (isProgrammaticallyChanging[0]) {
-                return;
-            }
+          if (isProgrammaticallyChanging[0]) {
+            return;
+          }
 
           while (change.next()) {
             if (change.wasAdded() && change.getAddedSubList().contains("Check All")) {
@@ -439,11 +423,10 @@ public class PendingApprovalsController extends ManagerSubController {
 
   /**
    * Toggles the check state for all items in the state checklist.
-   *
-   * This method iterates over all items in the checklist (except the first item)
-   * and either checks or clears them based on the provided boolean flag. After
-   * updating the check states, it invokes a method to handle search logic for
-   * pending users.
+   * <p>
+   * This method iterates over all items in the checklist (except the first item) and either checks
+   * or clears them based on the provided boolean flag. After updating the check states, it invokes
+   * a method to handle search logic for pending users.
    *
    * @param check if true, all items will be checked; otherwise, they will be cleared.
    */
@@ -459,20 +442,18 @@ public class PendingApprovalsController extends ManagerSubController {
   }
 
   /**
-   * Initializes the year checkboxes in the user interface for pending approvals.
-   * This method populates the year selection list with pending years retrieved
-   * from the data access object and sets up listeners to handle user interaction
-   * with the list. The method implements "select all" functionality by checking
-   * all available years when "Check All" is selected, and vice versa.
-   *
-   * The state of the checkboxes is managed programmatically to avoid triggering
-   * the listener during updates. If any year other than "Check All" is unchecked,
-   * the "Check All" option is also unchecked automatically. Conversely, when all
-   * years are checked individually, the "Check All" option is checked programmatically.
-   *
-   * It ensures that the state of the checkboxes always reflects the actual
-   * selection status of the items and initiates a search for pending users based
-   * on the selected criteria.
+   * Initializes the year checkboxes in the user interface for pending approvals. This method
+   * populates the year selection list with pending years retrieved from the data access object and
+   * sets up listeners to handle user interaction with the list. The method implements "select all"
+   * functionality by checking all available years when "Check All" is selected, and vice versa.
+   * <p>
+   * The state of the checkboxes is managed programmatically to avoid triggering the listener during
+   * updates. If any year other than "Check All" is unchecked, the "Check All" option is also
+   * unchecked automatically. Conversely, when all years are checked individually, the "Check All"
+   * option is checked programmatically.
+   * <p>
+   * It ensures that the state of the checkboxes always reflects the actual selection status of the
+   * items and initiates a search for pending users based on the selected criteria.
    */
   public void initializeCheckYear() {
     ObservableList<String> years = FXCollections.observableArrayList(
@@ -485,9 +466,9 @@ public class PendingApprovalsController extends ManagerSubController {
 
     controller.checkYear.getCheckModel().getCheckedItems()
         .addListener((ListChangeListener<String>) change -> {
-            if (isProgrammaticallyChanging[0]) {
-                return;
-            }
+          if (isProgrammaticallyChanging[0]) {
+            return;
+          }
 
           while (change.next()) {
             if (change.wasAdded() && change.getAddedSubList().contains("Check All")) {
@@ -526,12 +507,11 @@ public class PendingApprovalsController extends ManagerSubController {
   }
 
   /**
-   * Toggles the check state for all years in the year selection component.
-   * If the parameter {@code check} is true, all years will be marked as checked.
-   * If false, all will be unchecked. This method primarily updates the selection
-   * state using the check model associated with the year items.
-   * After updating the check state, it triggers a search for pending users with
-   * the updated year filter.
+   * Toggles the check state for all years in the year selection component. If the parameter
+   * {@code check} is true, all years will be marked as checked. If false, all will be unchecked.
+   * This method primarily updates the selection state using the check model associated with the
+   * year items. After updating the check state, it triggers a search for pending users with the
+   * updated year filter.
    *
    * @param check a boolean indicating whether to check or uncheck all year items.
    */

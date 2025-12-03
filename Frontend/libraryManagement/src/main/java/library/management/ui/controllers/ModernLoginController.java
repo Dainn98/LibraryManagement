@@ -33,8 +33,6 @@ public class ModernLoginController extends GeneralController implements Initiali
   private static final int WIDTH = 780;
   private static final double rightTrans = (double) WIDTH / 2;
   private static final double leftTrans = -(double) WIDTH / 2;
-  private AuthService authService = new AuthService();
-
   @FXML
   protected Pane transPane;
   @FXML
@@ -59,21 +57,25 @@ public class ModernLoginController extends GeneralController implements Initiali
   protected TextField registerPassword;
   @FXML
   protected TextField confirmPassword;
+  private AuthService authService = new AuthService();
 
+  public AuthService getAuthService() {
+    return this.authService;
+  }
 
   public void setAuthService(AuthService authService) {
     this.authService = authService;
   }
 
-  public AuthService getAuthService() {
-    return this.authService;
+  public TextField getLoginUsername() {
+    return this.loginPassword;
   }
 
   public void setLoginUsername(TextField loginUsername) {
     this.loginUsername = loginUsername;
   }
 
-  public TextField getLoginUsername() {
+  public TextField getLoginPassword() {
     return this.loginPassword;
   }
 
@@ -81,48 +83,44 @@ public class ModernLoginController extends GeneralController implements Initiali
     this.loginPassword = loginPassword;
   }
 
-  public TextField getLoginPassword() {
-    return this.loginPassword;
+  public TextField getRegisterUsername() {
+    return this.registerUsername;
   }
 
   public void setRegisterUsername(TextField registerUsername) {
     this.registerUsername = registerUsername;
   }
 
-  public TextField getRegisterUsername() {
-    return this.registerUsername;
+  public TextField getRegisterEmail() {
+    return this.registerEmail;
   }
 
   public void setRegisterEmail(TextField registerEmail) {
     this.registerEmail = registerEmail;
   }
 
-  public TextField getRegisterEmail() {
-    return this.registerEmail;
+  public TextField getRegisterIdentityCard() {
+    return this.registerIdentityCard;
   }
 
   public void setRegisterIdentityCard(TextField registerIdentityCard) {
     this.registerIdentityCard = registerIdentityCard;
   }
 
-  public TextField getRegisterIdentityCard() {
-    return this.registerIdentityCard;
+  public TextField getRegisterPassword() {
+    return this.registerPassword;
   }
 
   public void setRegisterPassword(TextField registerPassword) {
     this.registerPassword = registerPassword;
   }
 
-  public TextField getRegisterPassword() {
-    return this.registerPassword;
+  public TextField getConfirmPassword() {
+    return this.confirmPassword;
   }
 
   public void setConfirmPassword(TextField confirmPassword) {
     this.confirmPassword = confirmPassword;
-  }
-
-  public TextField getConfirmPassword() {
-    return this.confirmPassword;
   }
 
   /**

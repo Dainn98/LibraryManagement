@@ -22,60 +22,54 @@ import library.management.ui.applications.GoogleBooksAPI;
 import library.management.ui.controllers.SuggestionSearch;
 
 /**
- * CatalogController is responsible for managing the catalog of documents,
- * both from an external API and a local database. It provides functionalities
- * for initializing the catalog view, searching for documents, and managing
- * autocomplete suggestions based on document titles.
- *
- * It extends ManagerSubController and implements properties, SuggestionSearch.
- * This class maintains separate lists for API and local documents, as well as
- * their corresponding controllers for UI management.
+ * CatalogController is responsible for managing the catalog of documents, both from an external API
+ * and a local database. It provides functionalities for initializing the catalog view, searching
+ * for documents, and managing autocomplete suggestions based on document titles.
+ * <p>
+ * It extends ManagerSubController and implements properties, SuggestionSearch. This class maintains
+ * separate lists for API and local documents, as well as their corresponding controllers for UI
+ * management.
  */
 public class CatalogController extends ManagerSubController implements properties,
     SuggestionSearch {
 
   /**
-   * Maintains a list of documents available through the API for the catalog.
-   * This list is intended to be accessed and potentially modified by various operations
-   * within the CatalogController to facilitate document management.
+   * Maintains a list of documents available through the API for the catalog. This list is intended
+   * to be accessed and potentially modified by various operations within the CatalogController to
+   * facilitate document management.
    */
   private final List<Document> APIdocumentList = new ArrayList<>();
   /**
-   * A list to store Document objects that are specific to the local catalog.
-   * This list is used to manage and manipulate documents available within the local system,
-   * distinct from any documents retrieved from an external API.
-   * It is primarily utilized within the CatalogController to handle operations such as searching,
-   * loading, and updating suggestions for local documents.
+   * A list to store Document objects that are specific to the local catalog. This list is used to
+   * manage and manipulate documents available within the local system, distinct from any documents
+   * retrieved from an external API. It is primarily utilized within the CatalogController to handle
+   * operations such as searching, loading, and updating suggestions for local documents.
    */
   private final List<Document> localDocumentList = new ArrayList<>();
   /**
-   * A list of DocContainerController instances used for managing and organizing
-   * individual document views within the CatalogController. Each
-   * DocContainerController instance handles the UI representation and logic
-   * associated with a specific document, including interactions such as
+   * A list of DocContainerController instances used for managing and organizing individual document
+   * views within the CatalogController. Each DocContainerController instance handles the UI
+   * representation and logic associated with a specific document, including interactions such as
    * displaying document details and loading document images.
    */
   private final List<DocContainerController> APIDocContainerControllerList = new ArrayList<>();
   /**
-   * A list that holds instances of {@link DocContainerController} representing
-   * local document containers within the catalog context of the application.
-   * This list is used to manage the controllers associated with the various
-   * document containers displayed in the catalog view, facilitating interaction
-   * such as displaying document details, handling mouse events, and updating
-   * document information.
-   *
-   * The list is initialized as an empty {@code ArrayList} and is expected to be
-   * populated typically during the initialization or update processes of the
-   * catalog, where document controllers need to be dynamically added and managed.
-   * By maintaining this list, the application can efficiently handle user
-   * interactions with various document elements within the UI.
+   * A list that holds instances of {@link DocContainerController} representing local document
+   * containers within the catalog context of the application. This list is used to manage the
+   * controllers associated with the various document containers displayed in the catalog view,
+   * facilitating interaction such as displaying document details, handling mouse events, and
+   * updating document information.
+   * <p>
+   * The list is initialized as an empty {@code ArrayList} and is expected to be populated typically
+   * during the initialization or update processes of the catalog, where document controllers need
+   * to be dynamically added and managed. By maintaining this list, the application can efficiently
+   * handle user interactions with various document elements within the UI.
    */
   private final List<DocContainerController> localDocContainerControllerList = new ArrayList<>();
   /**
-   * A list of suggested document titles for autocompletion features in the catalog.
-   * This list is observable, meaning it can be dynamically updated and observed
-   * for changes, allowing UI components to react when new suggestions are added or
-   * existing ones are modified.
+   * A list of suggested document titles for autocompletion features in the catalog. This list is
+   * observable, meaning it can be dynamically updated and observed for changes, allowing UI
+   * components to react when new suggestions are added or existing ones are modified.
    */
   private final ObservableList<String> documentTitleSuggestions = FXCollections.observableArrayList();
 
@@ -90,11 +84,11 @@ public class CatalogController extends ManagerSubController implements propertie
 
   /**
    * Initializes the catalog by loading document containers and setting them in the grid layout.
-   * This method creates two grids, one for API documents and one for local documents, by using
-   * FXML loaders to create view components. The method sets the FXML location to the
-   * specified document container source and adds loaded document containers to respective
-   * grid panes with specified margins. The document containers are organized in a grid layout
-   * defined by the maximum column and row constraints.
+   * This method creates two grids, one for API documents and one for local documents, by using FXML
+   * loaders to create view components. The method sets the FXML location to the specified document
+   * container source and adds loaded document containers to respective grid panes with specified
+   * margins. The document containers are organized in a grid layout defined by the maximum column
+   * and row constraints.
    * <ul>
    *   <li>API document containers are added to the `apiViewGPane` pane.</li>
    *   <li>Local document containers are added to the `localViewGPane` pane.</li>
@@ -103,7 +97,7 @@ public class CatalogController extends ManagerSubController implements propertie
    * Additionally, this method calls `initializeAutoComplete()` to set up search field behaviors
    * for auto-complete functionality and populates the title suggestion trie with all known
    * document titles.
-   *
+   * <p>
    * This method interacts heavily with the graphical layout of the application, specifically
    * involving the `DocContainerController` class and the manipulation of the GUI components
    * represented by these controllers. Ensures the preparation of UI components for both types
@@ -154,14 +148,14 @@ public class CatalogController extends ManagerSubController implements propertie
   }
 
   /**
-   * Initiates a document search based on user input from the catalog search field.
-   * The method synchronizes API and local document data to their respective controllers.
-   *
+   * Initiates a document search based on user input from the catalog search field. The method
+   * synchronizes API and local document data to their respective controllers.
+   * <p>
    * This involves:
    * 1. Loading documents from an external API and local database using the user-specified query.
    * 2. Creating tasks for managing the loading and updating of document data in controllers.
    * 3. Executing tasks concurrently using a fixed thread pool for efficiency.
-   *
+   * <p>
    * The method utilizes a set number of maximum documents it can handle (defined by
    * CATALOG_DOCUMENT_MAX) to limit the size of the data operation.
    */
@@ -215,13 +209,12 @@ public class CatalogController extends ManagerSubController implements propertie
   }
 
   /**
-   * Initializes the auto-complete functionality for the catalog search field.
-   * This method sets up an event filter to handle key releases in the search field.
-   * When the user types a query, it trims and checks if the query is empty.
-   * If the query is non-empty, the auto-complete suggestions are updated.
-   * If the query is empty, any visible suggestion menu is hidden.
-   * The suggestions are displayed using a suggestion menu, which auto-hides
-   * when the focus is lost or the selection is made.
+   * Initializes the auto-complete functionality for the catalog search field. This method sets up
+   * an event filter to handle key releases in the search field. When the user types a query, it
+   * trims and checks if the query is empty. If the query is non-empty, the auto-complete
+   * suggestions are updated. If the query is empty, any visible suggestion menu is hidden. The
+   * suggestions are displayed using a suggestion menu, which auto-hides when the focus is lost or
+   * the selection is made.
    */
   public void initializeAutoComplete() {
     suggestionMenu.setAutoHide(true);
@@ -236,13 +229,12 @@ public class CatalogController extends ManagerSubController implements propertie
   }
 
   /**
-   * Updates the suggestion menu based on the given query string.
-   * Searches for suggestions using the query, updates the document title suggestions,
-   * clears existing suggestion menu items, and adds new ones derived from the query results.
-   * Each suggestion item, when clicked, sets the text of the catalog search field to the suggestion,
-   * hides the suggestion menu, increments the suggestion's frequency, and triggers a document search.
-   * If there are available document title suggestions, the suggestion menu is displayed
-   * below the catalog search field.
+   * Updates the suggestion menu based on the given query string. Searches for suggestions using the
+   * query, updates the document title suggestions, clears existing suggestion menu items, and adds
+   * new ones derived from the query results. Each suggestion item, when clicked, sets the text of
+   * the catalog search field to the suggestion, hides the suggestion menu, increments the
+   * suggestion's frequency, and triggers a document search. If there are available document title
+   * suggestions, the suggestion menu is displayed below the catalog search field.
    *
    * @param query the input string used to search and update the suggestion list.
    */

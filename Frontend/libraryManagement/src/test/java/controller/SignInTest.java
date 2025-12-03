@@ -1,24 +1,16 @@
 package controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import javafx.event.ActionEvent;
 import library.management.data.DAO.LoanDAO;
-import library.management.data.DAO.ManagerDAO;
-import library.management.data.DAO.UserDAO;
 import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.service.AuthService;
 import library.management.ui.controllers.ModernLoginController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 
 class SignInTest {
 
@@ -85,8 +77,7 @@ class SignInTest {
   }
 
   @Test
-  void testApproveUserAndUserLogin(){
-
+  void testApproveUserAndUserLogin() {
 
   }
 

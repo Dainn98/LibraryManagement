@@ -24,45 +24,44 @@ import library.management.data.entity.Loan;
 import library.management.data.entity.User;
 
 /**
- * The DocumentManagementController class manages the interaction between the main application
- * and the functionality related to document management. It includes operations for initializing
+ * The DocumentManagementController class manages the interaction between the main application and
+ * the functionality related to document management. It includes operations for initializing
  * document management, handling user and document searches, and processing document issues.
  */
 public class DocumentManagementController extends ManagerSubController {
 
   /**
-   * Defines the maximum number of suggestions that can be displayed in the suggestion menu.
-   * This limit is used to restrict the number of autocomplete suggestions shown to the user
-   * in order to enhance performance and user experience within the document management system.
+   * Defines the maximum number of suggestions that can be displayed in the suggestion menu. This
+   * limit is used to restrict the number of autocomplete suggestions shown to the user in order to
+   * enhance performance and user experience within the document management system.
    */
   private static final int MAX_SUGGESTIONS = 5;
   /**
-   * Holds a list of string suggestions used for auto-completion features in the document management system.
-   * The suggestions are observable, allowing UI components to automatically update when the list changes.
-   * Typically updated based on user input to provide relevant suggestions such as usernames or ISBNs.
+   * Holds a list of string suggestions used for auto-completion features in the document management
+   * system. The suggestions are observable, allowing UI components to automatically update when the
+   * list changes. Typically updated based on user input to provide relevant suggestions such as
+   * usernames or ISBNs.
    */
   private final ObservableList<String> Suggestions = FXCollections.observableArrayList();
   /**
    * The suggestionMenu is a private instance of ContextMenu used within the
    * DocumentManagementController class to display suggestion options for user input fields.
-   *
-   * This menu typically displays a list of suggestions dynamically generated based
-   * on user input, such as user names or ISBNs, to assist the user in selecting
-   * the correct option without having to type the entire name or number.
-   * It is utilized in methods like updateUserNameSuggestions and updateISBNSuggestions
-   * for better user interaction in the user interface.
+   * <p>
+   * This menu typically displays a list of suggestions dynamically generated based on user input,
+   * such as user names or ISBNs, to assist the user in selecting the correct option without having
+   * to type the entire name or number. It is utilized in methods like updateUserNameSuggestions and
+   * updateISBNSuggestions for better user interaction in the user interface.
    */
   private ContextMenu suggestionMenu;
   /**
-   * Represents the current user in the Document Management System.
-   * It is used to handle and manage user-related actions and information
-   * within the DocumentManagementController.
+   * Represents the current user in the Document Management System. It is used to handle and manage
+   * user-related actions and information within the DocumentManagementController.
    */
   private User user;
   /**
-   * Represents the current document being managed within the DocumentManagementController.
-   * This variable is used to store and manipulate the document data
-   * during various operations such as search and issue handling within the controller.
+   * Represents the current document being managed within the DocumentManagementController. This
+   * variable is used to store and manipulate the document data during various operations such as
+   * search and issue handling within the controller.
    */
   private Document document;
 
@@ -71,21 +70,21 @@ public class DocumentManagementController extends ManagerSubController {
    * Constructs a DocumentManagementController with a specified MainController.
    *
    * @param controller the MainController instance used to manage and coordinate interactions
-   *                   between different parts of the application. This controller serves
-   *                   as a central point of access for shared resources and actions.
+   *                   between different parts of the application. This controller serves as a
+   *                   central point of access for shared resources and actions.
    */
   public DocumentManagementController(MainController controller) {
     this.controller = controller;
   }
 
   /**
-   * Initializes the document management system by setting up autocomplete functionalities.
-   * This method configures user interface elements to provide suggestions for user names
-   * and ISBN numbers as users type in the relevant fields.
-   *
-   * The initialization ensures that user interactions with these fields are enhanced
-   * with autoComplete features, improving the efficiency of document management tasks.
-   *
+   * Initializes the document management system by setting up autocomplete functionalities. This
+   * method configures user interface elements to provide suggestions for user names and ISBN
+   * numbers as users type in the relevant fields.
+   * <p>
+   * The initialization ensures that user interactions with these fields are enhanced with
+   * autoComplete features, improving the efficiency of document management tasks.
+   * <p>
    * It specifically calls:
    * - {@link #initializeAutoCompleteUserName()} to enable suggestions for user names.
    * - {@link #initializeAutoCompleteISBN()} to enable suggestions for ISBN numbers.
@@ -96,10 +95,9 @@ public class DocumentManagementController extends ManagerSubController {
   }
 
   /**
-   * Initializes the autocomplete feature for the user name input field.
-   * Sets up an event filter on the user ID input field to detect key releases.
-   * Updates and shows autocomplete suggestions as the user types.
-   * If the input field is empty, the suggestions menu is hidden.
+   * Initializes the autocomplete feature for the user name input field. Sets up an event filter on
+   * the user ID input field to detect key releases. Updates and shows autocomplete suggestions as
+   * the user types. If the input field is empty, the suggestions menu is hidden.
    */
   private void initializeAutoCompleteUserName() {
     suggestionMenu = new ContextMenu();
@@ -115,13 +113,12 @@ public class DocumentManagementController extends ManagerSubController {
   }
 
   /**
-   * Updates the username suggestions based on the provided query.
-   * It retrieves the list of approved usernames from the UserDAO
-   * and updates the suggestion menu with the obtained suggestions.
-   * The suggestion menu is displayed right below the user ID input field if there are suggestions.
+   * Updates the username suggestions based on the provided query. It retrieves the list of approved
+   * usernames from the UserDAO and updates the suggestion menu with the obtained suggestions. The
+   * suggestion menu is displayed right below the user ID input field if there are suggestions.
    *
-   * @param query the query string used to search for approved usernames
-   *              that match or are similar to the input.
+   * @param query the query string used to search for approved usernames that match or are similar
+   *              to the input.
    */
   private void updateUserNameSuggestions(String query) {
     List<String> suggestions = UserDAO.getInstance().searchApprovedUserNames(query);
@@ -148,16 +145,16 @@ public class DocumentManagementController extends ManagerSubController {
   }
 
   /**
-   * Initializes the auto-complete feature for the ISBN input field. The method sets up a
-   * context menu to display suggestions as the user types in the ISBN field. The context
-   * menu is populated based on the current text in the ISBN input field every time a key is
-   * released. If the input field is empty, the suggestion menu will be hidden. Otherwise, it
-   * triggers the update of ISBN suggestions.
-   *
-   * The suggestion list is displayed as a drop-down using a context menu attached to the
-   * input field. The menu automatically hides when not in focus. The method listens for
-   * keyboard events specifically on the ISBN field of the document controller, and updates
-   * suggestions dynamically as the user input changes.
+   * Initializes the auto-complete feature for the ISBN input field. The method sets up a context
+   * menu to display suggestions as the user types in the ISBN field. The context menu is populated
+   * based on the current text in the ISBN input field every time a key is released. If the input
+   * field is empty, the suggestion menu will be hidden. Otherwise, it triggers the update of ISBN
+   * suggestions.
+   * <p>
+   * The suggestion list is displayed as a drop-down using a context menu attached to the input
+   * field. The menu automatically hides when not in focus. The method listens for keyboard events
+   * specifically on the ISBN field of the document controller, and updates suggestions dynamically
+   * as the user input changes.
    */
   private void initializeAutoCompleteISBN() {
     suggestionMenu = new ContextMenu();
@@ -173,10 +170,10 @@ public class DocumentManagementController extends ManagerSubController {
   }
 
   /**
-   * Updates the ISBN suggestions based on the provided query. It retrieves
-   * relevant ISBN suggestions from the database and populates the suggestion
-   * menu with these options. When an item is selected from the menu, it updates
-   * the relevant text field and performs a document information search.
+   * Updates the ISBN suggestions based on the provided query. It retrieves relevant ISBN
+   * suggestions from the database and populates the suggestion menu with these options. When an
+   * item is selected from the menu, it updates the relevant text field and performs a document
+   * information search.
    *
    * @param query the input string used to search and filter the ISBN suggestions.
    */
@@ -207,13 +204,14 @@ public class DocumentManagementController extends ManagerSubController {
 
   /**
    * Searches for a user with an exact name match based on the input from the user ID text field.
-   *
-   * This method retrieves user information if a user with the specified name exists and updates
-   * the related fields in the UI with the user's information. If no such user is found, it displays
-   * an alert with an appropriate message. The suggestion menu is hidden upon a successful search.
-   *
+   * <p>
+   * This method retrieves user information if a user with the specified name exists and updates the
+   * related fields in the UI with the user's information. If no such user is found, it displays an
+   * alert with an appropriate message. The suggestion menu is hidden upon a successful search.
+   * <p>
    * The method utilizes UserDAO to perform the search operation and accesses various UI elements
-   * (e.g., user ID input, suggestion menu, user information fields) through the controller instance.
+   * (e.g., user ID input, suggestion menu, user information fields) through the controller
+   * instance.
    */
   public void handleSearchUserInformation() {
     user = UserDAO.getInstance().searchApprovedUserByExactName(controller.userIDIssue.getText());
@@ -229,16 +227,14 @@ public class DocumentManagementController extends ManagerSubController {
   }
 
   /**
-   * Handles the search for document information based on the ISBN.
-   * This method queries the document database using the ISBN provided
-   * by the user through the controller. If the document is found, it populates
-   * the related information fields in the user interface, such as title,
-   * author, publisher, price, and availability. If the document is not found,
-   * it displays an alert message informing the user that no document with the
-   * specified ISBN is available.
-   *
-   * This method also manages the visibility of suggestion menus and
-   * updates the availability status based on the document's availability state.
+   * Handles the search for document information based on the ISBN. This method queries the document
+   * database using the ISBN provided by the user through the controller. If the document is found,
+   * it populates the related information fields in the user interface, such as title, author,
+   * publisher, price, and availability. If the document is not found, it displays an alert message
+   * informing the user that no document with the specified ISBN is available.
+   * <p>
+   * This method also manages the visibility of suggestion menus and updates the availability status
+   * based on the document's availability state.
    */
   public void handleSearchDocInformation() {
     document = DocumentDAO.getInstance().searchDocumentByISBN(controller.docISBNIssue.getText());
@@ -261,13 +257,13 @@ public class DocumentManagementController extends ManagerSubController {
 
   /**
    * Handles the action of canceling an issue operation within the document management system.
-   *
+   * <p>
    * This method resets the text of various UI components related to user and document information
    * to their default labels or empty states. It effectively clears the input fields and labels,
    * reverting the interface to its initial state before any user or document details were entered
    * or manipulated. The method also sets the internal references to the current user and document
    * to null, indicating no active user or document selection.
-   *
+   * <p>
    * Specifically, the following UI components are reset:
    * - User information: name, email, phone number.
    * - Document information: title, author, publisher, price, and availability.
@@ -296,11 +292,11 @@ public class DocumentManagementController extends ManagerSubController {
    * 2. Ensures that the document is valid and non-null.
    * 3. Ensures that the document is available for lending.
    * 4. Validates that the quantity entered is a valid integer and within the permissible range.
-   *
+   * <p>
    * If any of these checks fail, an informational alert is shown to the user with the relevant
-   * error message. If all checks pass, asks the user for confirmation to proceed with lending
-   * the document. Upon confirmation, creates a Loan object, updates the loan records, decreases
-   * the available copies of the document, and displays a success message.
+   * error message. If all checks pass, asks the user for confirmation to proceed with lending the
+   * document. Upon confirmation, creates a Loan object, updates the loan records, decreases the
+   * available copies of the document, and displays a success message.
    */
   public void handleSubmitIssueDoc() {
     if (user == null) {

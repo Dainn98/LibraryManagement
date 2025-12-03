@@ -22,8 +22,8 @@ import library.management.ui.controllers.SettingsController;
 
 /**
  * Controller class responsible for managing the avatar information section of the user interface.
- * It handles interactions with the UI components related to avatar information, including displaying
- * the manager's name, switching themes, and opening the settings interface.
+ * It handles interactions with the UI components related to avatar information, including
+ * displaying the manager's name, switching themes, and opening the settings interface.
  */
 public class AvatarInfoController implements properties {
 
@@ -42,8 +42,8 @@ public class AvatarInfoController implements properties {
   private boolean isOn = false;
 
   /**
-   * Initializes the avatar information section of the UI.
-   * Sets the manager's name into the avatar label based on the {@link MainController}.
+   * Initializes the avatar information section of the UI. Sets the manager's name into the avatar
+   * label based on the {@link MainController}.
    */
   public void initialize(MainController controller) {
     this.controller = controller;
@@ -52,16 +52,16 @@ public class AvatarInfoController implements properties {
 
   /**
    * Updates the text of the `manaName` field with the manager's name retrieved from the controller.
-   * It sets the UI component responsible for displaying the manager's name with the current manager's name
-   * obtained through the controller's `getManagerName` method.
+   * It sets the UI component responsible for displaying the manager's name with the current
+   * manager's name obtained through the controller's `getManagerName` method.
    */
   public void setData() {
     this.manaName.setText(controller.getManagerName());
   }
 
   /**
-   * Handles the theme toggle button's action to switch between light and dark themes.
-   * It applies a translate animation to the indicator circle and updates the theme for the application.
+   * Handles the theme toggle button's action to switch between light and dark themes. It applies a
+   * translate animation to the indicator circle and updates the theme for the application.
    *
    * @param actionEvent the event triggered by clicking the theme toggle button.
    */
@@ -91,8 +91,8 @@ public class AvatarInfoController implements properties {
   }
 
   /**
-   * Handles the settings button's action to open the settings window.
-   * Loads the settings window UI from FXML, sets up the controller, and shows the new window.
+   * Handles the settings button's action to open the settings window. Loads the settings window UI
+   * from FXML, sets up the controller, and shows the new window.
    *
    * @param actionEvent the event triggered by clicking the settings button.
    * @throws IOException if there is an error loading the settings FXML file.

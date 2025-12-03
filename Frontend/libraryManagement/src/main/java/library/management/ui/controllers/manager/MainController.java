@@ -61,20 +61,19 @@ import library.management.ui.controllers.SignOutController;
 import org.controlsfx.control.CheckComboBox;
 
 /**
- * MainController manages the interactions between the user interface components
- * and the application's backend logic. It serves as a central point for handling
- * user actions and managing views related to the library management system.
- *
- * Fields represent various controllers and UI components that are part of
- * the library management system, such as document controllers, user controllers,
- * and pending approval controllers, along with various charts, gauges, and text
- * fields used throughout the application.
- *
- * Methods within this class provide functionality to initialize the controller,
- * handle different sections of the interface corresponding to different actions
- * such as viewing documents, managing users, dealing with pending approvals,
- * and issuing or returning documents. The controller also handles tasks related
- * to searching, updating, and deleting records, and managing user sessions and approvals.
+ * MainController manages the interactions between the user interface components and the
+ * application's backend logic. It serves as a central point for handling user actions and managing
+ * views related to the library management system.
+ * <p>
+ * Fields represent various controllers and UI components that are part of the library management
+ * system, such as document controllers, user controllers, and pending approval controllers, along
+ * with various charts, gauges, and text fields used throughout the application.
+ * <p>
+ * Methods within this class provide functionality to initialize the controller, handle different
+ * sections of the interface corresponding to different actions such as viewing documents, managing
+ * users, dealing with pending approvals, and issuing or returning documents. The controller also
+ * handles tasks related to searching, updating, and deleting records, and managing user sessions
+ * and approvals.
  */
 @SuppressWarnings("CallToPrintStackTrace")
 public class MainController extends GeneralController implements Initializable, properties {
@@ -94,7 +93,8 @@ public class MainController extends GeneralController implements Initializable, 
   private final ReturnDocumentController returnDocumentController = new ReturnDocumentController(
       this);
   private final FAQsController faqsController = new FAQsController(this);
-
+  @FXML
+  public JFXTextArea faqRequestContainer;
   // DASHBOARD PROPERTIES
   @FXML
   protected VBox infoVBox;
@@ -116,7 +116,6 @@ public class MainController extends GeneralController implements Initializable, 
   protected BarChart<String, Number> docBChart;
   @FXML
   protected BarChart<String, Number> userBChart;
-
   // DOCUMENT PROPERTIES
   @FXML
   protected BorderPane docBPane;
@@ -154,7 +153,6 @@ public class MainController extends GeneralController implements Initializable, 
   protected CheckBox checkAllDocsView;
   @FXML
   protected Hyperlink deleteDocs;
-
   // USER PROPERTIES
   @FXML
   protected BorderPane usersBPane;
@@ -196,7 +194,6 @@ public class MainController extends GeneralController implements Initializable, 
   protected HBox controlUserView;
   @FXML
   protected CheckBox checkAllUsersView;
-
   // PENDING APPROVALS PROPERTIES
   @FXML
   protected BorderPane pendingApprovalsBPane;
@@ -228,7 +225,6 @@ public class MainController extends GeneralController implements Initializable, 
   protected TableColumn<User, Void> approvalApprovals;
   @FXML
   protected CheckBox checkApprovals;
-
   // DOCUMENT MANAGEMENT PROPERTIES
   @FXML
   protected BorderPane docManagementBPane;
@@ -278,7 +274,6 @@ public class MainController extends GeneralController implements Initializable, 
   protected TextField searchLoanID;
   @FXML
   protected CheckComboBox<String> issueTypeComboBox;
-
   // All Issued Doc
   @FXML
   protected BorderPane allIssuedDocBPane;
@@ -306,7 +301,6 @@ public class MainController extends GeneralController implements Initializable, 
   protected TableColumn<Loan, String> feeIDView;
   @FXML
   protected TableColumn<Loan, String> statusIDView;
-
   // pending issue
   @FXML
   protected BorderPane pendingLoansBPane;
@@ -346,7 +340,6 @@ public class MainController extends GeneralController implements Initializable, 
   protected Button disapproveLoansButton;
   @FXML
   protected Button approveLoansButton;
-
   // CATALOG PROPERTIES
   @FXML
   protected BorderPane catalogBPane;
@@ -358,9 +351,7 @@ public class MainController extends GeneralController implements Initializable, 
   protected AutoCompleteTextField<String> catalogSearchField;
   @FXML
   protected StackPane mainStackPane;
-
   protected String path = getClass().getResource("/ui/css/myTheme.css").toExternalForm();
-
   //FAQs
   @FXML
   protected BorderPane FAQsBPane;
@@ -372,8 +363,6 @@ public class MainController extends GeneralController implements Initializable, 
   protected ImageViewButton recordButton;
   @FXML
   protected ImageViewButton sendTextButton;
-  @FXML
-  public JFXTextArea faqRequestContainer;
   //    private Timeline shakeAnimation;
   @FXML
   protected BorderPane chatbotPane;
@@ -388,8 +377,10 @@ public class MainController extends GeneralController implements Initializable, 
   /**
    * Initializes the MainController by setting up various controllers and UI elements.
    *
-   * @param location   The location used to resolve relative paths for the root object, or null if the location is not known.
-   * @param resources  The resources used to localize the root object, or null if the root object was not localized.
+   * @param location  The location used to resolve relative paths for the root object, or null if
+   *                  the location is not known.
+   * @param resources The resources used to localize the root object, or null if the root object was
+   *                  not localized.
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -446,9 +437,8 @@ public class MainController extends GeneralController implements Initializable, 
   /**
    * Controls the visibility of various sections within the user interface.
    *
-   * @param sectionToShow The section object that should be made visible.
-   *                       This object is compared against predefined section objects
-   *                       to set their visibility accordingly.
+   * @param sectionToShow The section object that should be made visible. This object is compared
+   *                      against predefined section objects to set their visibility accordingly.
    */
   // MENU CONTROLLER
   @FXML
@@ -467,13 +457,11 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the action event triggered by the dashboard button. This method
-   * is responsible for loading the dashboard data by delegating to the
-   * dashboard controller and displaying the dashboard section within the
-   * application's view.
+   * Handles the action event triggered by the dashboard button. This method is responsible for
+   * loading the dashboard data by delegating to the dashboard controller and displaying the
+   * dashboard section within the application's view.
    *
-   * @param actionEvent the action event triggered when the dashboard button
-   *        is pressed.
+   * @param actionEvent the action event triggered when the dashboard button is pressed.
    */
   @FXML
   private void handleDashboardButton(ActionEvent actionEvent) {
@@ -482,12 +470,12 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the action event triggered by the document button. This method is responsible
-   * for loading the document data using the documentController and displaying the document
-   * section in the user interface.
+   * Handles the action event triggered by the document button. This method is responsible for
+   * loading the document data using the documentController and displaying the document section in
+   * the user interface.
    *
-   * @param actionEvent the action event that initiated the call of this method, typically
-   *                    a user interaction with the document button.
+   * @param actionEvent the action event that initiated the call of this method, typically a user
+   *                    interaction with the document button.
    */
   @FXML
   private void handleDocButton(ActionEvent actionEvent) {
@@ -496,8 +484,8 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the event when the user button is clicked. This method loads the user view data
-   * and displays the user section.
+   * Handles the event when the user button is clicked. This method loads the user view data and
+   * displays the user section.
    *
    * @param actionEvent the ActionEvent triggered by clicking the users button
    */
@@ -523,10 +511,10 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the action of pressing the library catalog button. This method initiates
-   * a search for documents in the library catalog, running the search operation
-   * in a separate thread to prevent blocking the UI. After starting the search
-   * task, it switches the view to display the catalog section.
+   * Handles the action of pressing the library catalog button. This method initiates a search for
+   * documents in the library catalog, running the search operation in a separate thread to prevent
+   * blocking the UI. After starting the search task, it switches the view to display the catalog
+   * section.
    *
    * @param actionEvent the event triggered by the library catalog button press.
    */
@@ -549,9 +537,8 @@ public class MainController extends GeneralController implements Initializable, 
   // ALL ISSUED DOCUMENT
 
   /**
-   * Handles the action event triggered by clicking the Pending Approvals button.
-   * This method loads the pending approvals data and displays
-   * the pending approvals section in the UI.
+   * Handles the action event triggered by clicking the Pending Approvals button. This method loads
+   * the pending approvals data and displays the pending approvals section in the UI.
    *
    * @param actionEvent the ActionEvent triggered when the Pending Approvals button is clicked
    */
@@ -562,8 +549,8 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the action event triggered by clicking the pending loans button.
-   * Loads the pending loan data and displays the pending loans section.
+   * Handles the action event triggered by clicking the pending loans button. Loads the pending loan
+   * data and displays the pending loans section.
    *
    * @param actionEvent the event triggered when the pending loans button is clicked
    */
@@ -585,9 +572,8 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the action event triggered to check all pending issues in the system.
-   * This method delegates the task to the pendingLoanController to handle
-   * the selection of all pending issues.
+   * Handles the action event triggered to check all pending issues in the system. This method
+   * delegates the task to the pendingLoanController to handle the selection of all pending issues.
    *
    * @param actionEvent the event that triggered this action
    */
@@ -597,8 +583,8 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Deletes a pending issue by disapproving it through the pendingLoanController.
-   * This action is triggered by a user event.
+   * Deletes a pending issue by disapproving it through the pendingLoanController. This action is
+   * triggered by a user event.
    *
    * @param actionEvent the ActionEvent that triggers this method
    */
@@ -618,12 +604,12 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Approves the selected pending issue loans. This action is triggered by a UI event.
-   * It calls the `approvePendingIssue` method of `pendingLoanController` to initiate the approval
-   * process for loans that are in a pending state.
+   * Approves the selected pending issue loans. This action is triggered by a UI event. It calls the
+   * `approvePendingIssue` method of `pendingLoanController` to initiate the approval process for
+   * loans that are in a pending state.
    *
-   * @param actionEvent the event object representing the user's action that
-   *        triggered this method, typically a button click.
+   * @param actionEvent the event object representing the user's action that triggered this method,
+   *                    typically a button click.
    */
   @FXML
   private void approvePendingIssue(ActionEvent actionEvent) {
@@ -632,12 +618,12 @@ public class MainController extends GeneralController implements Initializable, 
 
   /**
    * Handles the action event triggered by the "Issued Documents" button.
+   * <p>
+   * This method is responsible for loading the data related to issued documents and displaying the
+   * relevant user interface section.
    *
-   * This method is responsible for loading the data related to issued documents
-   * and displaying the relevant user interface section.
-   *
-   * @param actionEvent the action event that triggers this method when the
-   *                    "Issued Documents" button is pressed.
+   * @param actionEvent the action event that triggers this method when the "Issued Documents"
+   *                    button is pressed.
    */
   // ALL ISSUED DOCUMENT
   @FXML
@@ -647,10 +633,11 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the search operation when the user types in the search field for issued documents.
-   * This method is triggered by a key event from the user interface.
+   * Handles the search operation when the user types in the search field for issued documents. This
+   * method is triggered by a key event from the user interface.
    *
-   * @param keyEvent the key event that triggers the search operation, usually when the user types in a search field.
+   * @param keyEvent the key event that triggers the search operation, usually when the user types
+   *                 in a search field.
    */
   @FXML
   private void handleSearchID(KeyEvent keyEvent) {
@@ -660,8 +647,8 @@ public class MainController extends GeneralController implements Initializable, 
   // DOCUMENT CONTROLLER
 
   /**
-   * Handles the click event on the avatar image. Triggers an animation effect transitioning
-   * between the avatar image and a VBox containing additional information.
+   * Handles the click event on the avatar image. Triggers an animation effect transitioning between
+   * the avatar image and a VBox containing additional information.
    *
    * @param mouseEvent the MouseEvent that triggered the click action on the avatar
    */
@@ -681,9 +668,9 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the search event for the document text field. This method is triggered when the
-   * user interacts with the document search field, typically by typing a query.
-   * It delegates the search functionality to the documentController.
+   * Handles the search event for the document text field. This method is triggered when the user
+   * interacts with the document search field, typically by typing a query. It delegates the search
+   * functionality to the documentController.
    *
    * @param actionEvent the key event that triggered the search action
    */
@@ -706,7 +693,7 @@ public class MainController extends GeneralController implements Initializable, 
    * Handles the advanced search functionality by showing the appropriate catalog section.
    *
    * @param actionEvent the event that triggers the advanced search; this represents a user's
-   * interaction with a UI control that is configured to trigger the action.
+   *                    interaction with a UI control that is configured to trigger the action.
    */
   @FXML
   private void handleAdvancedSearch(ActionEvent actionEvent) {
@@ -714,11 +701,12 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Loads book data into the document controller for updating purposes.
-   * This method is triggered by a user action, typically to refresh or reload the book information
-   * displayed in the user interface.
+   * Loads book data into the document controller for updating purposes. This method is triggered by
+   * a user action, typically to refresh or reload the book information displayed in the user
+   * interface.
    *
-   * @param actionEvent the event that triggered this method, typically from a user interface control.
+   * @param actionEvent the event that triggered this method, typically from a user interface
+   *                    control.
    */
   @FXML
   private void loadUpdateBook(ActionEvent actionEvent) {
@@ -727,10 +715,10 @@ public class MainController extends GeneralController implements Initializable, 
 
   /**
    * Deletes a book from the system.
-   *
-   * This method interacts with the documentController to remove a book
-   * that is currently selected by the user. It listens for an ActionEvent,
-   * which is typically triggered by a user action, such as clicking a delete button.
+   * <p>
+   * This method interacts with the documentController to remove a book that is currently selected
+   * by the user. It listens for an ActionEvent, which is typically triggered by a user action, such
+   * as clicking a delete button.
    *
    * @param actionEvent the event that triggered the deletion, typically a user action.
    */
@@ -740,8 +728,8 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the event triggered by clicking the delete document hyperlink.
-   * This method delegates the action to the documentController's handleDeleteDocHyperlink method.
+   * Handles the event triggered by clicking the delete document hyperlink. This method delegates
+   * the action to the documentController's handleDeleteDocHyperlink method.
    *
    * @param actionEvent the action event that occurs when the delete hyperlink is activated
    */
@@ -762,8 +750,8 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the action event triggered for renewing a document.
-   * Loads the list view to reflect any changes related to the document renewal process.
+   * Handles the action event triggered for renewing a document. Loads the list view to reflect any
+   * changes related to the document renewal process.
    *
    * @param actionEvent The action event that triggers the document renewal process.
    */
@@ -773,11 +761,11 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the submission of an issue document action triggered by the user interface.
-   * Delegates the handling process to the document management controller for further processing.
+   * Handles the submission of an issue document action triggered by the user interface. Delegates
+   * the handling process to the document management controller for further processing.
    *
-   * @param actionEvent the action event that triggered this handler, typically associated
-   *                    with a user interface component interaction such as pressing a button
+   * @param actionEvent the action event that triggered this handler, typically associated with a
+   *                    user interface component interaction such as pressing a button
    */
   @FXML
   private void handleSubmitIssueDoc(ActionEvent actionEvent) {
@@ -786,12 +774,13 @@ public class MainController extends GeneralController implements Initializable, 
 
   /**
    * Handles the event triggered when the user intends to search for user information.
-   *
-   * This method is invoked when the ENTER key is pressed while focusing on the relevant
-   * user search field. It delegates the search operation to the DocumentManagementController's
+   * <p>
+   * This method is invoked when the ENTER key is pressed while focusing on the relevant user search
+   * field. It delegates the search operation to the DocumentManagementController's
    * handleSearchUserInformation method.
    *
-   * @param keyEvent the KeyEvent generated by the user interaction, used to detect the ENTER key press.
+   * @param keyEvent the KeyEvent generated by the user interaction, used to detect the ENTER key
+   *                 press.
    */
   @FXML
   private void handleSearchUserInformation(KeyEvent keyEvent) {
@@ -801,11 +790,11 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the action event where a loan is searched by its unique identifier.
-   * This method is triggered when a key event occurs, specifically for searching a loan based on the ID provided.
+   * Handles the action event where a loan is searched by its unique identifier. This method is
+   * triggered when a key event occurs, specifically for searching a loan based on the ID provided.
    *
-   * @param keyEvent The key event that triggers the search. It contains information about the key press action
-   *                 which initiates the loan search process.
+   * @param keyEvent The key event that triggers the search. It contains information about the key
+   *                 press action which initiates the loan search process.
    */
   @FXML
   private void searchLoanByID(KeyEvent keyEvent) {
@@ -813,8 +802,9 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the event of a key being pressed in relation to the search document information functionality.
-   * Specifically, it listens for the Enter key press event to trigger the search operation.
+   * Handles the event of a key being pressed in relation to the search document information
+   * functionality. Specifically, it listens for the Enter key press event to trigger the search
+   * operation.
    *
    * @param keyEvent the key event associated with the key press action
    */
@@ -827,14 +817,12 @@ public class MainController extends GeneralController implements Initializable, 
 
   /**
    * Handles the action event for canceling an issue.
+   * <p>
+   * This method is triggered when the cancel action is performed in the user interface. It
+   * delegates the cancel issue handling to the documentManagementController.
    *
-   * This method is triggered when the cancel action is performed in the user
-   * interface. It delegates the cancel issue handling to the
-   * documentManagementController.
-   *
-   * @param actionEvent the event object containing details about the action event
-   *                    that triggered this handler, such as the source of the event
-   *                    and any additional parameters
+   * @param actionEvent the event object containing details about the action event that triggered
+   *                    this handler, such as the source of the event and any additional parameters
    */
   @FXML
   private void handleCancelIssue(ActionEvent actionEvent) {
@@ -855,9 +843,9 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the action event for the "Issue Document" button.
-   * When triggered, this method updates the user interface to show the document management section,
-   * makes the issue document panel visible, and hides the return document panel.
+   * Handles the action event for the "Issue Document" button. When triggered, this method updates
+   * the user interface to show the document management section, makes the issue document panel
+   * visible, and hides the return document panel.
    *
    * @param actionEvent the action event triggered by the "Issue Document" button
    */
@@ -871,7 +859,8 @@ public class MainController extends GeneralController implements Initializable, 
   /**
    * Handles the submission of a document when triggered by a specific action event.
    *
-   * @param actionEvent the event that triggers the document submission, typically associated with a user interaction such as a button click.
+   * @param actionEvent the event that triggers the document submission, typically associated with a
+   *                    user interaction such as a button click.
    */
   @FXML
   private void handleSubmitDoc(ActionEvent actionEvent) {
@@ -879,12 +868,12 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the search user details operation triggered by a key event.
-   * This method invokes the searchUserDetails method from the userController
-   * to perform a search operation based on the user's input.
+   * Handles the search user details operation triggered by a key event. This method invokes the
+   * searchUserDetails method from the userController to perform a search operation based on the
+   * user's input.
    *
-   * @param event the KeyEvent triggered by the user's key press, providing
-   *              information about the typed key and the state of the keyboard
+   * @param event the KeyEvent triggered by the user's key press, providing information about the
+   *              typed key and the state of the keyboard
    */
   //  USER CONTROLLER
   @FXML
@@ -923,8 +912,8 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the event when the "Cancel" button for a user is clicked.
-   * This method delegates the action to the userController.
+   * Handles the event when the "Cancel" button for a user is clicked. This method delegates the
+   * action to the userController.
    *
    * @param actionEvent the event triggered by clicking the "Cancel" button
    */
@@ -934,8 +923,8 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the action event triggered when the save user button is clicked.
-   * Delegates the handling logic to the userController's handleSaveUserButton method.
+   * Handles the action event triggered when the save user button is clicked. Delegates the handling
+   * logic to the userController's handleSaveUserButton method.
    *
    * @param actionEvent the ActionEvent instance representing the button click event
    */
@@ -975,10 +964,11 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the action event triggered when the user requests to check all pending items.
-   * Invokes the method on the pendingApprovalsController to perform the necessary checks.
+   * Handles the action event triggered when the user requests to check all pending items. Invokes
+   * the method on the pendingApprovalsController to perform the necessary checks.
    *
-   * @param actionEvent the action event that triggers this handler, typically associated with a user interface element such as a button
+   * @param actionEvent the action event that triggers this handler, typically associated with a
+   *                    user interface element such as a button
    */
   @FXML
   private void checkAllPending(ActionEvent actionEvent) {
@@ -986,11 +976,11 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the action event to approve users who are pending approval.
-   * This method is typically triggered by a user interface event.
+   * Handles the action event to approve users who are pending approval. This method is typically
+   * triggered by a user interface event.
    *
-   * @param actionEvent the action event that triggers the approval process,
-   *                    typically from a user interface component such as a button.
+   * @param actionEvent the action event that triggers the approval process, typically from a user
+   *                    interface component such as a button.
    */
   @FXML
   private void approvePendingUsers(ActionEvent actionEvent) {
@@ -998,9 +988,9 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the action of searching for a pending user based on the input key event.
-   * This method is triggered by a key event within the associated user interface element,
-   * and it delegates the search operation to the pendingApprovalsController.
+   * Handles the action of searching for a pending user based on the input key event. This method is
+   * triggered by a key event within the associated user interface element, and it delegates the
+   * search operation to the pendingApprovalsController.
    *
    * @param keyEvent the KeyEvent triggered by user interaction, representing the key press input
    */
@@ -1021,13 +1011,12 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Fetches the user associated with the specified keyboard event. This method
-   * is typically triggered when a key is pressed, and it processes the event
-   * to retrieve and handle the associated user's data.
+   * Fetches the user associated with the specified keyboard event. This method is typically
+   * triggered when a key is pressed, and it processes the event to retrieve and handle the
+   * associated user's data.
    *
-   * @param event the KeyEvent that triggers this method, containing details
-   *              of the key press event, including the specific keycode and
-   *              any modifier keys used.
+   * @param event the KeyEvent that triggers this method, containing details of the key press event,
+   *              including the specific keycode and any modifier keys used.
    */
   @FXML
   private void fetchUserWithKey(KeyEvent event) {
@@ -1035,8 +1024,8 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the mouse event for fetching user fees details.
-   * This method invokes the userController's method to fetch user details.
+   * Handles the mouse event for fetching user fees details. This method invokes the
+   * userController's method to fetch user details.
    *
    * @param mouseEvent the MouseEvent that triggers the fetchUserFeesDetails action
    */
@@ -1046,12 +1035,12 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the search operation within a catalog when a key event is detected.
-   * This method responds to key input, initiating a scheduled search after
-   * a delay unless the Enter key is pressed.
+   * Handles the search operation within a catalog when a key event is detected. This method
+   * responds to key input, initiating a scheduled search after a delay unless the Enter key is
+   * pressed.
    *
-   * @param keyEvent the KeyEvent triggered by user interaction, used to determine the
-   *                 type of key press and execute the corresponding search logic.
+   * @param keyEvent the KeyEvent triggered by user interaction, used to determine the type of key
+   *                 press and execute the corresponding search logic.
    */
   // CATALOG
   @FXML
@@ -1072,9 +1061,9 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the event when a key is pressed during catalog search.
-   * This method specifically checks for the ENTER key press and triggers the search
-   * document and add suggestion operations in the catalog controller.
+   * Handles the event when a key is pressed during catalog search. This method specifically checks
+   * for the ENTER key press and triggers the search document and add suggestion operations in the
+   * catalog controller.
    *
    * @param keyEvent the KeyEvent triggered when a key is pressed
    */
@@ -1093,9 +1082,9 @@ public class MainController extends GeneralController implements Initializable, 
   //  SIGN OUT CONTROLLER
 
   /**
-   * Handles the sign-out button action event. Displays a confirmation dialog
-   * to the user and performs sign-out operations if the user confirms.
-   * Closes the current window upon successful sign-out.
+   * Handles the sign-out button action event. Displays a confirmation dialog to the user and
+   * performs sign-out operations if the user confirms. Closes the current window upon successful
+   * sign-out.
    *
    * @param actionEvent the action event triggered by the sign-out button
    */
@@ -1111,8 +1100,8 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the recording action triggered by a mouse event. The method updates the UI to reflect the
-   * recording state by changing the button image and starting or stopping an animation. It also
+   * Handles the recording action triggered by a mouse event. The method updates the UI to reflect
+   * the recording state by changing the button image and starting or stopping an animation. It also
    * toggles the speech recognition process.
    *
    * @param mouseEvent the mouse event that initiates the recording action
@@ -1120,8 +1109,8 @@ public class MainController extends GeneralController implements Initializable, 
   //    FAQs
   @FXML
   private void handleRecord(MouseEvent mouseEvent) {
-    recordButton.setImage(new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream(RECORD_SOURCE))));
+    recordButton.setImage(
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream(RECORD_SOURCE))));
     startShakingAnimation(recordButton);
 
     SpeechToText.stopRecognition = !SpeechToText.stopRecognition;
@@ -1140,8 +1129,8 @@ public class MainController extends GeneralController implements Initializable, 
     } else {
       System.out.println("Stop");
       stopShakingAnimation(recordButton);
-      recordButton.setImage(new Image(
-          Objects.requireNonNull(getClass().getResourceAsStream(MIRCO_SOURCE))));
+      recordButton.setImage(
+          new Image(Objects.requireNonNull(getClass().getResourceAsStream(MIRCO_SOURCE))));
     }
   }
 
@@ -1161,31 +1150,30 @@ public class MainController extends GeneralController implements Initializable, 
    */
   @FXML
   private void handleMouseEnterSend(MouseEvent mouseEvent) {
-    sendTextButton.setImage(new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream(SEND_HOVER_SOURCE))));
+    sendTextButton.setImage(
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream(SEND_HOVER_SOURCE))));
   }
 
   /**
-   * Event handler that is triggered when the mouse exits the 'send' button area.
-   * It resets the image of the send button to its default state.
+   * Event handler that is triggered when the mouse exits the 'send' button area. It resets the
+   * image of the send button to its default state.
    *
    * @param mouseEvent the mouse event that triggers this handler when the mouse exits the button
    */
   @FXML
   private void handleMouseExitSend(MouseEvent mouseEvent) {
-    sendTextButton.setImage(new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream(SEND_SOURCE))));
+    sendTextButton.setImage(
+        new Image(Objects.requireNonNull(getClass().getResourceAsStream(SEND_SOURCE))));
   }
 
   /**
-   * Handles the reset action for the FAQ section of the application.
-   * This method fades out specific elements including the FAQ scroll pane
-   * and the new chat button, while simultaneously fading in the chatbot pane
-   * and FAQ container. It also clears the content of the FAQs grid pane
-   * and sets it to the FAQ scroll pane's content.
+   * Handles the reset action for the FAQ section of the application. This method fades out specific
+   * elements including the FAQ scroll pane and the new chat button, while simultaneously fading in
+   * the chatbot pane and FAQ container. It also clears the content of the FAQs grid pane and sets
+   * it to the FAQ scroll pane's content.
    *
-   * @param actionEvent the event triggered by the action, typically the user
-   *                    interacting with a UI component, such as a button.
+   * @param actionEvent the event triggered by the action, typically the user interacting with a UI
+   *                    component, such as a button.
    */
   @FXML
   private void handleResetFAQs(ActionEvent actionEvent) {
@@ -1199,17 +1187,17 @@ public class MainController extends GeneralController implements Initializable, 
   }
 
   /**
-   * Handles the process of sending text by managing the visibility and animations
-   * of various user interface components related to FAQs and chat functionality.
-   *
+   * Handles the process of sending text by managing the visibility and animations of various user
+   * interface components related to FAQs and chat functionality.
+   * <p>
    * This method performs the following actions:
    * - Loads FAQs into the specified graphical pane.
    * - Fades in the new chat button if it is not currently visible.
    * - Fades in the FAQ scroll pane if it is not currently visible.
    * - Fades out the chatbot pane if it is currently visible.
-   *
-   * It utilizes the `fade` method to apply animation transitions to the
-   * components with a duration of 500 milliseconds.
+   * <p>
+   * It utilizes the `fade` method to apply animation transitions to the components with a duration
+   * of 500 milliseconds.
    */
   private void handleSendText() {
     faqsController.loadFAQs(FAQsGPane, faqSPane);
