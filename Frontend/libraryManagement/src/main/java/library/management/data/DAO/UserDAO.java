@@ -297,6 +297,19 @@ public class UserDAO implements DAOInterface<User> {
     user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
     return user;
   }
+  public int updateUserStatus(User user, String status) {
+    String query = "UPDATE user SET status = ? WHERE userName = ? AND status = 'pending'";
+    try (Connection con = DatabaseConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(query)) {
+
+      stmt.setString(1, status);
+      stmt.setString(2, user.getUserName());
+      return stmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return 0;
+    }
 
   /**
    * Approves a pending user.

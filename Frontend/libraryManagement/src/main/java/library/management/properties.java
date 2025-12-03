@@ -10,7 +10,8 @@ public interface properties {
   // SCREEN CONTROLLER PROPERTIES
   int SCREEN_WIDTH = 1080;
   int SCREEN_HEIGHT = 600;
-
+//  MODERN LOGIN
+  String MODERN_LOGIN_SOURCE = "/ui/fxml/modernLogin.fxml";
   // MAIN CONTROLLER PROPERTIES
   String MAIN_SCREEN_SOURCES = "/ui/fxml/main.fxml";
   String MAIN_TITLE = "Library Management System";

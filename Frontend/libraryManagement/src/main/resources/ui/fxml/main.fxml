@@ -181,7 +181,7 @@
                                        <children>
                                           <SimpleMetroArcGauge fx:id="allUsersGauge" VBox.vgrow="ALWAYS" />
 
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-t1" text="All Users">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-t1" text="Approved Users">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>

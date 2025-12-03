@@ -11,7 +11,7 @@ import library.management.data.entity.Manager;
 import library.management.ui.controllers.manager.MainController;
 
 @SuppressWarnings("CallToPrintStackTrace")
-public class main extends Application implements properties {
+public class ManagerScreen extends Application implements properties {
 
   private Manager manager;
 

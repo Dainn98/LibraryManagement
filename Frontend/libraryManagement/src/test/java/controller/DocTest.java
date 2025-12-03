@@ -100,16 +100,6 @@ public class DocTest {
     assertEquals("new.jpg", doc1.getImage());
   }
 
-//  @Test
-//  void testCategoryAndLanguage() {
-//    assertEquals("CAT001", doc1.getCategory());
-//    assertEquals("LANG001", doc1.getLanguage());
-////    doc1.setCategory("CAT999");
-////    doc1.setLanguage("LANG999");
-//    assertEquals("CAT999", doc1.getCategory());
-//    assertEquals("LANG999", doc1.getLanguage());
-//  }
-
   @Test
   void testEqualsAndHashCode() {
     Document docCopy = new Document("DOC001","CAT001","Scribner","LANG001","The Great Gatsby",
@@ -143,12 +133,5 @@ public class DocTest {
     doc1.setIsbn("ABC123");
     assertEquals("ABC123", doc1.getIsbn());
   }
-
-//  @Test
-//  void testDateField() {
-//    assertEquals("1925-04-10T00:00:00", doc1.getPublishDate());
-//    doc1.setPublishDate("2000-01-01T00:00:00");
-//    assertEquals("2000-01-01T00:00:00", doc1.getPublishDate());
-//  }
 
 }

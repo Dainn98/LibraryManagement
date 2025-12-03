@@ -8,6 +8,27 @@ abstract public class Client {
   String email;
   String phoneNumber;
 
+  public Client() {
+    super();
+  }
+
+  public Client(String name, String identityCard, String password, String email, String phoneNumber) {
+    super();
+    this.name = name;
+    this.identityCard = identityCard;
+    this.password = password;
+    this.email = email;
+    this.phoneNumber = phoneNumber;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
   public String getIdentityCard() {
     return identityCard;
   }

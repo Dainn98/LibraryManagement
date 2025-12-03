@@ -288,6 +288,42 @@
       <version>1.10.2</version>
       <scope>compile</scope>
     </dependency>
+
+    <!-- JUnit 5 (Jupiter) -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>5.12.0</version> <!-- hoặc bản mới nhất -->
+    </dependency>
+
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>1.15.0</version> <!-- bản hỗ trợ JDK 22 -->
+    </dependency>
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy-agent</artifactId>
+      <version>1.15.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-inline</artifactId>
+      <version>5.2.0</version>
+    </dependency>
+
+
+
+
   </dependencies>
   <groupId>library.management</groupId>
   <modelVersion>4.0.0</modelVersion>
@@ -303,6 +339,10 @@
     <repository>
       <id>gluon-releases</id>
       <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
+    </repository>
+    <repository>
+      <id>central</id>
+      <url>https://repo.maven.apache.org/maven2/</url>
     </repository>
   </repositories>
 

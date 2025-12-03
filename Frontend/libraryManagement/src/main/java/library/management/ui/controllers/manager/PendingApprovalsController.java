@@ -548,13 +548,12 @@ public class PendingApprovalsController extends ManagerSubController {
 
 
   /**
-   * Initializes the auto-complete functionality for the username input field.
-   * This method sets up a context menu to provide suggestions as the user
-   * types in the username field. The suggestion menu automatically hides when the
-   * input field is empty or when suggestions are not applicable based on the current input.
-   * An event filter is added to the username field to listen for key releases,
-   * triggering a check on the input text. If the input text is not empty, it
-   * calls the updateSuggestions method to retrieve and display relevant suggestions.
+   * Initializes the auto-complete functionality for the username input field. This method sets up a
+   * context menu to provide suggestions as the user types in the username field. The suggestion
+   * menu automatically hides when the input field is empty or when suggestions are not applicable
+   * based on the current input. An event filter is added to the username field to listen for key
+   * releases, triggering a check on the input text. If the input text is not empty, it calls the
+   * updateSuggestions method to retrieve and display relevant suggestions.
    */
   private void initializeAutoComplete() {
     suggestionMenu = new ContextMenu();
@@ -570,9 +569,9 @@ public class PendingApprovalsController extends ManagerSubController {
   }
 
   /**
-   * Updates the list of username suggestions based on the provided query.
-   * It retrieves all pending usernames matching the query and updates the suggestion menu.
-   * If there are suggested usernames, it displays them in a menu below the search field.
+   * Updates the list of username suggestions based on the provided query. It retrieves all pending
+   * usernames matching the query and updates the suggestion menu. If there are suggested usernames,
+   * it displays them in a menu below the search field.
    *
    * @param query the search query used to filter pending usernames and generate suggestions
    */
@@ -602,23 +601,22 @@ public class PendingApprovalsController extends ManagerSubController {
 
   /**
    * Handles the search for pending users based on a set of filters.
-   *
+   * <p>
    * This method retrieves the input from the user interface components for username, country,
-   * state, and year filters, then uses these inputs to query the `UserDAO` for a list of
-   * pending users matching the filters. The search results are then displayed in the `approvalsTView`
-   * table view, updating the associated list with the filtered user data. Additionally,
-   * initializes the checkboxes for user interaction post-search.
-   *
+   * state, and year filters, then uses these inputs to query the `UserDAO` for a list of pending
+   * users matching the filters. The search results are then displayed in the `approvalsTView` table
+   * view, updating the associated list with the filtered user data. Additionally, initializes the
+   * checkboxes for user interaction post-search.
+   * <p>
    * The search is conducted taking into account:
    * - `nameQuery`: The trimmed text input representing the username filter.
    * - `selectedCountries`: A list of countries selected from the user interface.
    * - `selectedStates`: A list of states selected from the user interface.
    * - `selectedYears`: A list of years selected from the user interface.
-   *
-   * After fetching the filtered users, the method clears the current list,
-   * populates it with the new filtered data and sets these items into the
-   * table view `approvalsTView`. Lastly, it calls a method to initialize
-   * or reset the checkboxes.
+   * <p>
+   * After fetching the filtered users, the method clears the current list, populates it with the
+   * new filtered data and sets these items into the table view `approvalsTView`. Lastly, it calls a
+   * method to initialize or reset the checkboxes.
    */
   public void handleSearchPendingUser() {
     String nameQuery = controller.checkUsername.getText().trim();
