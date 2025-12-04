@@ -16,6 +16,7 @@ import library.management.data.DAO.ManagerDAO;
 import library.management.data.DAO.UserDAO;
 import library.management.data.entity.Manager;
 import library.management.data.entity.User;
+import library.management.service.ValidService;
 import library.management.ui.applications.EmailSender;
 import library.management.ui.applications.SecurityCodeGenerator;
 import library.management.ui.controllers.manager.MainController;
@@ -78,35 +79,6 @@ public class SettingsController {
   private boolean canChangeSecurity = false;
   private int type;
 
-  /**
-   * Validates if a password meets security requirements.
-   *
-   * @param password the password to validate
-   * @return {@code true} if the password meets all requirements, otherwise {@code false}
-   */
-  static boolean checkPassWord(String password) {
-    if (password.length() < 6) {
-      showAlertInformation("Invalid Password",
-          "The password must be at least six characters long.");
-      return false;
-    }
-    if (!password.matches(".*[a-zA-Z].*")) {
-      showAlertInformation("Invalid Password",
-          "The password must contain at least one alphabetic character.");
-      return false;
-    }
-    if (!password.matches(".*[0-9].*")) {
-      showAlertInformation("Invalid Password",
-          "The password must contain at least one numeric digit.");
-      return false;
-    }
-    if (!password.matches(".*[!@#$%^&*()_+\\-\\[\\]{};':\"\\\\|,.<>/?].*")) {
-      showAlertInformation("Invalid Password",
-          "The password must contain at least one special character.");
-      return false;
-    }
-    return true;
-  }
 
   /**
    * Sets the MainController instance for this controller. Used when the settings are for a
@@ -518,7 +490,7 @@ public class SettingsController {
         }
         if (!newPasswordTextField.getText().isEmpty() || !confirmPasswordTextField.getText()
             .isEmpty()) {
-          if (isValidPassword(newPasswordTextField.getText())) {
+          if (ValidService.isValidPassword(newPasswordTextField.getText())) {
             showAlertInformation("Error", "Password is invalid");
             return;
           }
@@ -551,6 +523,6 @@ public class SettingsController {
   }
 
   private boolean isValidPassword(String password) {
-    return !checkPassWord(password);
+    return !ValidService.isValidPassword(password);
   }
 }

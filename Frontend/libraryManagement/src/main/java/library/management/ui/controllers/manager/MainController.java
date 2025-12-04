@@ -198,7 +198,7 @@ public class MainController extends GeneralController implements Initializable, 
   @FXML
   protected BorderPane pendingApprovalsBPane;
   @FXML
-  protected AutoCompleteTextField<String> checkUsername;
+  public AutoCompleteTextField<String> checkUsername;
   @FXML
   protected CheckComboBox<String> checkCountry;
   @FXML
@@ -206,7 +206,7 @@ public class MainController extends GeneralController implements Initializable, 
   @FXML
   protected CheckComboBox<String> checkYear;
   @FXML
-  protected TableView<User> approvalsTView;
+  public TableView<User> approvalsTView;
   @FXML
   protected TableColumn<User, Boolean> checkBoxApproval;
   @FXML
@@ -224,7 +224,7 @@ public class MainController extends GeneralController implements Initializable, 
   @FXML
   protected TableColumn<User, Void> approvalApprovals;
   @FXML
-  protected CheckBox checkApprovals;
+  public CheckBox checkApprovals;
   // DOCUMENT MANAGEMENT PROPERTIES
   @FXML
   protected BorderPane docManagementBPane;

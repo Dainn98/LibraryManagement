@@ -44,6 +44,17 @@ public class Loan {
     setDocument();
   }
 
+  public  Loan(User user, int documentId, int quantityOfBorrow, double deposit) {
+    this.userName = user.getUserName();
+    this.documentId = documentId;
+    this.quantityOfBorrow = quantityOfBorrow;
+    this.deposit = deposit;
+    this.dateOfBorrow = LocalDateTime.now();
+    this.requiredReturnDate = this.dateOfBorrow.plusDays(30);
+    this.status = "borrowing";
+    setDocument();
+  }
+
   public Document getDocument() {
     setDocument();
     return this.document;

@@ -96,6 +96,7 @@ public class PendingApprovalsController extends ManagerSubController {
     controller.stateApprovals.setCellValueFactory(new PropertyValueFactory<>("state"));
     controller.yearApprovals.setCellValueFactory(
         cellData -> new SimpleStringProperty(cellData.getValue().getRegisteredYear()));
+
     initApproveButtonsColumn();
     initializeCheckCountry();
     initializeCheckState();

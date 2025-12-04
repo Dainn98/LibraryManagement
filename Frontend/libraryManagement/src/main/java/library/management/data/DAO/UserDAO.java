@@ -10,10 +10,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.User;
+import library.management.service.ValidService;
+import library.management.ui.controllers.ModernLoginController;
 
 public class UserDAO implements DAOInterface<User> {
 
   private static UserDAO instance;
+  private ModernLoginController modernLoginController;
 
   private UserDAO() {
   }
@@ -34,8 +37,14 @@ public class UserDAO implements DAOInterface<User> {
   public int add(User user) {
     String query = "INSERT INTO user (userName, identityCard, phoneNumber, email, password, country, state, status, registeredDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    if (!ValidService.validateInputs(user.getUserName(), user.getEmail(), user.getIdentityCard(),
+        user.getPassword(), user.getPassword())) {
+      System.out.println("Validation failed. User not added.");
+      return 0;
+    }
+
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       stmt.setString(1, user.getUserName());
       stmt.setString(2, user.getIdentityCard());
@@ -50,6 +59,7 @@ public class UserDAO implements DAOInterface<User> {
       return stmt.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
+      System.out.println(e.getMessage());
     }
     return 0;
   }
@@ -57,8 +67,21 @@ public class UserDAO implements DAOInterface<User> {
   @Override
   public int delete(User user) {
     String query = "UPDATE user SET status = 'removed' WHERE userName = ?";
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
+
+      stmt.setString(1, user.getUserName());
+      return stmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
+  public int deleteUserFromDatabase(User user) {
+    String query = "DELETE FROM user WHERE username = ?";
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       stmt.setString(1, user.getUserName());
       return stmt.executeUpdate();
@@ -72,8 +95,8 @@ public class UserDAO implements DAOInterface<User> {
   public int update(User user) {
     String query = "UPDATE user SET identityCard = ?, phoneNumber = ?, email = ?, password = ?, country = ?, state = ?, registeredDate = ?, status = ? WHERE userName = ?";
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       stmt.setString(1, user.getIdentityCard());
       stmt.setString(2, user.getPhoneNumber());
@@ -101,9 +124,8 @@ public class UserDAO implements DAOInterface<User> {
     String query = "SELECT * FROM user WHERE status = 'approved'";
     List<User> users = new ArrayList<>();
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query);
-        ResultSet rs = stmt.executeQuery()) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query); ResultSet rs = stmt.executeQuery()) {
 
       while (rs.next()) {
         users.add(buildUserFromResultSet(rs));
@@ -122,8 +144,8 @@ public class UserDAO implements DAOInterface<User> {
     String query = "SELECT * FROM user WHERE status = 'approved' AND (userName LIKE ? OR email LIKE ? OR phoneNumber LIKE ?)";
     List<User> users = new ArrayList<>();
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       String searchPattern = "%" + keyword + "%";
       stmt.setString(1, searchPattern);
@@ -149,8 +171,8 @@ public class UserDAO implements DAOInterface<User> {
     String query = "SELECT * FROM user WHERE status = 'approved' AND userName LIKE ?";
     List<User> users = new ArrayList<>();
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       stmt.setString(1, "%" + name + "%");
 
@@ -173,8 +195,8 @@ public class UserDAO implements DAOInterface<User> {
     String query = "SELECT * FROM user WHERE status = 'approved' AND phoneNumber LIKE ?";
     List<User> users = new ArrayList<>();
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       stmt.setString(1, "%" + phoneNumber + "%");
 
@@ -197,8 +219,8 @@ public class UserDAO implements DAOInterface<User> {
     String query = "SELECT * FROM user WHERE status = 'approved' AND email LIKE ?";
     List<User> users = new ArrayList<>();
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       stmt.setString(1, "%" + email + "%");
 
@@ -219,9 +241,8 @@ public class UserDAO implements DAOInterface<User> {
    */
   public List<User> searchPendingUserByFilter(String nameQuery, List<String> countries,
       List<String> states, List<String> years) {
-    if ((countries != null && countries.isEmpty()) ||
-        (states != null && states.isEmpty()) ||
-        (years != null && years.isEmpty())) {
+    if ((countries != null && countries.isEmpty()) || (states != null && states.isEmpty()) || (
+        years != null && years.isEmpty())) {
       return new ArrayList<>();
     }
 
@@ -246,8 +267,8 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     List<User> users = new ArrayList<>();
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query.toString())) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query.toString())) {
 
       int paramIndex = 1;
       if (nameQuery != null && !nameQuery.isEmpty()) {
@@ -297,10 +318,11 @@ public class UserDAO implements DAOInterface<User> {
     user.setRegisteredDate(rs.getObject("registeredDate", LocalDateTime.class));
     return user;
   }
+
   public int updateUserStatus(User user, String status) {
     String query = "UPDATE user SET status = ? WHERE userName = ? AND status = 'pending'";
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       stmt.setString(1, status);
       stmt.setString(2, user.getUserName());
@@ -309,7 +331,7 @@ public class UserDAO implements DAOInterface<User> {
       e.printStackTrace();
     }
     return 0;
-    }
+  }
 
   /**
    * Approves a pending user.
@@ -319,8 +341,8 @@ public class UserDAO implements DAOInterface<User> {
    */
   public int approve(User user) {
     String query = "UPDATE user SET status = 'approved' WHERE userName = ? AND status = 'pending'";
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       stmt.setString(1, user.getUserName());
       return stmt.executeUpdate();
@@ -338,8 +360,8 @@ public class UserDAO implements DAOInterface<User> {
    */
   public int disapprove(User user) {
     String query = "UPDATE user SET status = 'disapproved' WHERE userName = ? AND status = 'pending'";
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       stmt.setString(1, user.getUserName());
       return stmt.executeUpdate();
@@ -356,9 +378,8 @@ public class UserDAO implements DAOInterface<User> {
    */
   public int getAllUsersCount() {
     String query = "SELECT COUNT(*) AS userCount FROM user";
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query);
-        ResultSet rs = stmt.executeQuery()) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query); ResultSet rs = stmt.executeQuery()) {
 
       if (rs.next()) {
         return rs.getInt("userCount");
@@ -377,9 +398,8 @@ public class UserDAO implements DAOInterface<User> {
    */
   public int getApprovedUsersCount() {
     String query = "SELECT COUNT(*) AS userCount FROM user WHERE status = 'approved'";
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query);
-        ResultSet rs = stmt.executeQuery()) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query); ResultSet rs = stmt.executeQuery()) {
 
       if (rs.next()) {
         return rs.getInt("userCount");
@@ -400,9 +420,8 @@ public class UserDAO implements DAOInterface<User> {
     String query = "SELECT * FROM user WHERE status = 'pending'";
     List<User> pendingUsers = new ArrayList<>();
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query);
-        ResultSet rs = stmt.executeQuery()) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query); ResultSet rs = stmt.executeQuery()) {
 
       while (rs.next()) {
         pendingUsers.add(buildUserFromResultSet(rs));
@@ -423,9 +442,8 @@ public class UserDAO implements DAOInterface<User> {
     String query = "SELECT DISTINCT country FROM user WHERE status = 'pending'";
     List<String> countries = new ArrayList<>();
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query);
-        ResultSet rs = stmt.executeQuery()) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query); ResultSet rs = stmt.executeQuery()) {
 
       while (rs.next()) {
         countries.add(rs.getString("country"));
@@ -446,9 +464,8 @@ public class UserDAO implements DAOInterface<User> {
     String query = "SELECT DISTINCT state FROM user WHERE status = 'pending'";
     List<String> states = new ArrayList<>();
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query);
-        ResultSet rs = stmt.executeQuery()) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query); ResultSet rs = stmt.executeQuery()) {
 
       while (rs.next()) {
         states.add(rs.getString("state"));
@@ -469,9 +486,8 @@ public class UserDAO implements DAOInterface<User> {
     String query = "SELECT DISTINCT YEAR(registeredDate) AS year FROM user WHERE status = 'pending'";
     List<String> years = new ArrayList<>();
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query);
-        ResultSet rs = stmt.executeQuery()) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query); ResultSet rs = stmt.executeQuery()) {
 
       while (rs.next()) {
         years.add(rs.getString("year"));
@@ -493,8 +509,8 @@ public class UserDAO implements DAOInterface<User> {
     String query = "SELECT userName FROM user WHERE status = 'pending' AND userName LIKE ?";
     List<String> userNames = new ArrayList<>();
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       stmt.setString(1, "%" + keyword + "%");
 
@@ -518,11 +534,11 @@ public class UserDAO implements DAOInterface<User> {
    */
   public List<String> searchApprovedUserNames(String query) {
     List<String> approvedUserNames = new ArrayList<>();
-    String sqlQuery = "SELECT userName FROM user WHERE status = 'approved' AND " +
-        "(userName LIKE ?)";
+    String sqlQuery =
+        "SELECT userName FROM user WHERE status = 'approved' AND " + "(userName LIKE ?)";
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(sqlQuery)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        sqlQuery)) {
 
       String searchKeyword = "%" + query + "%";
       stmt.setString(1, searchKeyword);
@@ -546,8 +562,8 @@ public class UserDAO implements DAOInterface<User> {
    */
   public User searchApprovedUserByExactName(String name) {
     String query = "SELECT * FROM user WHERE status = 'approved' AND userName = ?";
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
       stmt.setString(1, name);
       try (ResultSet rs = stmt.executeQuery()) {
         if (rs.next()) {
@@ -568,8 +584,8 @@ public class UserDAO implements DAOInterface<User> {
    */
   public boolean doesUserNameExist(String userName) {
     String query = "SELECT COUNT(*) FROM user WHERE userName = ?";
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
       stmt.setString(1, userName);
       try (ResultSet rs = stmt.executeQuery()) {
         if (rs.next()) {
@@ -590,8 +606,8 @@ public class UserDAO implements DAOInterface<User> {
    */
   public boolean doesIdentityCardExist(String identityCard) {
     String query = "SELECT COUNT(*) FROM user WHERE identityCard = ?";
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
       stmt.setString(1, identityCard);
       try (ResultSet rs = stmt.executeQuery()) {
         if (rs.next()) {
@@ -612,8 +628,8 @@ public class UserDAO implements DAOInterface<User> {
    */
   public boolean doesEmailExist(String email) {
     String query = "SELECT COUNT(*) FROM user WHERE email = ?";
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
       stmt.setString(1, email);
       try (ResultSet rs = stmt.executeQuery()) {
         if (rs.next()) {
@@ -636,8 +652,8 @@ public class UserDAO implements DAOInterface<User> {
    */
   public User checkUserLogin(String username, String password) {
     String query = "SELECT * FROM user WHERE userName = ? AND password = ? AND status = 'approved'";
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       stmt.setString(1, username);
       stmt.setString(2, password);
@@ -661,8 +677,8 @@ public class UserDAO implements DAOInterface<User> {
    */
   public boolean doesPhoneNumberExist(String phoneNumber) {
     String query = "SELECT COUNT(*) FROM user WHERE phoneNumber = ?";
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
 
       stmt.setString(1, phoneNumber);
 
