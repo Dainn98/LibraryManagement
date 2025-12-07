@@ -1,9 +1,11 @@
 package library.management.data.DAO;
 
+import com.almasb.fxgl.scene3d.Cone;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.Document;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Singleton class responsible for performing CRUD operations on the "document" table in the
@@ -40,7 +43,7 @@ public class DocumentDAO implements DAOInterface<Document> {
   public int add(Document document) {
     String query = "INSERT INTO document (categoryID, publisher, lgID, title, author, isbn, quantity, availableCopies, addDate, price, description, url, image, availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
+        PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
       stmt.setInt(1, document.getIntCategoryID());
       stmt.setString(2, document.getPublisher());
@@ -57,6 +60,35 @@ public class DocumentDAO implements DAOInterface<Document> {
       stmt.setString(13, document.getImage());
       stmt.setString(14, document.getAvailability());
 
+      int affectedRows = stmt.executeUpdate();
+      if (affectedRows == 0) {
+        throw new SQLException("Creating document failed, no rows affected.");
+      }
+
+      try (ResultSet rs = stmt.getGeneratedKeys()) {
+        if (rs.next()) {
+          int generatedID = rs.getInt(1);
+          System.out.println("Generated Document ID: " + generatedID);
+          document.setDocumentID("DOC" + generatedID);
+          return generatedID;
+        } else {
+          throw new SQLException("Creating document failed, no ID obtained.");
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e.getMessage(), e);
+    }
+  }
+
+
+  @Override
+  public int delete(Document document) {
+    String query = "UPDATE document SET availability = 'removed' WHERE documentId = ?";
+    try (Connection con = DatabaseConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(query)) {
+
+      stmt.setInt(1, document.getIntDocumentID());
+      System.out.println("Deleting document with ID: " + document.getIntDocumentID());
       return stmt.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
@@ -64,10 +96,8 @@ public class DocumentDAO implements DAOInterface<Document> {
     return 0;
   }
 
-
-  @Override
-  public int delete(Document document) {
-    String query = "UPDATE document SET availability = 'removed' WHERE documentId = ?";
+  public int deleteDocumentFromDatabase(Document document){
+    String query = "DELETE FROM document WHERE documentId = ?";
     try (Connection con = DatabaseConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(query)) {
 
@@ -108,6 +138,7 @@ public class DocumentDAO implements DAOInterface<Document> {
     }
     return 0;
   }
+
 
   /**
    * Retrieves a document by its ISBN.
@@ -295,6 +326,16 @@ public class DocumentDAO implements DAOInterface<Document> {
    */
   public Document searchDocumentById(int documentId) {
     String query = "SELECT * FROM document WHERE documentId = ? AND availability != 'removed'";
+    return getDocument(documentId, query);
+  }
+
+  public Document searchAllDocumentById(int documentId) {
+    String query = "SELECT * FROM document WHERE documentId = ?";
+    return getDocument(documentId, query);
+  }
+
+  @Nullable
+  private Document getDocument(int documentId, String query) {
     try (Connection con = DatabaseConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(query)) {
 
@@ -323,7 +364,7 @@ public class DocumentDAO implements DAOInterface<Document> {
         }
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new RuntimeException(e.getMessage(), e);
     }
     return null;
   }
@@ -382,6 +423,22 @@ public class DocumentDAO implements DAOInterface<Document> {
         updateStmt.setInt(3, decrementQuantity);
         return updateStmt.executeUpdate() > 0;
       }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
+
+  public boolean increaseAvailableCopies(int documentId, int incrementQuantity) {
+    String query = "UPDATE document SET availableCopies = availableCopies + ? WHERE documentId = ?";
+
+    try (Connection con = DatabaseConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(query)) {
+
+      stmt.setInt(1, incrementQuantity);
+      stmt.setInt(2, documentId);
+      return stmt.executeUpdate() > 0;
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -581,5 +638,57 @@ public class DocumentDAO implements DAOInterface<Document> {
       e.printStackTrace();
     }
     return groupedDocuments;
+  }
+
+  public int getMaxDocumentId() {
+    String query = "SELECT MAX(documentId) AS maxId FROM document";
+    try (Connection con = DatabaseConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(query);
+        ResultSet rs = stmt.executeQuery()) {
+
+      if (rs.next()) {
+        return rs.getInt("maxId");
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return 0;
+  }
+
+  public Document getDocumentByDocID(String docID) {
+    String query = "SELECT * FROM document WHERE documentId = ? AND availability != 'removed'";
+    try (Connection con = DatabaseConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(query)) {
+      stmt.setInt(1, Integer.parseInt(docID.substring(3)));
+      try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.next()) {
+          return mapResultSetToDocument(rs);
+        }
+      }
+    } catch (SQLException e) {
+      System.err.println("Error while fetching document with ID: " + docID);
+      e.printStackTrace();
+    }
+    if (docID == null || !docID.startsWith("DOC")) {
+      throw new IllegalArgumentException("Invalid format for Document ID: " + docID);
+    }
+    return null;
+  }
+
+  public Document getIntDocumentByDocID(int docID) {
+    String query = "SELECT * FROM document WHERE documentId = ? AND availability != 'removed'";
+    try (Connection con = DatabaseConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(query)) {
+      stmt.setInt(1, docID);
+      try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.next()) {
+          return mapResultSetToDocument(rs);
+        }
+      }
+    } catch (SQLException e) {
+      System.err.println("Error while fetching document with ID: " + docID);
+      e.printStackTrace();
+    }
+    return null;
   }
 }

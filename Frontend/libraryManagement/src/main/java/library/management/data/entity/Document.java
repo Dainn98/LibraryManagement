@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import library.management.data.DAO.CategoryDAO;
+import library.management.data.DAO.DocumentDAO;
 import library.management.data.DAO.LanguageDAO;
 
 public class Document {
@@ -59,6 +60,7 @@ public class Document {
   public Document(String documentID, String categoryID, String publisher, String lgId, String title,
       String author, String isbn, int quantity, int availableCopies, String addDate, double price,
       String description, String url, String image, String availability) {
+//    super();
     this.documentID = parseId(documentID, "DOC");
     this.categoryID = parseId(categoryID, "CAT");
     this.publisher = publisher;
@@ -91,6 +93,8 @@ public class Document {
    */
   public Document(int categoryID, String publisher, int lgId, String title, String author,
       String isbn, String description, String url, String image) {
+//    super();
+//    this.documentID = DocumentDAO.getInstance().getMaxDocumentId();
     this.categoryID = categoryID;
     this.publisher = publisher;
     this.lgID = lgId;
@@ -123,7 +127,8 @@ public class Document {
   public Document(String categoryID, String publisher, String lgID, String title, String author,
       String isbn, int quantity, int availableCopies, String addDate, double price,
       String description, String url, String image, String availability) {
-    super();
+//    super();
+//    this.documentID = DocumentDAO.getInstance().getMaxDocumentId();
     this.categoryID = parseId(categoryID, "CAT");
     this.publisher = publisher;
     this.lgID = parseId(lgID, "LANG");
@@ -146,7 +151,7 @@ public class Document {
    * @param document the document to copy.
    */
   public Document(Document document) {
-    super();
+//    super();
     this.documentID = document.documentID;
     this.categoryID = document.categoryID;
     this.publisher = document.publisher;

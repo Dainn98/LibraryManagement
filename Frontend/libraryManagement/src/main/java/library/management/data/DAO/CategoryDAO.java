@@ -71,6 +71,7 @@ public class CategoryDAO implements DAOInterface<Category> {
         PreparedStatement stmt = con.prepareStatement(query)) {
 
       stmt.setInt(1, category.getIntCategoryID());
+      System.out.println("Deleting category with ID: " + category.getIntCategoryID());
       int rowsDeleted = stmt.executeUpdate();
       return rowsDeleted;
     } catch (SQLException e) {
@@ -197,5 +198,18 @@ public class CategoryDAO implements DAOInterface<Category> {
       e.printStackTrace();
     }
     return -1;
+  }
+
+  public void deleteByTag(String tag) {
+    String query = "DELETE FROM category WHERE tag = ?";
+    try (Connection con = DatabaseConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(query)) {
+
+      stmt.setString(1, tag);
+      int rowsDeleted = stmt.executeUpdate();
+      System.out.println("Deleted " + rowsDeleted + " rows with tag: " + tag);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }

@@ -29,6 +29,7 @@ module library.management {
   // requires org.junit.platform.commons;
   // requires org.junit.jupiter.engine;
   requires jfxtras.controls;
+  requires annotations;
 
   // Application
   opens library.management.ui.applications to javafx.graphics, javafx.fxml;

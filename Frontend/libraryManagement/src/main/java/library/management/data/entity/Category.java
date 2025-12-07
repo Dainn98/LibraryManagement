@@ -7,6 +7,7 @@ public class Category extends Detail {
   }
 
   public Category() {
+    super();
   }
 
   public Category(String categoryID, String tag) {

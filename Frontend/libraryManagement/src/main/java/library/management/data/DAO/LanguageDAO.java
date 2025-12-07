@@ -54,6 +54,7 @@ public class LanguageDAO implements DAOInterface<Language> {
         PreparedStatement stmt = con.prepareStatement(query)) {
 
       stmt.setInt(1, language.getIntLgID());
+      System.out.println("Deleting category with ID: " + language.getIntLgID());
       int rowsDeleted = stmt.executeUpdate();
       return rowsDeleted;
     } catch (SQLException e) {
@@ -171,5 +172,18 @@ public class LanguageDAO implements DAOInterface<Language> {
       e.printStackTrace();
     }
     return null;
+  }
+
+  public void deleteByName(String lgName) {
+    String query = "DELETE FROM language WHERE lgName = ?";
+    try (Connection con = DatabaseConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(query)) {
+
+      stmt.setString(1, lgName);
+      System.out.println("Deleting language with name: " + lgName);
+      stmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }
