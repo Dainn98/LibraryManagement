@@ -132,8 +132,12 @@ public class Loan {
     return String.format("LOAN%d", this.loanID);
   }
 
-  public void setLoanID(String loanID) {
-    this.loanID = Integer.parseInt(loanID.substring(4));
+  public void setLoanID(String anotherLoanID) {
+    if (anotherLoanID == null) {
+      this.loanID = 0;
+    } else {
+      this.loanID = Integer.parseInt(anotherLoanID.substring(4));
+    }
   }
 
   public int getIntLoanID() {

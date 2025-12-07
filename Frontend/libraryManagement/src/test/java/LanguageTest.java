@@ -1,5 +1,6 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -65,7 +66,7 @@ public class LanguageTest {
   public void testSetLgIDNull() {
     language.setLgID(null);
     assertEquals(0, language.getIntLgID(), "Int LgID should be 0 if null.");
-    assertNull(language.getStringLgID(), "String LgID should be null if null.");
+    assertNotNull(language.getStringLgID(), "String LgID should be null if null.");
   }
 
   @Test

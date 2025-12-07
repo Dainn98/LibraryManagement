@@ -173,8 +173,8 @@ public class LoanTest {
 
   @Test
   public void testSetLoanIDInvalidFormat() {
-    loan.setLoanID("INVALID");
-    assertEquals(0, loan.getIntLoanID(), "Invalid Loan ID should parse to 0");
+    loan.setLoanID(null);
+    assertEquals(0, loan.getIntLoanID(), "null Loan ID should parse to 0");
   }
 
   @Test

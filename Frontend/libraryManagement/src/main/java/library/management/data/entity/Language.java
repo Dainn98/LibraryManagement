@@ -23,7 +23,11 @@ public class Language extends Detail {
   }
 
   public void setLgID(String lgID) {
-    this.ID = Integer.parseInt(lgID.substring(4));
+    if(lgID != null){
+      this.ID = Integer.parseInt(lgID.substring(4));
+    } else {
+      this.ID = 0;
+    }
   }
 
   public String getLgName() {
