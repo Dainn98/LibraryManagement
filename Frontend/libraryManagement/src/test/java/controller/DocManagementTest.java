@@ -119,7 +119,6 @@ public class DocManagementTest {
         "available");
 
     DocumentDAO.getInstance().add(doc);
-//    doc.setDocumentID("DOC" + DocumentDAO.getInstance().getMaxDocumentId());
 
     DocumentDAO.getInstance().delete(doc);
 
@@ -232,7 +231,7 @@ public class DocManagementTest {
 
     DocumentDAO.getInstance().delete(doc);
 
-    Document after = DocumentDAO.getInstance().searchAllDocumentById(doc.getIntDocumentID());
+    Document after = DocumentDAO.getInstance().searchDocumentFromDatabaseById(doc.getIntDocumentID());
     assertNotNull(after);
     assertEquals("removed", after.getAvailability());
 
@@ -321,9 +320,7 @@ public class DocManagementTest {
 
   @AfterEach
   void cleanUp() {
-    if (DocumentDAO.getInstance().getDocumentByIsbn(doc.getIsbn()) != null
-        || DocumentDAO.getInstance().getDocumentByDocID(doc.getDocumentID()) != null
-        || DocumentDAO.getInstance().getIntDocumentByDocID(doc.getIntDocumentID()) != null) {
+    if (DocumentDAO.getInstance().searchDocumentFromDatabaseById(doc.getIntDocumentID()) != null) {
       DocumentDAO.getInstance().deleteDocumentFromDatabase(doc);
     }
     CategoryDAO.getInstance().deleteByTag(doc.getCategory());

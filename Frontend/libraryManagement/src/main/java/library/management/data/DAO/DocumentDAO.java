@@ -329,7 +329,7 @@ public class DocumentDAO implements DAOInterface<Document> {
     return getDocument(documentId, query);
   }
 
-  public Document searchAllDocumentById(int documentId) {
+  public Document searchDocumentFromDatabaseById(int documentId) {
     String query = "SELECT * FROM document WHERE documentId = ?";
     return getDocument(documentId, query);
   }
