@@ -236,7 +236,7 @@ public class DocumentDAO implements DAOInterface<Document> {
    * Retrieves the total quantity of all documents.
    */
   public int getTotalQuantity() {
-    String query = "SELECT SUM(quantity) FROM document";
+    String query = "SELECT SUM(quantity) FROM document  where availability <> 'removed'";
     try (Connection con = DatabaseConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(query);
         ResultSet rs = stmt.executeQuery()) {

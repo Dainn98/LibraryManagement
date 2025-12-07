@@ -12,6 +12,7 @@ import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.User;
 import library.management.service.ValidService;
 import library.management.ui.controllers.ModernLoginController;
+import org.jetbrains.annotations.NotNull;
 
 public class UserDAO implements DAOInterface<User> {
 
@@ -169,23 +170,7 @@ public class UserDAO implements DAOInterface<User> {
    */
   public List<User> searchApprovedUserByName(String name) {
     String query = "SELECT * FROM user WHERE status = 'approved' AND userName LIKE ?";
-    List<User> users = new ArrayList<>();
-
-    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
-        query)) {
-
-      stmt.setString(1, "%" + name + "%");
-
-      try (ResultSet rs = stmt.executeQuery()) {
-        while (rs.next()) {
-          users.add(buildUserFromResultSet(rs));
-        }
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-
-    return users;
+    return getUsers(name, query);
   }
 
   /**
@@ -193,23 +178,7 @@ public class UserDAO implements DAOInterface<User> {
    */
   public List<User> searchApprovedUserByPhoneNumber(String phoneNumber) {
     String query = "SELECT * FROM user WHERE status = 'approved' AND phoneNumber LIKE ?";
-    List<User> users = new ArrayList<>();
-
-    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
-        query)) {
-
-      stmt.setString(1, "%" + phoneNumber + "%");
-
-      try (ResultSet rs = stmt.executeQuery()) {
-        while (rs.next()) {
-          users.add(buildUserFromResultSet(rs));
-        }
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-
-    return users;
+    return getUsers(phoneNumber, query);
   }
 
   /**
@@ -217,23 +186,7 @@ public class UserDAO implements DAOInterface<User> {
    */
   public List<User> searchApprovedUserByEmail(String email) {
     String query = "SELECT * FROM user WHERE status = 'approved' AND email LIKE ?";
-    List<User> users = new ArrayList<>();
-
-    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
-        query)) {
-
-      stmt.setString(1, "%" + email + "%");
-
-      try (ResultSet rs = stmt.executeQuery()) {
-        while (rs.next()) {
-          users.add(buildUserFromResultSet(rs));
-        }
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-
-    return users;
+    return getUsers(email, query);
   }
 
   /**
@@ -320,7 +273,7 @@ public class UserDAO implements DAOInterface<User> {
   }
 
   public int updateUserStatus(User user, String status) {
-    String query = "UPDATE user SET status = ? WHERE userName = ? AND status = 'pending'";
+    String query = "UPDATE user SET status = ? WHERE userName = ?";
     try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
         query)) {
 
@@ -377,7 +330,7 @@ public class UserDAO implements DAOInterface<User> {
    * @return int - Số lượng người dùng.
    */
   public int getAllUsersCount() {
-    String query = "SELECT COUNT(*) AS userCount FROM user";
+    String query = "SELECT COUNT(*) AS userCount FROM user where status <> 'disapproved'";
     try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
         query); ResultSet rs = stmt.executeQuery()) {
 
@@ -691,6 +644,32 @@ public class UserDAO implements DAOInterface<User> {
       e.printStackTrace();
     }
     return false;
+  }
+
+  public List<User> searchPendingUserByName(String name) {
+    String query = "SELECT * FROM user WHERE status = 'pending' AND userName LIKE ?";
+    return getUsers(name, query);
+  }
+
+  @NotNull
+  private List<User> getUsers(String name, String query) {
+    List<User> users = new ArrayList<>();
+
+    try (Connection con = DatabaseConnection.getConnection(); PreparedStatement stmt = con.prepareStatement(
+        query)) {
+
+      stmt.setString(1, "%" + name + "%");
+
+      try (ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+          users.add(buildUserFromResultSet(rs));
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return users;
   }
 
 }
