@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import library.management.data.database.DatabaseConnection;
 import library.management.data.entity.Loan;
+import org.jetbrains.annotations.NotNull;
 
 public class LoanDAO implements DAOInterface<Loan> {
 
@@ -29,7 +30,7 @@ public class LoanDAO implements DAOInterface<Loan> {
   }
 
   @Override
-  public int add(Loan loan) {
+  public int add(@NotNull Loan loan) {
     String query =
         "INSERT INTO loans (userName, documentId, quantityOfBorrow, deposit, dateOfBorrow, requiredReturnDate, returnDate, status) "
             +
@@ -47,6 +48,7 @@ public class LoanDAO implements DAOInterface<Loan> {
           loan.getReturnDate() != null ? Timestamp.valueOf(loan.getReturnDate()) : null);
       stmt.setString(8, loan.getStatus());
 
+
       return stmt.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
@@ -55,7 +57,7 @@ public class LoanDAO implements DAOInterface<Loan> {
   }
 
   @Override
-  public int delete(Loan loan) {
+  public int delete(@NotNull Loan loan) {
     String query = "UPDATE loans SET status = 'removed' WHERE loanID = ?";
     try (Connection con = DatabaseConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(query)) {
@@ -69,7 +71,7 @@ public class LoanDAO implements DAOInterface<Loan> {
   }
 
   @Override
-  public int update(Loan loan) {
+  public int update(@NotNull Loan loan) {
     String query =
         "UPDATE loans SET userName = ?, documentId = ?, quantityOfBorrow = ?, deposit = ?, " +
             "dateOfBorrow = ?, requiredReturnDate = ?, returnDate = ?, status = ? WHERE loanID = ?";
@@ -165,7 +167,7 @@ public class LoanDAO implements DAOInterface<Loan> {
    * @param loan the {@link Loan} object to be approved.
    * @return the number of rows updated (1 if successful, 0 if failed).
    */
-  public int approve(Loan loan) {
+  public int approve(@NotNull Loan loan) {
     String query = "UPDATE loans SET status = 'borrowing' WHERE loanID = ? AND (status = 'pending')";
     try (Connection con = DatabaseConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(query)) {
@@ -185,7 +187,7 @@ public class LoanDAO implements DAOInterface<Loan> {
    * @param loan the {@link Loan} object to be disapproved.
    * @return the number of rows updated (1 if successful, 0 if failed).
    */
-  public int disapprove(Loan loan) {
+  public int disapprove(@NotNull Loan loan) {
     String query = "UPDATE loans SET status = 'disapproved' WHERE loanID = ? AND (status = 'pending')";
     try (Connection con = DatabaseConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(query)) {
@@ -205,7 +207,7 @@ public class LoanDAO implements DAOInterface<Loan> {
    * @param loan the {@link Loan} object to be disapproved.
    * @return the number of rows updated (1 if successful, 0 if failed).
    */
-  public int disapproveReturn(Loan loan) {
+  public int disapproveReturn(@NotNull Loan loan) {
     String query = "UPDATE loans SET status = 'borrowing' WHERE loanID = ? AND (status = 'pendingReturned')";
     try (Connection con = DatabaseConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(query)) {
@@ -341,23 +343,7 @@ public class LoanDAO implements DAOInterface<Loan> {
             +
             "AND (CAST(loanID AS CHAR) LIKE ? OR CAST(documentId AS CHAR) LIKE ? OR userName LIKE ?)";
 
-    try (Connection con = DatabaseConnection.getConnection();
-        PreparedStatement stmt = con.prepareStatement(query)) {
-      String searchPattern = "%" + keyword + "%";
-      stmt.setString(1, searchPattern);
-      stmt.setString(2, searchPattern);
-      stmt.setString(3, searchPattern);
-
-      try (ResultSet rs = stmt.executeQuery()) {
-        while (rs.next()) {
-          loanList.add(mapLoan(rs));
-        }
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-
-    return loanList;
+    return getLoans(keyword, query, loanList);
   }
 
   /**
@@ -367,7 +353,8 @@ public class LoanDAO implements DAOInterface<Loan> {
    * @return a {@link Loan} object.
    * @throws SQLException if a database access error occurs.
    */
-  private Loan mapLoan(ResultSet rs) throws SQLException {
+  @NotNull
+  private Loan mapLoan(@NotNull ResultSet rs) throws SQLException {
     Loan loan = new Loan();
     loan.setLoanID(String.format("LOAN%d", rs.getInt("loanID")));
     loan.setUserName(rs.getString("userName"));
@@ -448,14 +435,17 @@ public class LoanDAO implements DAOInterface<Loan> {
    * matching the keyword.
    */
   public List<Loan> searchPendingIssueByKeyWord(String keyword) {
-    String query = "SELECT * FROM loans l " +
-        "JOIN user u ON l.userId = u.userName " +
+    String query = "SELECT * FROM loans l " + "JOIN user u ON l.userName = u.userName " +
         "WHERE (l.status = 'pending' OR l.status = 'pendingReturned') " +
         "AND (CAST(l.loanID AS CHAR) LIKE ? " +
         "OR CAST(l.documentId AS CHAR) LIKE ? " +
         "OR u.userName LIKE ?)";
     List<Loan> loanList = new ArrayList<>();
 
+    return getLoans(keyword, query, loanList);
+  }
+
+  private List<Loan> getLoans(String keyword, String query, List<Loan> loanList) {
     try (Connection con = DatabaseConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(query)) {
 
@@ -506,7 +496,7 @@ public class LoanDAO implements DAOInterface<Loan> {
    * @param loan the {@link Loan} object to be updated.
    * @return true if the update was successful, false otherwise.
    */
-  public boolean returnDocument(Loan loan) {
+  public boolean returnDocument(@NotNull Loan loan) {
     String query = "UPDATE loans SET status = 'returned', returnDate = ? WHERE loanID = ? AND status NOT IN ('removed', 'disapproved', 'returned', 'pending')";
     try (Connection con = DatabaseConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(query)) {
@@ -532,7 +522,7 @@ public class LoanDAO implements DAOInterface<Loan> {
    * @param loan the {@link Loan} object to be updated.
    * @return true if the update was successful, false otherwise.
    */
-  public boolean userReturnDocument(Loan loan) {
+  public boolean userReturnDocument(@NotNull Loan loan) {
     String query = "UPDATE loans SET status = 'pendingReturned' WHERE loanID = ? AND status NOT IN ('removed', 'disapproved', 'returned', 'pending')";
     try (Connection con = DatabaseConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(query)) {
@@ -554,7 +544,7 @@ public class LoanDAO implements DAOInterface<Loan> {
    * @param loan the {@link Loan} object to be updated.
    * @return the number of rows updated (1 if successful, 0 if failed).
    */
-  public int undoPending(Loan loan) {
+  public int undoPending(@NotNull Loan loan) {
     String query = "UPDATE loans SET status = 'removed' WHERE loanID = ? AND status = 'pending'";
     try (Connection con = DatabaseConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(query)) {
@@ -867,6 +857,33 @@ public class LoanDAO implements DAOInterface<Loan> {
           }
         }
       }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public Loan getLoanByLoanID(int loanID){
+    String query = "SELECT * FROM loans WHERE loanID = ?";
+    try (Connection con = DatabaseConnection.getConnection();
+         PreparedStatement stmt = con.prepareStatement(query)) {
+      stmt.setInt(1, loanID);
+      try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.next()) {
+          return mapLoan(rs);
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public void deleteLoanByLoanID(int loanID){
+    String query = "DELETE FROM loans WHERE loanID = ?";
+    try (Connection con = DatabaseConnection.getConnection();
+         PreparedStatement stmt = con.prepareStatement(query)) {
+      stmt.setInt(1, loanID);
+      stmt.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
     }

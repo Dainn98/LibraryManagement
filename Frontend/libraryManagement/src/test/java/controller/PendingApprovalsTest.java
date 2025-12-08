@@ -25,8 +25,8 @@ import org.junit.jupiter.api.Test;
 class PendingApprovalsTest {
 
   private static JFXPanel fxPanel; // Để khởi tạo JavaFX
-  private MainController mainController;
-  private PendingApprovalsController pendingApprovalsController;
+//  private MainController mainController;
+//  private PendingApprovalsController pendingApprovalsController;
   private User pendingUser;
   private AuthService authService;
   private String username;
@@ -40,8 +40,8 @@ class PendingApprovalsTest {
   @BeforeEach
   void setUp() {
     authService = new AuthService();
-    mainController = new MainController();
-    pendingApprovalsController = new PendingApprovalsController(mainController);
+//    mainController = new MainController();
+//    pendingApprovalsController = new PendingApprovalsController(mainController);
     pendingUser = new User(
         "validUser",        // username: hợp lệ
         "098706951",        // identityCard: 9 số

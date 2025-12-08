@@ -14,12 +14,9 @@ import library.management.data.DAO.UserDAO;
 import library.management.data.entity.Category;
 import library.management.data.entity.Document;
 import library.management.data.entity.Language;
-import library.management.data.entity.Loan;
 import library.management.data.entity.User;
 import library.management.service.AuthService;
 import library.management.service.ValidService;
-import library.management.ui.controllers.manager.DocumentController;
-import library.management.ui.controllers.manager.MainController;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,8 +34,8 @@ public class StatisticsTest {
   private User user;
   private Category cat;
   private Language lang;
-  private DocumentController docController;
-  private MainController mainController;
+  //  private DocumentController docController;
+//  private MainController mainController;
   private AuthService authService;
   private int catID;
   private int langID;
@@ -63,8 +60,8 @@ public class StatisticsTest {
     approvedStudent = UserDAO.getInstance().getApprovedUsersCount();
     studentHoldingBook = LoanDAO.getInstance().getTotalUsersWhoBorrowedBooks();
 
-    mainController = new MainController();
-    docController = new DocumentController(mainController);
+//    mainController = new MainController();
+//    docController = new DocumentController(mainController);
     authService = new AuthService();
 
     cat = new Category("CAT0", "TESTING CATEGORY" + randomId(""));

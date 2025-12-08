@@ -3,6 +3,7 @@ package library.management.data.entity;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import library.management.data.DAO.DocumentDAO;
+import org.jetbrains.annotations.NotNull;
 
 public class Loan {
 
@@ -44,7 +45,7 @@ public class Loan {
     setDocument();
   }
 
-  public  Loan(User user, int documentId, int quantityOfBorrow, double deposit) {
+  public  Loan(@NotNull User user, int documentId, int quantityOfBorrow, double deposit) {
     this.userName = user.getUserName();
     this.documentId = documentId;
     this.quantityOfBorrow = quantityOfBorrow;
