@@ -135,7 +135,7 @@ public class ValidService {
       alert("Invalid Password",
           "The password must contain at least one alphabetic character.");
       return false;
-    }else if (!password.matches(".*[A-Z].*")) {
+    } else if (!password.matches(".*[A-Z].*")) {
       alert("Invalid Password",
           "The password must contain at least one uppercase letter.");
       return false;

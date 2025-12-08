@@ -1,6 +1,5 @@
 package library.management.data.DAO;
 
-import com.almasb.fxgl.scene3d.Cone;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -96,7 +95,7 @@ public class DocumentDAO implements DAOInterface<Document> {
     return 0;
   }
 
-  public int deleteDocumentFromDatabase(Document document){
+  public int deleteDocumentFromDatabase(Document document) {
     String query = "DELETE FROM document WHERE documentId = ?";
     try (Connection con = DatabaseConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(query)) {

@@ -16,9 +16,6 @@ public class AuthService {
       return manager;
     }
     User user = UserDAO.getInstance().checkUserLogin(username, password);
-    if (user != null) {
-      return user;
-    }
-    return null;
+    return user;
   }
 }

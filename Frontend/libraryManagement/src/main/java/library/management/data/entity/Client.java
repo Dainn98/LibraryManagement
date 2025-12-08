@@ -12,7 +12,8 @@ abstract public class Client {
     super();
   }
 
-  public Client(String name, String identityCard, String password, String email, String phoneNumber) {
+  public Client(String name, String identityCard, String password, String email,
+      String phoneNumber) {
     super();
     this.name = name;
     this.identityCard = identityCard;

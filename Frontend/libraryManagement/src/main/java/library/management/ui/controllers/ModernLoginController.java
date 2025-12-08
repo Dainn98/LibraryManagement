@@ -2,12 +2,8 @@ package library.management.ui.controllers;
 
 import static library.management.alert.AlertMaker.showAlertInformation;
 
-import library.management.service.ValidService;
-import library.management.ui.controllers.SettingsController;
-
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,6 +19,7 @@ import library.management.data.DAO.UserDAO;
 import library.management.data.entity.Manager;
 import library.management.data.entity.User;
 import library.management.service.AuthService;
+import library.management.service.ValidService;
 
 /**
  * Controller for the modern login and registration interface. This class handles user interactions,
@@ -197,7 +194,8 @@ public class ModernLoginController extends GeneralController implements Initiali
       showAlertInformation("Sign Up Failed", "Email is already used by another user.");
       return;
     }
-    if (!ValidService.validateInputs(userName, userEmail, userIdentityCard, userPassword, confPassword)) {
+    if (!ValidService.validateInputs(userName, userEmail, userIdentityCard, userPassword,
+        confPassword)) {
       return;
     }
     if (UserDAO.getInstance().add(new User(userName, userIdentityCard, userEmail, userPassword))

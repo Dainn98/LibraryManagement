@@ -48,7 +48,6 @@ public class LoanDAO implements DAOInterface<Loan> {
           loan.getReturnDate() != null ? Timestamp.valueOf(loan.getReturnDate()) : null);
       stmt.setString(8, loan.getStatus());
 
-
       return stmt.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
@@ -862,10 +861,10 @@ public class LoanDAO implements DAOInterface<Loan> {
     }
   }
 
-  public Loan getLoanByLoanID(int loanID){
+  public Loan getLoanByLoanID(int loanID) {
     String query = "SELECT * FROM loans WHERE loanID = ?";
     try (Connection con = DatabaseConnection.getConnection();
-         PreparedStatement stmt = con.prepareStatement(query)) {
+        PreparedStatement stmt = con.prepareStatement(query)) {
       stmt.setInt(1, loanID);
       try (ResultSet rs = stmt.executeQuery()) {
         if (rs.next()) {
@@ -878,10 +877,10 @@ public class LoanDAO implements DAOInterface<Loan> {
     return null;
   }
 
-  public void deleteLoanByLoanID(int loanID){
+  public void deleteLoanByLoanID(int loanID) {
     String query = "DELETE FROM loans WHERE loanID = ?";
     try (Connection con = DatabaseConnection.getConnection();
-         PreparedStatement stmt = con.prepareStatement(query)) {
+        PreparedStatement stmt = con.prepareStatement(query)) {
       stmt.setInt(1, loanID);
       stmt.executeUpdate();
     } catch (SQLException e) {

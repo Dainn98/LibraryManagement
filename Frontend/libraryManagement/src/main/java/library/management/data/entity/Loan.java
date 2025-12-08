@@ -45,7 +45,7 @@ public class Loan {
     setDocument();
   }
 
-  public  Loan(@NotNull User user, int documentId, int quantityOfBorrow, double deposit) {
+  public Loan(@NotNull User user, int documentId, int quantityOfBorrow, double deposit) {
     this.userName = user.getUserName();
     this.documentId = documentId;
     this.quantityOfBorrow = quantityOfBorrow;

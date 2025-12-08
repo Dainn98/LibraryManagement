@@ -197,7 +197,7 @@ public class FullUserController extends GeneralController implements Initializab
    * @param mainUser The user to set as the current user.
    */
   public void setMainUser(User mainUser) {
-    this.mainUser = mainUser;
+    FullUserController.mainUser = mainUser;
     avatarController.initAvatar(infoVBox);
   }
 
